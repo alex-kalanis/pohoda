@@ -12,19 +12,40 @@ class Header extends DocumentHeader
 
     /** @var string[] */
     protected $_elements = [
+        'id',
+        'extId',
         'voucherType',
+        'storno',
         'cashAccount',
         'number',
+        'originalDocument',
         'date',
+        'datePayment',
+        'dateTax',
+        'dateKHDPH',
+        'accounting',
+        'classificationVAT',
+        'classificationKVDPH',
         'text',
         'partnerIdentity',
         'myIdentity',
         'symPar',
+        'priceLevel',
         'centre',
         'activity',
         'contract',
+        'regVATinEU',
+        'MOSS',
+        'evidentiaryResourcesMOSS',
         'note',
-        'intNote'
+        'intNote',
+        'histRate',
+        'lock1',
+        'lock2',
+        'markRecord',
+        'labels',
+        'parameters',
+        'validate'
     ];
 
     /**
