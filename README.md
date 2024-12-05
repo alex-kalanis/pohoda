@@ -5,9 +5,9 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/riesenia/pohoda.svg?style=flat-square)](https://packagist.org/packages/riesenia/pohoda)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
 
-## Inštalácia
+## Instalace
 
-Pridaním do *composer.json*:
+Přidáním do *composer.json*:
 
 ```json
 {
@@ -151,4 +151,27 @@ $stock->addActionType('delete', [
 $pohoda->addItem($code, $stock);
 
 $pohoda->close();
+```
+
+## Použitie *ValueTransformer* pre úpravu hodnôt
+
+Pomocou rozhrania *ValueTransformer* môžeme implementovať transformátor, ktorý zmení všetky údaje. Príklad pre úpravu všetkých hodnôt na veľké písmena:
+
+```php
+use Riesenia\Pohoda;
+
+class Capitalizer implements \Riesenia\Pohoda\ValueTransformer\ValueTransformer
+{
+    public function transform(string $value): string
+    {
+        return \strtoupper($value);
+    }
+}
+
+// Register the capitalizer to be used to capitalize values
+Pohoda::$transformers[] = new Capitalizer();
+
+$pohoda = new Pohoda('ICO');
+
+...
 ```

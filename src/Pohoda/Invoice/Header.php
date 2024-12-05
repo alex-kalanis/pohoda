@@ -19,7 +19,7 @@ class Header extends DocumentHeader
     protected $_refElements = ['extId', 'number', 'accounting', 'classificationVAT', 'classificationKVDPH', 'order', 'paymentType', 'priceLevel', 'account', 'paymentAccount', 'centre', 'activity', 'contract', 'regVATinEU', 'MOSS', 'evidentiaryResourcesMOSS', 'carrier'];
 
     /** @var string[] */
-    protected $_elements = ['extId', 'invoiceType', 'number', 'symVar', 'originalDocument', 'originalDocumentNumber', 'symPar', 'date', 'dateTax', 'dateAccounting', 'dateKHDPH', 'dateDue', 'dateApplicationVAT', 'dateDelivery', 'accounting', 'classificationVAT', 'classificationKVDPH', 'numberKHDPH', 'text', 'partnerIdentity', 'myIdentity', 'order', 'numberOrder', 'dateOrder', 'paymentType', 'priceLevel', 'account', 'symConst', 'symSpec', 'paymentAccount', 'paymentTerminal', 'centre', 'activity', 'contract', 'regVATinEU', 'MOSS', 'evidentiaryResourcesMOSS', 'accountingPeriodMOSS', 'note', 'carrier', 'intNote', 'postponedIssue', 'histRate'];
+    protected $_elements = ['extId', 'invoiceType', 'number', 'symVar', 'originalDocument', 'originalDocumentNumber', 'symPar', 'date', 'dateTax', 'dateAccounting', 'dateKHDPH', 'dateDue', 'dateApplicationVAT', 'dateDelivery', 'accounting', 'classificationVAT', 'classificationKVDPH', 'numberKHDPH', 'text', 'partnerIdentity', 'myIdentity', 'order', 'numberOrder', 'dateOrder', 'paymentType', 'priceLevel', 'account', 'symConst', 'symSpec', 'paymentAccount', 'paymentTerminal', 'centre', 'activity', 'contract', 'regVATinEU', 'MOSS', 'evidentiaryResourcesMOSS', 'accountingPeriodMOSS', 'dateTaxOriginalDocumentMOSS', 'note', 'carrier', 'intNote', 'postponedIssue', 'histRate'];
 
     /**
      * {@inheritdoc}
@@ -50,5 +50,6 @@ class Header extends DocumentHeader
         $resolver->setNormalizer('paymentTerminal', $resolver->getNormalizer('bool'));
         $resolver->setNormalizer('postponedIssue', $resolver->getNormalizer('bool'));
         $resolver->setNormalizer('histRate', $resolver->getNormalizer('bool'));
+        $resolver->setNormalizer('dateTaxOriginalDocumentMOSS', $resolver->getNormalizer('date'));
     }
 }

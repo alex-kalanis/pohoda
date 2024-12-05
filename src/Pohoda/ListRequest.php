@@ -85,6 +85,10 @@ class ListRequest extends Agenda
 
             $request = $xml->addChild($this->_data['namespace'] . ':request' . $this->_data['type']);
 
+            if (isset($this->_data['restrictionData'])) {
+                $this->_addElements($xml, ['restrictionData'], 'lst');
+            }
+
             $this->_addElements($request, ['filter', 'userFilterName'], 'ftr');
             $this->_addElements($xml, ['restrictionData'], 'lst');
         }
@@ -111,6 +115,11 @@ class ListRequest extends Agenda
             // IssueSlip is custom
             if ($value == 'IssueSlip') {
                 return 'Vydejka';
+            }
+
+            // CashSlip is custom
+            if ($value == 'CashSlip') {
+                return 'Prodejka';
             }
 
             return $value;
