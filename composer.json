@@ -1,6 +1,8 @@
 {
-    "name": "riesenia/pohoda",
+    "name": "mapik/pohoda-xml",
     "description": "Pohoda XML communication",
+    "type": "library",
+    "homepage": "https://github.com/Mapiiik/pohoda-xml",
     "license": "MIT",
     "authors": [
         {
@@ -8,6 +10,10 @@
             "email": "segy@riesenia.com"
         }
     ],
+    "support": {
+        "issues": "https://github.com/Mapiiik/pohoda-xml/issues",
+        "source": "https://github.com/Mapiiik/pohoda-xml"
+    },
     "require": {
         "php": "^7.1 || ^8.0",
         "symfony/options-resolver": "^4.0 || ^5.0 || ^6.0"
