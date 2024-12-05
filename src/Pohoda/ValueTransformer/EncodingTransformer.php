@@ -41,7 +41,7 @@ class EncodingTransformer implements ValueTransformer
     {
         $result = \iconv($this->fromEncoding, $this->toEncoding, $value);
 
-        if ($result === false) {
+        if (false === $result) {
             return $value;
         }
 

@@ -1,31 +1,26 @@
 # Pohoda XML
 
-[![Build Status](https://github.com/riesenia/pohoda/workflows/Test/badge.svg)](https://github.com/riesenia/pohoda/actions)
-[![Latest Version](https://img.shields.io/packagist/v/riesenia/pohoda.svg?style=flat-square)](https://packagist.org/packages/riesenia/pohoda)
-[![Total Downloads](https://img.shields.io/packagist/dt/riesenia/pohoda.svg?style=flat-square)](https://packagist.org/packages/riesenia/pohoda)
+![Build Status](https://github.com/alex-kalanis/pohoda/actions/workflows/test.yml/badge.svg)(https://github.com/alex-kalanis/pohoda/actions)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/alex-kalanis/pohoda/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/alex-kalanis/pohoda/?branch=master)
+[![Latest Stable Version](https://poser.pugx.org/alex-kalanis/pohoda/v/stable.svg?v=1)](https://packagist.org/packages/alex-kalanis/pohoda)
+[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%208.1-8892BF.svg)](https://php.net/)
+[![Total Downloads](https://img.shields.io/packagist/dt/alex-kalanis/pohoda.svg?style=flat-square)](https://packagist.org/packages/alex-kalanis/pohoda)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
+[![Code Coverage](https://scrutinizer-ci.com/g/alex-kalanis/pohoda/badges/coverage.png?b=master&v=1)](https://scrutinizer-ci.com/g/alex-kalanis/pohoda/?branch=master)
+
+Knihovna pro manipulaci s daty, která chodí skrz mServer Pohody.
 
 ## Instalace
 
 Přidáním do *composer.json*:
 
-```json
-{
-    "require": {
-        "riesenia/pohoda": "~1.0"
-    }
-}
+```bash
+composer.phar require alex-kalanis/pohoda
 ```
 
-Príkazom:
+## Příklad importu objednávek
 
-```sh
-composer require 'riesenia/pohoda:~1.0'
-```
-
-## Príklad importu objednávok
-
-Príklady pre import jednotlivých typov viď. *spec* folder.
+Příklady pro import jednotlivých typů viz. *spec* folder.
 
 ```php
 use Riesenia\Pohoda;
@@ -92,9 +87,9 @@ $pohoda->addItem($order_number, $order);
 $pohoda->close();
 ```
 
-## Príklad exportu zásob
+## Příklad exportu zásob
 
-Vytvorenie príkazu na export sa realizuje prostredníctvom vytvorenia *ListRequest*.
+Vytvoření příkazu na export sa realizuje prostředníctvím vytvoření *ListRequest*.
 
 ```php
 use Riesenia\Pohoda;
@@ -116,7 +111,7 @@ $pohoda->addItem('Export 001', $request);
 $pohoda->close();
 ```
 
-Samotné spracovanie dát je riešené jednoducho - volanie `next` vracia *SimpleXMLElement* s danou entitou.
+Samotné zpracování dat je řešené jednoduše - volání `next` vrací *SimpleXMLElement* s danou entitou.
 
 ```php
 // load file
@@ -130,9 +125,9 @@ while ($stock = $pohoda->next()) {
 }
 ```
 
-## Príklad zmazania zásoby
+## Příklad smazání zásob
 
-Pri mazaní je potrebné vytvoriť agendu s prázdnymi dátami a nastaviť jej *delete* actionType.
+Při mazání je potřeba vytvořit agendu s prázdnymi daty a nastavit jim *delete* actionType.
 
 ```php
 use Riesenia\Pohoda;
@@ -153,9 +148,9 @@ $pohoda->addItem($code, $stock);
 $pohoda->close();
 ```
 
-## Použitie *ValueTransformer* pre úpravu hodnôt
+## Použití *ValueTransformer* pro úpravu hodnot
 
-Pomocou rozhrania *ValueTransformer* môžeme implementovať transformátor, ktorý zmení všetky údaje. Príklad pre úpravu všetkých hodnôt na veľké písmena:
+Pomocí rozhraní *ValueTransformer* můžeme implementovať transformátor, který změní všechny údaje. Příklad pro úpravu všech hodnot na velká písmena:
 
 ```php
 use Riesenia\Pohoda;

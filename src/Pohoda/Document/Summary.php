@@ -39,11 +39,11 @@ abstract class Summary extends Part
      */
     public function getXML(): \SimpleXMLElement
     {
-        if ($this->_namespace === null) {
+        if (is_null($this->_namespace)) {
             throw new \LogicException('Namespace not set.');
         }
 
-        if ($this->_nodePrefix === null) {
+        if (is_null($this->_nodePrefix)) {
             throw new \LogicException('Node name prefix not set.');
         }
 

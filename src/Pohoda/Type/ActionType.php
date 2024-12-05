@@ -23,14 +23,14 @@ class ActionType extends Agenda
      */
     public function getXML(): \SimpleXMLElement
     {
-        if ($this->_namespace === null) {
+        if (is_null($this->_namespace)) {
             throw new \LogicException('Namespace not set.');
         }
 
         $xml = $this->_createXML()->addChild($this->_namespace . ':actionType', '', $this->_namespace($this->_namespace));
-        $action = $xml->addChild($this->_namespace . ':' . ($this->_data['type'] == 'add/update' ? 'add' : $this->_data['type']));
+        $action = $xml->addChild($this->_namespace . ':' . ('add/update' == $this->_data['type'] ? 'add' : $this->_data['type']));
 
-        if ($this->_data['type'] == 'add/update') {
+        if ('add/update' == $this->_data['type']) {
             $action->addAttribute('update', 'true');
         }
 

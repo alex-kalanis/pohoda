@@ -121,8 +121,8 @@ class ListRequestSpec extends ObjectBehavior
             '123'
         );
 
-        $this->addRestrictionData(['liquidation' => true]);
+        $this->addRestrictionData(['liquidations' => true]);
 
-        $this->getXml()->asXML()->shouldReturn('<lst:listInvoiceRequest version="2.0" invoiceVersion="2.0" invoiceType="issuedInvoice"><lst:requestInvoice/><lst:restrictionData><lst:liquidation>true</lst:liquidation></lst:restrictionData></lst:listInvoiceRequest>');
+        $this->getXml()->asXML()->shouldReturn('<lst:listInvoiceRequest version="2.0" invoiceVersion="2.0" invoiceType="issuedInvoice"><lst:requestInvoice/><lst:restrictionData><lst:liquidations>true</lst:liquidations></lst:restrictionData></lst:listInvoiceRequest>');
     }
 }

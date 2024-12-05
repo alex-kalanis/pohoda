@@ -70,7 +70,7 @@ class Header extends Agenda
         $this->_data['pictures'][] = new Picture([
             'filepath' => $filepath,
             'description' => $description,
-            'order' => $order === null ? ++$this->_imagesCounter : $order,
+            'order' => null === $order ? ++$this->_imagesCounter : $order,
             'default' => $default
         ], $this->_ico);
     }

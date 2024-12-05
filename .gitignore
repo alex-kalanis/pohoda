@@ -1,7 +1,23 @@
+# Editor configuration
+.idea/
+
+# checks
+phpunit
+phpunit-*
+.phpunit.cache/*
+
+# external libs
+php-tests/external/
+php-tests/data/clover.xml
+discard/
+
+# environment
+docker-compose.yml
+phpdocker/
 /vendor
 composer.phar
 composer.lock
 .php_cs.cache
+.php-cs-fixer.cache
 .DS_Store
 Thumbs.db
-.idea

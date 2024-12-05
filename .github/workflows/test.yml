@@ -1,6 +1,12 @@
-name: Test
+name: 'Code checks'
 
-on: [push, pull_request]
+on:
+  pull_request:
+    branches:
+      - master
+  push:
+    branches:
+      - master
 
 jobs:
   test:
@@ -8,7 +14,7 @@ jobs:
 
     strategy:
       matrix:
-        php-version: ['7.1', '7.2', '7.3', '7.4', '8.0', '8.1', '8.2', '8.3']
+        php-version: ['8.1', '8.2', '8.3']
 
     steps:
     - name: Checkout
@@ -21,19 +27,76 @@ jobs:
         coverage: none
 
     - name: Composer install
-      run: composer update
+      run: composer install --no-progress
+
+    - name: Run tests
+      run: vendor/bin/phpunit
+
+  phpspec:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        php-version: ['8.1', '8.2', '8.3']
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ matrix.php-version }}
+        coverage: none
+
+    - name: Composer install
+      run: composer install --no-progress
 
     - name: Run phpspec
       run: vendor/bin/phpspec run --config=phpspec.yml --no-interaction -vvv
 
-    - name: Run php-cs-fixer
-      run: vendor/bin/php-cs-fixer fix --config=.php_cs.dist --verbose --diff --dry-run
-      if: ${{ matrix.php-version == '8.0' }}
+  code_style:
+    runs-on: ubuntu-latest
 
-    - name: Install phpstan
-      run: composer require --dev phpstan/phpstan:~0.12
-      if: ${{ matrix.php-version == '8.0' || matrix.php-version == '8.1' }}
+    strategy:
+      matrix:
+        php-version: ['8.1']
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ matrix.php-version }}
+        coverage: xdebug
+
+    - name: Composer install
+      run: composer install --no-progress
+
+    - name: Run php-cs-fixer
+      run: vendor/bin/php-cs-fixer fix --config=.php_cs.dist.php --verbose --diff --dry-run
+
+  phpstan:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        php-version: ['8.1']
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ matrix.php-version }}
+        coverage: xdebug
+
+    - name: Composer install
+      run: composer install --no-progress
 
     - name: Run phpstan
       run: vendor/bin/phpstan analyse -c phpstan.neon
-      if: ${{ matrix.php-version == '8.0' || matrix.php-version == '8.1' }}

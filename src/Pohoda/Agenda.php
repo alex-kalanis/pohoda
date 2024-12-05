@@ -188,21 +188,21 @@ abstract class Agenda
             $value = ['ids' => $value];
         }
 
-        foreach ($value as $key => $value) {
-            if (\is_array($value)) {
-                if (array_is_list($value)) {
-                    foreach ($value as $value) {
-                        $node->addChild($namespace . ':' . $key, $this->_sanitize($value), $this->_namespace($namespace));
+        foreach ($value as $key => $value1) {
+            if (\is_array($value1)) {
+                if (array_is_list($value1)) {
+                    foreach ($value1 as $value2) {
+                        $node->addChild($namespace . ':' . $key, $this->_sanitize($value2), $this->_namespace($namespace));
                     }
                 } else {
                     $node = $node->addChild($namespace . ':' . $key, '', $this->_namespace($namespace));
 
-                    foreach ($value as $key => $value) {
-                        $node->addChild('typ:' . $key, $this->_sanitize($value), $this->_namespace('typ'));
+                    foreach ($value1 as $key2 => $value2) {
+                        $node->addChild('typ:' . $key2, $this->_sanitize($value2), $this->_namespace('typ'));
                     }
                 }
             } else {
-                $node->addChild('typ:' . $key, $this->_sanitize($value), $this->_namespace('typ'));
+                $node->addChild('typ:' . $key, $this->_sanitize($value1), $this->_namespace('typ'));
             }
         }
 

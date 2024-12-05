@@ -25,19 +25,19 @@ class CyrillicTransliterationTransformer implements ValueTransformer
     {
         $normalized = \Normalizer::normalize($value, \Normalizer::FORM_C);
 
-        if ($normalized === false) {
+        if (false === $normalized) {
             return $value;
         }
 
         $transformer = \Transliterator::create('Any-Latin; Latin-ASCII');
 
-        if ($transformer == null) {
+        if (is_null($transformer)) {
             return $value;
         }
 
         $chars = \preg_split('//u', $normalized, -1, PREG_SPLIT_NO_EMPTY);
 
-        if ($chars === false) {
+        if (false === $chars) {
             return $value;
         }
 
@@ -46,12 +46,12 @@ class CyrillicTransliterationTransformer implements ValueTransformer
         foreach ($chars as $char) {
             $codePoint = \mb_ord($char, 'UTF-8');
 
-            if (($codePoint >= 0x00400 && $codePoint <= 0x004FF)    // Cyrillic Basic
-                || ($codePoint >= 0x00500 && $codePoint <= 0x0052F) // Cyrillic Supplement
-                || ($codePoint >= 0x02DE0 && $codePoint <= 0x02DFF) // Cyrillic Extended-A
-                || ($codePoint >= 0x0A640 && $codePoint <= 0x0A69F) // Cyrillic Extended-B
-                || ($codePoint >= 0x01C80 && $codePoint <= 0x01C8F) // Cyrillic Extended-C
-                || ($codePoint >= 0x1E030 && $codePoint <= 0x1E08F) // Cyrillic Extended-D
+            if ((0x00400 <= $codePoint && 0x004FF >= $codePoint)    // Cyrillic Basic
+                || (0x00500 <= $codePoint && 0x0052F >= $codePoint) // Cyrillic Supplement
+                || (0x02DE0 <= $codePoint && 0x02DFF >= $codePoint) // Cyrillic Extended-A
+                || (0x0A640 <= $codePoint && 0x0A69F >= $codePoint) // Cyrillic Extended-B
+                || (0x01C80 <= $codePoint && 0x01C8F >= $codePoint) // Cyrillic Extended-C
+                || (0x1E030 <= $codePoint && 0x1E08F >= $codePoint) // Cyrillic Extended-D
             ) {
                 $result .= $transformer->transliterate($char);
             } else {

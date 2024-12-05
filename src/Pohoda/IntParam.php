@@ -27,7 +27,7 @@ class IntParam extends Agenda
     public function __construct(array $data, string $ico, bool $resolveOptions = true)
     {
         // prepare empty parameter list for list
-        if ($data['parameterType'] == 'listValue') {
+        if ('listValue' == $data['parameterType']) {
             $data['parameterSettings'] = ['parameterList' => []];
         }
 

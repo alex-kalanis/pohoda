@@ -1,3 +1,11 @@
+* text=auto
+
+# Ignore stuff for export
+/.github     export-ignore
+/doc         export-ignore
+/examples    export-ignore
+/php-tests   export-ignore
+/phpdocker   export-ignore
 /spec                   export-ignore
 /phpspec.yml            export-ignore
 /.gitattributes         export-ignore

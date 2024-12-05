@@ -154,7 +154,7 @@ class Pohoda
     {
         $this->_xmlWriter = new \XMLWriter();
 
-        if ($filename === null) {
+        if (is_null($filename)) {
             $this->_isInMemory = true;
             $this->_xmlWriter->openMemory();
         } else {
@@ -250,7 +250,7 @@ class Pohoda
      */
     public function next()
     {
-        while ($this->_xmlReader->nodeType != \XMLReader::ELEMENT || $this->_xmlReader->name !== $this->_elementName) {
+        while (\XMLReader::ELEMENT != $this->_xmlReader->nodeType || $this->_xmlReader->name !== $this->_elementName) {
             if (!$this->_xmlReader->read()) {
                 return null;
             }

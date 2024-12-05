@@ -46,7 +46,7 @@ class UserList extends Agenda
         $xml->addAttribute('code', $this->_data['code']);
         $xml->addAttribute('name', $this->_data['name']);
 
-        if (isset($this->_data['constants']) && $this->_data['constants'] == 'true') {
+        if (isset($this->_data['constants']) && 'true' == $this->_data['constants']) {
             $xml->addAttribute('constants', $this->_data['constants']);
         }
 

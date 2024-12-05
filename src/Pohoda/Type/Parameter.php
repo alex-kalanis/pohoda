@@ -27,7 +27,7 @@ class Parameter extends Agenda
 
         $xml->addChild('typ:name', $this->_data['name']);
 
-        if ($this->_data['type'] == 'list') {
+        if ('list' == $this->_data['type']) {
             $this->_addRefElement($xml, 'typ:listValueRef', $this->_data['value']);
 
             if (isset($this->_data['list'])) {
@@ -55,11 +55,11 @@ class Parameter extends Agenda
         $resolver->setNormalizer('name', function ($options, $value) {
             $prefix = 'VPr';
 
-            if ($options['type'] == 'list') {
+            if ('list' == $options['type']) {
                 $prefix = 'RefVPr';
             }
 
-            if (\strpos($value, $prefix) === 0) {
+            if (str_starts_with($value, $prefix)) {
                 return $value;
             }
 
@@ -71,7 +71,7 @@ class Parameter extends Agenda
             $normalizer = $options['type'];
 
             // date for datetime
-            if ($normalizer == 'datetime') {
+            if ('datetime' == $normalizer) {
                 $normalizer = 'date';
             }
 

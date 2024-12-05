@@ -39,10 +39,10 @@ class OptionsResolver extends SymfonyOptionsResolver
             return $this->_loadedNormalizers[$type];
         }
 
-        if (\substr($type, 0, 6) === 'string') {
+        if (str_starts_with($type, 'string')) {
             // strings have length
             $normalizer = $this->_createNormalizer('string', (int) \substr($type, 6));
-        } elseif (\substr($type, 0, 1) === '?') {
+        } elseif (str_starts_with($type, '?')) {
             // types can be nullable
             $normalizer = $this->_createNormalizer(\substr($type, 1), true);
         } else {
@@ -113,7 +113,7 @@ class OptionsResolver extends SymfonyOptionsResolver
             case 'bool':
             case 'boolean':
                 return function ($options, $value) {
-                    return !$value || \is_string($value) && \strtolower($value) === 'false' ? 'false' : 'true';
+                    return !$value || \is_string($value) && 'false' === \strtolower($value) ? 'false' : 'true';
                 };
 
             default:

@@ -47,11 +47,11 @@ trait SetNamespaceTrait
      */
     public function getXML(): \SimpleXMLElement
     {
-        if ($this->_namespace === null) {
+        if (is_null($this->_namespace)) {
             throw new \LogicException('Namespace not set.');
         }
 
-        if ($this->_nodeName === null) {
+        if (is_null($this->_nodeName)) {
             throw new \LogicException('Node name not set.');
         }
 

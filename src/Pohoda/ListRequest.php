@@ -66,7 +66,7 @@ class ListRequest extends Agenda
     public function getXML(): \SimpleXMLElement
     {
         // UserList is custom
-        if ($this->_data['type'] == 'UserList') {
+        if ('UserList' == $this->_data['type']) {
             $xml = $this->_createXML()->addChild($this->_data['namespace'] . ':listUserCodeRequest', '', $this->_namespace($this->_data['namespace']));
             $xml->addAttribute('version', '1.1');
             $xml->addAttribute('listVersion', '1.1');
@@ -75,7 +75,7 @@ class ListRequest extends Agenda
             $xml->addAttribute('version', '2.0');
 
             // IntParam doesn't have the version attribute
-            if ($this->_data['type'] != 'IntParam') {
+            if ('IntParam' != $this->_data['type']) {
                 $xml->addAttribute($this->_getLcFirstType() . 'Version', '2.0');
             }
 
@@ -108,28 +108,28 @@ class ListRequest extends Agenda
         $resolver->setRequired('type');
         $resolver->setNormalizer('type', function ($options, $value) {
             // Addressbook is custom
-            if ($value == 'Addressbook') {
+            if ('Addressbook' == $value) {
                 return 'AddressBook';
             }
 
             // IssueSlip is custom
-            if ($value == 'IssueSlip') {
+            if ('IssueSlip' == $value) {
                 return 'Vydejka';
             }
 
             // CashSlip is custom
-            if ($value == 'CashSlip') {
+            if ('CashSlip' == $value) {
                 return 'Prodejka';
             }
 
             return $value;
         });
         $resolver->setDefault('namespace', function (Options $options) {
-            if ($options['type'] == 'Stock') {
+            if ('Stock' == $options['type']) {
                 return 'lStk';
             }
 
-            if ($options['type'] == 'AddressBook') {
+            if ('AddressBook' == $options['type']) {
                 return 'lAdb';
             }
 
@@ -137,7 +137,7 @@ class ListRequest extends Agenda
         });
         $resolver->setAllowedValues('orderType', [null, 'receivedOrder', 'issuedOrder']);
         $resolver->setDefault('orderType', function (Options $options) {
-            if ($options['type'] == 'Order') {
+            if ('Order' == $options['type']) {
                 return 'receivedOrder';
             }
 
@@ -145,7 +145,7 @@ class ListRequest extends Agenda
         });
         $resolver->setAllowedValues('invoiceType', [null, 'issuedInvoice', 'issuedCreditNotice', 'issuedDebitNote', 'issuedAdvanceInvoice', 'receivable', 'issuedProformaInvoice', 'penalty', 'issuedCorrectiveTax', 'receivedInvoice', 'receivedCreditNotice', 'receivedDebitNote', 'receivedAdvanceInvoice', 'commitment', 'receivedProformaInvoice', 'receivedCorrectiveTax']);
         $resolver->setDefault('invoiceType', function (Options $options) {
-            if ($options['type'] == 'Invoice') {
+            if ('Invoice' == $options['type']) {
                 return 'issuedInvoice';
             }
 
@@ -161,7 +161,7 @@ class ListRequest extends Agenda
     protected function _getLcFirstType(): string
     {
         // ActionPrice is custom
-        if ($this->_data['type'] == 'ActionPrice') {
+        if ('ActionPrice' == $this->_data['type']) {
             return 'actionPrices';
         }
 
