@@ -15,7 +15,7 @@ use Riesenia\Pohoda\Type\CurrencyItem;
 use Riesenia\Pohoda\Type\StockItem;
 use Riesenia\Pohoda\Common\AddParameterTrait;
 
-abstract class Item extends Part
+abstract class AbstractItem extends AbstractPart
 {
     use AddParameterTrait;
 
@@ -47,17 +47,17 @@ abstract class Item extends Part
      */
     public function getXML(): \SimpleXMLElement
     {
-        if (is_null($this->_namespace)) {
+        if (is_null($this->namespace)) {
             throw new \LogicException('Namespace not set.');
         }
 
-        if (is_null($this->_nodePrefix)) {
+        if (is_null($this->nodePrefix)) {
             throw new \LogicException('Node name prefix not set.');
         }
 
-        $xml = $this->_createXML()->addChild($this->_namespace . ':' . $this->_nodePrefix . 'Item', '', $this->_namespace($this->_namespace));
+        $xml = $this->createXML()->addChild($this->namespace . ':' . $this->nodePrefix . 'Item', '', $this->namespace($this->namespace));
 
-        $this->_addElements($xml, \array_merge($this->_elements, ['parameters']), $this->_namespace);
+        $this->addElements($xml, \array_merge($this->elements, ['parameters']), $this->namespace);
 
         return $xml;
     }
@@ -65,9 +65,9 @@ abstract class Item extends Part
     /**
      * {@inheritdoc}
      */
-    protected function _configureOptions(OptionsResolver $resolver)
+    protected function configureOptions(OptionsResolver $resolver): void
     {
         // available options
-        $resolver->setDefined($this->_elements);
+        $resolver->setDefined($this->elements);
     }
 }

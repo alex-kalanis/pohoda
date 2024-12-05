@@ -22,20 +22,25 @@ trait AddParameterTrait
      * @param mixed      $value
      * @param mixed|null $list
      *
-     * @return \Riesenia\Pohoda\Agenda
+     * @return \Riesenia\Pohoda\AbstractAgenda
      */
-    public function addParameter(string $name, string $type, $value, $list = null)
+    public function addParameter(string $name, string $type, mixed $value, mixed $list = null)
     {
-        if (!isset($this->_data['parameters'])) {
-            $this->_data['parameters'] = [];
+        if (!isset($this->data['parameters'])
+            || !(
+                is_array($this->data['parameters'])
+                || (is_object($this->data['parameters']) && is_a($this->data['parameters'], \ArrayAccess::class))
+            )
+        ) {
+            $this->data['parameters'] = [];
         }
 
-        $this->_data['parameters'][] = new Parameter([
+        $this->data['parameters'][] = new Parameter([
             'name' => $name,
             'type' => $type,
             'value' => $value,
             'list' => $list
-        ], $this->_ico);
+        ], $this->ico);
 
         return $this;
     }

@@ -18,22 +18,22 @@ use Riesenia\Pohoda\ValueTransformer\ValueTransformer;
 
 class PohodaSpec extends ObjectBehavior
 {
-    public function let()
+    public function let(): void
     {
         $this->beConstructedWith('123');
     }
 
-    public function it_is_initializable()
+    public function it_is_initializable(): void
     {
         $this->shouldHaveType('Riesenia\Pohoda');
     }
 
-    public function it_throws_exception_on_wrong_agenda_name()
+    public function it_throws_exception_on_wrong_agenda_name(): void
     {
         $this->shouldThrow('DomainException')->during('create', [Argument::any()]);
     }
 
-    public function it_creates_existing_objects()
+    public function it_creates_existing_objects(): void
     {
         $this->create('Stock', [
             'code' => 'CODE',
@@ -43,7 +43,7 @@ class PohodaSpec extends ObjectBehavior
         ])->shouldBeAnInstanceOf('Riesenia\Pohoda\Stock');
     }
 
-    public function it_can_write_file()
+    public function it_can_write_file(): void
     {
         $tmpFile = \tempnam(\sys_get_temp_dir(), 'xml');
 
@@ -71,7 +71,7 @@ class PohodaSpec extends ObjectBehavior
         \unlink($tmpFile);
     }
 
-    public function it_can_write_to_memory()
+    public function it_can_write_to_memory(): void
     {
         $stock = new Stock([
             'code' => 'CODE',
@@ -94,7 +94,7 @@ class PohodaSpec extends ObjectBehavior
         expect((string) $xml->children('dat', true)->dataPackItem->attributes()['id'])->toBe('ITEM_ID');
     }
 
-    public function it_processes_recursive_export_correctly()
+    public function it_processes_recursive_export_correctly(): void
     {
         $tmpFile = \tempnam(\sys_get_temp_dir(), 'xml');
 
@@ -169,7 +169,7 @@ class PohodaSpec extends ObjectBehavior
         expect($c->getWrappedObject())->toBe(null);
     }
 
-    public function it_runs_transformers_properly()
+    public function it_runs_transformers_properly(): void
     {
         $stock = new Stock([
             'code' => 'code1',
@@ -193,7 +193,7 @@ class PohodaSpec extends ObjectBehavior
         Pohoda::$transformers = [];
     }
 
-    public function it_handles_static_arrays_correctly()
+    public function it_handles_static_arrays_correctly(): void
     {
         $stock = new Stock([
             'code' => 'code1',

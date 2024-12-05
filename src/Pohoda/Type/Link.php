@@ -10,25 +10,25 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\Type;
 
-use Riesenia\Pohoda\Agenda;
+use Riesenia\Pohoda\AbstractAgenda;
 use Riesenia\Pohoda\Common\OptionsResolver;
 
-class Link extends Agenda
+class Link extends AbstractAgenda
 {
     /** @var string[] */
-    protected $_refElements = ['sourceDocument', 'settingsSourceDocument'];
+    protected array $refElements = ['sourceDocument', 'settingsSourceDocument'];
 
     /** @var string[] */
-    protected $_elements = ['sourceAgenda', 'sourceDocument', 'settingsSourceDocument'];
+    protected array $elements = ['sourceAgenda', 'sourceDocument', 'settingsSourceDocument'];
 
     /**
      * {@inheritdoc}
      */
     public function getXML(): \SimpleXMLElement
     {
-        $xml = $this->_createXML()->addChild('typ:link', '', $this->_namespace('typ'));
+        $xml = $this->createXML()->addChild('typ:link', '', $this->namespace('typ'));
 
-        $this->_addElements($xml, $this->_elements, 'typ');
+        $this->addElements($xml, $this->elements, 'typ');
 
         return $xml;
     }
@@ -36,10 +36,10 @@ class Link extends Agenda
     /**
      * {@inheritdoc}
      */
-    protected function _configureOptions(OptionsResolver $resolver)
+    protected function configureOptions(OptionsResolver $resolver): void
     {
         // available options
-        $resolver->setDefined($this->_elements);
+        $resolver->setDefined($this->elements);
 
         // validate / format options
         $resolver->setAllowedValues('sourceAgenda', ['issuedInvoice', 'receivedInvoice', 'receivable', 'commitment', 'issuedAdvanceInvoice', 'receivedAdvanceInvoice', 'offer', 'enquiry', 'receivedOrder', 'issuedOrder']);

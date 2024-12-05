@@ -14,7 +14,7 @@ use PhpSpec\ObjectBehavior;
 
 class ContractSpec extends ObjectBehavior
 {
-    public function let()
+    public function let(): void
     {
         $this->beConstructedWith([
             'text' => 'zakazka15',
@@ -22,25 +22,25 @@ class ContractSpec extends ObjectBehavior
         ], '123');
     }
 
-    public function it_is_initializable_and_extends_agenda()
+    public function it_is_initializable_and_extends_agenda(): void
     {
         $this->shouldHaveType('Riesenia\Pohoda\Contract');
-        $this->shouldHaveType('Riesenia\Pohoda\Agenda');
+        $this->shouldHaveType('Riesenia\Pohoda\AbstractAgenda');
     }
 
-    public function it_creates_correct_xml()
+    public function it_creates_correct_xml(): void
     {
         $this->getXML()->asXML()->shouldReturn('<con:contract version="2.0"><con:contractDesc>' . $this->_defaultHeader() . '</con:contractDesc></con:contract>');
     }
 
-    public function it_can_set_parameters()
+    public function it_can_set_parameters(): void
     {
         $this->addParameter('VPrNum', 'number', 10.43);
 
         $this->getXML()->asXML()->shouldReturn('<con:contract version="2.0"><con:contractDesc>' . $this->_defaultHeader() . '<con:parameters><typ:parameter><typ:name>VPrNum</typ:name><typ:numberValue>10.43</typ:numberValue></typ:parameter></con:parameters></con:contractDesc></con:contract>');
     }
 
-    protected function _defaultHeader()
+    protected function _defaultHeader(): string
     {
         return '<con:text>zakazka15</con:text><con:responsiblePerson><typ:ids>Z0005</typ:ids></con:responsiblePerson>';
     }

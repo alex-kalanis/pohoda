@@ -10,6 +10,8 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\Common;
 
+use Riesenia\Pohoda\AbstractAgenda;
+
 trait AddParameterToHeaderTrait
 {
     /**
@@ -20,12 +22,13 @@ trait AddParameterToHeaderTrait
      * @param mixed      $value
      * @param mixed|null $list
      *
-     * @return \Riesenia\Pohoda\Agenda
+     * @return AbstractAgenda
      */
-    public function addParameter(string $name, string $type, $value, $list = null)
+    public function addParameter(string $name, string $type, mixed $value, mixed $list = null): AbstractAgenda
     {
-        $this->_data['header']->addParameter($name, $type, $value, $list);
-
+        $object = $this->data['header'];
+        /** @var self $object */
+        $object->addParameter($name, $type, $value, $list);
         return $this;
     }
 }

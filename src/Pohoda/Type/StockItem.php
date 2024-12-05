@@ -10,33 +10,33 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\Type;
 
-use Riesenia\Pohoda\Agenda;
+use Riesenia\Pohoda\AbstractAgenda;
 use Riesenia\Pohoda\Common\OptionsResolver;
 use Riesenia\Pohoda\Common\SetNamespaceTrait;
 
-class StockItem extends Agenda
+class StockItem extends AbstractAgenda
 {
     use SetNamespaceTrait;
 
     /** @var string[] */
-    protected $_refElements = ['store', 'stockItem'];
+    protected array $refElements = ['store', 'stockItem'];
 
     /** {@inheritDoc} */
-    protected $_elementsAttributesMapper = [
+    protected array $elementsAttributesMapper = [
         'insertAttachStock' => ['stockItem', 'insertAttachStock', null],
         'applyUserSettingsFilterOnTheStore' => ['stockItem', 'applyUserSettingsFilterOnTheStore', null]
     ];
 
     /** @var string[] */
-    protected $_elements = ['store', 'stockItem', 'insertAttachStock', 'applyUserSettingsFilterOnTheStore', 'serialNumber'];
+    protected array $elements = ['store', 'stockItem', 'insertAttachStock', 'applyUserSettingsFilterOnTheStore', 'serialNumber'];
 
     /**
      * {@inheritdoc}
      */
-    protected function _configureOptions(OptionsResolver $resolver)
+    protected function configureOptions(OptionsResolver $resolver): void
     {
         // available options
-        $resolver->setDefined($this->_elements);
+        $resolver->setDefined($this->elements);
 
         // validate / format options
         $resolver->setNormalizer('insertAttachStock', $resolver->getNormalizer('bool'));

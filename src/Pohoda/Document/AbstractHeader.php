@@ -15,7 +15,7 @@ use Riesenia\Pohoda\Common\OptionsResolver;
 use Riesenia\Pohoda\Type\Address;
 use Riesenia\Pohoda\Type\MyAddress;
 
-abstract class Header extends Part
+abstract class AbstractHeader extends AbstractPart
 {
     use AddParameterTrait;
 
@@ -42,17 +42,17 @@ abstract class Header extends Part
      */
     public function getXML(): \SimpleXMLElement
     {
-        if (is_null($this->_namespace)) {
+        if (is_null($this->namespace)) {
             throw new \LogicException('Namespace not set.');
         }
 
-        if (is_null($this->_nodePrefix)) {
+        if (is_null($this->nodePrefix)) {
             throw new \LogicException('Node name prefix not set.');
         }
 
-        $xml = $this->_createXML()->addChild($this->_namespace . ':' . $this->_nodePrefix . 'Header', '', $this->_namespace($this->_namespace));
+        $xml = $this->createXML()->addChild($this->namespace . ':' . $this->nodePrefix . 'Header', '', $this->namespace($this->namespace));
 
-        $this->_addElements($xml, \array_merge($this->_elements, ['parameters']), $this->_namespace);
+        $this->addElements($xml, \array_merge($this->elements, ['parameters']), $this->namespace);
 
         return $xml;
     }
@@ -60,9 +60,9 @@ abstract class Header extends Part
     /**
      * {@inheritdoc}
      */
-    protected function _configureOptions(OptionsResolver $resolver)
+    protected function configureOptions(OptionsResolver $resolver): void
     {
         // available options
-        $resolver->setDefined($this->_elements);
+        $resolver->setDefined($this->elements);
     }
 }

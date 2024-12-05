@@ -15,12 +15,11 @@ use Riesenia\Pohoda\Common\OptionsResolver;
 use Riesenia\Pohoda\StockTransfer\Header;
 use Riesenia\Pohoda\StockTransfer\Item;
 
-class StockTransfer extends Agenda
+class StockTransfer extends AbstractAgenda
 {
     use AddParameterToHeaderTrait;
 
-    /** @var string */
-    public static $importRoot = 'lst:prevodka';
+    public static string $importRoot = 'lst:prevodka';
 
     /**
      * {@inheritdoc}
@@ -42,11 +41,16 @@ class StockTransfer extends Agenda
      */
     public function addItem(array $data): self
     {
-        if (!isset($this->_data['prevodkaDetail'])) {
-            $this->_data['prevodkaDetail'] = [];
+        if (!isset($this->data['prevodkaDetail'])
+            || !(
+                is_array($this->data['prevodkaDetail'])
+                || (is_object($this->data['prevodkaDetail']) && is_a($this->data['prevodkaDetail'], \ArrayAccess::class))
+            )
+        ) {
+            $this->data['prevodkaDetail'] = [];
         }
 
-        $this->_data['prevodkaDetail'][] = new Item($data, $this->_ico);
+        $this->data['prevodkaDetail'][] = new Item($data, $this->ico);
 
         return $this;
     }
@@ -56,10 +60,10 @@ class StockTransfer extends Agenda
      */
     public function getXML(): \SimpleXMLElement
     {
-        $xml = $this->_createXML()->addChild('pre:prevodka', '', $this->_namespace('pre'));
+        $xml = $this->createXML()->addChild('pre:prevodka', '', $this->namespace('pre'));
         $xml->addAttribute('version', '2.0');
 
-        $this->_addElements($xml, ['header', 'prevodkaDetail'], 'pre');
+        $this->addElements($xml, ['header', 'prevodkaDetail'], 'pre');
 
         return $xml;
     }
@@ -67,7 +71,7 @@ class StockTransfer extends Agenda
     /**
      * {@inheritdoc}
      */
-    protected function _configureOptions(OptionsResolver $resolver)
+    protected function configureOptions(OptionsResolver $resolver): void
     {
         // available options
         $resolver->setDefined(['header']);

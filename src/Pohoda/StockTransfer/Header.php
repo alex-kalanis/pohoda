@@ -10,20 +10,20 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\StockTransfer;
 
-use Riesenia\Pohoda\Agenda;
+use Riesenia\Pohoda\AbstractAgenda;
 use Riesenia\Pohoda\Common\AddParameterTrait;
 use Riesenia\Pohoda\Common\OptionsResolver;
 use Riesenia\Pohoda\Type\Address;
 
-class Header extends Agenda
+class Header extends AbstractAgenda
 {
     use AddParameterTrait;
 
     /** @var string[] */
-    protected $_refElements = ['number', 'store', 'centreSource', 'centreDestination', 'activity', 'contract'];
+    protected array $refElements = ['number', 'store', 'centreSource', 'centreDestination', 'activity', 'contract'];
 
     /** @var string[] */
-    protected $_elements = ['number', 'date', 'time', 'dateOfReceipt', 'timeOfReceipt', 'symPar', 'store', 'text', 'partnerIdentity', 'centreSource', 'centreDestination', 'activity', 'contract', 'note', 'intNote'];
+    protected array $elements = ['number', 'date', 'time', 'dateOfReceipt', 'timeOfReceipt', 'symPar', 'store', 'text', 'partnerIdentity', 'centreSource', 'centreDestination', 'activity', 'contract', 'note', 'intNote'];
 
     /**
      * {@inheritdoc}
@@ -43,9 +43,9 @@ class Header extends Agenda
      */
     public function getXML(): \SimpleXMLElement
     {
-        $xml = $this->_createXML()->addChild('pre:prevodkaHeader', '', $this->_namespace('pre'));
+        $xml = $this->createXML()->addChild('pre:prevodkaHeader', '', $this->namespace('pre'));
 
-        $this->_addElements($xml, \array_merge($this->_elements, ['parameters']), 'pre');
+        $this->addElements($xml, \array_merge($this->elements, ['parameters']), 'pre');
 
         return $xml;
     }
@@ -53,10 +53,10 @@ class Header extends Agenda
     /**
      * {@inheritdoc}
      */
-    protected function _configureOptions(OptionsResolver $resolver)
+    protected function configureOptions(OptionsResolver $resolver): void
     {
         // available options
-        $resolver->setDefined($this->_elements);
+        $resolver->setDefined($this->elements);
 
         // validate / format options
         $resolver->setNormalizer('date', $resolver->getNormalizer('date'));

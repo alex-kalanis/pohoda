@@ -13,10 +13,10 @@ namespace Riesenia\Pohoda;
 use Riesenia\Pohoda\Common\OptionsResolver;
 use Riesenia\Pohoda\UserList\ItemUserCode;
 
-class UserList extends Agenda
+class UserList extends AbstractAgenda
 {
-    /** @var string */
-    public static $importRoot = 'lst:listUserCode';
+
+    public static string $importRoot = 'lst:listUserCode';
 
     /**
      * Add item user code.
@@ -27,11 +27,16 @@ class UserList extends Agenda
      */
     public function addItemUserCode(array $data): self
     {
-        if (!isset($this->_data['itemUserCodes'])) {
-            $this->_data['itemUserCodes'] = [];
+        if (!isset($this->data['itemUserCodes'])
+            || !(
+                is_array($this->data['itemUserCodes'])
+                || (is_object($this->data['itemUserCodes']) && is_a($this->data['itemUserCodes'], \ArrayAccess::class))
+            )
+        ) {
+            $this->data['itemUserCodes'] = [];
         }
 
-        $this->_data['itemUserCodes'][] = new ItemUserCode($data, $this->_ico);
+        $this->data['itemUserCodes'][] = new ItemUserCode($data, $this->ico);
 
         return $this;
     }
@@ -41,18 +46,19 @@ class UserList extends Agenda
      */
     public function getXML(): \SimpleXMLElement
     {
-        $xml = $this->_createXML()->addChild('lst:listUserCode', '', $this->_namespace('lst'));
+        $xml = $this->createXML()->addChild('lst:listUserCode', '', $this->namespace('lst'));
         $xml->addAttribute('version', '1.1');
-        $xml->addAttribute('code', $this->_data['code']);
-        $xml->addAttribute('name', $this->_data['name']);
+        $xml->addAttribute('code', strval($this->data['code']));
+        $xml->addAttribute('name', strval($this->data['name']));
 
-        if (isset($this->_data['constants']) && 'true' == $this->_data['constants']) {
-            $xml->addAttribute('constants', $this->_data['constants']);
+        if (isset($this->data['constants']) && 'true' == $this->data['constants']) {
+            $xml->addAttribute('constants', strval($this->data['constants']));
         }
 
-        if (isset($this->_data['itemUserCodes'])) {
-            foreach ($this->_data['itemUserCodes'] as $itemUserCode) {
-                $this->_appendNode($xml, $itemUserCode->getXML());
+        if (isset($this->data['itemUserCodes']) && is_iterable($this->data['itemUserCodes'])) {
+            foreach ($this->data['itemUserCodes'] as $itemUserCode) {
+                /** @var ItemUserCode $itemUserCode */
+                $this->appendNode($xml, $itemUserCode->getXML());
             }
         }
 
@@ -62,7 +68,7 @@ class UserList extends Agenda
     /**
      * {@inheritdoc}
      */
-    protected function _configureOptions(OptionsResolver $resolver)
+    protected function configureOptions(OptionsResolver $resolver): void
     {
         // available options
         $resolver->setDefined(['code', 'name', 'constants']);

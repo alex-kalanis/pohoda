@@ -10,22 +10,22 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\Stock;
 
-use Riesenia\Pohoda\Agenda;
+use Riesenia\Pohoda\AbstractAgenda;
 use Riesenia\Pohoda\Common\OptionsResolver;
 
-class Intrastat extends Agenda
+class Intrastat extends AbstractAgenda
 {
     /** @var string[] */
-    protected $_elements = ['goodsCode', 'description', 'statistic', 'unit', 'coefficient', 'country'];
+    protected array $elements = ['goodsCode', 'description', 'statistic', 'unit', 'coefficient', 'country'];
 
     /**
      * {@inheritdoc}
      */
     public function getXML(): \SimpleXMLElement
     {
-        $xml = $this->_createXML()->addChild('stk:intrastat', '', $this->_namespace('stk'));
+        $xml = $this->createXML()->addChild('stk:intrastat', '', $this->namespace('stk'));
 
-        $this->_addElements($xml, $this->_elements, 'stk');
+        $this->addElements($xml, $this->elements, 'stk');
 
         return $xml;
     }
@@ -33,10 +33,10 @@ class Intrastat extends Agenda
     /**
      * {@inheritdoc}
      */
-    protected function _configureOptions(OptionsResolver $resolver)
+    protected function configureOptions(OptionsResolver $resolver): void
     {
         // available options
-        $resolver->setDefined($this->_elements);
+        $resolver->setDefined($this->elements);
 
         // validate / format options
         $resolver->setNormalizer('goodsCode', $resolver->getNormalizer('string8'));

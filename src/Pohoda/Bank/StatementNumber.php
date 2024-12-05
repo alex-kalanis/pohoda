@@ -10,22 +10,22 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\Bank;
 
-use Riesenia\Pohoda\Agenda;
+use Riesenia\Pohoda\AbstractAgenda;
 use Riesenia\Pohoda\Common\OptionsResolver;
 
-class StatementNumber extends Agenda
+class StatementNumber extends AbstractAgenda
 {
     /** @var string[] */
-    protected $_elements = ['statementNumber', 'numberMovement'];
+    protected array $elements = ['statementNumber', 'numberMovement'];
 
     /**
      * {@inheritdoc}
      */
     public function getXML(): \SimpleXMLElement
     {
-        $xml = $this->_createXML()->addChild('bnk:statementNumber', '', $this->_namespace('bnk'));
+        $xml = $this->createXML()->addChild('bnk:statementNumber', '', $this->namespace('bnk'));
 
-        $this->_addElements($xml, $this->_elements, 'bnk');
+        $this->addElements($xml, $this->elements, 'bnk');
 
         return $xml;
     }
@@ -33,10 +33,10 @@ class StatementNumber extends Agenda
     /**
      * {@inheritdoc}
      */
-    protected function _configureOptions(OptionsResolver $resolver)
+    protected function configureOptions(OptionsResolver $resolver): void
     {
         // available options
-        $resolver->setDefined($this->_elements);
+        $resolver->setDefined($this->elements);
 
         // validate / format options
         $resolver->setNormalizer('statementNumber', $resolver->getNormalizer('string10'));

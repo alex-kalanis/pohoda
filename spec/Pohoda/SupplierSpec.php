@@ -14,7 +14,7 @@ use PhpSpec\ObjectBehavior;
 
 class SupplierSpec extends ObjectBehavior
 {
-    public function let()
+    public function let(): void
     {
         $this->beConstructedWith([
             'stockItem' => [
@@ -67,13 +67,13 @@ class SupplierSpec extends ObjectBehavior
         ], '123');
     }
 
-    public function it_is_initializable_and_extends_agenda()
+    public function it_is_initializable_and_extends_agenda(): void
     {
         $this->shouldHaveType('Riesenia\Pohoda\Supplier');
-        $this->shouldHaveType('Riesenia\Pohoda\Agenda');
+        $this->shouldHaveType('Riesenia\Pohoda\AbstractAgenda');
     }
 
-    public function it_creates_correct_xml()
+    public function it_creates_correct_xml(): void
     {
         $this->getXML()->asXML()->shouldReturn('<sup:supplier version="2.0"><sup:stockItem><typ:stockItem><typ:ids>B04</typ:ids></typ:stockItem></sup:stockItem><sup:suppliers><sup:supplierItem default="true"><sup:refAd><typ:id>2</typ:id></sup:refAd><sup:orderCode>A1</sup:orderCode><sup:orderName>A-zasoba</sup:orderName><sup:purchasingPrice>1968</sup:purchasingPrice><sup:rate>0</sup:rate><sup:payVAT>false</sup:payVAT><sup:ean>11112228</sup:ean><sup:printEAN>true</sup:printEAN><sup:unitEAN>ks</sup:unitEAN><sup:unitCoefEAN>1</sup:unitCoefEAN><sup:deliveryTime>12</sup:deliveryTime><sup:minQuantity>2</sup:minQuantity><sup:note>fdf</sup:note></sup:supplierItem><sup:supplierItem default="false"><sup:refAd><typ:ids>INTEAK spol. s r. o.</typ:ids></sup:refAd><sup:orderCode>I1</sup:orderCode><sup:orderName>I-zasoba</sup:orderName><sup:purchasingPrice>500</sup:purchasingPrice><sup:rate>0</sup:rate><sup:payVAT>false</sup:payVAT><sup:ean>212121212</sup:ean><sup:printEAN>true</sup:printEAN><sup:unitEAN>ks</sup:unitEAN><sup:unitCoefEAN>1</sup:unitCoefEAN><sup:deliveryTime>12</sup:deliveryTime><sup:minQuantity>2</sup:minQuantity><sup:note>aasn</sup:note></sup:supplierItem></sup:suppliers></sup:supplier>');
     }

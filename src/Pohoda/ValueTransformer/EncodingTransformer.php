@@ -18,20 +18,11 @@ namespace Riesenia\Pohoda\ValueTransformer;
  */
 class EncodingTransformer implements ValueTransformer
 {
-    /** @var string */
-    private $fromEncoding;
-
-    /** @var string */
-    private $toEncoding;
-
-    /**
-     * @param string $fromEncoding
-     * @param string $toEncoding
-     */
-    public function __construct(string $fromEncoding, string $toEncoding)
+    public function __construct(
+        protected readonly string $fromEncoding,
+        protected readonly string $toEncoding,
+    )
     {
-        $this->fromEncoding = $fromEncoding;
-        $this->toEncoding = $toEncoding;
     }
 
     /**

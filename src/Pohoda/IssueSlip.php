@@ -12,10 +12,10 @@ namespace Riesenia\Pohoda;
 
 use Riesenia\Pohoda\Type\Link;
 
-class IssueSlip extends Document
+class IssueSlip extends AbstractDocument
 {
-    /** @var string */
-    public static $importRoot = 'lst:vydejka';
+
+    public static string $importRoot = 'lst:vydejka';
 
     /**
      * Add link.
@@ -26,11 +26,16 @@ class IssueSlip extends Document
      */
     public function addLink(array $data): self
     {
-        if (!isset($this->_data['links'])) {
-            $this->_data['links'] = [];
+        if (!isset($this->data['links'])
+            || !(
+                is_array($this->data['links'])
+                || (is_object($this->data['links']) && is_a($this->data['links'], \ArrayAccess::class))
+            )
+        ) {
+            $this->data['links'] = [];
         }
 
-        $this->_data['links'][] = new Link($data, $this->_ico);
+        $this->data['links'][] = new Link($data, $this->ico);
 
         return $this;
     }
@@ -38,15 +43,15 @@ class IssueSlip extends Document
     /**
      * {@inheritdoc}
      */
-    protected function _getDocumentElements(): array
+    protected function getDocumentElements(): array
     {
-        return \array_merge(['links'], parent::_getDocumentElements());
+        return \array_merge(['links'], parent::getDocumentElements());
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function _getDocumentNamespace(): string
+    protected function getDocumentNamespace(): string
     {
         return 'vyd';
     }
@@ -54,7 +59,7 @@ class IssueSlip extends Document
     /**
      * {@inheritdoc}
      */
-    protected function _getDocumentName(): string
+    protected function getDocumentName(): string
     {
         return 'vydejka';
     }

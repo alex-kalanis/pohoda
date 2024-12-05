@@ -12,7 +12,7 @@ namespace Riesenia\Pohoda\PrintRequest;
 
 class TextType extends Parameter
 {
-    /** @var string */
-    protected $valueType = 'string';
+
+    protected string $valueType = 'string';
 
 }

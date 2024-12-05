@@ -10,20 +10,20 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\Contract;
 
-use Riesenia\Pohoda\Agenda;
+use Riesenia\Pohoda\AbstractAgenda;
 use Riesenia\Pohoda\Common\AddParameterTrait;
 use Riesenia\Pohoda\Common\OptionsResolver;
 use Riesenia\Pohoda\Type\Address;
 
-class Desc extends Agenda
+class Desc extends AbstractAgenda
 {
     use AddParameterTrait;
 
     /** @var string[] */
-    protected $_refElements = ['number', 'responsiblePerson'];
+    protected array $refElements = ['number', 'responsiblePerson'];
 
     /** @var string[] */
-    protected $_elements = ['number', 'datePlanStart', 'datePlanDelivery', 'dateStart', 'dateDelivery', 'dateWarranty', 'text', 'partnerIdentity', 'responsiblePerson', 'note'];
+    protected array $elements = ['number', 'datePlanStart', 'datePlanDelivery', 'dateStart', 'dateDelivery', 'dateWarranty', 'text', 'partnerIdentity', 'responsiblePerson', 'note'];
 
     /**
      * {@inheritdoc}
@@ -43,9 +43,9 @@ class Desc extends Agenda
      */
     public function getXML(): \SimpleXMLElement
     {
-        $xml = $this->_createXML()->addChild('con:contractDesc', '', $this->_namespace('con'));
+        $xml = $this->createXML()->addChild('con:contractDesc', '', $this->namespace('con'));
 
-        $this->_addElements($xml, \array_merge($this->_elements, ['parameters']), 'con');
+        $this->addElements($xml, \array_merge($this->elements, ['parameters']), 'con');
 
         return $xml;
     }
@@ -53,10 +53,10 @@ class Desc extends Agenda
     /**
      * {@inheritdoc}
      */
-    protected function _configureOptions(OptionsResolver $resolver)
+    protected function configureOptions(OptionsResolver $resolver): void
     {
         // available options
-        $resolver->setDefined($this->_elements);
+        $resolver->setDefined($this->elements);
 
         $resolver->setNormalizer('datePlanStart', $resolver->getNormalizer('date'));
         $resolver->setNormalizer('datePlanDelivery', $resolver->getNormalizer('date'));

@@ -10,27 +10,27 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\Type;
 
-use Riesenia\Pohoda\Agenda;
+use Riesenia\Pohoda\AbstractAgenda;
 use Riesenia\Pohoda\Common\OptionsResolver;
 use Riesenia\Pohoda\Common\SetNamespaceTrait;
 
-class CurrencyHome extends Agenda
+class CurrencyHome extends AbstractAgenda
 {
     use SetNamespaceTrait;
 
     /** @var string[] */
-    protected $_refElements = ['round'];
+    protected array $refElements = ['round'];
 
     /** @var string[] */
-    protected $_elements = ['priceNone', 'price3', 'price3VAT', 'price3Sum', 'priceLow', 'priceLowVAT', 'priceLowSum', 'priceHigh', 'priceHighVAT', 'priceHighSum', 'round'];
+    protected array $elements = ['priceNone', 'price3', 'price3VAT', 'price3Sum', 'priceLow', 'priceLowVAT', 'priceLowSum', 'priceHigh', 'priceHighVAT', 'priceHighSum', 'round'];
 
     /**
      * {@inheritdoc}
      */
-    protected function _configureOptions(OptionsResolver $resolver)
+    protected function configureOptions(OptionsResolver $resolver): void
     {
         // available options
-        $resolver->setDefined($this->_elements);
+        $resolver->setDefined($this->elements);
 
         // validate / format options
         $resolver->setNormalizer('priceNone', $resolver->getNormalizer('float'));

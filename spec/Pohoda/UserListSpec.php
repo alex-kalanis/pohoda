@@ -14,7 +14,7 @@ use PhpSpec\ObjectBehavior;
 
 class UserListSpec extends ObjectBehavior
 {
-    public function let()
+    public function let(): void
     {
         $this->beConstructedWith([
             'code' => 'CODE',
@@ -22,13 +22,13 @@ class UserListSpec extends ObjectBehavior
         ], '123');
     }
 
-    public function it_is_initializable_and_extends_agenda()
+    public function it_is_initializable_and_extends_agenda(): void
     {
         $this->shouldHaveType('Riesenia\Pohoda\UserList');
-        $this->shouldHaveType('Riesenia\Pohoda\Agenda');
+        $this->shouldHaveType('Riesenia\Pohoda\AbstractAgenda');
     }
 
-    public function it_creates_correct_xml()
+    public function it_creates_correct_xml(): void
     {
         $this->addItemUserCode([
             'code' => 'CODE 2',

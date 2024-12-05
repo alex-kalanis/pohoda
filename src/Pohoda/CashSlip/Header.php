@@ -11,22 +11,22 @@ declare(strict_types=1);
 namespace Riesenia\Pohoda\CashSlip;
 
 use Riesenia\Pohoda\Common\OptionsResolver;
-use Riesenia\Pohoda\Document\Header as DocumentHeader;
+use Riesenia\Pohoda\Document\AbstractHeader as DocumentHeader;
 
 class Header extends DocumentHeader
 {
     /** @var string[] */
-    protected $_refElements = ['number', 'accounting', 'paymentType', 'priceLevel', 'centre', 'activity', 'contract', 'kasa'];
+    protected array $refElements = ['number', 'accounting', 'paymentType', 'priceLevel', 'centre', 'activity', 'contract', 'kasa'];
 
     /** @var string[] */
-    protected $_elements = ['prodejkaType', 'number', 'date', 'accounting', 'text', 'partnerIdentity', 'paymentType', 'priceLevel', 'centre', 'activity', 'contract', 'kasa', 'note', 'intNote'];
+    protected array $elements = ['prodejkaType', 'number', 'date', 'accounting', 'text', 'partnerIdentity', 'paymentType', 'priceLevel', 'centre', 'activity', 'contract', 'kasa', 'note', 'intNote'];
 
     /**
      * {@inheritdoc}
      */
-    protected function _configureOptions(OptionsResolver $resolver)
+    protected function configureOptions(OptionsResolver $resolver): void
     {
-        parent::_configureOptions($resolver);
+        parent::configureOptions($resolver);
 
         // validate / format options
         $resolver->setDefault('prodejkaType', 'saleVoucher');

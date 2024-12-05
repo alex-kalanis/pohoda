@@ -12,7 +12,7 @@ namespace Riesenia\Pohoda\PrintRequest;
 
 class NumberType extends Parameter
 {
-    /** @var string */
-    protected $valueType = 'int';
+
+    protected string $valueType = 'int';
 
 }

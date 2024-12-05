@@ -12,7 +12,7 @@ namespace Riesenia\Pohoda\PrintRequest;
 
 class DateType extends Parameter
 {
-    /** @var string */
-    protected $valueType = 'date';
+
+    protected string $valueType = 'date';
 
 }

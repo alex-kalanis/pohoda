@@ -24,7 +24,7 @@ class OptionsResolver extends SymfonyOptionsResolver
     ];
 
     /** @var array<string,\Closure> */
-    protected $_loadedNormalizers = [];
+    protected array $loadedNormalizers = [];
 
     /**
      * Get normalizer.
@@ -35,8 +35,8 @@ class OptionsResolver extends SymfonyOptionsResolver
      */
     public function getNormalizer(string $type): \Closure
     {
-        if (isset($this->_loadedNormalizers[$type])) {
-            return $this->_loadedNormalizers[$type];
+        if (isset($this->loadedNormalizers[$type])) {
+            return $this->loadedNormalizers[$type];
         }
 
         if (str_starts_with($type, 'string')) {
@@ -49,7 +49,7 @@ class OptionsResolver extends SymfonyOptionsResolver
             $normalizer = $this->_createNormalizer($type);
         }
 
-        $this->_loadedNormalizers[$type] = $normalizer;
+        $this->loadedNormalizers[$type] = $normalizer;
 
         return $normalizer;
     }
@@ -62,7 +62,7 @@ class OptionsResolver extends SymfonyOptionsResolver
      *
      * @return \Closure
      */
-    protected function _createNormalizer(string $type, $param = null): \Closure
+    protected function _createNormalizer(string $type, mixed $param = null): \Closure
     {
         switch ($type) {
             case 'string':
@@ -71,7 +71,7 @@ class OptionsResolver extends SymfonyOptionsResolver
                     $value = \str_replace(["\r\n", "\r", "\n"], ' ', $value);
 
                     // param is used for string length
-                    return \mb_substr($value, 0, $param, 'utf-8');
+                    return \mb_substr($value, 0, is_null($param) ? null : intval($param), 'utf-8');
                 };
 
             case 'date':

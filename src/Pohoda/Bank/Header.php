@@ -11,15 +11,15 @@ declare(strict_types=1);
 namespace Riesenia\Pohoda\Bank;
 
 use Riesenia\Pohoda\Common\OptionsResolver;
-use Riesenia\Pohoda\Document\Header as DocumentHeader;
+use Riesenia\Pohoda\Document\AbstractHeader as DocumentHeader;
 
 class Header extends DocumentHeader
 {
     /** @var string[] */
-    protected $_refElements = ['account', 'accounting', 'classificationVAT', 'classificationKVDPH', 'paymentAccount', 'centre', 'activity', 'contract', 'MOSS', 'evidentiaryResourcesMOSS'];
+    protected array $refElements = ['account', 'accounting', 'classificationVAT', 'classificationKVDPH', 'paymentAccount', 'centre', 'activity', 'contract', 'MOSS', 'evidentiaryResourcesMOSS'];
 
     /** @var string[] */
-    protected $_elements = ['bankType', 'account', 'statementNumber', 'symVar', 'dateStatement', 'datePayment', 'accounting', 'classificationVAT', 'classificationKVDPH', 'text', 'partnerIdentity', 'myIdentity', 'paymentAccount', 'symConst', 'symSpec', 'symPar', 'centre', 'activity', 'contract', 'MOSS', 'evidentiaryResourcesMOSS', 'accountingPeriodMOSS', 'note', 'intNote'];
+    protected array $elements = ['bankType', 'account', 'statementNumber', 'symVar', 'dateStatement', 'datePayment', 'accounting', 'classificationVAT', 'classificationKVDPH', 'text', 'partnerIdentity', 'myIdentity', 'paymentAccount', 'symConst', 'symSpec', 'symPar', 'centre', 'activity', 'contract', 'MOSS', 'evidentiaryResourcesMOSS', 'accountingPeriodMOSS', 'note', 'intNote'];
 
     /**
      * {@inheritdoc}
@@ -37,9 +37,9 @@ class Header extends DocumentHeader
     /**
      * {@inheritdoc}
      */
-    protected function _configureOptions(OptionsResolver $resolver)
+    protected function configureOptions(OptionsResolver $resolver): void
     {
-        parent::_configureOptions($resolver);
+        parent::configureOptions($resolver);
 
         // validate / format options
         $resolver->setAllowedValues('bankType', ['receipt', 'expense']);

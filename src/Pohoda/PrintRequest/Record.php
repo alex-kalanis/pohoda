@@ -10,10 +10,10 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\PrintRequest;
 
-use Riesenia\Pohoda\Agenda;
+use Riesenia\Pohoda\AbstractAgenda;
 use Riesenia\Pohoda\Common\OptionsResolver;
 
-class Record extends Agenda
+class Record extends AbstractAgenda
 {
     /**
      * {@inheritdoc}
@@ -31,10 +31,10 @@ class Record extends Agenda
      */
     public function getXML(): \SimpleXMLElement
     {
-        $xml = $this->_createXML()->addChild('prn:record', '', $this->_namespace('prn'));
-        $xml->addAttribute('agenda', $this->_data['agenda']);
+        $xml = $this->createXML()->addChild('prn:record', '', $this->namespace('prn'));
+        $xml->addAttribute('agenda', strval($this->data['agenda']));
 
-        $this->_addElements($xml, ['filter'], 'prn');
+        $this->addElements($xml, ['filter'], 'prn');
 
         return $xml;
     }
@@ -42,7 +42,7 @@ class Record extends Agenda
     /**
      * {@inheritdoc}
      */
-    protected function _configureOptions(OptionsResolver $resolver)
+    protected function configureOptions(OptionsResolver $resolver): void
     {
         // available options
         $resolver->setDefined(['agenda', 'filter']);

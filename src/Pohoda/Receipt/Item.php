@@ -11,22 +11,22 @@ declare(strict_types=1);
 namespace Riesenia\Pohoda\Receipt;
 
 use Riesenia\Pohoda\Common\OptionsResolver;
-use Riesenia\Pohoda\Document\Item as DocumentItem;
+use Riesenia\Pohoda\Document\AbstractItem as DocumentItem;
 
 class Item extends DocumentItem
 {
     /** @var string[] */
-    protected $_refElements = ['centre', 'activity', 'contract'];
+    protected array $refElements = ['centre', 'activity', 'contract'];
 
     /** @var string[] */
-    protected $_elements = ['quantity', 'unit', 'coefficient', 'payVAT', 'rateVAT', 'discountPercentage', 'homeCurrency', 'foreignCurrency', 'code', 'stockItem', 'note', 'centre', 'activity', 'contract'];
+    protected array $elements = ['quantity', 'unit', 'coefficient', 'payVAT', 'rateVAT', 'discountPercentage', 'homeCurrency', 'foreignCurrency', 'code', 'stockItem', 'note', 'centre', 'activity', 'contract'];
 
     /**
      * {@inheritdoc}
      */
-    protected function _configureOptions(OptionsResolver $resolver)
+    protected function configureOptions(OptionsResolver $resolver): void
     {
-        parent::_configureOptions($resolver);
+        parent::configureOptions($resolver);
 
         // validate / format options
         $resolver->setNormalizer('quantity', $resolver->getNormalizer('float'));

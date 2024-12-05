@@ -12,10 +12,10 @@ namespace Riesenia\Pohoda;
 
 use Riesenia\Pohoda\Common\OptionsResolver;
 
-class Storage extends Agenda
+class Storage extends AbstractAgenda
 {
-    /** @var string */
-    public static $importRoot = 'lst:itemStorage';
+
+    public static string $importRoot = 'lst:itemStorage';
 
     /**
      * Add substorage.
@@ -26,11 +26,16 @@ class Storage extends Agenda
      */
     public function addSubstorage(self $storage): self
     {
-        if (!isset($this->_data['subStorages'])) {
-            $this->_data['subStorages'] = [];
+        if (!isset($this->data['subStorages'])
+            || !(
+                is_array($this->data['subStorages'])
+                || (is_object($this->data['subStorages']) && is_a($this->data['subStorages'], \ArrayAccess::class))
+            )
+        ) {
+            $this->data['subStorages'] = [];
         }
 
-        $this->_data['subStorages'][] = $storage;
+        $this->data['subStorages'][] = $storage;
 
         return $this;
     }
@@ -40,7 +45,7 @@ class Storage extends Agenda
      */
     public function getXML(): \SimpleXMLElement
     {
-        $xml = $this->_createXML()->addChild('str:storage', '', $this->_namespace('str'));
+        $xml = $this->createXML()->addChild('str:storage', '', $this->namespace('str'));
         $xml->addAttribute('version', '2.0');
 
         $this->storageXML($xml);
@@ -55,19 +60,20 @@ class Storage extends Agenda
      *
      * @return void
      */
-    public function storageXML(\SimpleXMLElement $xml)
+    public function storageXML(\SimpleXMLElement $xml): void
     {
-        $storage = $xml->addChild('str:itemStorage', '', $this->_namespace('str'));
-        $storage->addAttribute('code', $this->_data['code']);
+        $storage = $xml->addChild('str:itemStorage', '', $this->namespace('str'));
+        $storage->addAttribute('code', strval($this->data['code']));
 
-        if (isset($this->_data['name'])) {
-            $storage->addAttribute('name', $this->_data['name']);
+        if (isset($this->data['name'])) {
+            $storage->addAttribute('name', strval($this->data['name']));
         }
 
-        if (isset($this->_data['subStorages'])) {
-            $subStorages = $storage->addChild('str:subStorages', '', $this->_namespace('str'));
+        if (isset($this->data['subStorages']) && is_iterable($this->data['subStorages'])) {
+            $subStorages = $storage->addChild('str:subStorages', '', $this->namespace('str'));
 
-            foreach ($this->_data['subStorages'] as $subStorage) {
+            foreach ($this->data['subStorages'] as $subStorage) {
+                /** @var self $subStorage */
                 $subStorage->storageXML($subStorages);
             }
         }
@@ -76,7 +82,7 @@ class Storage extends Agenda
     /**
      * {@inheritdoc}
      */
-    protected function _configureOptions(OptionsResolver $resolver)
+    protected function configureOptions(OptionsResolver $resolver): void
     {
         // available options
         $resolver->setDefined(['code', 'name']);

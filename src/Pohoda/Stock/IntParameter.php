@@ -10,22 +10,27 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\Stock;
 
-use Riesenia\Pohoda\Agenda;
+use Riesenia\Pohoda\AbstractAgenda;
 use Riesenia\Pohoda\Common\OptionsResolver;
 
-class IntParameter extends Agenda
+class IntParameter extends AbstractAgenda
 {
     /**
      * {@inheritdoc}
      */
     public function getXML(): \SimpleXMLElement
     {
-        $xml = $this->_createXML()->addChild('stk:intParameter', '', $this->_namespace('stk'));
+        $xml = $this->createXML()->addChild('stk:intParameter', '', $this->namespace('stk'));
 
-        $this->_addElements($xml, ['intParameterID', 'intParameterType'], 'stk');
+        $this->addElements($xml, ['intParameterID', 'intParameterType'], 'stk');
 
         // value
-        $xml->addChild('stk:intParameterValues')->addChild('stk:intParameterValue')->addChild('stk:parameterValue', $this->_data['value']);
+        $value = $this->data['value'] ?? null;
+        $xml->addChild('stk:intParameterValues')
+            ->addChild('stk:intParameterValue')
+            ->addChild('stk:parameterValue',
+                is_null($value) ? null : strval($value)
+            );
 
         return $xml;
     }
@@ -33,7 +38,7 @@ class IntParameter extends Agenda
     /**
      * {@inheritdoc}
      */
-    protected function _configureOptions(OptionsResolver $resolver)
+    protected function configureOptions(OptionsResolver $resolver): void
     {
         // available options
         $resolver->setDefined(['intParameterID', 'intParameterName', 'intParameterOrder', 'intParameterType', 'value']);

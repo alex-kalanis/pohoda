@@ -10,22 +10,22 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\UserList;
 
-use Riesenia\Pohoda\Agenda;
+use Riesenia\Pohoda\AbstractAgenda;
 use Riesenia\Pohoda\Common\OptionsResolver;
 
-class ItemUserCode extends Agenda
+class ItemUserCode extends AbstractAgenda
 {
     /**
      * {@inheritdoc}
      */
     public function getXML(): \SimpleXMLElement
     {
-        $xml = $this->_createXML()->addChild('lst:itemUserCode', '', $this->_namespace('lst'));
-        $xml->addAttribute('code', $this->_data['code']);
-        $xml->addAttribute('name', $this->_data['name']);
+        $xml = $this->createXML()->addChild('lst:itemUserCode', '', $this->namespace('lst'));
+        $xml->addAttribute('code', strval($this->data['code']));
+        $xml->addAttribute('name', strval($this->data['name']));
 
-        if (isset($this->_data['constant'])) {
-            $xml->addAttribute('constants', $this->_data['constants']);
+        if (isset($this->data['constant'])) {
+            $xml->addAttribute('constants', strval($this->data['constants']));
         }
 
         return $xml;
@@ -34,7 +34,7 @@ class ItemUserCode extends Agenda
     /**
      * {@inheritdoc}
      */
-    protected function _configureOptions(OptionsResolver $resolver)
+    protected function configureOptions(OptionsResolver $resolver): void
     {
         // available options
         $resolver->setDefined(['code', 'name', 'constant']);

@@ -3,15 +3,15 @@
 namespace Riesenia\Pohoda\Voucher;
 
 use Riesenia\Pohoda\Common\OptionsResolver;
-use Riesenia\Pohoda\Document\Header as DocumentHeader;
+use Riesenia\Pohoda\Document\AbstractHeader as DocumentHeader;
 
 class Header extends DocumentHeader
 {
     /** @var string[] */
-    protected $_refElements = ['number', 'cashAccount', 'centre', 'activity', 'contract'];
+    protected array $refElements = ['number', 'cashAccount', 'centre', 'activity', 'contract'];
 
     /** @var string[] */
-    protected $_elements = [
+    protected array $elements = [
         'id',
         'extId',
         'voucherType',
@@ -51,9 +51,9 @@ class Header extends DocumentHeader
     /**
      * {@inheritdoc}
      */
-    protected function _configureOptions(OptionsResolver $resolver)
+    protected function configureOptions(OptionsResolver $resolver): void
     {
-        parent::_configureOptions($resolver);
+        parent::configureOptions($resolver);
 
         // validate / format options
         $resolver->setAllowedValues('voucherType', ['expense', 'receipt']);

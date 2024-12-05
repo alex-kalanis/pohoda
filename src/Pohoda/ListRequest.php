@@ -16,7 +16,7 @@ use Riesenia\Pohoda\ListRequest\RestrictionData;
 use Riesenia\Pohoda\ListRequest\UserFilterName;
 use Symfony\Component\OptionsResolver\Options;
 
-class ListRequest extends Agenda
+class ListRequest extends AbstractAgenda
 {
     /**
      * Add filter.
@@ -27,7 +27,7 @@ class ListRequest extends Agenda
      */
     public function addFilter(array $data): self
     {
-        $this->_data['filter'] = new Filter($data, $this->_ico);
+        $this->data['filter'] = new Filter($data, $this->ico);
 
         return $this;
     }
@@ -41,7 +41,7 @@ class ListRequest extends Agenda
      */
     public function addRestrictionData(array $data): self
     {
-        $this->_data['restrictionData'] = new RestrictionData($data, $this->_ico);
+        $this->data['restrictionData'] = new RestrictionData($data, $this->ico);
 
         return $this;
     }
@@ -55,7 +55,7 @@ class ListRequest extends Agenda
      */
     public function addUserFilterName(string $name): self
     {
-        $this->_data['userFilterName'] = new UserFilterName(['userFilterName' => $name], $this->_ico);
+        $this->data['userFilterName'] = new UserFilterName(['userFilterName' => $name], $this->ico);
 
         return $this;
     }
@@ -66,31 +66,31 @@ class ListRequest extends Agenda
     public function getXML(): \SimpleXMLElement
     {
         // UserList is custom
-        if ('UserList' == $this->_data['type']) {
-            $xml = $this->_createXML()->addChild($this->_data['namespace'] . ':listUserCodeRequest', '', $this->_namespace($this->_data['namespace']));
+        if ('UserList' == $this->data['type']) {
+            $xml = $this->createXML()->addChild($this->data['namespace'] . ':listUserCodeRequest', '', $this->namespace(strval($this->data['namespace'])));
             $xml->addAttribute('version', '1.1');
             $xml->addAttribute('listVersion', '1.1');
         } else {
-            $xml = $this->_createXML()->addChild($this->_data['namespace'] . ':list' . $this->_data['type'] . 'Request', '', $this->_namespace($this->_data['namespace']));
+            $xml = $this->createXML()->addChild($this->data['namespace'] . ':list' . $this->data['type'] . 'Request', '', $this->namespace(strval($this->data['namespace'])));
             $xml->addAttribute('version', '2.0');
 
             // IntParam doesn't have the version attribute
-            if ('IntParam' != $this->_data['type']) {
+            if ('IntParam' != $this->data['type']) {
                 $xml->addAttribute($this->_getLcFirstType() . 'Version', '2.0');
             }
 
-            if (isset($this->_data[$this->_getLcFirstType() . 'Type'])) {
-                $xml->addAttribute($this->_getLcFirstType() . 'Type', $this->_data[$this->_getLcFirstType() . 'Type']);
+            if (isset($this->data[$this->_getLcFirstType() . 'Type'])) {
+                $xml->addAttribute($this->_getLcFirstType() . 'Type', strval($this->data[$this->_getLcFirstType() . 'Type']));
             }
 
-            $request = $xml->addChild($this->_data['namespace'] . ':request' . $this->_data['type']);
+            $request = $xml->addChild($this->data['namespace'] . ':request' . $this->data['type']);
 
-            if (isset($this->_data['restrictionData'])) {
-                $this->_addElements($xml, ['restrictionData'], 'lst');
+            if (isset($this->data['restrictionData'])) {
+                $this->addElements($xml, ['restrictionData'], 'lst');
             }
 
-            $this->_addElements($request, ['filter', 'userFilterName'], 'ftr');
-            $this->_addElements($xml, ['restrictionData'], 'lst');
+            $this->addElements($request, ['filter', 'userFilterName'], 'ftr');
+            $this->addElements($xml, ['restrictionData'], 'lst');
         }
 
         return $xml;
@@ -99,7 +99,7 @@ class ListRequest extends Agenda
     /**
      * {@inheritdoc}
      */
-    protected function _configureOptions(OptionsResolver $resolver)
+    protected function configureOptions(OptionsResolver $resolver): void
     {
         // available options
         $resolver->setDefined(['type', 'namespace', 'orderType', 'invoiceType']);
@@ -161,10 +161,10 @@ class ListRequest extends Agenda
     protected function _getLcFirstType(): string
     {
         // ActionPrice is custom
-        if ('ActionPrice' == $this->_data['type']) {
+        if ('ActionPrice' == $this->data['type']) {
             return 'actionPrices';
         }
 
-        return \lcfirst($this->_data['type']);
+        return \lcfirst(strval($this->data['type']));
     }
 }

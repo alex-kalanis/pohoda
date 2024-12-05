@@ -2,15 +2,15 @@
 
 namespace Riesenia\Pohoda\Voucher;
 
-use Riesenia\Pohoda\Document\Item as DocumentItem;
+use Riesenia\Pohoda\Document\AbstractItem as DocumentItem;
 
 class Item extends DocumentItem
 {
     /** @var string[] */
-    protected $_refElements = ['number', 'cashAccount', 'centre', 'activity', 'contract'];
+    protected array $refElements = ['number', 'cashAccount', 'centre', 'activity', 'contract'];
 
     /** @var string[] */
-    protected $_elements = [
+    protected array $elements = [
         'text',
         'quantity',
         'unit',

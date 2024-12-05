@@ -10,34 +10,32 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\Type;
 
-use Riesenia\Pohoda\Agenda;
+use Riesenia\Pohoda\AbstractAgenda;
 use Riesenia\Pohoda\Common\OptionsResolver;
 
-class Parameter extends Agenda
+class Parameter extends AbstractAgenda
 {
-    /** @var string */
-    protected $_namespace;
-
     /**
      * {@inheritdoc}
      */
     public function getXML(): \SimpleXMLElement
     {
-        $xml = $this->_createXML()->addChild('typ:parameter', '', $this->_namespace('typ'));
+        $xml = $this->createXML()->addChild('typ:parameter', '', $this->namespace('typ'));
 
-        $xml->addChild('typ:name', $this->_data['name']);
+        $child = $this->data['name'] ?? null;
+        $xml->addChild('typ:name', is_null($child) ? null : strval($child));
 
-        if ('list' == $this->_data['type']) {
-            $this->_addRefElement($xml, 'typ:listValueRef', $this->_data['value']);
+        if ('list' == $this->data['type']) {
+            $this->addRefElement($xml, 'typ:listValueRef', $this->data['value']);
 
-            if (isset($this->_data['list'])) {
-                $this->_addRefElement($xml, 'typ:list', $this->_data['list']);
+            if (isset($this->data['list'])) {
+                $this->addRefElement($xml, 'typ:list', $this->data['list']);
             }
 
             return $xml;
         }
 
-        $xml->addChild('typ:' . $this->_data['type'] . 'Value', \htmlspecialchars($this->_data['value']));
+        $xml->addChild('typ:' . $this->data['type'] . 'Value', \htmlspecialchars(strval($this->data['value'])));
 
         return $xml;
     }
@@ -45,7 +43,7 @@ class Parameter extends Agenda
     /**
      * {@inheritdoc}
      */
-    protected function _configureOptions(OptionsResolver $resolver)
+    protected function configureOptions(OptionsResolver $resolver): void
     {
         // available options
         $resolver->setDefined(['name', 'type', 'value', 'list']);

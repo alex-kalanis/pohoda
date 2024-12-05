@@ -10,11 +10,11 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\Type;
 
-use Riesenia\Pohoda\Agenda;
+use Riesenia\Pohoda\AbstractAgenda;
 use Riesenia\Pohoda\Common\OptionsResolver;
 use Riesenia\Pohoda\Common\SetNamespaceTrait;
 
-class ActionType extends Agenda
+class ActionType extends AbstractAgenda
 {
     use SetNamespaceTrait;
 
@@ -23,30 +23,30 @@ class ActionType extends Agenda
      */
     public function getXML(): \SimpleXMLElement
     {
-        if (is_null($this->_namespace)) {
+        if (is_null($this->namespace)) {
             throw new \LogicException('Namespace not set.');
         }
 
-        $xml = $this->_createXML()->addChild($this->_namespace . ':actionType', '', $this->_namespace($this->_namespace));
-        $action = $xml->addChild($this->_namespace . ':' . ('add/update' == $this->_data['type'] ? 'add' : $this->_data['type']));
+        $xml = $this->createXML()->addChild($this->namespace . ':actionType', '', $this->namespace($this->namespace));
+        $action = $xml->addChild($this->namespace . ':' . ('add/update' == $this->data['type'] ? 'add' : $this->data['type']));
 
-        if ('add/update' == $this->_data['type']) {
+        if ('add/update' == $this->data['type']) {
             $action->addAttribute('update', 'true');
         }
 
-        if ($this->_data['filter']) {
-            $filter = $action->addChild('ftr:filter', '', $this->_namespace('ftr'));
+        if (isset($this->data['filter']) && is_iterable($this->data['filter'])) {
+            $filter = $action->addChild('ftr:filter', '', $this->namespace('ftr'));
 
-            if ($this->_data['agenda']) {
-                $filter->addAttribute('agenda', $this->_data['agenda']);
+            if ($this->data['agenda']) {
+                $filter->addAttribute('agenda', strval($this->data['agenda']));
             }
 
-            foreach ($this->_data['filter'] as $property => $value) {
-                $ftr = $filter->addChild('ftr:' . $property, \is_array($value) ? null : $value);
+            foreach ($this->data['filter'] as $property => $value) {
+                $ftr = $filter->addChild('ftr:' . $property, \is_array($value) ? null : strval($value));
 
                 if (\is_array($value)) {
                     foreach ($value as $tProperty => $tValue) {
-                        $ftr->addChild('typ:' . $tProperty, $tValue, $this->_namespace('typ'));
+                        $ftr->addChild('typ:' . $tProperty, $tValue, $this->namespace('typ'));
                     }
                 }
             }
@@ -58,7 +58,7 @@ class ActionType extends Agenda
     /**
      * {@inheritdoc}
      */
-    protected function _configureOptions(OptionsResolver $resolver)
+    protected function configureOptions(OptionsResolver $resolver): void
     {
         // available options
         $resolver->setDefined(['type', 'filter', 'agenda']);

@@ -10,18 +10,17 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\Document;
 
-use Riesenia\Pohoda\Agenda;
+use Riesenia\Pohoda\AbstractAgenda;
 use Riesenia\Pohoda\Common\SetNamespaceTrait;
 
-abstract class Part extends Agenda
+abstract class AbstractPart extends AbstractAgenda
 {
     use SetNamespaceTrait;
 
-    /** @var string */
-    protected $_nodePrefix;
+    protected ?string $nodePrefix = null;
 
     /** @var string[] */
-    protected $_elements;
+    protected array $elements = [];
 
     /**
      * Set node name prefix.
@@ -30,8 +29,8 @@ abstract class Part extends Agenda
      *
      * @return void
      */
-    public function setNodePrefix(string $prefix)
+    public function setNodePrefix(string $prefix): void
     {
-        $this->_nodePrefix = $prefix;
+        $this->nodePrefix = $prefix;
     }
 }

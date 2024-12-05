@@ -10,31 +10,31 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\Supplier;
 
-use Riesenia\Pohoda\Agenda;
+use Riesenia\Pohoda\AbstractAgenda;
 use Riesenia\Pohoda\Common\OptionsResolver;
 
-class SupplierItem extends Agenda
+class SupplierItem extends AbstractAgenda
 {
     /** @var string[] */
-    protected $_refElements = ['refAd', 'currency', 'deliveryPeriod'];
+    protected array $refElements = ['refAd', 'currency', 'deliveryPeriod'];
 
     /** @var string[] */
-    protected $_elements = ['default', 'refAd', 'orderCode', 'orderName', 'purchasingPrice', 'currency', 'rate', 'payVAT', 'ean', 'printEAN', 'unitEAN', 'unitCoefEAN', 'deliveryTime', 'deliveryPeriod', 'minQuantity', 'unit', 'note'];
+    protected array $elements = ['default', 'refAd', 'orderCode', 'orderName', 'purchasingPrice', 'currency', 'rate', 'payVAT', 'ean', 'printEAN', 'unitEAN', 'unitCoefEAN', 'deliveryTime', 'deliveryPeriod', 'minQuantity', 'unit', 'note'];
 
     /**
      * {@inheritdoc}
      */
     public function getXML(): \SimpleXMLElement
     {
-        $xml = $this->_createXML()->addChild('sup:supplierItem', '', $this->_namespace('sup'));
+        $xml = $this->createXML()->addChild('sup:supplierItem', '', $this->namespace('sup'));
 
         // handle default
-        if ($this->_data['default']) {
-            $xml->addAttribute('default', $this->_data['default']);
-            unset($this->_data['default']);
+        if ($this->data['default']) {
+            $xml->addAttribute('default', strval($this->data['default']));
+            unset($this->data['default']);
         }
 
-        $this->_addElements($xml, $this->_elements, 'sup');
+        $this->addElements($xml, $this->elements, 'sup');
 
         return $xml;
     }
@@ -42,10 +42,10 @@ class SupplierItem extends Agenda
     /**
      * {@inheritdoc}
      */
-    protected function _configureOptions(OptionsResolver $resolver)
+    protected function configureOptions(OptionsResolver $resolver): void
     {
         // available options
-        $resolver->setDefined($this->_elements);
+        $resolver->setDefined($this->elements);
 
         $resolver->setNormalizer('default', $resolver->getNormalizer('bool'));
         $resolver->setNormalizer('orderCode', $resolver->getNormalizer('string64'));

@@ -14,7 +14,7 @@ use PhpSpec\ObjectBehavior;
 
 class AddressbookSpec extends ObjectBehavior
 {
-    public function let()
+    public function let(): void
     {
         $this->beConstructedWith([
             'identity' => [
@@ -28,18 +28,18 @@ class AddressbookSpec extends ObjectBehavior
         ], '123');
     }
 
-    public function it_is_initializable_and_extends_agenda()
+    public function it_is_initializable_and_extends_agenda(): void
     {
         $this->shouldHaveType('Riesenia\Pohoda\Addressbook');
-        $this->shouldHaveType('Riesenia\Pohoda\Agenda');
+        $this->shouldHaveType('Riesenia\Pohoda\AbstractAgenda');
     }
 
-    public function it_creates_correct_xml()
+    public function it_creates_correct_xml(): void
     {
         $this->getXML()->asXML()->shouldReturn('<adb:addressbook version="2.0"><adb:addressbookHeader>' . $this->_defaultHeader() . '</adb:addressbookHeader></adb:addressbook>');
     }
 
-    public function it_can_set_action_type()
+    public function it_can_set_action_type(): void
     {
         $this->addActionType('update', [
             'company' => 'COMPANY'
@@ -48,7 +48,7 @@ class AddressbookSpec extends ObjectBehavior
         $this->getXML()->asXML()->shouldReturn('<adb:addressbook version="2.0"><adb:actionType><adb:update><ftr:filter><ftr:company>COMPANY</ftr:company></ftr:filter></adb:update></adb:actionType><adb:addressbookHeader>' . $this->_defaultHeader() . '</adb:addressbookHeader></adb:addressbook>');
     }
 
-    public function it_can_set_parameters()
+    public function it_can_set_parameters(): void
     {
         $this->addParameter('IsOn', 'boolean', 'true');
         $this->addParameter('VPrNum', 'number', 10.43);
@@ -58,7 +58,7 @@ class AddressbookSpec extends ObjectBehavior
         $this->getXML()->asXML()->shouldReturn('<adb:addressbook version="2.0"><adb:addressbookHeader>' . $this->_defaultHeader() . '<adb:parameters><typ:parameter><typ:name>VPrIsOn</typ:name><typ:booleanValue>true</typ:booleanValue></typ:parameter><typ:parameter><typ:name>VPrNum</typ:name><typ:numberValue>10.43</typ:numberValue></typ:parameter><typ:parameter><typ:name>RefVPrCountry</typ:name><typ:listValueRef><typ:ids>SK</typ:ids></typ:listValueRef><typ:list><typ:ids>Country</typ:ids></typ:list></typ:parameter><typ:parameter><typ:name>RefVPrCustomList</typ:name><typ:listValueRef><typ:id>5</typ:id></typ:listValueRef><typ:list><typ:id>6</typ:id></typ:list></typ:parameter></adb:parameters></adb:addressbookHeader></adb:addressbook>');
     }
 
-    public function it_can_delete_address()
+    public function it_can_delete_address(): void
     {
         $this->beConstructedWith([], '123');
 
@@ -69,7 +69,7 @@ class AddressbookSpec extends ObjectBehavior
         $this->getXML()->asXML()->shouldReturn('<adb:addressbook version="2.0"><adb:actionType><adb:delete><ftr:filter><ftr:company>COMPANY</ftr:company></ftr:filter></adb:delete></adb:actionType></adb:addressbook>');
     }
 
-    public function it_leaves_special_characters_intact_by_default()
+    public function it_leaves_special_characters_intact_by_default(): void
     {
         $this->beConstructedWith([
             'identity' => [
@@ -85,7 +85,7 @@ class AddressbookSpec extends ObjectBehavior
         $this->getXML()->asXML()->shouldReturn('<adb:addressbook version="2.0"><adb:addressbookHeader><adb:identity><typ:address><typ:name>Călărași ñüé¿s</typ:name><typ:city>Dâmbovița</typ:city></typ:address></adb:identity><adb:phone>123</adb:phone><adb:centre><typ:id>1</typ:id></adb:centre></adb:addressbookHeader></adb:addressbook>');
     }
 
-    protected function _defaultHeader()
+    protected function _defaultHeader(): string
     {
         return '<adb:identity><typ:address><typ:name>NAME</typ:name><typ:ico>123</typ:ico></typ:address></adb:identity><adb:phone>123</adb:phone><adb:centre><typ:id>1</typ:id></adb:centre>';
     }

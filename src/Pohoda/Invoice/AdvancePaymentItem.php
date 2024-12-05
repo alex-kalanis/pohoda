@@ -15,19 +15,19 @@ use Riesenia\Pohoda\Common\OptionsResolver;
 class AdvancePaymentItem extends Item
 {
     /** @var string[] */
-    protected $_refElements = ['sourceDocument', 'accounting', 'classificationVAT', 'classificationKVDPH', 'centre', 'activity', 'contract'];
+    protected array $refElements = ['sourceDocument', 'accounting', 'classificationVAT', 'classificationKVDPH', 'centre', 'activity', 'contract'];
 
     /** @var string[] */
-    protected $_elements = ['sourceDocument', 'quantity', 'payVAT', 'rateVAT', 'discountPercentage', 'homeCurrency', 'foreignCurrency', 'note', 'accounting', 'classificationVAT', 'classificationKVDPH', 'centre', 'activity', 'contract', 'symPar'];
+    protected array $elements = ['sourceDocument', 'quantity', 'payVAT', 'rateVAT', 'discountPercentage', 'homeCurrency', 'foreignCurrency', 'note', 'accounting', 'classificationVAT', 'classificationKVDPH', 'centre', 'activity', 'contract', 'symPar'];
 
     /**
      * {@inheritdoc}
      */
     public function getXML(): \SimpleXMLElement
     {
-        $xml = $this->_createXML()->addChild('inv:invoiceAdvancePaymentItem', '', $this->_namespace('inv'));
+        $xml = $this->createXML()->addChild('inv:invoiceAdvancePaymentItem', '', $this->namespace('inv'));
 
-        $this->_addElements($xml, \array_merge($this->_elements, ['parameters']), 'inv');
+        $this->addElements($xml, \array_merge($this->elements, ['parameters']), 'inv');
 
         return $xml;
     }
@@ -35,10 +35,10 @@ class AdvancePaymentItem extends Item
     /**
      * {@inheritdoc}
      */
-    protected function _configureOptions(OptionsResolver $resolver)
+    protected function configureOptions(OptionsResolver $resolver): void
     {
         // available options
-        $resolver->setDefined($this->_elements);
+        $resolver->setDefined($this->elements);
 
         // validate / format options
         $resolver->setNormalizer('quantity', $resolver->getNormalizer('float'));

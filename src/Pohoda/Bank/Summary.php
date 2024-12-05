@@ -11,19 +11,19 @@ declare(strict_types=1);
 namespace Riesenia\Pohoda\Bank;
 
 use Riesenia\Pohoda\Common\OptionsResolver;
-use Riesenia\Pohoda\Document\Summary as DocumentSummary;
+use Riesenia\Pohoda\Document\AbstractSummary as DocumentSummary;
 
 class Summary extends DocumentSummary
 {
     /** @var string[] */
-    protected $_elements = ['roundingDocument', 'roundingVAT', 'homeCurrency', 'foreignCurrency'];
+    protected array $elements = ['roundingDocument', 'roundingVAT', 'homeCurrency', 'foreignCurrency'];
 
     /**
      * {@inheritdoc}
      */
-    protected function _configureOptions(OptionsResolver $resolver)
+    protected function configureOptions(OptionsResolver $resolver): void
     {
-        parent::_configureOptions($resolver);
+        parent::configureOptions($resolver);
 
         // validate / format options
         $resolver->setAllowedValues('roundingDocument', ['none']);

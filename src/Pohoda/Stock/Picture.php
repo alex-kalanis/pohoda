@@ -10,20 +10,20 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\Stock;
 
-use Riesenia\Pohoda\Agenda;
+use Riesenia\Pohoda\AbstractAgenda;
 use Riesenia\Pohoda\Common\OptionsResolver;
 
-class Picture extends Agenda
+class Picture extends AbstractAgenda
 {
     /**
      * {@inheritdoc}
      */
     public function getXML(): \SimpleXMLElement
     {
-        $xml = $this->_createXML()->addChild('stk:picture', '', $this->_namespace('stk'));
-        $xml->addAttribute('default', $this->_data['default']);
+        $xml = $this->createXML()->addChild('stk:picture', '', $this->namespace('stk'));
+        $xml->addAttribute('default', strval($this->data['default']));
 
-        $this->_addElements($xml, ['filepath', 'description', 'order'], 'stk');
+        $this->addElements($xml, ['filepath', 'description', 'order'], 'stk');
 
         return $xml;
     }
@@ -31,7 +31,7 @@ class Picture extends Agenda
     /**
      * {@inheritdoc}
      */
-    protected function _configureOptions(OptionsResolver $resolver)
+    protected function configureOptions(OptionsResolver $resolver): void
     {
         // available options
         $resolver->setDefined(['filepath', 'description', 'order', 'default']);

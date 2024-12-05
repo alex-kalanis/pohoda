@@ -14,7 +14,7 @@ use Riesenia\Pohoda\Common\OptionsResolver;
 use Riesenia\Pohoda\PrintRequest\PrinterSettings;
 use Riesenia\Pohoda\PrintRequest\Record;
 
-class PrintRequest extends Agenda
+class PrintRequest extends AbstractAgenda
 {
     /**
      * {@inheritdoc}
@@ -35,10 +35,10 @@ class PrintRequest extends Agenda
      */
     public function getXML(): \SimpleXMLElement
     {
-        $xml = $this->_createXML()->addChild('prn:print', '', $this->_namespace('prn'));
+        $xml = $this->createXML()->addChild('prn:print', '', $this->namespace('prn'));
         $xml->addAttribute('version', '1.0');
 
-        $this->_addElements($xml, ['record', 'printerSettings'], 'prn');
+        $this->addElements($xml, ['record', 'printerSettings'], 'prn');
 
         return $xml;
     }
@@ -46,7 +46,7 @@ class PrintRequest extends Agenda
     /**
      * {@inheritdoc}
      */
-    protected function _configureOptions(OptionsResolver $resolver)
+    protected function configureOptions(OptionsResolver $resolver): void
     {
         // available options
         $resolver->setDefined(['record', 'printerSettings']);

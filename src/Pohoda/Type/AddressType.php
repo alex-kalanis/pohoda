@@ -10,25 +10,25 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\Type;
 
-use Riesenia\Pohoda\Agenda;
+use Riesenia\Pohoda\AbstractAgenda;
 use Riesenia\Pohoda\Common\OptionsResolver;
 
-class AddressType extends Agenda
+class AddressType extends AbstractAgenda
 {
     /** @var string[] */
-    protected $_refElements = ['country'];
+    protected array $refElements = ['country'];
 
     /** @var string[] */
-    protected $_elements = ['company', 'division', 'name', 'city', 'street', 'zip', 'ico', 'dic', 'VATPayerType', 'icDph', 'country', 'phone', 'mobilPhone', 'fax', 'email'];
+    protected array $elements = ['company', 'division', 'name', 'city', 'street', 'zip', 'ico', 'dic', 'VATPayerType', 'icDph', 'country', 'phone', 'mobilPhone', 'fax', 'email'];
 
     /**
      * {@inheritdoc}
      */
     public function getXML(): \SimpleXMLElement
     {
-        $xml = $this->_createXML()->addChild('typ:address', '', $this->_namespace('typ'));
+        $xml = $this->createXML()->addChild('typ:address', '', $this->namespace('typ'));
 
-        $this->_addElements($xml, $this->_elements, 'typ');
+        $this->addElements($xml, $this->elements, 'typ');
 
         return $xml;
     }
@@ -36,10 +36,10 @@ class AddressType extends Agenda
     /**
      * {@inheritdoc}
      */
-    protected function _configureOptions(OptionsResolver $resolver)
+    protected function configureOptions(OptionsResolver $resolver): void
     {
         // available options
-        $resolver->setDefined($this->_elements);
+        $resolver->setDefined($this->elements);
 
         // validate / format options
         $resolver->setNormalizer('company', $resolver->getNormalizer('string255'));

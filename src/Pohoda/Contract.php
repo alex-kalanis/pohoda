@@ -14,12 +14,12 @@ use Riesenia\Pohoda\Common\AddParameterToHeaderTrait;
 use Riesenia\Pohoda\Common\OptionsResolver;
 use Riesenia\Pohoda\Contract\Desc;
 
-class Contract extends Agenda
+class Contract extends AbstractAgenda
 {
     use AddParameterToHeaderTrait;
 
-    /** @var string */
-    public static $importRoot = 'lCon:contract';
+
+    public static string $importRoot = 'lCon:contract';
 
     /**
      * {@inheritdoc}
@@ -37,10 +37,10 @@ class Contract extends Agenda
      */
     public function getXML(): \SimpleXMLElement
     {
-        $xml = $this->_createXML()->addChild('con:contract', '', $this->_namespace('con'));
+        $xml = $this->createXML()->addChild('con:contract', '', $this->namespace('con'));
         $xml->addAttribute('version', '2.0');
 
-        $this->_addElements($xml, ['header'], 'con');
+        $this->addElements($xml, ['header'], 'con');
 
         return $xml;
     }
@@ -48,7 +48,7 @@ class Contract extends Agenda
     /**
      * {@inheritdoc}
      */
-    protected function _configureOptions(OptionsResolver $resolver)
+    protected function configureOptions(OptionsResolver $resolver): void
     {
         // available options
         $resolver->setDefined(['header']);

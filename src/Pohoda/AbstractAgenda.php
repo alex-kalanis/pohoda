@@ -21,25 +21,21 @@ use Riesenia\Pohoda\ValueTransformer\ValueTransformer;
  * @method setNamespace($namespace)
  * @method setNodeName($nodeName)
  */
-abstract class Agenda
+abstract class AbstractAgenda
 {
-    /** @var bool */
-    public static $importRecursive = false;
+    public static bool $importRecursive = false;
 
-    /** @var string */
-    protected $_ico;
-
-    /** @var array<string,mixed> */
-    protected $_data;
+    /** @var array<string, mixed> */
+    protected array $data = [];
 
     /** @var string[] */
-    protected $_refElements = [];
+    protected array $refElements = [];
 
     /** @var array<string,array{string,string,string|null}> */
-    protected $_elementsAttributesMapper = [];
+    protected array $elementsAttributesMapper = [];
 
     /** @var OptionsResolver[] */
-    private static $_resolvers = [];
+    private static array $resolvers = [];
 
     /**
      * Construct agenda using provided data.
@@ -48,13 +44,14 @@ abstract class Agenda
      * @param string              $ico
      * @param bool                $resolveOptions
      */
-    public function __construct(array $data, string $ico, bool $resolveOptions = true)
+    public function __construct(
+        array $data,
+        protected readonly string $ico,
+        bool $resolveOptions = true,
+    )
     {
-        // set ICO
-        $this->_ico = $ico;
-
         // resolve options
-        $this->_data = $resolveOptions ? $this->_resolveOptions($data) : $data;
+        $this->data = $resolveOptions ? $this->resolveOptions($data) : $data;
     }
 
     /**
@@ -71,14 +68,14 @@ abstract class Agenda
      *
      * @return void
      */
-    abstract protected function _configureOptions(OptionsResolver $resolver);
+    abstract protected function configureOptions(OptionsResolver $resolver): void;
 
     /**
      * Create XML.
      *
      * @return \SimpleXMLElement
      */
-    protected function _createXML(): \SimpleXMLElement
+    protected function createXML(): \SimpleXMLElement
     {
         return new \SimpleXMLElement('<?xml version="1.0" encoding="' . Pohoda::$encoding . '"?><root ' . \implode(' ', \array_map(function ($k, $v) {
             return 'xmlns:' . $k . '="' . $v . '"';
@@ -92,7 +89,7 @@ abstract class Agenda
      *
      * @return string
      */
-    protected function _namespace(string $short): string
+    protected function namespace(string $short): string
     {
         if (!isset(Pohoda::$namespaces[$short])) {
             throw new \OutOfRangeException('Invalid namespace.');
@@ -110,63 +107,63 @@ abstract class Agenda
      *
      * @return void
      */
-    protected function _addElements(\SimpleXMLElement $xml, array $elements, string $namespace = null)
+    protected function addElements(\SimpleXMLElement $xml, array $elements, ?string $namespace = null): void
     {
         foreach ($elements as $element) {
-            if (!isset($this->_data[$element])) {
+            if (!isset($this->data[$element])) {
                 continue;
             }
 
             // ref element
-            if (\in_array($element, $this->_refElements)) {
-                $this->_addRefElement($xml, ($namespace ? $namespace . ':' : '') . $element, $this->_data[$element], $namespace);
+            if (\in_array($element, $this->refElements)) {
+                $this->addRefElement($xml, ($namespace ? $namespace . ':' : '') . $element, $this->data[$element], $namespace);
 
                 continue;
             }
 
             // element attribute
-            if (isset($this->_elementsAttributesMapper[$element])) {
-                list($attrElement, $attrName, $attrNamespace) = $this->_elementsAttributesMapper[$element];
+            if (isset($this->elementsAttributesMapper[$element])) {
+                list($attrElement, $attrName, $attrNamespace) = $this->elementsAttributesMapper[$element];
 
                 // get element
                 $attrElement = $namespace ? $xml->children($namespace, true)->{$attrElement} : $xml->{$attrElement};
 
-                $sanitized = $this->_sanitize($this->_data[$element]);
-                $attrNamespace ? $attrElement->addAttribute($attrNamespace . ':' . $attrName, $sanitized, $this->_namespace($attrNamespace)) : $attrElement->addAttribute($attrName, $sanitized);
+                $sanitized = $this->sanitize($this->data[$element]);
+                $attrNamespace ? $attrElement->addAttribute($attrNamespace . ':' . $attrName, $sanitized, $this->namespace($attrNamespace)) : $attrElement->addAttribute($attrName, $sanitized);
 
                 continue;
             }
 
             // Agenda object
-            if ($this->_data[$element] instanceof self) {
+            if ($this->data[$element] instanceof self) {
                 // set namespace
-                if ($namespace && \method_exists($this->_data[$element], 'setNamespace')) {
-                    $this->_data[$element]->setNamespace($namespace);
+                if ($namespace && \method_exists($this->data[$element], 'setNamespace')) {
+                    $this->data[$element]->setNamespace($namespace);
                 }
 
                 // set node name
-                if (\method_exists($this->_data[$element], 'setNodeName')) {
-                    $this->_data[$element]->setNodeName($element);
+                if (\method_exists($this->data[$element], 'setNodeName')) {
+                    $this->data[$element]->setNodeName($element);
                 }
 
-                $this->_appendNode($xml, $this->_data[$element]->getXML());
+                $this->appendNode($xml, $this->data[$element]->getXML());
 
                 continue;
             }
 
             // array of Agenda objects
-            if (\is_array($this->_data[$element])) {
-                $child = $namespace ? $xml->addChild($namespace . ':' . $element, '', $this->_namespace($namespace)) : $xml->addChild($element);
+            if (\is_array($this->data[$element])) {
+                $child = $namespace ? $xml->addChild($namespace . ':' . $element, '', $this->namespace($namespace)) : $xml->addChild($element);
 
-                foreach ($this->_data[$element] as $node) {
-                    $this->_appendNode($child, $node->getXML());
+                foreach ($this->data[$element] as $node) {
+                    $this->appendNode($child, $node->getXML());
                 }
 
                 continue;
             }
 
-            $sanitized = $this->_sanitize($this->_data[$element]);
-            $namespace ? $xml->addChild($namespace . ':' . $element, $sanitized, $this->_namespace($namespace)) : $xml->addChild($element, $sanitized);
+            $sanitized = $this->sanitize($this->data[$element]);
+            $namespace ? $xml->addChild($namespace . ':' . $element, $sanitized, $this->namespace($namespace)) : $xml->addChild($element, $sanitized);
         }
     }
 
@@ -180,9 +177,9 @@ abstract class Agenda
      *
      * @return \SimpleXMLElement
      */
-    protected function _addRefElement(\SimpleXMLElement $xml, string $name, $value, string $namespace = null): \SimpleXMLElement
+    protected function addRefElement(\SimpleXMLElement $xml, string $name, mixed $value, ?string $namespace = null): \SimpleXMLElement
     {
-        $node = $namespace ? $xml->addChild($name, '', $this->_namespace($namespace)) : $xml->addChild($name);
+        $node = $namespace ? $xml->addChild($name, '', $this->namespace($namespace)) : $xml->addChild($name);
 
         if (!\is_array($value)) {
             $value = ['ids' => $value];
@@ -192,17 +189,17 @@ abstract class Agenda
             if (\is_array($value1)) {
                 if (array_is_list($value1)) {
                     foreach ($value1 as $value2) {
-                        $node->addChild($namespace . ':' . $key, $this->_sanitize($value2), $this->_namespace($namespace));
+                        $node->addChild($namespace . ':' . $key, $this->sanitize($value2), $this->namespace(strval($namespace)));
                     }
                 } else {
-                    $node = $node->addChild($namespace . ':' . $key, '', $this->_namespace($namespace));
+                    $node = $node->addChild($namespace . ':' . $key, '', $this->namespace(strval($namespace)));
 
                     foreach ($value1 as $key2 => $value2) {
-                        $node->addChild('typ:' . $key2, $this->_sanitize($value2), $this->_namespace('typ'));
+                        $node->addChild('typ:' . $key2, $this->sanitize($value2), $this->namespace('typ'));
                     }
                 }
             } else {
-                $node->addChild('typ:' . $key, $this->_sanitize($value1), $this->_namespace('typ'));
+                $node->addChild('typ:' . $key, $this->sanitize($value1), $this->namespace('typ'));
             }
         }
 
@@ -216,7 +213,7 @@ abstract class Agenda
      *
      * @return string
      */
-    protected function _sanitize($value): string
+    protected function sanitize(mixed $value): string
     {
         $transformers = Pohoda::$transformers;
 
@@ -227,7 +224,7 @@ abstract class Agenda
 
         $value = \array_reduce($transformers, function (string $value, ValueTransformer $transformer): string {
             return $transformer->transform($value);
-        }, (string) $value);
+        }, strval($value));
 
         return \htmlspecialchars($value);
     }
@@ -240,7 +237,7 @@ abstract class Agenda
      *
      * @return void
      */
-    protected function _appendNode(\SimpleXMLElement $xml, \SimpleXMLElement $node)
+    protected function appendNode(\SimpleXMLElement $xml, \SimpleXMLElement $node): void
     {
         $dom = \dom_import_simplexml($xml);
         $dom2 = \dom_import_simplexml($node);
@@ -259,15 +256,15 @@ abstract class Agenda
      *
      * @return array<string,mixed>
      */
-    protected function _resolveOptions(array $data): array
+    protected function resolveOptions(array $data): array
     {
         $class = \get_class($this);
 
-        if (!isset(self::$_resolvers[$class])) {
-            self::$_resolvers[$class] = new OptionsResolver();
-            $this->_configureOptions(self::$_resolvers[$class]);
+        if (!isset(self::$resolvers[$class])) {
+            self::$resolvers[$class] = new OptionsResolver();
+            $this->configureOptions(self::$resolvers[$class]);
         }
 
-        return self::$_resolvers[$class]->resolve($data);
+        return self::$resolvers[$class]->resolve($data);
     }
 }

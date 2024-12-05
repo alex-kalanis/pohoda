@@ -10,27 +10,27 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\Type;
 
-use Riesenia\Pohoda\Agenda;
+use Riesenia\Pohoda\AbstractAgenda;
 use Riesenia\Pohoda\Common\OptionsResolver;
 use Riesenia\Pohoda\Common\SetNamespaceTrait;
 
-class RecyclingContrib extends Agenda
+class RecyclingContrib extends AbstractAgenda
 {
     use SetNamespaceTrait;
 
     /** @var string[] */
-    protected $_refElements = ['recyclingContribType'];
+    protected array $refElements = ['recyclingContribType'];
 
     /** @var string[] */
-    protected $_elements = ['recyclingContribText', 'recyclingContribAmount', 'recyclingContribUnit', 'coefficientOfRecyclingContrib'];
+    protected array $elements = ['recyclingContribText', 'recyclingContribAmount', 'recyclingContribUnit', 'coefficientOfRecyclingContrib'];
 
     /**
      * {@inheritdoc}
      */
-    protected function _configureOptions(OptionsResolver $resolver)
+    protected function configureOptions(OptionsResolver $resolver): void
     {
         // available options
-        $resolver->setDefined($this->_elements);
+        $resolver->setDefined($this->elements);
 
         // validate / format options
         $resolver->setNormalizer('recyclingContribText', $resolver->getNormalizer('string64'));

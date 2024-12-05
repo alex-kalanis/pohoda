@@ -14,10 +14,10 @@ use Riesenia\Pohoda\Common\OptionsResolver;
 use Riesenia\Pohoda\Supplier\StockItem;
 use Riesenia\Pohoda\Supplier\SupplierItem;
 
-class Supplier extends Agenda
+class Supplier extends AbstractAgenda
 {
-    /** @var string */
-    public static $importRoot = 'lst:supplier';
+
+    public static string $importRoot = 'lst:supplier';
 
     /**
      * {@inheritdoc}
@@ -30,7 +30,7 @@ class Supplier extends Agenda
         }
 
         // process suppliers
-        if (isset($data['suppliers'])) {
+        if (isset($data['suppliers']) && is_array($data['suppliers'])) {
             $data['suppliers'] = \array_map(function ($supplier) use ($ico, $resolveOptions) {
                 return new SupplierItem($supplier['supplierItem'], $ico, $resolveOptions);
             }, $data['suppliers']);
@@ -44,10 +44,10 @@ class Supplier extends Agenda
      */
     public function getXML(): \SimpleXMLElement
     {
-        $xml = $this->_createXML()->addChild('sup:supplier', '', $this->_namespace('sup'));
+        $xml = $this->createXML()->addChild('sup:supplier', '', $this->namespace('sup'));
         $xml->addAttribute('version', '2.0');
 
-        $this->_addElements($xml, ['stockItem', 'suppliers'], 'sup');
+        $this->addElements($xml, ['stockItem', 'suppliers'], 'sup');
 
         return $xml;
     }
@@ -55,7 +55,7 @@ class Supplier extends Agenda
     /**
      * {@inheritdoc}
      */
-    protected function _configureOptions(OptionsResolver $resolver)
+    protected function configureOptions(OptionsResolver $resolver): void
     {
         // available options
         $resolver->setDefined(['stockItem', 'suppliers']);

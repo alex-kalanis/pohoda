@@ -10,15 +10,15 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda;
 
-class CashSlip extends Document
+class CashSlip extends AbstractDocument
 {
-    /** @var string */
-    public static $importRoot = 'lst:prodejka';
+
+    public static string $importRoot = 'lst:prodejka';
 
     /**
      * {@inheritdoc}
      */
-    protected function _getDocumentNamespace(): string
+    protected function getDocumentNamespace(): string
     {
         return 'pro';
     }
@@ -26,7 +26,7 @@ class CashSlip extends Document
     /**
      * {@inheritdoc}
      */
-    protected function _getDocumentName(): string
+    protected function getDocumentName(): string
     {
         return 'prodejka';
     }

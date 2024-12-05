@@ -10,16 +10,16 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\Stock;
 
-use Riesenia\Pohoda\Agenda;
+use Riesenia\Pohoda\AbstractAgenda;
 use Riesenia\Pohoda\Common\OptionsResolver;
 
-class StockItem extends Agenda
+class StockItem extends AbstractAgenda
 {
     /** @var string[] */
-    protected $_refElements = ['stockInfo', 'storage'];
+    protected array $refElements = ['stockInfo', 'storage'];
 
     /** @var string[] */
-    protected $_elements = ['id', 'stockInfo', 'storage', 'code', 'name', 'count', 'quantity', 'stockPriceItem'];
+    protected array $elements = ['id', 'stockInfo', 'storage', 'code', 'name', 'count', 'quantity', 'stockPriceItem'];
 
     /**
      * {@inheritdoc}
@@ -27,7 +27,7 @@ class StockItem extends Agenda
     public function __construct(array $data, string $ico, bool $resolveOptions = true)
     {
         // process stockPriceItem
-        if (isset($data['stockPriceItem'])) {
+        if (isset($data['stockPriceItem']) && is_array($data['stockPriceItem'])) {
             $data['stockPriceItem'] = \array_map(function ($stockPriceItem) use ($ico, $resolveOptions) {
                 return new Price($stockPriceItem['stockPrice'], $ico, $resolveOptions);
             }, $data['stockPriceItem']);
@@ -41,9 +41,9 @@ class StockItem extends Agenda
      */
     public function getXML(): \SimpleXMLElement
     {
-        $xml = $this->_createXML()->addChild('stk:stockItem', '', $this->_namespace('stk'));
+        $xml = $this->createXML()->addChild('stk:stockItem', '', $this->namespace('stk'));
 
-        $this->_addElements($xml, $this->_elements, 'stk');
+        $this->addElements($xml, $this->elements, 'stk');
 
         return $xml;
     }
@@ -51,10 +51,10 @@ class StockItem extends Agenda
     /**
      * {@inheritdoc}
      */
-    protected function _configureOptions(OptionsResolver $resolver)
+    protected function configureOptions(OptionsResolver $resolver): void
     {
         // available options
-        $resolver->setDefined($this->_elements);
+        $resolver->setDefined($this->elements);
 
         $resolver->setNormalizer('id', $resolver->getNormalizer('int'));
         $resolver->setNormalizer('count', $resolver->getNormalizer('float'));

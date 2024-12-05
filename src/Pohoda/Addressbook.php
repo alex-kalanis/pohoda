@@ -15,13 +15,12 @@ use Riesenia\Pohoda\Common\AddActionTypeTrait;
 use Riesenia\Pohoda\Common\AddParameterToHeaderTrait;
 use Riesenia\Pohoda\Common\OptionsResolver;
 
-class Addressbook extends Agenda
+class Addressbook extends AbstractAgenda
 {
     use AddActionTypeTrait;
     use AddParameterToHeaderTrait;
 
-    /** @var string */
-    public static $importRoot = 'lAdb:addressbook';
+    public static string $importRoot = 'lAdb:addressbook';
 
     /**
      * {@inheritdoc}
@@ -41,10 +40,10 @@ class Addressbook extends Agenda
      */
     public function getXML(): \SimpleXMLElement
     {
-        $xml = $this->_createXML()->addChild('adb:addressbook', '', $this->_namespace('adb'));
+        $xml = $this->createXML()->addChild('adb:addressbook', '', $this->namespace('adb'));
         $xml->addAttribute('version', '2.0');
 
-        $this->_addElements($xml, ['actionType', 'header'], 'adb');
+        $this->addElements($xml, ['actionType', 'header'], 'adb');
 
         return $xml;
     }
@@ -52,7 +51,7 @@ class Addressbook extends Agenda
     /**
      * {@inheritdoc}
      */
-    protected function _configureOptions(OptionsResolver $resolver)
+    protected function configureOptions(OptionsResolver $resolver): void
     {
         // available options
         $resolver->setDefined(['header']);

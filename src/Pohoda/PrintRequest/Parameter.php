@@ -10,16 +10,16 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\PrintRequest;
 
-use Riesenia\Pohoda\Agenda;
+use Riesenia\Pohoda\AbstractAgenda;
 use Riesenia\Pohoda\Common\OptionsResolver;
 
-class Parameter extends Agenda
+class Parameter extends AbstractAgenda
 {
     /** @var string */
-    protected $valueType = 'string';
+    protected string $valueType = 'string';
 
     /** @var string[] */
-    protected $_elements = ['value'];
+    protected array $elements = ['value'];
 
     /**
      * {@inheritdoc}
@@ -28,9 +28,9 @@ class Parameter extends Agenda
     {
         $reflect = new \ReflectionClass($this);
         $classname = $reflect->getShortName();
-        $xml = $this->_createXML()->addChild('prn:'.lcfirst($classname), '', $this->_namespace('prn'));
+        $xml = $this->createXML()->addChild('prn:'.lcfirst($classname), '', $this->namespace('prn'));
 
-        $this->_addElements($xml, $this->_elements, 'prn');
+        $this->addElements($xml, $this->elements, 'prn');
 
         return $xml;
     }
@@ -38,10 +38,10 @@ class Parameter extends Agenda
     /**
      * {@inheritdoc}
      */
-    protected function _configureOptions(OptionsResolver $resolver)
+    protected function configureOptions(OptionsResolver $resolver): void
     {
         // available options
-        $resolver->setDefined($this->_elements);
+        $resolver->setDefined($this->elements);
 
         // validate / format options
         $resolver->setNormalizer('value', $resolver->getNormalizer($this->valueType));

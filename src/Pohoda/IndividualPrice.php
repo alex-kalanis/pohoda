@@ -12,10 +12,10 @@ namespace Riesenia\Pohoda;
 
 use Riesenia\Pohoda\Common\OptionsResolver;
 
-class IndividualPrice extends Agenda
+class IndividualPrice extends AbstractAgenda
 {
-    /** @var string */
-    public static $importRoot = 'lst:individualPrice';
+
+    public static string $importRoot = 'lst:individualPrice';
 
     /**
      * {@inheritdoc}
@@ -28,7 +28,7 @@ class IndividualPrice extends Agenda
     /**
      * {@inheritdoc}
      */
-    protected function _configureOptions(OptionsResolver $resolver)
+    protected function configureOptions(OptionsResolver $resolver): void
     {
     }
 }

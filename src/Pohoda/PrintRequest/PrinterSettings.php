@@ -10,13 +10,13 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\PrintRequest;
 
-use Riesenia\Pohoda\Agenda;
+use Riesenia\Pohoda\AbstractAgenda;
 use Riesenia\Pohoda\Common\OptionsResolver;
 
-class PrinterSettings extends Agenda
+class PrinterSettings extends AbstractAgenda
 {
     /** @var string[] */
-    protected $_elements = ['report', 'printer', 'pdf', 'parameters'];
+    protected array $elements = ['report', 'printer', 'pdf', 'parameters'];
 
     /**
      * {@inheritdoc}
@@ -44,9 +44,9 @@ class PrinterSettings extends Agenda
      */
     public function getXML(): \SimpleXMLElement
     {
-        $xml = $this->_createXML()->addChild('prn:printerSettings', '', $this->_namespace('prn'));
+        $xml = $this->createXML()->addChild('prn:printerSettings', '', $this->namespace('prn'));
 
-        $this->_addElements($xml, $this->_elements, 'prn');
+        $this->addElements($xml, $this->elements, 'prn');
 
         return $xml;
     }
@@ -54,9 +54,9 @@ class PrinterSettings extends Agenda
     /**
      * {@inheritdoc}
      */
-    protected function _configureOptions(OptionsResolver $resolver)
+    protected function configureOptions(OptionsResolver $resolver): void
     {
         // available options
-        $resolver->setDefined($this->_elements);
+        $resolver->setDefined($this->elements);
     }
 }

@@ -10,23 +10,28 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\Stock;
 
-use Riesenia\Pohoda\Agenda;
+use Riesenia\Pohoda\AbstractAgenda;
 use Riesenia\Pohoda\Common\OptionsResolver;
 
-class Category extends Agenda
+class Category extends AbstractAgenda
 {
     /**
      * {@inheritdoc}
      */
     public function getXML(): \SimpleXMLElement
     {
-        return $this->_createXML()->addChild('stk:idCategory', $this->_data['idCategory'], $this->_namespace('stk'));
+        $category = $this->data['idCategory'] ?? null;
+        return $this->createXML()->addChild(
+            'stk:idCategory',
+            is_null($category) ? null : strval($category),
+            $this->namespace('stk')
+        );
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function _configureOptions(OptionsResolver $resolver)
+    protected function configureOptions(OptionsResolver $resolver): void
     {
         // available options
         $resolver->setDefined(['idCategory']);

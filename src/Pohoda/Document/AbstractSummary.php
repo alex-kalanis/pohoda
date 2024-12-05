@@ -14,7 +14,7 @@ use Riesenia\Pohoda\Common\OptionsResolver;
 use Riesenia\Pohoda\Type\CurrencyForeign;
 use Riesenia\Pohoda\Type\CurrencyHome;
 
-abstract class Summary extends Part
+abstract class AbstractSummary extends AbstractPart
 {
     /**
      * {@inheritdoc}
@@ -39,17 +39,17 @@ abstract class Summary extends Part
      */
     public function getXML(): \SimpleXMLElement
     {
-        if (is_null($this->_namespace)) {
+        if (is_null($this->namespace)) {
             throw new \LogicException('Namespace not set.');
         }
 
-        if (is_null($this->_nodePrefix)) {
+        if (is_null($this->nodePrefix)) {
             throw new \LogicException('Node name prefix not set.');
         }
 
-        $xml = $this->_createXML()->addChild($this->_namespace . ':' . $this->_nodePrefix . 'Summary', '', $this->_namespace($this->_namespace));
+        $xml = $this->createXML()->addChild($this->namespace . ':' . $this->nodePrefix . 'Summary', '', $this->namespace($this->namespace));
 
-        $this->_addElements($xml, $this->_elements, $this->_namespace);
+        $this->addElements($xml, $this->elements, $this->namespace);
 
         return $xml;
     }
@@ -57,9 +57,9 @@ abstract class Summary extends Part
     /**
      * {@inheritdoc}
      */
-    protected function _configureOptions(OptionsResolver $resolver)
+    protected function configureOptions(OptionsResolver $resolver): void
     {
         // available options
-        $resolver->setDefined($this->_elements);
+        $resolver->setDefined($this->elements);
     }
 }

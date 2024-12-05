@@ -11,13 +11,12 @@ declare(strict_types=1);
 namespace Riesenia\Pohoda;
 
 use Riesenia\Pohoda\Invoice\AdvancePaymentItem;
-use Riesenia\Pohoda\Invoice\Item;
 use Riesenia\Pohoda\Type\Link;
 
-class Invoice extends Document
+class Invoice extends AbstractDocument
 {
-    /** @var string */
-    public static $importRoot = 'lst:invoice';
+
+    public static string $importRoot = 'lst:invoice';
 
     /**
      * Add link.
@@ -28,11 +27,16 @@ class Invoice extends Document
      */
     public function addLink(array $data): self
     {
-        if (!isset($this->_data['links'])) {
-            $this->_data['links'] = [];
+        if (!isset($this->data['links'])
+            || !(
+                is_array($this->data['links'])
+                || (is_object($this->data['links']) && is_a($this->data['links'], \ArrayAccess::class))
+            )
+        ) {
+            $this->data['links'] = [];
         }
 
-        $this->_data['links'][] = new Link($data, $this->_ico);
+        $this->data['links'][] = new Link($data, $this->ico);
 
         return $this;
     }
@@ -46,11 +50,16 @@ class Invoice extends Document
      */
     public function addAdvancePaymentItem(array $data): self
     {
-        if (!isset($this->_data['invoiceDetail'])) {
-            $this->_data['invoiceDetail'] = [];
+        if (!isset($this->data['invoiceDetail'])
+            || !(
+                is_array($this->data['invoiceDetail'])
+                || (is_object($this->data['invoiceDetail']) && is_a($this->data['invoiceDetail'], \ArrayAccess::class))
+            )
+        ) {
+            $this->data['invoiceDetail'] = [];
         }
 
-        $this->_data['invoiceDetail'][] = new AdvancePaymentItem($data, $this->_ico);
+        $this->data['invoiceDetail'][] = new AdvancePaymentItem($data, $this->ico);
 
         return $this;
     }
@@ -58,15 +67,15 @@ class Invoice extends Document
     /**
      * {@inheritdoc}
      */
-    protected function _getDocumentElements(): array
+    protected function getDocumentElements(): array
     {
-        return \array_merge(['links'], parent::_getDocumentElements());
+        return \array_merge(['links'], parent::getDocumentElements());
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function _getDocumentNamespace(): string
+    protected function getDocumentNamespace(): string
     {
         return 'inv';
     }
@@ -74,7 +83,7 @@ class Invoice extends Document
     /**
      * {@inheritdoc}
      */
-    protected function _getDocumentName(): string
+    protected function getDocumentName(): string
     {
         return 'invoice';
     }

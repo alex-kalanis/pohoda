@@ -2,12 +2,12 @@
 
 namespace Riesenia\Pohoda\Voucher;
 
-use Riesenia\Pohoda\Document\Summary as DocumentSummary;
+use Riesenia\Pohoda\Document\AbstractSummary as DocumentSummary;
 
 class Summary extends DocumentSummary
 {
     /** @var string[] */
-    protected $_elements = [
+    protected array $elements = [
         'roundingDocument',
         'roundingVAT',
         'calculateVAT',

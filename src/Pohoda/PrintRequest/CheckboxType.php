@@ -12,7 +12,7 @@ namespace Riesenia\Pohoda\PrintRequest;
 
 class CheckboxType extends Parameter
 {
-    /** @var string */
-    protected $valueType = 'bool';
+
+    protected string $valueType = 'bool';
 
 }

@@ -10,13 +10,13 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\PrintRequest;
 
-use Riesenia\Pohoda\Agenda;
+use Riesenia\Pohoda\AbstractAgenda;
 use Riesenia\Pohoda\Common\OptionsResolver;
 
-class Parameters extends Agenda
+class Parameters extends AbstractAgenda
 {
     /** @var string[] */
-    protected $_elements = ['copy', 'datePrint', 'checkbox1', 'checkbox2', 'checkbox3', 'checkbox4', 'checkbox5', 'checkbox6', 'checkbox7', 'radioButton1', 'spin1', 'currency1', 'month1', 'month2', 'year1', 'date1', 'date2', 'date3', 'date4', 'text1', 'text2', 'text3', 'combobox1', 'combobox2', 'combobox3', 'comboboxEx1', 'comboboxEx2'];
+    protected array $elements = ['copy', 'datePrint', 'checkbox1', 'checkbox2', 'checkbox3', 'checkbox4', 'checkbox5', 'checkbox6', 'checkbox7', 'radioButton1', 'spin1', 'currency1', 'month1', 'month2', 'year1', 'date1', 'date2', 'date3', 'date4', 'text1', 'text2', 'text3', 'combobox1', 'combobox2', 'combobox3', 'comboboxEx1', 'comboboxEx2'];
 
     /**
      * {@inheritdoc}
@@ -132,9 +132,9 @@ class Parameters extends Agenda
      */
     public function getXML(): \SimpleXMLElement
     {
-        $xml = $this->_createXML()->addChild('prn:parameters', '', $this->_namespace('prn'));
+        $xml = $this->createXML()->addChild('prn:parameters', '', $this->namespace('prn'));
 
-        $this->_addElements($xml, $this->_elements, 'prn');
+        $this->addElements($xml, $this->elements, 'prn');
 
         return $xml;
     }
@@ -142,10 +142,10 @@ class Parameters extends Agenda
     /**
      * {@inheritdoc}
      */
-    protected function _configureOptions(OptionsResolver $resolver)
+    protected function configureOptions(OptionsResolver $resolver): void
     {
         // available options
-        $resolver->setDefined($this->_elements);
+        $resolver->setDefined($this->elements);
 
         $resolver->setNormalizer('copy', $resolver->getNormalizer('int'));
         $resolver->setNormalizer('datePrint', $resolver->getNormalizer('string'));

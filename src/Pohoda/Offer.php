@@ -10,15 +10,15 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda;
 
-class Offer extends Document
+class Offer extends AbstractDocument
 {
-    /** @var string */
-    public static $importRoot = 'lst:offer';
+
+    public static string $importRoot = 'lst:offer';
 
     /**
      * {@inheritdoc}
      */
-    protected function _getDocumentNamespace(): string
+    protected function getDocumentNamespace(): string
     {
         return 'ofr';
     }
@@ -26,7 +26,7 @@ class Offer extends Document
     /**
      * {@inheritdoc}
      */
-    protected function _getDocumentName(): string
+    protected function getDocumentName(): string
     {
         return 'offer';
     }

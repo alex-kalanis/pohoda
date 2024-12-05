@@ -15,25 +15,25 @@ use Riesenia\Pohoda\Storage;
 
 class StorageSpec extends ObjectBehavior
 {
-    public function let()
+    public function let(): void
     {
         $this->beConstructedWith([
             'code' => 'MAIN'
         ], '123');
     }
 
-    public function it_is_initializable_and_extends_agenda()
+    public function it_is_initializable_and_extends_agenda(): void
     {
         $this->shouldHaveType('Riesenia\Pohoda\Storage');
-        $this->shouldHaveType('Riesenia\Pohoda\Agenda');
+        $this->shouldHaveType('Riesenia\Pohoda\AbstractAgenda');
     }
 
-    public function it_creates_correct_xml()
+    public function it_creates_correct_xml(): void
     {
         $this->getXML()->asXML()->shouldReturn('<str:storage version="2.0"><str:itemStorage code="MAIN"/></str:storage>');
     }
 
-    public function it_can_add_substorages()
+    public function it_can_add_substorages(): void
     {
         $sub = new Storage([
             'code' => 'Sub',

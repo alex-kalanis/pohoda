@@ -12,11 +12,9 @@ namespace Riesenia\Pohoda\Common;
 
 trait SetNamespaceTrait
 {
-    /** @var string */
-    protected $_namespace;
+    protected ?string $namespace = null;
 
-    /** @var string */
-    protected $_nodeName;
+    protected ?string $nodeName = null;
 
     /**
      * Set namespace.
@@ -25,9 +23,9 @@ trait SetNamespaceTrait
      *
      * @return void
      */
-    public function setNamespace(string $namespace)
+    public function setNamespace(string $namespace): void
     {
-        $this->_namespace = $namespace;
+        $this->namespace = $namespace;
     }
 
     /**
@@ -37,9 +35,9 @@ trait SetNamespaceTrait
      *
      * @return void
      */
-    public function setNodeName(string $nodeName)
+    public function setNodeName(string $nodeName): void
     {
-        $this->_nodeName = $nodeName;
+        $this->nodeName = $nodeName;
     }
 
     /**
@@ -47,17 +45,17 @@ trait SetNamespaceTrait
      */
     public function getXML(): \SimpleXMLElement
     {
-        if (is_null($this->_namespace)) {
+        if (is_null($this->namespace)) {
             throw new \LogicException('Namespace not set.');
         }
 
-        if (is_null($this->_nodeName)) {
+        if (is_null($this->nodeName)) {
             throw new \LogicException('Node name not set.');
         }
 
-        $xml = $this->_createXML()->addChild($this->_namespace . ':' . $this->_nodeName, '', $this->_namespace($this->_namespace));
+        $xml = $this->createXML()->addChild($this->namespace . ':' . $this->nodeName, '', $this->namespace($this->namespace));
 
-        $this->_addElements($xml, $this->_elements, 'typ');
+        $this->addElements($xml, $this->elements, 'typ');
 
         return $xml;
     }

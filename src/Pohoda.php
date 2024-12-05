@@ -10,7 +10,7 @@ declare(strict_types=1);
 
 namespace Riesenia;
 
-use Riesenia\Pohoda\Agenda;
+use Riesenia\Pohoda\AbstractAgenda;
 
 /**
  * Factory for Pohoda objects.
@@ -39,7 +39,7 @@ use Riesenia\Pohoda\Agenda;
 class Pohoda
 {
     /** @var array<string,string> */
-    public static $namespaces = [
+    public static array $namespaces = [
         'adb' => 'http://www.stormware.cz/schema/version_2/addressbook.xsd',
         'bnk' => 'http://www.stormware.cz/schema/version_2/bank.xsd',
         'con' => 'http://www.stormware.cz/schema/version_2/contract.xsd',
@@ -66,48 +66,36 @@ class Pohoda
         'vyd' => 'http://www.stormware.cz/schema/version_2/vydejka.xsd',
     ];
 
-    /** @var string */
-    public static $encoding = 'windows-1250';
+    public static string $encoding = 'windows-1250';
 
-    /** @var bool */
-    public static $sanitizeEncoding = false;
+    public static bool $sanitizeEncoding = false;
 
     /**
      * A set of transformers that will be used when serializing data.
      *
      * @var \Riesenia\Pohoda\ValueTransformer\ValueTransformer[]
      */
-    public static $transformers = [];
+    public static array $transformers = [];
 
-    /** @var string */
-    protected $_ico;
+    protected string $application = 'Rshop Pohoda connector';
 
-    /** @var string */
-    protected $_application = 'Rshop Pohoda connector';
+    protected bool $isInMemory;
 
-    /** @var bool */
-    protected $_isInMemory;
+    protected \XMLWriter $xmlWriter;
 
-    /** @var \XMLWriter */
-    protected $_xmlWriter;
+    protected \XMLReader $xmlReader;
 
-    /** @var \XMLReader */
-    protected $_xmlReader;
+    protected readonly Pohoda\AgendaFactory $agendaFactory;
 
-    /** @var string */
-    protected $_elementName;
+    protected string $elementName;
 
-    /** @var bool */
-    protected $_importRecursive;
+    protected bool $importRecursive;
 
-    /**
-     * Constructor.
-     *
-     * @param string $ico
-     */
-    public function __construct($ico)
+    public function __construct(
+        protected readonly string $ico,
+    )
     {
-        $this->_ico = $ico;
+        $this->agendaFactory = new Pohoda\AgendaFactory($this->ico);
     }
 
     /**
@@ -117,9 +105,9 @@ class Pohoda
      *
      * @return void
      */
-    public function setApplicationName(string $name)
+    public function setApplicationName(string $name): void
     {
-        $this->_application = $name;
+        $this->application = $name;
     }
 
     /**
@@ -128,17 +116,11 @@ class Pohoda
      * @param string              $name
      * @param array<string,mixed> $data
      *
-     * @return Agenda
+     * @return AbstractAgenda
      */
-    public function create(string $name, array $data = []): Agenda
+    public function create(string $name, array $data = []): AbstractAgenda
     {
-        $fullName = __NAMESPACE__ . '\\Pohoda\\' . $name;
-
-        if (!\class_exists($fullName)) {
-            throw new \DomainException('Not allowed entity: ' . $name);
-        }
-
-        return new $fullName($data, $this->_ico);
+        return $this->agendaFactory->getAgenda($name, $data);
     }
 
     /**
@@ -152,30 +134,30 @@ class Pohoda
      */
     public function open(?string $filename, string $id, string $note = ''): bool
     {
-        $this->_xmlWriter = new \XMLWriter();
+        $this->xmlWriter = new \XMLWriter();
 
         if (is_null($filename)) {
-            $this->_isInMemory = true;
-            $this->_xmlWriter->openMemory();
+            $this->isInMemory = true;
+            $this->xmlWriter->openMemory();
         } else {
-            $this->_isInMemory = false;
+            $this->isInMemory = false;
 
-            if (!$this->_xmlWriter->openUri($filename)) {
+            if (!$this->xmlWriter->openUri($filename)) {
                 return false;
             }
         }
 
-        $this->_xmlWriter->startDocument('1.0', self::$encoding);
-        $this->_xmlWriter->startElementNs('dat', 'dataPack', null);
+        $this->xmlWriter->startDocument('1.0', self::$encoding);
+        $this->xmlWriter->startElementNs('dat', 'dataPack', null);
 
-        $this->_xmlWriter->writeAttribute('id', $id);
-        $this->_xmlWriter->writeAttribute('ico', $this->_ico);
-        $this->_xmlWriter->writeAttribute('application', $this->_application);
-        $this->_xmlWriter->writeAttribute('version', '2.0');
-        $this->_xmlWriter->writeAttribute('note', $note);
+        $this->xmlWriter->writeAttribute('id', $id);
+        $this->xmlWriter->writeAttribute('ico', $this->ico);
+        $this->xmlWriter->writeAttribute('application', $this->application);
+        $this->xmlWriter->writeAttribute('version', '2.0');
+        $this->xmlWriter->writeAttribute('note', $note);
 
         foreach (self::$namespaces as $k => $v) {
-            $this->_xmlWriter->writeAttributeNs('xmlns', $k, null, $v);
+            $this->xmlWriter->writeAttributeNs('xmlns', $k, null, $v);
         }
 
         return true;
@@ -185,21 +167,21 @@ class Pohoda
      * Add item.
      *
      * @param string $id
-     * @param Agenda $agenda
+     * @param AbstractAgenda $agenda
      *
      * @return void
      */
-    public function addItem(string $id, Agenda $agenda)
+    public function addItem(string $id, AbstractAgenda $agenda): void
     {
-        $this->_xmlWriter->startElementNs('dat', 'dataPackItem', null);
+        $this->xmlWriter->startElementNs('dat', 'dataPackItem', null);
 
-        $this->_xmlWriter->writeAttribute('id', $id);
-        $this->_xmlWriter->writeAttribute('version', '2.0');
-        $this->_xmlWriter->writeRaw((string) $agenda->getXML()->asXML());
-        $this->_xmlWriter->endElement();
+        $this->xmlWriter->writeAttribute('id', $id);
+        $this->xmlWriter->writeAttribute('version', '2.0');
+        $this->xmlWriter->writeRaw((string) $agenda->getXML()->asXML());
+        $this->xmlWriter->endElement();
 
-        if (!$this->_isInMemory) {
-            $this->_xmlWriter->flush();
+        if (!$this->isInMemory) {
+            $this->xmlWriter->flush();
         }
     }
 
@@ -208,11 +190,11 @@ class Pohoda
      *
      * @return int|string written bytes for file or XML string for memory
      */
-    public function close()
+    public function close(): int|string
     {
-        $this->_xmlWriter->endElement();
+        $this->xmlWriter->endElement();
 
-        return $this->_xmlWriter->flush();
+        return $this->xmlWriter->flush();
     }
 
     /**
@@ -223,11 +205,11 @@ class Pohoda
      *
      * @return bool
      */
-    public function load(string $name, string $filename)
+    public function load(string $name, string $filename): bool
     {
-        $this->_xmlReader = new \XMLReader();
+        $this->xmlReader = new \XMLReader();
 
-        if (!$this->_xmlReader->open($filename)) {
+        if (!$this->xmlReader->open($filename)) {
             return false;
         }
 
@@ -237,8 +219,8 @@ class Pohoda
             throw new \DomainException('Not allowed entity: ' . $name);
         }
 
-        $this->_elementName = $fullName::$importRoot;
-        $this->_importRecursive = $fullName::$importRecursive;
+        $this->elementName = $fullName::$importRoot;
+        $this->importRecursive = $fullName::$importRecursive;
 
         return true;
     }
@@ -248,16 +230,16 @@ class Pohoda
      *
      * @return \SimpleXMLElement|null
      */
-    public function next()
+    public function next(): ?\SimpleXMLElement
     {
-        while (\XMLReader::ELEMENT != $this->_xmlReader->nodeType || $this->_xmlReader->name !== $this->_elementName) {
-            if (!$this->_xmlReader->read()) {
+        while (\XMLReader::ELEMENT != $this->xmlReader->nodeType || $this->xmlReader->name !== $this->elementName) {
+            if (!$this->xmlReader->read()) {
                 return null;
             }
         }
 
-        $xml = new \SimpleXMLElement($this->_xmlReader->readOuterXml());
-        $this->_importRecursive ? $this->_xmlReader->next() : $this->_xmlReader->read();
+        $xml = new \SimpleXMLElement($this->xmlReader->readOuterXml());
+        $this->importRecursive ? $this->xmlReader->next() : $this->xmlReader->read();
 
         return $xml;
     }

@@ -12,25 +12,24 @@ namespace Riesenia\Pohoda;
 
 use Riesenia\Pohoda\Common\AddActionTypeTrait;
 
-class Order extends Document
+class Order extends AbstractDocument
 {
     use AddActionTypeTrait;
 
-    /** @var string */
-    public static $importRoot = 'lst:order';
+    public static string $importRoot = 'lst:order';
 
     /**
      * {@inheritdoc}
      */
-    protected function _getDocumentElements(): array
+    protected function getDocumentElements(): array
     {
-        return \array_merge(['actionType'], parent::_getDocumentElements());
+        return \array_merge(['actionType'], parent::getDocumentElements());
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function _getDocumentNamespace(): string
+    protected function getDocumentNamespace(): string
     {
         return 'ord';
     }
@@ -38,7 +37,7 @@ class Order extends Document
     /**
      * {@inheritdoc}
      */
-    protected function _getDocumentName(): string
+    protected function getDocumentName(): string
     {
         return 'order';
     }

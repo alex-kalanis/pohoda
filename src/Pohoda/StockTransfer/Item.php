@@ -10,14 +10,14 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\StockTransfer;
 
-use Riesenia\Pohoda\Agenda;
+use Riesenia\Pohoda\AbstractAgenda;
 use Riesenia\Pohoda\Common\OptionsResolver;
 use Riesenia\Pohoda\Type\StockItem;
 
-class Item extends Agenda
+class Item extends AbstractAgenda
 {
     /** @var string[] */
-    protected $_elements = ['quantity', 'stockItem', 'note'];
+    protected array $elements = ['quantity', 'stockItem', 'note'];
 
     /**
      * {@inheritdoc}
@@ -37,9 +37,9 @@ class Item extends Agenda
      */
     public function getXML(): \SimpleXMLElement
     {
-        $xml = $this->_createXML()->addChild('pre:prevodkaItem', '', $this->_namespace('pre'));
+        $xml = $this->createXML()->addChild('pre:prevodkaItem', '', $this->namespace('pre'));
 
-        $this->_addElements($xml, $this->_elements, 'pre');
+        $this->addElements($xml, $this->elements, 'pre');
 
         return $xml;
     }
@@ -47,10 +47,10 @@ class Item extends Agenda
     /**
      * {@inheritdoc}
      */
-    protected function _configureOptions(OptionsResolver $resolver)
+    protected function configureOptions(OptionsResolver $resolver): void
     {
         // available options
-        $resolver->setDefined($this->_elements);
+        $resolver->setDefined($this->elements);
 
         // validate / format options
         $resolver->setNormalizer('quantity', $resolver->getNormalizer('float'));

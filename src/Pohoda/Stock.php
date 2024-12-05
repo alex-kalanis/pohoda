@@ -17,13 +17,12 @@ use Riesenia\Pohoda\Stock\Header;
 use Riesenia\Pohoda\Stock\Price;
 use Riesenia\Pohoda\Stock\StockItem;
 
-class Stock extends Agenda
+class Stock extends AbstractAgenda
 {
     use AddActionTypeTrait;
     use AddParameterToHeaderTrait;
 
-    /** @var string */
-    public static $importRoot = 'lStk:stock';
+    public static string $importRoot = 'lStk:stock';
 
     /**
      * {@inheritdoc}
@@ -47,11 +46,16 @@ class Stock extends Agenda
      */
     public function addStockItem(array $data): self
     {
-        if (!isset($this->_data['stockDetail'])) {
-            $this->_data['stockDetail'] = [];
+        if (!isset($this->data['stockDetail'])
+            || !(
+                is_array($this->data['stockDetail'])
+                || (is_object($this->data['stockDetail']) && is_a($this->data['stockDetail'], \ArrayAccess::class))
+            )
+        ) {
+            $this->data['stockDetail'] = [];
         }
 
-        $this->_data['stockDetail'][] = new StockItem($data, $this->_ico);
+        $this->data['stockDetail'][] = new StockItem($data, $this->ico);
 
         return $this;
     }
@@ -66,14 +70,19 @@ class Stock extends Agenda
      */
     public function addPrice(string $code, float $value): self
     {
-        if (!isset($this->_data['stockPriceItem'])) {
-            $this->_data['stockPriceItem'] = [];
+        if (!isset($this->data['stockPriceItem'])
+            || !(
+                is_array($this->data['stockPriceItem'])
+                || (is_object($this->data['stockPriceItem']) && is_a($this->data['stockPriceItem'], \ArrayAccess::class))
+            )
+        ) {
+            $this->data['stockPriceItem'] = [];
         }
 
-        $this->_data['stockPriceItem'][] = new Price([
+        $this->data['stockPriceItem'][] = new Price([
             'ids' => $code,
             'price' => $value
-        ], $this->_ico);
+        ], $this->ico);
 
         return $this;
     }
@@ -90,7 +99,9 @@ class Stock extends Agenda
      */
     public function addImage(string $filepath, string $description = '', int $order = null, bool $default = false): self
     {
-        $this->_data['header']->addImage($filepath, $description, $order, $default);
+        $object = $this->data['header'];
+        /** @var Header $object */
+        $object->addImage($filepath, $description, $order, $default);
 
         return $this;
     }
@@ -104,7 +115,9 @@ class Stock extends Agenda
      */
     public function addCategory(int $categoryId): self
     {
-        $this->_data['header']->addCategory($categoryId);
+        $object = $this->data['header'];
+        /** @var Header $object */
+        $object->addCategory($categoryId);
 
         return $this;
     }
@@ -118,7 +131,9 @@ class Stock extends Agenda
      */
     public function addIntParameter(array $data): self
     {
-        $this->_data['header']->addIntParameter($data);
+        $object = $this->data['header'];
+        /** @var Header $object */
+        $object->addIntParameter($data);
 
         return $this;
     }
@@ -128,10 +143,10 @@ class Stock extends Agenda
      */
     public function getXML(): \SimpleXMLElement
     {
-        $xml = $this->_createXML()->addChild('stk:stock', '', $this->_namespace('stk'));
+        $xml = $this->createXML()->addChild('stk:stock', '', $this->namespace('stk'));
         $xml->addAttribute('version', '2.0');
 
-        $this->_addElements($xml, ['actionType', 'header', 'stockDetail', 'stockPriceItem'], 'stk');
+        $this->addElements($xml, ['actionType', 'header', 'stockDetail', 'stockPriceItem'], 'stk');
 
         return $xml;
     }
@@ -139,7 +154,7 @@ class Stock extends Agenda
     /**
      * {@inheritdoc}
      */
-    protected function _configureOptions(OptionsResolver $resolver)
+    protected function configureOptions(OptionsResolver $resolver): void
     {
         // available options
         $resolver->setDefined(['header']);

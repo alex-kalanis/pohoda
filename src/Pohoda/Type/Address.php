@@ -10,22 +10,22 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\Type;
 
-use Riesenia\Pohoda\Agenda;
+use Riesenia\Pohoda\AbstractAgenda;
 use Riesenia\Pohoda\Common\OptionsResolver;
 use Riesenia\Pohoda\Common\SetNamespaceTrait;
 
-class Address extends Agenda
+class Address extends AbstractAgenda
 {
     use SetNamespaceTrait;
 
     /** @var string[] */
-    protected $_refElements = ['extId'];
+    protected array $refElements = ['extId'];
 
     /** @var string[] */
-    protected $_elements = ['id', 'extId', 'address', 'addressLinkToAddress', 'shipToAddress'];
+    protected array $elements = ['id', 'extId', 'address', 'addressLinkToAddress', 'shipToAddress'];
 
     /** {@inheritDoc} */
-    protected $_elementsAttributesMapper = [
+    protected array $elementsAttributesMapper = [
         'addressLinkToAddress' => ['address', 'linkToAddress', null],
     ];
 
@@ -50,10 +50,10 @@ class Address extends Agenda
     /**
      * {@inheritdoc}
      */
-    protected function _configureOptions(OptionsResolver $resolver)
+    protected function configureOptions(OptionsResolver $resolver): void
     {
         // available options
-        $resolver->setDefined($this->_elements);
+        $resolver->setDefined($this->elements);
 
         // validate / format options
         $resolver->setNormalizer('id', $resolver->getNormalizer('int'));

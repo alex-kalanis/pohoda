@@ -10,28 +10,28 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\Stock;
 
-use Riesenia\Pohoda\Agenda;
+use Riesenia\Pohoda\AbstractAgenda;
 use Riesenia\Pohoda\Common\AddParameterTrait;
 use Riesenia\Pohoda\Common\OptionsResolver;
 
-class Header extends Agenda
+class Header extends AbstractAgenda
 {
     use AddParameterTrait;
 
     /** @var string[] */
-    protected $_refElements = ['storage', 'typePrice', 'typeRP', 'supplier', 'typeServiceMOSS'];
+    protected array $refElements = ['storage', 'typePrice', 'typeRP', 'supplier', 'typeServiceMOSS'];
 
     /** {@inheritDoc} */
-    protected $_elementsAttributesMapper = [
+    protected array $elementsAttributesMapper = [
         'purchasingPricePayVAT' => ['purchasingPrice', 'payVAT', null],
         'sellingPricePayVAT' => ['sellingPrice', 'payVAT', null]
     ];
 
     /** @var string[] */
-    protected $_elements = ['stockType', 'code', 'EAN', 'PLU', 'isSales', 'isSerialNumber', 'isInternet', 'isBatch', 'purchasingRateVAT', 'sellingRateVAT', 'name', 'nameComplement', 'unit', 'unit2', 'unit3', 'coefficient2', 'coefficient3', 'storage', 'typePrice', 'purchasingPrice', 'purchasingPricePayVAT', 'sellingPrice', 'sellingPricePayVAT', 'limitMin', 'limitMax', 'mass', 'volume', 'supplier', 'orderName', 'orderQuantity', 'shortName', 'typeRP', 'guaranteeType', 'guarantee', 'producer', 'typeServiceMOSS', 'description', 'description2', 'note', 'intrastat', 'recyclingContrib'];
+    protected array $elements = ['stockType', 'code', 'EAN', 'PLU', 'isSales', 'isSerialNumber', 'isInternet', 'isBatch', 'purchasingRateVAT', 'sellingRateVAT', 'name', 'nameComplement', 'unit', 'unit2', 'unit3', 'coefficient2', 'coefficient3', 'storage', 'typePrice', 'purchasingPrice', 'purchasingPricePayVAT', 'sellingPrice', 'sellingPricePayVAT', 'limitMin', 'limitMax', 'mass', 'volume', 'supplier', 'orderName', 'orderQuantity', 'shortName', 'typeRP', 'guaranteeType', 'guarantee', 'producer', 'typeServiceMOSS', 'description', 'description2', 'note', 'intrastat', 'recyclingContrib'];
 
     /** @var int */
-    protected $_imagesCounter = 0;
+    protected int $imagesCounter = 0;
 
     /**
      * {@inheritdoc}
@@ -61,18 +61,23 @@ class Header extends Agenda
      *
      * @return void
      */
-    public function addImage(string $filepath, string $description = '', int $order = null, bool $default = false)
+    public function addImage(string $filepath, string $description = '', int $order = null, bool $default = false): void
     {
-        if (!isset($this->_data['pictures'])) {
-            $this->_data['pictures'] = [];
+        if (!isset($this->data['pictures'])
+            || !(
+                is_array($this->data['pictures'])
+                || (is_object($this->data['pictures']) && is_a($this->data['pictures'], \ArrayAccess::class))
+            )
+        ) {
+            $this->data['pictures'] = [];
         }
 
-        $this->_data['pictures'][] = new Picture([
+        $this->data['pictures'][] = new Picture([
             'filepath' => $filepath,
             'description' => $description,
-            'order' => null === $order ? ++$this->_imagesCounter : $order,
+            'order' => null === $order ? ++$this->imagesCounter : $order,
             'default' => $default
-        ], $this->_ico);
+        ], $this->ico);
     }
 
     /**
@@ -82,15 +87,20 @@ class Header extends Agenda
      *
      * @return void
      */
-    public function addCategory(int $categoryId)
+    public function addCategory(int $categoryId): void
     {
-        if (!isset($this->_data['categories'])) {
-            $this->_data['categories'] = [];
+        if (!isset($this->data['categories'])
+            || !(
+                is_array($this->data['categories'])
+                || (is_object($this->data['categories']) && is_a($this->data['categories'], \ArrayAccess::class))
+            )
+        ) {
+            $this->data['categories'] = [];
         }
 
-        $this->_data['categories'][] = new Category([
+        $this->data['categories'][] = new Category([
             'idCategory' => $categoryId
-        ], $this->_ico);
+        ], $this->ico);
     }
 
     /**
@@ -100,13 +110,18 @@ class Header extends Agenda
      *
      * @return void
      */
-    public function addIntParameter(array $data)
+    public function addIntParameter(array $data): void
     {
-        if (!isset($this->_data['intParameters'])) {
-            $this->_data['intParameters'] = [];
+        if (!isset($this->data['intParameters'])
+            || !(
+                is_array($this->data['intParameters'])
+                || (is_object($this->data['intParameters']) && is_a($this->data['intParameters'], \ArrayAccess::class))
+            )
+        ) {
+            $this->data['intParameters'] = [];
         }
 
-        $this->_data['intParameters'][] = new IntParameter($data, $this->_ico);
+        $this->data['intParameters'][] = new IntParameter($data, $this->ico);
     }
 
     /**
@@ -114,9 +129,9 @@ class Header extends Agenda
      */
     public function getXML(): \SimpleXMLElement
     {
-        $xml = $this->_createXML()->addChild('stk:stockHeader', '', $this->_namespace('stk'));
+        $xml = $this->createXML()->addChild('stk:stockHeader', '', $this->namespace('stk'));
 
-        $this->_addElements($xml, \array_merge($this->_elements, ['categories', 'pictures', 'parameters', 'intParameters']), 'stk');
+        $this->addElements($xml, \array_merge($this->elements, ['categories', 'pictures', 'parameters', 'intParameters']), 'stk');
 
         return $xml;
     }
@@ -124,10 +139,10 @@ class Header extends Agenda
     /**
      * {@inheritdoc}
      */
-    protected function _configureOptions(OptionsResolver $resolver)
+    protected function configureOptions(OptionsResolver $resolver): void
     {
         // available options
-        $resolver->setDefined($this->_elements);
+        $resolver->setDefined($this->elements);
 
         // validate / format options
         $resolver->setDefault('stockType', 'card');

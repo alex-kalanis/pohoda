@@ -10,17 +10,16 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\Type;
 
-use Riesenia\Pohoda\Agenda;
+use Riesenia\Pohoda\AbstractAgenda;
 use Riesenia\Pohoda\Common\OptionsResolver;
-use Riesenia\Pohoda\Type\SourceLiquidation;
 
-class TaxDocument extends Agenda
+class TaxDocument extends AbstractAgenda
 {
     /** @var string[] */
-    protected $_refElements = [];
+    protected array $refElements = [];
 
     /** @var string[] */
-    protected $_elements = ['sourceLiquidation'];
+    protected array $elements = ['sourceLiquidation'];
 
     /**
      * {@inheritdoc}
@@ -40,9 +39,9 @@ class TaxDocument extends Agenda
      */
     public function getXML(): \SimpleXMLElement
     {
-        $xml = $this->_createXML()->addChild('int:taxDocument', '', $this->_namespace('int'));
+        $xml = $this->createXML()->addChild('int:taxDocument', '', $this->namespace('int'));
 
-        $this->_addElements($xml, $this->_elements, 'int');
+        $this->addElements($xml, $this->elements, 'int');
 
         return $xml;
     }
@@ -50,9 +49,9 @@ class TaxDocument extends Agenda
     /**
      * {@inheritdoc}
      */
-    protected function _configureOptions(OptionsResolver $resolver)
+    protected function configureOptions(OptionsResolver $resolver): void
     {
         // available options
-        $resolver->setDefined($this->_elements);
+        $resolver->setDefined($this->elements);
     }
 }

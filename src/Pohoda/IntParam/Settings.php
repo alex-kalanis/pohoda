@@ -10,25 +10,25 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\IntParam;
 
-use Riesenia\Pohoda\Agenda;
+use Riesenia\Pohoda\AbstractAgenda;
 use Riesenia\Pohoda\Common\OptionsResolver;
 
-class Settings extends Agenda
+class Settings extends AbstractAgenda
 {
     /** @var string[] */
-    protected $_refElements = ['currency'];
+    protected array $refElements = ['currency'];
 
     /** @var string[] */
-    protected $_elements = ['unit', 'length', 'currency', 'parameterList'];
+    protected array $elements = ['unit', 'length', 'currency', 'parameterList'];
 
     /**
      * {@inheritdoc}
      */
     public function getXML(): \SimpleXMLElement
     {
-        $xml = $this->_createXML()->addChild('ipm:parameterSettings', '', $this->_namespace('ipm'));
+        $xml = $this->createXML()->addChild('ipm:parameterSettings', '', $this->namespace('ipm'));
 
-        $this->_addElements($xml, $this->_elements, 'ipm');
+        $this->addElements($xml, $this->elements, 'ipm');
 
         return $xml;
     }
@@ -36,10 +36,10 @@ class Settings extends Agenda
     /**
      * {@inheritdoc}
      */
-    protected function _configureOptions(OptionsResolver $resolver)
+    protected function configureOptions(OptionsResolver $resolver): void
     {
         // available options
-        $resolver->setDefined($this->_elements);
+        $resolver->setDefined($this->elements);
 
         // validate / format options
         $resolver->setNormalizer('length', $resolver->getNormalizer('int'));

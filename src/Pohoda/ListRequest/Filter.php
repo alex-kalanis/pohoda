@@ -10,25 +10,25 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\ListRequest;
 
-use Riesenia\Pohoda\Agenda;
+use Riesenia\Pohoda\AbstractAgenda;
 use Riesenia\Pohoda\Common\OptionsResolver;
 
-class Filter extends Agenda
+class Filter extends AbstractAgenda
 {
     /** @var string[] */
-    protected $_refElements = ['extId', 'storage', 'store', 'selectedNumbers', 'selectedCompanys', 'selectedIco'];
+    protected array $refElements = ['extId', 'storage', 'store', 'selectedNumbers', 'selectedCompanys', 'selectedIco'];
 
     /** @var string[] */
-    protected $_elements = ['id', 'extId', 'code', 'EAN', 'name', 'storage', 'store', 'internet', 'company', 'ico', 'dic', 'lastChanges', 'dateFrom', 'dateTill', 'selectedNumbers', 'selectedCompanys', 'selectedIco'];
+    protected array $elements = ['id', 'extId', 'code', 'EAN', 'name', 'storage', 'store', 'internet', 'company', 'ico', 'dic', 'lastChanges', 'dateFrom', 'dateTill', 'selectedNumbers', 'selectedCompanys', 'selectedIco'];
 
     /**
      * {@inheritdoc}
      */
     public function getXML(): \SimpleXMLElement
     {
-        $xml = $this->_createXML()->addChild('ftr:filter', '', $this->_namespace('ftr'));
+        $xml = $this->createXML()->addChild('ftr:filter', '', $this->namespace('ftr'));
 
-        $this->_addElements($xml, $this->_elements, 'ftr');
+        $this->addElements($xml, $this->elements, 'ftr');
 
         return $xml;
     }
@@ -36,10 +36,10 @@ class Filter extends Agenda
     /**
      * {@inheritdoc}
      */
-    protected function _configureOptions(OptionsResolver $resolver)
+    protected function configureOptions(OptionsResolver $resolver): void
     {
         // available options
-        $resolver->setDefined($this->_elements);
+        $resolver->setDefined($this->elements);
 
         // validate / format options
         $resolver->setNormalizer('id', $resolver->getNormalizer('int'));

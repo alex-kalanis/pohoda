@@ -10,15 +10,15 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda;
 
-class Receipt extends Document
+class Receipt extends AbstractDocument
 {
-    /** @var string */
-    public static $importRoot = 'lst:prijemka';
+
+    public static string $importRoot = 'lst:prijemka';
 
     /**
      * {@inheritdoc}
      */
-    protected function _getDocumentNamespace(): string
+    protected function getDocumentNamespace(): string
     {
         return 'pri';
     }
@@ -26,7 +26,7 @@ class Receipt extends Document
     /**
      * {@inheritdoc}
      */
-    protected function _getDocumentName(): string
+    protected function getDocumentName(): string
     {
         return 'prijemka';
     }

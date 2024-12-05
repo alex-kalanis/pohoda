@@ -15,7 +15,7 @@ use Riesenia\Pohoda\Category;
 
 class CategorySpec extends ObjectBehavior
 {
-    public function let()
+    public function let(): void
     {
         $this->beConstructedWith([
             'name' => 'Main',
@@ -24,18 +24,18 @@ class CategorySpec extends ObjectBehavior
         ], '123');
     }
 
-    public function it_is_initializable_and_extends_agenda()
+    public function it_is_initializable_and_extends_agenda(): void
     {
         $this->shouldHaveType('Riesenia\Pohoda\Category');
-        $this->shouldHaveType('Riesenia\Pohoda\Agenda');
+        $this->shouldHaveType('Riesenia\Pohoda\AbstractAgenda');
     }
 
-    public function it_creates_correct_xml()
+    public function it_creates_correct_xml(): void
     {
         $this->getXML()->asXML()->shouldReturn('<ctg:categoryDetail version="2.0"><ctg:category><ctg:name>Main</ctg:name><ctg:sequence>1</ctg:sequence><ctg:displayed>true</ctg:displayed></ctg:category></ctg:categoryDetail>');
     }
 
-    public function it_can_add_subcategories()
+    public function it_can_add_subcategories(): void
     {
         $sub = new Category([
             'name' => 'Sub',

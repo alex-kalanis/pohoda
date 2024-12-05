@@ -2,18 +2,17 @@
 
 namespace Riesenia\Pohoda;
 
-class Voucher extends Document
+class Voucher extends AbstractDocument
 {
 
-    /** @var string */
-    public static $importRoot = 'vch:voucher';
+    public static string $importRoot = 'vch:voucher';
 
-    protected function _getDocumentNamespace(): string
+    protected function getDocumentNamespace(): string
     {
         return 'vch';
     }
 
-    protected function _getDocumentName(): string
+    protected function getDocumentName(): string
     {
         return 'voucher';
     }

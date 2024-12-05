@@ -12,10 +12,10 @@ namespace Riesenia\Pohoda;
 
 use Riesenia\Pohoda\Type\TaxDocument;
 
-class IntDoc extends Document
+class IntDoc extends AbstractDocument
 {
-    /** @var string */
-    public static $importRoot = 'lst:intDoc';
+
+    public static string $importRoot = 'lst:intDoc';
 
     /**
      * Add tax document.
@@ -26,7 +26,7 @@ class IntDoc extends Document
      */
     public function addTaxDocument(array $data): self
     {
-        $this->_data['taxDocument'] = new TaxDocument($data, $this->_ico);
+        $this->data['taxDocument'] = new TaxDocument($data, $this->ico);
 
         return $this;
     }
@@ -34,15 +34,15 @@ class IntDoc extends Document
     /**
      * {@inheritdoc}
      */
-    protected function _getDocumentElements(): array
+    protected function getDocumentElements(): array
     {
-        return \array_merge(['taxDocument'], parent::_getDocumentElements());
+        return \array_merge(['taxDocument'], parent::getDocumentElements());
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function _getDocumentNamespace(): string
+    protected function getDocumentNamespace(): string
     {
         return 'int';
     }
@@ -50,7 +50,7 @@ class IntDoc extends Document
     /**
      * {@inheritdoc}
      */
-    protected function _getDocumentName(): string
+    protected function getDocumentName(): string
     {
         return 'intDoc';
     }

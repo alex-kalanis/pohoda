@@ -10,23 +10,28 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\ListRequest;
 
-use Riesenia\Pohoda\Agenda;
+use Riesenia\Pohoda\AbstractAgenda;
 use Riesenia\Pohoda\Common\OptionsResolver;
 
-class UserFilterName extends Agenda
+class UserFilterName extends AbstractAgenda
 {
     /**
      * {@inheritdoc}
      */
     public function getXML(): \SimpleXMLElement
     {
-        return $this->_createXML()->addChild('ftr:userFilterName', $this->_data['userFilterName'], $this->_namespace('ftr'));
+        $filterName = $this->data['userFilterName'] ?? null;
+        return $this->createXML()->addChild(
+            'ftr:userFilterName',
+            is_null($filterName) ? null : strval($filterName),
+            $this->namespace('ftr')
+        );
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function _configureOptions(OptionsResolver $resolver)
+    protected function configureOptions(OptionsResolver $resolver): void
     {
         // available options
         $resolver->setDefined(['userFilterName']);

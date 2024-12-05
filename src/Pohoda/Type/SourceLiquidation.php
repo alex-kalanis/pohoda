@@ -10,22 +10,22 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\Type;
 
-use Riesenia\Pohoda\Agenda;
+use Riesenia\Pohoda\AbstractAgenda;
 use Riesenia\Pohoda\Common\OptionsResolver;
 
-class SourceLiquidation extends Agenda
+class SourceLiquidation extends AbstractAgenda
 {
     /** @var string[] */
-    protected $_elements = ['sourceItemId'];
+    protected array $elements = ['sourceItemId'];
 
     /**
      * {@inheritdoc}
      */
     public function getXML(): \SimpleXMLElement
     {
-        $xml = $this->_createXML()->addChild('int:sourceLiquidation', '', $this->_namespace('int'));
+        $xml = $this->createXML()->addChild('int:sourceLiquidation', '', $this->namespace('int'));
 
-        $this->_addElements($xml, $this->_elements, 'typ');
+        $this->addElements($xml, $this->elements, 'typ');
 
         return $xml;
     }
@@ -33,10 +33,10 @@ class SourceLiquidation extends Agenda
     /**
      * {@inheritdoc}
      */
-    protected function _configureOptions(OptionsResolver $resolver)
+    protected function configureOptions(OptionsResolver $resolver): void
     {
         // available options
-        $resolver->setDefined($this->_elements);
+        $resolver->setDefined($this->elements);
 
         // validate / format options
         $resolver->setNormalizer('sourceItemId', $resolver->getNormalizer('int'));

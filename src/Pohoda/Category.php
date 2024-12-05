@@ -12,16 +12,15 @@ namespace Riesenia\Pohoda;
 
 use Riesenia\Pohoda\Common\OptionsResolver;
 
-class Category extends Agenda
+class Category extends AbstractAgenda
 {
-    /** @var string */
-    public static $importRoot = 'ctg:category';
 
-    /** @var bool */
-    public static $importRecursive = true;
+    public static string $importRoot = 'ctg:category';
+
+    public static bool $importRecursive = true;
 
     /** @var string[] */
-    protected $_elements = ['name', 'description', 'sequence', 'displayed', 'picture', 'note'];
+    protected array $elements = ['name', 'description', 'sequence', 'displayed', 'picture', 'note'];
 
     /**
      * Add subcategory.
@@ -32,11 +31,16 @@ class Category extends Agenda
      */
     public function addSubcategory(self $category): self
     {
-        if (!isset($this->_data['subCategories'])) {
-            $this->_data['subCategories'] = [];
+        if (!isset($this->data['subCategories'])
+            || !(
+                is_array($this->data['subCategories'])
+                || (is_object($this->data['subCategories']) && is_a($this->data['subCategories'], \ArrayAccess::class))
+            )
+        ) {
+            $this->data['subCategories'] = [];
         }
 
-        $this->_data['subCategories'][] = $category;
+        $this->data['subCategories'][] = $category;
 
         return $this;
     }
@@ -46,7 +50,7 @@ class Category extends Agenda
      */
     public function getXML(): \SimpleXMLElement
     {
-        $xml = $this->_createXML()->addChild('ctg:categoryDetail', '', $this->_namespace('ctg'));
+        $xml = $this->createXML()->addChild('ctg:categoryDetail', '', $this->namespace('ctg'));
         $xml->addAttribute('version', '2.0');
 
         $this->categoryXML($xml);
@@ -63,14 +67,15 @@ class Category extends Agenda
      */
     public function categoryXML(\SimpleXMLElement $xml)
     {
-        $category = $xml->addChild('ctg:category', '', $this->_namespace('ctg'));
+        $category = $xml->addChild('ctg:category', '', $this->namespace('ctg'));
 
-        $this->_addElements($category, $this->_elements, 'ctg');
+        $this->addElements($category, $this->elements, 'ctg');
 
-        if (isset($this->_data['subCategories'])) {
-            $subCategories = $category->addChild('ctg:subCategories', '', $this->_namespace('ctg'));
+        if (isset($this->data['subCategories']) && is_iterable($this->data['subCategories'])) {
+            $subCategories = $category->addChild('ctg:subCategories', '', $this->namespace('ctg'));
 
-            foreach ($this->_data['subCategories'] as $subCategory) {
+            foreach ($this->data['subCategories'] as $subCategory) {
+                /** @var self $subCategory */
                 $subCategory->categoryXML($subCategories);
             }
         }
@@ -79,10 +84,10 @@ class Category extends Agenda
     /**
      * {@inheritdoc}
      */
-    protected function _configureOptions(OptionsResolver $resolver)
+    protected function configureOptions(OptionsResolver $resolver): void
     {
         // available options
-        $resolver->setDefined($this->_elements);
+        $resolver->setDefined($this->elements);
 
         // validate / format options
         $resolver->setRequired('name');

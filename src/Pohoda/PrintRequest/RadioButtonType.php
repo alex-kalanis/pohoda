@@ -12,7 +12,7 @@ namespace Riesenia\Pohoda\PrintRequest;
 
 class RadioButtonType extends Parameter
 {
-    /** @var string */
-    protected $valueType = 'int';
+
+    protected string $valueType = 'int';
 
 }

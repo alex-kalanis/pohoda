@@ -13,13 +13,13 @@ namespace Riesenia\Pohoda;
 use Riesenia\Pohoda\Common\OptionsResolver;
 use Riesenia\Pohoda\IntParam\Settings;
 
-class IntParam extends Agenda
+class IntParam extends AbstractAgenda
 {
-    /** @var string */
-    public static $importRoot = 'lst:intParamDetail';
+
+    public static string $importRoot = 'lst:intParamDetail';
 
     /** @var string[] */
-    protected $_elements = ['name', 'description', 'parameterType', 'parameterSettings'];
+    protected array $elements = ['name', 'description', 'parameterType', 'parameterSettings'];
 
     /**
      * {@inheritdoc}
@@ -44,11 +44,11 @@ class IntParam extends Agenda
      */
     public function getXML(): \SimpleXMLElement
     {
-        $xml = $this->_createXML()->addChild('ipm:intParamDetail', '', $this->_namespace('ipm'));
+        $xml = $this->createXML()->addChild('ipm:intParamDetail', '', $this->namespace('ipm'));
         $xml->addAttribute('version', '2.0');
 
         $param = $xml->addChild('ipm:intParam');
-        $this->_addElements($param, $this->_elements, 'ipm');
+        $this->addElements($param, $this->elements, 'ipm');
 
         return $xml;
     }
@@ -56,10 +56,10 @@ class IntParam extends Agenda
     /**
      * {@inheritdoc}
      */
-    protected function _configureOptions(OptionsResolver $resolver)
+    protected function configureOptions(OptionsResolver $resolver): void
     {
         // available options
-        $resolver->setDefined($this->_elements);
+        $resolver->setDefined($this->elements);
 
         // validate / format options
         $resolver->setRequired('name');
