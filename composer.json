@@ -49,6 +49,7 @@
         "ext-dom": "*",
         "ext-intl": "*",
         "ext-iconv": "*",
+        "ext-mbstring": "*",
         "ext-simplexml": "*",
         "ext-xmlreader": "*",
         "ext-xmlwriter": "*",

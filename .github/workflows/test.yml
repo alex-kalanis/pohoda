@@ -100,3 +100,26 @@ jobs:
 
     - name: Run phpstan
       run: vendor/bin/phpstan analyse -c phpstan.neon
+
+  dependencies:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        php-version: ['8.1']
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ matrix.php-version }}
+        coverage: xdebug
+
+    - name: Composer install
+      run: composer install --no-progress
+
+    - name: Run dependency analyzer
+      run: vendor/bin/composer-dependency-analyser
