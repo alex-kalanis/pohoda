@@ -76,21 +76,20 @@ class ListRequest extends AbstractAgenda
 
             // IntParam doesn't have the version attribute
             if ('IntParam' != $this->data['type']) {
-                $xml->addAttribute($this->_getLcFirstType() . 'Version', '2.0');
+                $xml->addAttribute($this->getLcFirstType() . 'Version', '2.0');
             }
 
-            if (isset($this->data[$this->_getLcFirstType() . 'Type'])) {
-                $xml->addAttribute($this->_getLcFirstType() . 'Type', strval($this->data[$this->_getLcFirstType() . 'Type']));
+            if (isset($this->data[$this->getLcFirstType() . 'Type'])) {
+                $xml->addAttribute($this->getLcFirstType() . 'Type', strval($this->data[$this->getLcFirstType() . 'Type']));
             }
 
             $request = $xml->addChild($this->data['namespace'] . ':request' . $this->data['type']);
 
+            $this->addElements($request, ['filter', 'userFilterName'], 'ftr');
+
             if (isset($this->data['restrictionData'])) {
                 $this->addElements($xml, ['restrictionData'], 'lst');
             }
-
-            $this->addElements($request, ['filter', 'userFilterName'], 'ftr');
-            $this->addElements($xml, ['restrictionData'], 'lst');
         }
 
         return $xml;
@@ -158,7 +157,7 @@ class ListRequest extends AbstractAgenda
      *
      * @return string
      */
-    protected function _getLcFirstType(): string
+    protected function getLcFirstType(): string
     {
         // ActionPrice is custom
         if ('ActionPrice' == $this->data['type']) {

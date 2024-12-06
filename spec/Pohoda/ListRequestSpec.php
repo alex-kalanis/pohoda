@@ -114,6 +114,10 @@ class ListRequestSpec extends ObjectBehavior
         $this->addFilter(['storage' => ['ids' => 'MAIN'], 'lastChanges' => '2018-04-29 14:30'])->getXML()->asXML()->shouldReturn('<lStk:listStockRequest version="2.0" stockVersion="2.0"><lStk:requestStock><ftr:filter><ftr:storage><typ:ids>MAIN</typ:ids></ftr:storage><ftr:lastChanges>2018-04-29T14:30:00</ftr:lastChanges></ftr:filter></lStk:requestStock></lStk:listStockRequest>');
     }
 
+    /**
+     * @return void
+     * @see \BasicTests\ListRequestTest::testRestrict phpunit
+     */
     public function it_creates_proper_restriction_data(): void
     {
         $this->beConstructedWith(

@@ -41,12 +41,12 @@ class OptionsResolver extends SymfonyOptionsResolver
 
         if (str_starts_with($type, 'string')) {
             // strings have length
-            $normalizer = $this->_createNormalizer('string', (int) \substr($type, 6));
+            $normalizer = $this->createNormalizer('string', (int) \substr($type, 6));
         } elseif (str_starts_with($type, '?')) {
             // types can be nullable
-            $normalizer = $this->_createNormalizer(\substr($type, 1), true);
+            $normalizer = $this->createNormalizer(\substr($type, 1), true);
         } else {
-            $normalizer = $this->_createNormalizer($type);
+            $normalizer = $this->createNormalizer($type);
         }
 
         $this->loadedNormalizers[$type] = $normalizer;
@@ -62,7 +62,7 @@ class OptionsResolver extends SymfonyOptionsResolver
      *
      * @return \Closure
      */
-    protected function _createNormalizer(string $type, mixed $param = null): \Closure
+    protected function createNormalizer(string $type, mixed $param = null): \Closure
     {
         switch ($type) {
             case 'string':
