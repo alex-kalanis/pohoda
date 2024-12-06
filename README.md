@@ -8,7 +8,7 @@
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
 [![Code Coverage](https://scrutinizer-ci.com/g/alex-kalanis/pohoda/badges/coverage.png?b=master&v=1)](https://scrutinizer-ci.com/g/alex-kalanis/pohoda/?branch=master)
 
-Knihovna pro manipulaci s daty, která chodí skrz mServer Pohody.
+Knihovna pro manipulaci s daty, která chodí jako XML skrz mServer Pohody.
 
 ## Instalace
 

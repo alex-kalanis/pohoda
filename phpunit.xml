@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<phpunit
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.5/phpunit.xsd"
+        bootstrap="tests/_bootstrap.php"
+        backupGlobals="false"
+        colors="true"
+        processIsolation="false"
+        stopOnError="false"
+        stopOnFailure="false"
+        stopOnIncomplete="false"
+        stopOnSkipped="false"
+        stopOnRisky="false"
+        timeoutForSmallTests="1"
+        timeoutForMediumTests="10"
+        timeoutForLargeTests="60"
+        defaultTestSuite="ALL"
+        displayDetailsOnTestsThatTriggerWarnings="true"
+        cacheDirectory=".phpunit.cache"
+        backupStaticProperties="false"
+        requireCoverageMetadata="false"
+>
+  <!-- phpunit 9+ -->
+  <coverage>
+    <report>
+      <clover outputFile="tests/data/clover.xml"/>
+      <text outputFile="php://stdout" showUncoveredFiles="false"/>
+    </report>
+  </coverage>
+  <!-- rest as usual -->
+  <testsuites>
+    <testsuite name="ALL">
+      <directory>tests/BasicTests</directory>
+    </testsuite>
+  </testsuites>
+  <source>
+    <include>
+      <directory suffix=".php">src</directory>
+    </include>
+  </source>
+</phpunit>

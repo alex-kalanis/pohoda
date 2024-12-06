@@ -7,8 +7,8 @@ phpunit-*
 .phpunit.cache/*
 
 # external libs
-php-tests/external/
-php-tests/data/clover.xml
+tests/external/
+tests/data/clover.xml
 discard/
 
 # environment

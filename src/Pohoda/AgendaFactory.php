@@ -38,9 +38,11 @@ class AgendaFactory
 
         try {
             $instance = $reflection->newInstance($data, $this->companyNumber);
+            // @codeCoverageIgnoreStart
         } catch (ReflectionException) {
             throw new DomainException('Agenda class initialization failed: ' . $name);
         }
+        // @codeCoverageIgnoreEnd
 
         if (!is_a($instance, AbstractAgenda::class)) {
             throw new DomainException('Agenda class is not an instance of AbstractAgenda: ' . $name);

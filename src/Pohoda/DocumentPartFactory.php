@@ -40,9 +40,11 @@ class DocumentPartFactory
 
         try {
             $instance = $reflection->newInstance($data, $this->companyNumber, $resolveOptions);
+            // @codeCoverageIgnoreStart
         } catch (ReflectionException) {
             throw new DomainException('Entity initialization failed: ' . $name);
         }
+        // @codeCoverageIgnoreEnd
 
         if (!is_a($instance, Document\AbstractPart::class)) {
             throw new DomainException('Entity is not an instance of AbstractPart: ' . $name);
