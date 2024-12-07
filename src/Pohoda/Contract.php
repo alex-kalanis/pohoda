@@ -19,7 +19,10 @@ class Contract extends AbstractAgenda
     use AddParameterToHeaderTrait;
 
 
-    public static string $importRoot = 'lCon:contract';
+    public function getImportRoot(): string
+    {
+        return 'lCon:contract';
+    }
 
     /**
      * {@inheritdoc}

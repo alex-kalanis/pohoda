@@ -30,17 +30,17 @@ class ContractSpec extends ObjectBehavior
 
     public function it_creates_correct_xml(): void
     {
-        $this->getXML()->asXML()->shouldReturn('<con:contract version="2.0"><con:contractDesc>' . $this->_defaultHeader() . '</con:contractDesc></con:contract>');
+        $this->getXML()->asXML()->shouldReturn('<con:contract version="2.0"><con:contractDesc>' . $this->defaultHeader() . '</con:contractDesc></con:contract>');
     }
 
     public function it_can_set_parameters(): void
     {
         $this->addParameter('VPrNum', 'number', 10.43);
 
-        $this->getXML()->asXML()->shouldReturn('<con:contract version="2.0"><con:contractDesc>' . $this->_defaultHeader() . '<con:parameters><typ:parameter><typ:name>VPrNum</typ:name><typ:numberValue>10.43</typ:numberValue></typ:parameter></con:parameters></con:contractDesc></con:contract>');
+        $this->getXML()->asXML()->shouldReturn('<con:contract version="2.0"><con:contractDesc>' . $this->defaultHeader() . '<con:parameters><typ:parameter><typ:name>VPrNum</typ:name><typ:numberValue>10.43</typ:numberValue></typ:parameter></con:parameters></con:contractDesc></con:contract>');
     }
 
-    protected function _defaultHeader(): string
+    protected function defaultHeader(): string
     {
         return '<con:text>zakazka15</con:text><con:responsiblePerson><typ:ids>Z0005</typ:ids></con:responsiblePerson>';
     }

@@ -19,10 +19,11 @@ class AgendaFactory
     /**
      * @param string $name
      * @param array<string,mixed> $data
+     * @param bool $resolveOptions
      * @throws DomainException
      * @return AbstractAgenda
      */
-    public function getAgenda(string $name, array $data): AbstractAgenda
+    public function getAgenda(string $name, array $data, bool $resolveOptions = true): AbstractAgenda
     {
         /** @var class-string<AbstractAgenda> $className */
         $className = __NAMESPACE__ . '\\' . $name;
@@ -37,7 +38,7 @@ class AgendaFactory
         }
 
         try {
-            $instance = $reflection->newInstance($data, $this->companyNumber);
+            $instance = $reflection->newInstance($data, $this->companyNumber, $resolveOptions);
             // @codeCoverageIgnoreStart
         } catch (ReflectionException) {
             throw new DomainException('Agenda class initialization failed: ' . $name);

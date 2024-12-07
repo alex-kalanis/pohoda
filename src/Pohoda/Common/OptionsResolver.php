@@ -68,10 +68,10 @@ class OptionsResolver extends SymfonyOptionsResolver
             case 'string':
                 return function ($options, $value) use ($param) {
                     // remove new lines
-                    $value = \str_replace(["\r\n", "\r", "\n"], ' ', $value);
+                    $value = \str_replace(["\r\n", "\r", "\n"], ' ', strval($value));
 
                     // param is used for string length
-                    return \mb_substr($value, 0, is_null($param) ? null : intval($param), 'utf-8');
+                    return \mb_substr(strval($value), 0, is_null($param) ? null : intval($param), 'utf-8');
                 };
 
             case 'date':

@@ -15,7 +15,10 @@ use Riesenia\Pohoda\Common\OptionsResolver;
 class ActionPrice extends AbstractAgenda
 {
 
-    public static string $importRoot = 'lst:actionPrice';
+    public function getImportRoot(): string
+    {
+        return 'lst:actionPrice';
+    }
 
     /**
      * {@inheritdoc}

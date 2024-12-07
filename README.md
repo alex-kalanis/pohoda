@@ -8,19 +8,25 @@
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
 [![Code Coverage](https://scrutinizer-ci.com/g/alex-kalanis/pohoda/badges/coverage.png?b=master&v=1)](https://scrutinizer-ci.com/g/alex-kalanis/pohoda/?branch=master)
 
-Knihovna pro manipulaci s daty, která chodí jako XML skrz mServer Pohody.
+Library for manipulation with data, which came as XML from Pohoda mServer.
 
-## Instalace
+Pohoda is an accounting software for Czech Republic, Slovakia and probably few other countries.
 
-Přidáním do *composer.json*:
+#### What is different:
+
+Usage of phpunit, extended tests, phpstan 1.12, deeper type checking
+
+## Installation
+
+Add to *composer.json*:
 
 ```bash
 composer.phar require alex-kalanis/pohoda
 ```
 
-## Příklad importu objednávek
+## Example of order imports
 
-Příklady pro import jednotlivých typů viz. *spec* folder.
+Examples of importing each type - more in *spec* folder.
 
 ```php
 use Riesenia\Pohoda;
@@ -87,9 +93,9 @@ $pohoda->addItem($order_number, $order);
 $pohoda->close();
 ```
 
-## Příklad exportu zásob
+## Exporting stored goods
 
-Vytvoření příkazu na export sa realizuje prostředníctvím vytvoření *ListRequest*.
+The creation of request to export goods is realized by creating *ListRequest*.
 
 ```php
 use Riesenia\Pohoda;
@@ -111,7 +117,7 @@ $pohoda->addItem('Export 001', $request);
 $pohoda->close();
 ```
 
-Samotné zpracování dat je řešené jednoduše - volání `next` vrací *SimpleXMLElement* s danou entitou.
+The rest of the processing itself is simple - just call `next` and got *SimpleXMLElement* with entity.
 
 ```php
 // load file

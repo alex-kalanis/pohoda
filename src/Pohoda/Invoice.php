@@ -16,7 +16,10 @@ use Riesenia\Pohoda\Type\Link;
 class Invoice extends AbstractDocument
 {
 
-    public static string $importRoot = 'lst:invoice';
+    public function getImportRoot(): string
+    {
+        return 'lst:invoice';
+    }
 
     /**
      * Add link.
@@ -69,7 +72,7 @@ class Invoice extends AbstractDocument
      */
     protected function getDocumentElements(): array
     {
-        return \array_merge(['links'], parent::getDocumentElements());
+        return \array_merge(parent::getDocumentElements(), ['links']);
     }
 
     /**

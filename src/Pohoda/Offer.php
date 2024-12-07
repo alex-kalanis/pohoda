@@ -13,7 +13,10 @@ namespace Riesenia\Pohoda;
 class Offer extends AbstractDocument
 {
 
-    public static string $importRoot = 'lst:offer';
+    public function getImportRoot(): string
+    {
+        return 'lst:offer';
+    }
 
     /**
      * {@inheritdoc}

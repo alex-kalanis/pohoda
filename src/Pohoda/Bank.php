@@ -13,7 +13,10 @@ namespace Riesenia\Pohoda;
 class Bank extends AbstractDocument
 {
 
-    public static string $importRoot = 'lst:bank';
+    public function getImportRoot(): string
+    {
+        return 'lst:bank';
+    }
 
     /**
      * {@inheritdoc}

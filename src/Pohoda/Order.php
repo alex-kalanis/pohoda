@@ -16,14 +16,17 @@ class Order extends AbstractDocument
 {
     use AddActionTypeTrait;
 
-    public static string $importRoot = 'lst:order';
+    public function getImportRoot(): string
+    {
+        return 'lst:order';
+    }
 
     /**
      * {@inheritdoc}
      */
     protected function getDocumentElements(): array
     {
-        return \array_merge(['actionType'], parent::getDocumentElements());
+        return \array_merge(parent::getDocumentElements(), ['actionType']);
     }
 
     /**

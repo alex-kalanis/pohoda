@@ -15,12 +15,18 @@ use Riesenia\Pohoda\Common\OptionsResolver;
 class Category extends AbstractAgenda
 {
 
-    public static string $importRoot = 'ctg:category';
-
-    public static bool $importRecursive = true;
-
     /** @var string[] */
     protected array $elements = ['name', 'description', 'sequence', 'displayed', 'picture', 'note'];
+
+    public function getImportRoot(): string
+    {
+        return 'ctg:category';
+    }
+
+    public function canImportRecursive(): bool
+    {
+        return true;
+    }
 
     /**
      * Add subcategory.

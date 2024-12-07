@@ -15,7 +15,10 @@ use Riesenia\Pohoda\Type\TaxDocument;
 class IntDoc extends AbstractDocument
 {
 
-    public static string $importRoot = 'lst:intDoc';
+    public function getImportRoot(): string
+    {
+        return 'lst:intDoc';
+    }
 
     /**
      * Add tax document.
@@ -36,7 +39,7 @@ class IntDoc extends AbstractDocument
      */
     protected function getDocumentElements(): array
     {
-        return \array_merge(['taxDocument'], parent::getDocumentElements());
+        return \array_merge(parent::getDocumentElements(), ['taxDocument']);
     }
 
     /**

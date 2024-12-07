@@ -13,10 +13,16 @@ namespace Riesenia\Pohoda;
 use Riesenia\Pohoda\Common\OptionsResolver;
 use Riesenia\Pohoda\UserList\ItemUserCode;
 
+/**
+ * Definition of user-defined list
+ */
 class UserList extends AbstractAgenda
 {
 
-    public static string $importRoot = 'lst:listUserCode';
+    public function getImportRoot(): string
+    {
+        return 'lst:listUserCode';
+    }
 
     /**
      * Add item user code.
@@ -51,6 +57,18 @@ class UserList extends AbstractAgenda
         $xml->addAttribute('code', strval($this->data['code']));
         $xml->addAttribute('name', strval($this->data['name']));
 
+        if (isset($this->data['dateTimeStamp'])) {
+            $xml->addAttribute('dateTimeStamp', strval($this->data['dateTimeStamp']));
+        }
+
+        if (isset($this->data['dateValidFrom'])) {
+            $xml->addAttribute('dateValidFrom', strval($this->data['dateValidFrom']));
+        }
+
+        if (isset($this->data['submenu'])) {
+            $xml->addAttribute('submenu', strval($this->data['submenu']));
+        }
+
         if (isset($this->data['constants']) && 'true' == $this->data['constants']) {
             $xml->addAttribute('constants', strval($this->data['constants']));
         }
@@ -71,11 +89,14 @@ class UserList extends AbstractAgenda
     protected function configureOptions(OptionsResolver $resolver): void
     {
         // available options
-        $resolver->setDefined(['code', 'name', 'constants']);
+        $resolver->setDefined(['code', 'name', 'constants', 'dateTimeStamp', 'dateValidFrom', 'submenu']);
 
         // validate / format options
         $resolver->setRequired('code');
         $resolver->setRequired('name');
         $resolver->setNormalizer('constants', $resolver->getNormalizer('bool'));
+        $resolver->setNormalizer('dateTimeStamp', $resolver->getNormalizer('datetime'));
+        $resolver->setNormalizer('dateValidFrom', $resolver->getNormalizer('date'));
+        $resolver->setNormalizer('submenu', $resolver->getNormalizer('boolean'));
     }
 }

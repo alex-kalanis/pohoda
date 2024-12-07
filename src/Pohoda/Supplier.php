@@ -17,7 +17,10 @@ use Riesenia\Pohoda\Supplier\SupplierItem;
 class Supplier extends AbstractAgenda
 {
 
-    public static string $importRoot = 'lst:supplier';
+    public function getImportRoot(): string
+    {
+        return 'lst:supplier';
+    }
 
     /**
      * {@inheritdoc}

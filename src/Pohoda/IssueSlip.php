@@ -15,7 +15,10 @@ use Riesenia\Pohoda\Type\Link;
 class IssueSlip extends AbstractDocument
 {
 
-    public static string $importRoot = 'lst:vydejka';
+    public function getImportRoot(): string
+    {
+        return 'lst:vydejka';
+    }
 
     /**
      * Add link.
@@ -45,7 +48,7 @@ class IssueSlip extends AbstractDocument
      */
     protected function getDocumentElements(): array
     {
-        return \array_merge(['links'], parent::getDocumentElements());
+        return \array_merge(parent::getDocumentElements(), ['links']);
     }
 
     /**

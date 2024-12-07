@@ -35,6 +35,26 @@ use Riesenia\Pohoda\AbstractAgenda;
  * @method \Riesenia\Pohoda\Supplier      createSupplier(array $data = [])
  * @method \Riesenia\Pohoda\UserList      createUserList(array $data = [])
  * @method \Riesenia\Pohoda\Voucher       createVoucher(array $data = [])
+ * @method bool loadAddressbook(string $filename)
+ * @method bool loadBank(string $filename)
+ * @method bool loadCashSlip(string $filename)
+ * @method bool loadCategory(string $filename)
+ * @method bool loadContract(string $filename)
+ * @method bool loadIntDoc(string $filename)
+ * @method bool loadIntParam(string $filename)
+ * @method bool loadInvoice(string $filename)
+ * @method bool loadIssueSlip(string $filename)
+ * @method bool loadListRequest(string $filename)
+ * @method bool loadOffer(string $filename)
+ * @method bool loadOrder(string $filename)
+ * @method bool loadPrintRequest(string $filename)
+ * @method bool loadReceipt(string $filename)
+ * @method bool loadStock(string $filename)
+ * @method bool loadStockTransfer(string $filename)
+ * @method bool loadStorage(string $filename)
+ * @method bool loadSupplier(string $filename)
+ * @method bool loadUserList(string $filename)
+ * @method bool loadVoucher(string $filename)
  */
 class Pohoda
 {
@@ -89,7 +109,7 @@ class Pohoda
 
     protected string $elementName;
 
-    protected bool $importRecursive;
+    protected bool $importRecursive = false;
 
     public function __construct(
         protected readonly string $ico,
@@ -213,14 +233,9 @@ class Pohoda
             return false;
         }
 
-        $fullName = __NAMESPACE__ . '\\Pohoda\\' . $name;
-
-        if (!\class_exists($fullName) || !\is_string($fullName::$importRoot)) {
-            throw new \DomainException('Not allowed entity: ' . $name);
-        }
-
-        $this->elementName = $fullName::$importRoot;
-        $this->importRecursive = $fullName::$importRecursive;
+        $class = $this->agendaFactory->getAgenda($name, [], false);
+        $this->elementName = $class->getImportRoot() ?? throw new \DomainException('Not allowed entity: ' . $name);
+        $this->importRecursive = $class->canImportRecursive();
 
         return true;
     }

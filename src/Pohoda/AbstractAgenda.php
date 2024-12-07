@@ -23,7 +23,6 @@ use Riesenia\Pohoda\ValueTransformer\ValueTransformer;
  */
 abstract class AbstractAgenda
 {
-    public static bool $importRecursive = false;
 
     /** @var array<string, mixed> */
     protected array $data = [];
@@ -52,6 +51,28 @@ abstract class AbstractAgenda
     {
         // resolve options
         $this->data = $resolveOptions ? $this->resolveOptions($data) : $data;
+    }
+
+    /**
+     * Import root
+     *
+     * string for xml node, null for not existing one
+     *
+     * @return string|null
+     */
+    public function getImportRoot(): ?string
+    {
+        return null;
+    }
+
+    /**
+     * Can read data recursively
+     *
+     * @return bool
+     */
+    public function canImportRecursive(): bool
+    {
+        return false;
     }
 
     /**

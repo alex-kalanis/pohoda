@@ -20,7 +20,10 @@ class Addressbook extends AbstractAgenda
     use AddActionTypeTrait;
     use AddParameterToHeaderTrait;
 
-    public static string $importRoot = 'lAdb:addressbook';
+    public function getImportRoot(): string
+    {
+        return 'lAdb:addressbook';
+    }
 
     /**
      * {@inheritdoc}

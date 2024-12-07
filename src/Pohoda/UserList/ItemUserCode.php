@@ -13,6 +13,7 @@ namespace Riesenia\Pohoda\UserList;
 use Riesenia\Pohoda\AbstractAgenda;
 use Riesenia\Pohoda\Common\OptionsResolver;
 
+
 class ItemUserCode extends AbstractAgenda
 {
     /**
@@ -25,7 +26,7 @@ class ItemUserCode extends AbstractAgenda
         $xml->addAttribute('name', strval($this->data['name']));
 
         if (isset($this->data['constant'])) {
-            $xml->addAttribute('constants', strval($this->data['constants']));
+            $xml->addAttribute('constant', strval($this->data['constant']));
         }
 
         return $xml;
@@ -42,5 +43,6 @@ class ItemUserCode extends AbstractAgenda
         // validate / format options
         $resolver->setRequired('code');
         $resolver->setRequired('name');
+        $resolver->setNormalizer('constant', $resolver->getNormalizer('int'));
     }
 }

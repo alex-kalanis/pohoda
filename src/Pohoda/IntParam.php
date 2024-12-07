@@ -16,8 +16,6 @@ use Riesenia\Pohoda\IntParam\Settings;
 class IntParam extends AbstractAgenda
 {
 
-    public static string $importRoot = 'lst:intParamDetail';
-
     /** @var string[] */
     protected array $elements = ['name', 'description', 'parameterType', 'parameterSettings'];
 
@@ -37,6 +35,11 @@ class IntParam extends AbstractAgenda
         }
 
         parent::__construct($data, $ico, $resolveOptions);
+    }
+
+    public function getImportRoot(): string
+    {
+        return 'lst:intParamDetail';
     }
 
     /**

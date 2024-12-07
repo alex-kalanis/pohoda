@@ -22,8 +22,6 @@ class Stock extends AbstractAgenda
     use AddActionTypeTrait;
     use AddParameterToHeaderTrait;
 
-    public static string $importRoot = 'lStk:stock';
-
     /**
      * {@inheritdoc}
      */
@@ -35,6 +33,11 @@ class Stock extends AbstractAgenda
         }
 
         parent::__construct($data, $ico, $resolveOptions);
+    }
+
+    public function getImportRoot(): string
+    {
+        return 'lStk:stock';
     }
 
     /**

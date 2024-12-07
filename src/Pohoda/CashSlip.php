@@ -13,7 +13,10 @@ namespace Riesenia\Pohoda;
 class CashSlip extends AbstractDocument
 {
 
-    public static string $importRoot = 'lst:prodejka';
+    public function getImportRoot(): string
+    {
+        return 'lst:prodejka';
+    }
 
     /**
      * {@inheritdoc}

@@ -13,7 +13,10 @@ namespace Riesenia\Pohoda;
 class Receipt extends AbstractDocument
 {
 
-    public static string $importRoot = 'lst:prijemka';
+    public function getImportRoot(): string
+    {
+        return 'lst:prijemka';
+    }
 
     /**
      * {@inheritdoc}

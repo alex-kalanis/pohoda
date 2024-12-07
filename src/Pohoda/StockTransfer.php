@@ -19,8 +19,6 @@ class StockTransfer extends AbstractAgenda
 {
     use AddParameterToHeaderTrait;
 
-    public static string $importRoot = 'lst:prevodka';
-
     /**
      * {@inheritdoc}
      */
@@ -30,6 +28,11 @@ class StockTransfer extends AbstractAgenda
         $data = ['header' => new Header($data, $ico, $resolveOptions)];
 
         parent::__construct($data, $ico, $resolveOptions);
+    }
+
+    public function getImportRoot(): string
+    {
+        return 'lst:prevodka';
     }
 
     /**

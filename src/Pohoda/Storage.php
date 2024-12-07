@@ -15,7 +15,10 @@ use Riesenia\Pohoda\Common\OptionsResolver;
 class Storage extends AbstractAgenda
 {
 
-    public static string $importRoot = 'lst:itemStorage';
+    public function getImportRoot(): string
+    {
+        return 'lst:itemStorage';
+    }
 
     /**
      * Add substorage.
