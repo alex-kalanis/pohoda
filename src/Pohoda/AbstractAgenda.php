@@ -18,8 +18,8 @@ use Riesenia\Pohoda\ValueTransformer\ValueTransformer;
 /**
  * Base class for Pohoda objects.
  *
- * @method setNamespace($namespace)
- * @method setNodeName($nodeName)
+ * @method \void setNamespace(string $namespace)
+ * @method \void setNodeName(string $nodeName)
  */
 abstract class AbstractAgenda
 {

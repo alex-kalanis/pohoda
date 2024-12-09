@@ -21,10 +21,9 @@ trait AddParameterTrait
      * @param string     $type
      * @param mixed      $value
      * @param mixed|null $list
-     *
-     * @return \Riesenia\Pohoda\AbstractAgenda
+     * @return self
      */
-    public function addParameter(string $name, string $type, mixed $value, mixed $list = null)
+    public function addParameter(string $name, string $type, mixed $value, mixed $list = null): self
     {
         if (!isset($this->data['parameters'])
             || !(

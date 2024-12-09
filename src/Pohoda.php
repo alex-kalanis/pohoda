@@ -35,55 +35,57 @@ use Riesenia\Pohoda\AbstractAgenda;
  * @method \Riesenia\Pohoda\Supplier      createSupplier(array $data = [])
  * @method \Riesenia\Pohoda\UserList      createUserList(array $data = [])
  * @method \Riesenia\Pohoda\Voucher       createVoucher(array $data = [])
- * @method bool loadAddressbook(string $filename)
- * @method bool loadBank(string $filename)
- * @method bool loadCashSlip(string $filename)
- * @method bool loadCategory(string $filename)
- * @method bool loadContract(string $filename)
- * @method bool loadIntDoc(string $filename)
- * @method bool loadIntParam(string $filename)
- * @method bool loadInvoice(string $filename)
- * @method bool loadIssueSlip(string $filename)
- * @method bool loadListRequest(string $filename)
- * @method bool loadOffer(string $filename)
- * @method bool loadOrder(string $filename)
- * @method bool loadPrintRequest(string $filename)
- * @method bool loadReceipt(string $filename)
- * @method bool loadStock(string $filename)
- * @method bool loadStockTransfer(string $filename)
- * @method bool loadStorage(string $filename)
- * @method bool loadSupplier(string $filename)
- * @method bool loadUserList(string $filename)
- * @method bool loadVoucher(string $filename)
+ * @method \bool loadAddressbook(string $filename)
+ * @method \bool loadBank(string $filename)
+ * @method \bool loadCashSlip(string $filename)
+ * @method \bool loadCategory(string $filename)
+ * @method \bool loadContract(string $filename)
+ * @method \bool loadIntDoc(string $filename)
+ * @method \bool loadIntParam(string $filename)
+ * @method \bool loadInvoice(string $filename)
+ * @method \bool loadIssueSlip(string $filename)
+ * @method \bool loadListRequest(string $filename)
+ * @method \bool loadOffer(string $filename)
+ * @method \bool loadOrder(string $filename)
+ * @method \bool loadPrintRequest(string $filename)
+ * @method \bool loadReceipt(string $filename)
+ * @method \bool loadStock(string $filename)
+ * @method \bool loadStockTransfer(string $filename)
+ * @method \bool loadStorage(string $filename)
+ * @method \bool loadSupplier(string $filename)
+ * @method \bool loadUserList(string $filename)
+ * @method \bool loadVoucher(string $filename)
+ *
+ * @link https://www.stormware.cz/pohoda/xml/seznamschemat/   schemas
  */
 class Pohoda
 {
     /** @var array<string,string> */
     public static array $namespaces = [
-        'adb' => 'http://www.stormware.cz/schema/version_2/addressbook.xsd',
-        'bnk' => 'http://www.stormware.cz/schema/version_2/bank.xsd',
-        'con' => 'http://www.stormware.cz/schema/version_2/contract.xsd',
-        'ctg' => 'http://www.stormware.cz/schema/version_2/category.xsd',
-        'dat' => 'http://www.stormware.cz/schema/version_2/data.xsd',
-        'ftr' => 'http://www.stormware.cz/schema/version_2/filter.xsd',
-        'int' => 'http://www.stormware.cz/schema/version_2/intDoc.xsd',
-        'inv' => 'http://www.stormware.cz/schema/version_2/invoice.xsd',
-        'ipm' => 'http://www.stormware.cz/schema/version_2/intParam.xsd',
-        'lAdb' => 'http://www.stormware.cz/schema/version_2/list_addBook.xsd',
-        'lst' => 'http://www.stormware.cz/schema/version_2/list.xsd',
-        'lStk' => 'http://www.stormware.cz/schema/version_2/list_stock.xsd',
-        'ofr' => 'http://www.stormware.cz/schema/version_2/offer.xsd',
-        'ord' => 'http://www.stormware.cz/schema/version_2/order.xsd',
-        'pre' => 'http://www.stormware.cz/schema/version_2/prevodka.xsd',
-        'pri' => 'http://www.stormware.cz/schema/version_2/prijemka.xsd',
-        'prn' => 'http://www.stormware.cz/schema/version_2/print.xsd',
-        'pro' => 'http://www.stormware.cz/schema/version_2/prodejka.xsd',
-        'str' => 'http://www.stormware.cz/schema/version_2/storage.xsd',
-        'stk' => 'http://www.stormware.cz/schema/version_2/stock.xsd',
-        'sup' => 'http://www.stormware.cz/schema/version_2/supplier.xsd',
-        'typ' => 'http://www.stormware.cz/schema/version_2/type.xsd',
-        'vch' => 'http://www.stormware.cz/schema/version_2/voucher.xsd',
-        'vyd' => 'http://www.stormware.cz/schema/version_2/vydejka.xsd',
+        'adb' => 'https://www.stormware.cz/schema/version_2/addressbook.xsd',
+        'bnk' => 'https://www.stormware.cz/schema/version_2/bank.xsd',
+        'con' => 'https://www.stormware.cz/schema/version_2/contract.xsd',
+        'ctg' => 'https://www.stormware.cz/schema/version_2/category.xsd',
+        'dat' => 'https://www.stormware.cz/schema/version_2/data.xsd',
+        'ftr' => 'https://www.stormware.cz/schema/version_2/filter.xsd',
+        'int' => 'https://www.stormware.cz/schema/version_2/intDoc.xsd',
+        'inv' => 'https://www.stormware.cz/schema/version_2/invoice.xsd',
+        'ipm' => 'https://www.stormware.cz/schema/version_2/intParam.xsd',
+        'lAdb' => 'https://www.stormware.cz/schema/version_2/list_addBook.xsd',
+        'lst' => 'https://www.stormware.cz/schema/version_2/list.xsd',
+        'lStk' => 'https://www.stormware.cz/schema/version_2/list_stock.xsd',
+        'ofr' => 'https://www.stormware.cz/schema/version_2/offer.xsd',
+        'ord' => 'https://www.stormware.cz/schema/version_2/order.xsd',
+        'pre' => 'https://www.stormware.cz/schema/version_2/prevodka.xsd',
+        'pri' => 'https://www.stormware.cz/schema/version_2/prijemka.xsd',
+        'prn' => 'https://www.stormware.cz/schema/version_2/print.xsd',
+        'pro' => 'https://www.stormware.cz/schema/version_2/prodejka.xsd',
+        'str' => 'https://www.stormware.cz/schema/version_2/storage.xsd',
+        'stk' => 'https://www.stormware.cz/schema/version_2/stock.xsd',
+        'sup' => 'https://www.stormware.cz/schema/version_2/supplier.xsd',
+        'typ' => 'https://www.stormware.cz/schema/version_2/type.xsd',
+        'vch' => 'https://www.stormware.cz/schema/version_2/voucher.xsd',
+        'vyd' => 'https://www.stormware.cz/schema/version_2/vydejka.xsd',
     ];
 
     public static string $encoding = 'windows-1250';
@@ -97,7 +99,7 @@ class Pohoda
      */
     public static array $transformers = [];
 
-    protected string $application = 'Rshop Pohoda connector';
+    protected string $application = 'Pohoda connector';
 
     protected bool $isInMemory;
 
