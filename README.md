@@ -1,6 +1,6 @@
 # Pohoda XML
 
-![Build Status](https://github.com/alex-kalanis/pohoda/actions/workflows/test.yml/badge.svg)(https://github.com/alex-kalanis/pohoda/actions)
+![Build Status](https://github.com/alex-kalanis/pohoda/actions/workflows/test.yml/badge.svg)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/alex-kalanis/pohoda/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/alex-kalanis/pohoda/?branch=master)
 [![Latest Stable Version](https://poser.pugx.org/alex-kalanis/pohoda/v/stable.svg?v=1)](https://packagist.org/packages/alex-kalanis/pohoda)
 [![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%208.1-8892BF.svg)](https://php.net/)
@@ -131,9 +131,9 @@ while ($stock = $pohoda->next()) {
 }
 ```
 
-## Příklad smazání zásob
+## Example of deleting stock
 
-Při mazání je potřeba vytvořit agendu s prázdnymi daty a nastavit jim *delete* actionType.
+When you delete stock you need to create an agenda with empty data and set them *delete* actionType.
 
 ```php
 use Riesenia\Pohoda;
@@ -154,9 +154,9 @@ $pohoda->addItem($code, $stock);
 $pohoda->close();
 ```
 
-## Použití *ValueTransformer* pro úpravu hodnot
+## Using *ValueTransformer* for value update
 
-Pomocí rozhraní *ValueTransformer* můžeme implementovať transformátor, který změní všechny údaje. Příklad pro úpravu všech hodnot na velká písmena:
+With interface *ValueTransformer* you can implement the transformation, which changes all the values. Example for change all values to uppercase:
 
 ```php
 use Riesenia\Pohoda;
