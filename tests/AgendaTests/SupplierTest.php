@@ -1,6 +1,6 @@
 <?php
 
-namespace BasicTests;
+namespace AgendaTests;
 
 use CommonTestClass;
 use Riesenia\Pohoda;

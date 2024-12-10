@@ -34,7 +34,7 @@ class XAgendaNotInstance
 
 
 // now test part
-namespace BasicTests;
+namespace AgendaTests;
 
 
 use CommonTestClass;

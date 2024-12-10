@@ -59,4 +59,31 @@ trait SetNamespaceTrait
 
         return $xml;
     }
+
+    /**
+     * Get namespace.
+     *
+     * @param string $short
+     *
+     * @return string
+     */
+    abstract protected function namespace(string $short): string;
+
+    /**
+     * Create XML.
+     *
+     * @return \SimpleXMLElement
+     */
+    abstract protected function createXML(): \SimpleXMLElement;
+
+    /**
+     * Add batch elements.
+     *
+     * @param \SimpleXMLElement $xml
+     * @param string[]          $elements
+     * @param string|null       $namespace
+     *
+     * @return void
+     */
+    abstract protected function addElements(\SimpleXMLElement $xml, array $elements, ?string $namespace = null): void;
 }

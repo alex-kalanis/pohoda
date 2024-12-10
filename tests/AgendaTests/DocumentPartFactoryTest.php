@@ -1,6 +1,6 @@
 <?php
 
-namespace BasicTests;
+namespace AgendaTests;
 
 
 use CommonTestClass;
@@ -39,7 +39,7 @@ class DocumentPartFactoryTest extends CommonTestClass
         $lib = new Pohoda\DocumentPartFactory('some no');
         $this->expectExceptionMessage('Entity cannot be initialized: XDocPartNotInit');
         $this->expectException(DomainException::class);
-        $lib->getPart('BasicTests', 'XDocPartNotInit', []);
+        $lib->getPart(__NAMESPACE__, 'XDocPartNotInit', []);
     }
 
     public function testEntityNotInstance(): void
@@ -47,7 +47,7 @@ class DocumentPartFactoryTest extends CommonTestClass
         $lib = new Pohoda\DocumentPartFactory('some no');
         $this->expectExceptionMessage('Entity is not an instance of AbstractPart: ');
         $this->expectException(DomainException::class);
-        $lib->getPart('BasicTests', 'XDocPartNotInstance', []);
+        $lib->getPart(__NAMESPACE__, 'XDocPartNotInstance', []);
     }
 }
 
