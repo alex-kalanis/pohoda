@@ -1,9 +1,9 @@
 <?php
 
-namespace Riesenia\Pohoda\Common\OptionResolver;
+namespace Riesenia\Pohoda\Common\OptionsResolver\Normalizers;
 
 
-class Numbers extends AbstractNormalizer
+class Integers extends AbstractNormalizer
 {
     public function normalize(mixed $options, mixed $value): string
     {
@@ -17,16 +17,12 @@ class Numbers extends AbstractNormalizer
         if (!empty($this->config['nullable']) && empty(\strlen($preform))) {
             return '';
         }
-        return \str_replace(
-            ',',
-            '.',
-            \strval(
-                \floatval(
-                    \str_replace(
-                        ',',
-                        '.',
-                        $preform
-                    )
+        return \strval(
+            \intval(
+                \str_replace(
+                    ',',
+                    '.',
+                    $preform
                 )
             )
         );

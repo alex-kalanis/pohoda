@@ -1,6 +1,6 @@
 <?php
 
-namespace Riesenia\Pohoda\Common\OptionResolver;
+namespace Riesenia\Pohoda\Common\OptionsResolver\Normalizers;
 
 
 class Times extends AbstractDates
