@@ -29,14 +29,14 @@ class Header extends DocumentHeader
         parent::configureOptions($resolver);
 
         // validate / format options
-        $resolver->setNormalizer('date', $resolver->getNormalizer('date'));
-        $resolver->setNormalizer('numberOrder', $resolver->getNormalizer('string32'));
-        $resolver->setNormalizer('dateOrder', $resolver->getNormalizer('date'));
-        $resolver->setNormalizer('text', $resolver->getNormalizer('string240'));
-        $resolver->setNormalizer('acc', $resolver->getNormalizer('string9'));
-        $resolver->setNormalizer('symPar', $resolver->getNormalizer('string20'));
-        $resolver->setNormalizer('isExecuted', $resolver->getNormalizer('bool'));
-        $resolver->setNormalizer('isDelivered', $resolver->getNormalizer('bool'));
-        $resolver->setNormalizer('histRate', $resolver->getNormalizer('bool'));
+        $resolver->setNormalizer('date', $this->normalizerFactory->getClosure('date'));
+        $resolver->setNormalizer('numberOrder', $this->normalizerFactory->getClosure('string32'));
+        $resolver->setNormalizer('dateOrder', $this->normalizerFactory->getClosure('date'));
+        $resolver->setNormalizer('text', $this->normalizerFactory->getClosure('string240'));
+        $resolver->setNormalizer('acc', $this->normalizerFactory->getClosure('string9'));
+        $resolver->setNormalizer('symPar', $this->normalizerFactory->getClosure('string20'));
+        $resolver->setNormalizer('isExecuted', $this->normalizerFactory->getClosure('bool'));
+        $resolver->setNormalizer('isDelivered', $this->normalizerFactory->getClosure('bool'));
+        $resolver->setNormalizer('histRate', $this->normalizerFactory->getClosure('bool'));
     }
 }

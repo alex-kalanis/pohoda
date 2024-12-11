@@ -59,28 +59,28 @@ class Header extends AbstractAgenda
         $resolver->setDefined($this->elements);
 
         // validate / format options
-        $resolver->setNormalizer('region', $resolver->getNormalizer('string32'));
-        $resolver->setNormalizer('phone', $resolver->getNormalizer('string40'));
-        $resolver->setNormalizer('mobil', $resolver->getNormalizer('string24'));
-        $resolver->setNormalizer('fax', $resolver->getNormalizer('string24'));
-        $resolver->setNormalizer('email', $resolver->getNormalizer('string98'));
-        $resolver->setNormalizer('web', $resolver->getNormalizer('string32'));
-        $resolver->setNormalizer('ICQ', $resolver->getNormalizer('string12'));
-        $resolver->setNormalizer('Skype', $resolver->getNormalizer('string32'));
-        $resolver->setNormalizer('GPS', $resolver->getNormalizer('string38'));
-        $resolver->setNormalizer('credit', $resolver->getNormalizer('float'));
-        $resolver->setNormalizer('priceIDS', $resolver->getNormalizer('string10'));
-        $resolver->setNormalizer('maturity', $resolver->getNormalizer('int'));
-        $resolver->setNormalizer('agreement', $resolver->getNormalizer('string12'));
-        $resolver->setNormalizer('ost1', $resolver->getNormalizer('string8'));
-        $resolver->setNormalizer('ost2', $resolver->getNormalizer('string8'));
-        $resolver->setNormalizer('p1', $resolver->getNormalizer('bool'));
-        $resolver->setNormalizer('p2', $resolver->getNormalizer('bool'));
-        $resolver->setNormalizer('p3', $resolver->getNormalizer('bool'));
-        $resolver->setNormalizer('p4', $resolver->getNormalizer('bool'));
-        $resolver->setNormalizer('p5', $resolver->getNormalizer('bool'));
-        $resolver->setNormalizer('p6', $resolver->getNormalizer('bool'));
-        $resolver->setNormalizer('markRecord', $resolver->getNormalizer('bool'));
-        $resolver->setNormalizer('message', $resolver->getNormalizer('string64'));
+        $resolver->setNormalizer('region', $this->normalizerFactory->getClosure('string32'));
+        $resolver->setNormalizer('phone', $this->normalizerFactory->getClosure('string40'));
+        $resolver->setNormalizer('mobil', $this->normalizerFactory->getClosure('string24'));
+        $resolver->setNormalizer('fax', $this->normalizerFactory->getClosure('string24'));
+        $resolver->setNormalizer('email', $this->normalizerFactory->getClosure('string98'));
+        $resolver->setNormalizer('web', $this->normalizerFactory->getClosure('string32'));
+        $resolver->setNormalizer('ICQ', $this->normalizerFactory->getClosure('string12'));
+        $resolver->setNormalizer('Skype', $this->normalizerFactory->getClosure('string32'));
+        $resolver->setNormalizer('GPS', $this->normalizerFactory->getClosure('string38'));
+        $resolver->setNormalizer('credit', $this->normalizerFactory->getClosure('float'));
+        $resolver->setNormalizer('priceIDS', $this->normalizerFactory->getClosure('string10'));
+        $resolver->setNormalizer('maturity', $this->normalizerFactory->getClosure('int'));
+        $resolver->setNormalizer('agreement', $this->normalizerFactory->getClosure('string12'));
+        $resolver->setNormalizer('ost1', $this->normalizerFactory->getClosure('string8'));
+        $resolver->setNormalizer('ost2', $this->normalizerFactory->getClosure('string8'));
+        $resolver->setNormalizer('p1', $this->normalizerFactory->getClosure('bool'));
+        $resolver->setNormalizer('p2', $this->normalizerFactory->getClosure('bool'));
+        $resolver->setNormalizer('p3', $this->normalizerFactory->getClosure('bool'));
+        $resolver->setNormalizer('p4', $this->normalizerFactory->getClosure('bool'));
+        $resolver->setNormalizer('p5', $this->normalizerFactory->getClosure('bool'));
+        $resolver->setNormalizer('p6', $this->normalizerFactory->getClosure('bool'));
+        $resolver->setNormalizer('markRecord', $this->normalizerFactory->getClosure('bool'));
+        $resolver->setNormalizer('message', $this->normalizerFactory->getClosure('string64'));
     }
 }

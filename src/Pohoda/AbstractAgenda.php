@@ -24,6 +24,8 @@ use Riesenia\Pohoda\ValueTransformer\ValueTransformer;
 abstract class AbstractAgenda
 {
 
+    protected readonly OptionsResolver\Normalizers\NormalizerFactory $normalizerFactory;
+
     /** @var array<string, mixed> */
     protected array $data = [];
 
@@ -49,6 +51,7 @@ abstract class AbstractAgenda
         bool $resolveOptions = true,
     )
     {
+        $this->normalizerFactory = new OptionsResolver\Normalizers\NormalizerFactory();
         // resolve options
         $this->data = $resolveOptions ? $this->resolveOptions($data) : $data;
     }

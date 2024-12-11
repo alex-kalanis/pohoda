@@ -29,9 +29,9 @@ class Header extends DocumentHeader
         parent::configureOptions($resolver);
 
         // validate / format options
-        $resolver->setNormalizer('date', $resolver->getNormalizer('date'));
-        $resolver->setNormalizer('dateOfReceipt', $resolver->getNormalizer('?date'));
-        $resolver->setNormalizer('symPar', $resolver->getNormalizer('string20'));
-        $resolver->setNormalizer('text', $resolver->getNormalizer('string240'));
+        $resolver->setNormalizer('date', $this->normalizerFactory->getClosure('date'));
+        $resolver->setNormalizer('dateOfReceipt', $this->normalizerFactory->getClosure('?date'));
+        $resolver->setNormalizer('symPar', $this->normalizerFactory->getClosure('string20'));
+        $resolver->setNormalizer('text', $this->normalizerFactory->getClosure('string240'));
     }
 }

@@ -56,7 +56,7 @@ class Address extends AbstractAgenda
         $resolver->setDefined($this->elements);
 
         // validate / format options
-        $resolver->setNormalizer('id', $resolver->getNormalizer('int'));
-        $resolver->setNormalizer('addressLinkToAddress', $resolver->getNormalizer('bool'));
+        $resolver->setNormalizer('id', $this->normalizerFactory->getClosure('int'));
+        $resolver->setNormalizer('addressLinkToAddress', $this->normalizerFactory->getClosure('bool'));
     }
 }

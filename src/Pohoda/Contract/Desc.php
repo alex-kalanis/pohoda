@@ -58,12 +58,12 @@ class Desc extends AbstractAgenda
         // available options
         $resolver->setDefined($this->elements);
 
-        $resolver->setNormalizer('datePlanStart', $resolver->getNormalizer('date'));
-        $resolver->setNormalizer('datePlanDelivery', $resolver->getNormalizer('date'));
-        $resolver->setNormalizer('dateStart', $resolver->getNormalizer('date'));
-        $resolver->setNormalizer('dateDelivery', $resolver->getNormalizer('date'));
-        $resolver->setNormalizer('dateWarranty', $resolver->getNormalizer('date'));
+        $resolver->setNormalizer('datePlanStart', $this->normalizerFactory->getClosure('date'));
+        $resolver->setNormalizer('datePlanDelivery', $this->normalizerFactory->getClosure('date'));
+        $resolver->setNormalizer('dateStart', $this->normalizerFactory->getClosure('date'));
+        $resolver->setNormalizer('dateDelivery', $this->normalizerFactory->getClosure('date'));
+        $resolver->setNormalizer('dateWarranty', $this->normalizerFactory->getClosure('date'));
         $resolver->setRequired('text');
-        $resolver->setNormalizer('text', $resolver->getNormalizer('string90'));
+        $resolver->setNormalizer('text', $this->normalizerFactory->getClosure('string90'));
     }
 }

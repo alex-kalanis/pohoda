@@ -42,6 +42,6 @@ class Settings extends AbstractAgenda
         $resolver->setDefined($this->elements);
 
         // validate / format options
-        $resolver->setNormalizer('length', $resolver->getNormalizer('int'));
+        $resolver->setNormalizer('length', $this->normalizerFactory->getClosure('int'));
     }
 }

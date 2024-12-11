@@ -33,9 +33,9 @@ class RecyclingContrib extends AbstractAgenda
         $resolver->setDefined($this->elements);
 
         // validate / format options
-        $resolver->setNormalizer('recyclingContribText', $resolver->getNormalizer('string64'));
-        $resolver->setNormalizer('recyclingContribAmount', $resolver->getNormalizer('float'));
-        $resolver->setNormalizer('recyclingContribUnit', $resolver->getNormalizer('string10'));
-        $resolver->setNormalizer('coefficientOfRecyclingContrib', $resolver->getNormalizer('float'));
+        $resolver->setNormalizer('recyclingContribText', $this->normalizerFactory->getClosure('string64'));
+        $resolver->setNormalizer('recyclingContribAmount', $this->normalizerFactory->getClosure('float'));
+        $resolver->setNormalizer('recyclingContribUnit', $this->normalizerFactory->getClosure('string10'));
+        $resolver->setNormalizer('coefficientOfRecyclingContrib', $this->normalizerFactory->getClosure('float'));
     }
 }

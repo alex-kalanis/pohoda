@@ -53,7 +53,7 @@ class Item extends AbstractAgenda
         $resolver->setDefined($this->elements);
 
         // validate / format options
-        $resolver->setNormalizer('quantity', $resolver->getNormalizer('float'));
-        $resolver->setNormalizer('note', $resolver->getNormalizer('string90'));
+        $resolver->setNormalizer('quantity', $this->normalizerFactory->getClosure('float'));
+        $resolver->setNormalizer('note', $this->normalizerFactory->getClosure('string90'));
     }
 }

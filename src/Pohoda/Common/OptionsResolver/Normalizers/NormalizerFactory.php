@@ -3,6 +3,7 @@
 namespace Riesenia\Pohoda\Common\OptionsResolver\Normalizers;
 
 
+use Closure;
 use DomainException;
 
 
@@ -10,6 +11,11 @@ class NormalizerFactory
 {
     /** @var array<string, AbstractNormalizer> */
     protected array $loadedNormalizers = [];
+
+    public function getClosure(string $name): Closure
+    {
+        return $this->getNormalizer($name)->normalize(...);
+    }
 
     /**
      * Get normalizer.
@@ -71,6 +77,8 @@ class NormalizerFactory
             'date' => new Dates($param),
             'datetime' => new DateTimes($param),
             'time' => new Times($param),
+            'list_request_type' => new ListRequestType($param),
+            'parameter_name' => new ParameterName($param),
             default => throw new DomainException('Not a valid normalizer type: ' . $type),
         };
     }

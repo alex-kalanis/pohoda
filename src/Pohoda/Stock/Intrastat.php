@@ -39,11 +39,11 @@ class Intrastat extends AbstractAgenda
         $resolver->setDefined($this->elements);
 
         // validate / format options
-        $resolver->setNormalizer('goodsCode', $resolver->getNormalizer('string8'));
-        $resolver->setNormalizer('description', $resolver->getNormalizer('string255'));
-        $resolver->setNormalizer('statistic', $resolver->getNormalizer('string2'));
-        $resolver->setNormalizer('unit', $resolver->getNormalizer('string10'));
-        $resolver->setNormalizer('coefficient', $resolver->getNormalizer('float'));
-        $resolver->setNormalizer('country', $resolver->getNormalizer('string2'));
+        $resolver->setNormalizer('goodsCode', $this->normalizerFactory->getClosure('string8'));
+        $resolver->setNormalizer('description', $this->normalizerFactory->getClosure('string255'));
+        $resolver->setNormalizer('statistic', $this->normalizerFactory->getClosure('string2'));
+        $resolver->setNormalizer('unit', $this->normalizerFactory->getClosure('string10'));
+        $resolver->setNormalizer('coefficient', $this->normalizerFactory->getClosure('float'));
+        $resolver->setNormalizer('country', $this->normalizerFactory->getClosure('string2'));
     }
 }

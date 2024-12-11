@@ -56,8 +56,8 @@ class StockItem extends AbstractAgenda
         // available options
         $resolver->setDefined($this->elements);
 
-        $resolver->setNormalizer('id', $resolver->getNormalizer('int'));
-        $resolver->setNormalizer('count', $resolver->getNormalizer('float'));
-        $resolver->setNormalizer('quantity', $resolver->getNormalizer('float'));
+        $resolver->setNormalizer('id', $this->normalizerFactory->getClosure('int'));
+        $resolver->setNormalizer('count', $this->normalizerFactory->getClosure('float'));
+        $resolver->setNormalizer('quantity', $this->normalizerFactory->getClosure('float'));
     }
 }

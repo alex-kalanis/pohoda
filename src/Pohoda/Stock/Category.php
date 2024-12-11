@@ -38,6 +38,6 @@ class Category extends AbstractAgenda
 
         // validate / format options
         $resolver->setRequired('idCategory');
-        $resolver->setNormalizer('idCategory', $resolver->getNormalizer('int'));
+        $resolver->setNormalizer('idCategory', $this->normalizerFactory->getClosure('int'));
     }
 }

@@ -31,10 +31,10 @@ class Header extends DocumentHeader
         // validate / format options
         $resolver->setDefault('offerType', 'receivedOffer');
         $resolver->setAllowedValues('offerType', ['receivedOffer', 'issuedOffer']);
-        $resolver->setNormalizer('date', $resolver->getNormalizer('date'));
-        $resolver->setNormalizer('validTill', $resolver->getNormalizer('date'));
-        $resolver->setNormalizer('text', $resolver->getNormalizer('string240'));
-        $resolver->setNormalizer('isExecuted', $resolver->getNormalizer('bool'));
-        $resolver->setNormalizer('markRecord', $resolver->getNormalizer('bool'));
+        $resolver->setNormalizer('date', $this->normalizerFactory->getClosure('date'));
+        $resolver->setNormalizer('validTill', $this->normalizerFactory->getClosure('date'));
+        $resolver->setNormalizer('text', $this->normalizerFactory->getClosure('string240'));
+        $resolver->setNormalizer('isExecuted', $this->normalizerFactory->getClosure('bool'));
+        $resolver->setNormalizer('markRecord', $this->normalizerFactory->getClosure('bool'));
     }
 }

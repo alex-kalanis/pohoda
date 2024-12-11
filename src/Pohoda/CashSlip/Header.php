@@ -31,7 +31,7 @@ class Header extends DocumentHeader
         // validate / format options
         $resolver->setDefault('prodejkaType', 'saleVoucher');
         $resolver->setAllowedValues('prodejkaType', ['saleVoucher', 'deposit', 'withdrawal']);
-        $resolver->setNormalizer('date', $resolver->getNormalizer('date'));
-        $resolver->setNormalizer('text', $resolver->getNormalizer('string240'));
+        $resolver->setNormalizer('date', $this->normalizerFactory->getClosure('date'));
+        $resolver->setNormalizer('text', $this->normalizerFactory->getClosure('string240'));
     }
 }

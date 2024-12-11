@@ -29,19 +29,19 @@ class Item extends DocumentItem
         parent::configureOptions($resolver);
 
         // validate / format options
-        $resolver->setNormalizer('text', $resolver->getNormalizer('string90'));
-        $resolver->setNormalizer('quantity', $resolver->getNormalizer('float'));
-        $resolver->setNormalizer('unit', $resolver->getNormalizer('string10'));
-        $resolver->setNormalizer('coefficient', $resolver->getNormalizer('float'));
-        $resolver->setNormalizer('payVAT', $resolver->getNormalizer('bool'));
+        $resolver->setNormalizer('text', $this->normalizerFactory->getClosure('string90'));
+        $resolver->setNormalizer('quantity', $this->normalizerFactory->getClosure('float'));
+        $resolver->setNormalizer('unit', $this->normalizerFactory->getClosure('string10'));
+        $resolver->setNormalizer('coefficient', $this->normalizerFactory->getClosure('float'));
+        $resolver->setNormalizer('payVAT', $this->normalizerFactory->getClosure('bool'));
         $resolver->setAllowedValues('rateVAT', ['none', 'high', 'low', 'third', 'historyHigh', 'historyLow', 'historyThird']);
-        $resolver->setNormalizer('percentVAT', $resolver->getNormalizer('float'));
-        $resolver->setNormalizer('discountPercentage', $resolver->getNormalizer('float'));
-        $resolver->setNormalizer('note', $resolver->getNormalizer('string90'));
-        $resolver->setNormalizer('code', $resolver->getNormalizer('string64'));
-        $resolver->setNormalizer('symPar', $resolver->getNormalizer('string20'));
-        $resolver->setNormalizer('PDP', $resolver->getNormalizer('bool'));
-        $resolver->setNormalizer('CodePDP', $resolver->getNormalizer('string4'));
-        $resolver->setNormalizer('PDP', $resolver->getNormalizer('bool'));
+        $resolver->setNormalizer('percentVAT', $this->normalizerFactory->getClosure('float'));
+        $resolver->setNormalizer('discountPercentage', $this->normalizerFactory->getClosure('float'));
+        $resolver->setNormalizer('note', $this->normalizerFactory->getClosure('string90'));
+        $resolver->setNormalizer('code', $this->normalizerFactory->getClosure('string64'));
+        $resolver->setNormalizer('symPar', $this->normalizerFactory->getClosure('string20'));
+        $resolver->setNormalizer('PDP', $this->normalizerFactory->getClosure('bool'));
+        $resolver->setNormalizer('CodePDP', $this->normalizerFactory->getClosure('string4'));
+        $resolver->setNormalizer('PDP', $this->normalizerFactory->getClosure('bool'));
     }
 }

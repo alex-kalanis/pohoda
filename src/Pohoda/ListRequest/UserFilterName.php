@@ -38,6 +38,6 @@ class UserFilterName extends AbstractAgenda
 
         // validate / format options
         $resolver->setRequired('userFilterName');
-        $resolver->setNormalizer('userFilterName', $resolver->getNormalizer('string100'));
+        $resolver->setNormalizer('userFilterName', $this->normalizerFactory->getClosure('string100'));
     }
 }

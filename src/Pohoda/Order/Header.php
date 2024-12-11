@@ -31,15 +31,15 @@ class Header extends DocumentHeader
         // validate / format options
         $resolver->setDefault('orderType', 'receivedOrder');
         $resolver->setAllowedValues('orderType', ['receivedOrder', 'issuedOrder']);
-        $resolver->setNormalizer('numberOrder', $resolver->getNormalizer('string32'));
-        $resolver->setNormalizer('date', $resolver->getNormalizer('date'));
-        $resolver->setNormalizer('dateDelivery', $resolver->getNormalizer('date'));
-        $resolver->setNormalizer('dateFrom', $resolver->getNormalizer('date'));
-        $resolver->setNormalizer('dateTo', $resolver->getNormalizer('date'));
-        $resolver->setNormalizer('text', $resolver->getNormalizer('string240'));
-        $resolver->setNormalizer('isExecuted', $resolver->getNormalizer('bool'));
-        $resolver->setNormalizer('isReserved', $resolver->getNormalizer('bool'));
-        $resolver->setNormalizer('markRecord', $resolver->getNormalizer('bool'));
-        $resolver->setNormalizer('histRate', $resolver->getNormalizer('bool'));
+        $resolver->setNormalizer('numberOrder', $this->normalizerFactory->getClosure('string32'));
+        $resolver->setNormalizer('date', $this->normalizerFactory->getClosure('date'));
+        $resolver->setNormalizer('dateDelivery', $this->normalizerFactory->getClosure('date'));
+        $resolver->setNormalizer('dateFrom', $this->normalizerFactory->getClosure('date'));
+        $resolver->setNormalizer('dateTo', $this->normalizerFactory->getClosure('date'));
+        $resolver->setNormalizer('text', $this->normalizerFactory->getClosure('string240'));
+        $resolver->setNormalizer('isExecuted', $this->normalizerFactory->getClosure('bool'));
+        $resolver->setNormalizer('isReserved', $this->normalizerFactory->getClosure('bool'));
+        $resolver->setNormalizer('markRecord', $this->normalizerFactory->getClosure('bool'));
+        $resolver->setNormalizer('histRate', $this->normalizerFactory->getClosure('bool'));
     }
 }

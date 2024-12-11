@@ -38,8 +38,8 @@ class Picture extends AbstractAgenda
 
         // validate / format options
         $resolver->setRequired('filepath');
-        $resolver->setNormalizer('order', $resolver->getNormalizer('int'));
+        $resolver->setNormalizer('order', $this->normalizerFactory->getClosure('int'));
         $resolver->setDefault('default', 'false');
-        $resolver->setNormalizer('default', $resolver->getNormalizer('bool'));
+        $resolver->setNormalizer('default', $this->normalizerFactory->getClosure('bool'));
     }
 }

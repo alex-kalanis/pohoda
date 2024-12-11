@@ -43,13 +43,13 @@ class Header extends DocumentHeader
 
         // validate / format options
         $resolver->setAllowedValues('bankType', ['receipt', 'expense']);
-        $resolver->setNormalizer('symVar', $resolver->getNormalizer('string20'));
-        $resolver->setNormalizer('dateStatement', $resolver->getNormalizer('date'));
-        $resolver->setNormalizer('datePayment', $resolver->getNormalizer('date'));
-        $resolver->setNormalizer('text', $resolver->getNormalizer('string96'));
-        $resolver->setNormalizer('symConst', $resolver->getNormalizer('string4'));
-        $resolver->setNormalizer('symSpec', $resolver->getNormalizer('string16'));
-        $resolver->setNormalizer('symPar', $resolver->getNormalizer('string20'));
-        $resolver->setNormalizer('accountingPeriodMOSS', $resolver->getNormalizer('string7'));
+        $resolver->setNormalizer('symVar', $this->normalizerFactory->getClosure('string20'));
+        $resolver->setNormalizer('dateStatement', $this->normalizerFactory->getClosure('date'));
+        $resolver->setNormalizer('datePayment', $this->normalizerFactory->getClosure('date'));
+        $resolver->setNormalizer('text', $this->normalizerFactory->getClosure('string96'));
+        $resolver->setNormalizer('symConst', $this->normalizerFactory->getClosure('string4'));
+        $resolver->setNormalizer('symSpec', $this->normalizerFactory->getClosure('string16'));
+        $resolver->setNormalizer('symPar', $this->normalizerFactory->getClosure('string20'));
+        $resolver->setNormalizer('accountingPeriodMOSS', $this->normalizerFactory->getClosure('string7'));
     }
 }

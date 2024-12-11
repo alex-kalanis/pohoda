@@ -97,8 +97,8 @@ class Category extends AbstractAgenda
 
         // validate / format options
         $resolver->setRequired('name');
-        $resolver->setNormalizer('name', $resolver->getNormalizer('string48'));
-        $resolver->setNormalizer('sequence', $resolver->getNormalizer('int'));
-        $resolver->setNormalizer('displayed', $resolver->getNormalizer('bool'));
+        $resolver->setNormalizer('name', $this->normalizerFactory->getClosure('string48'));
+        $resolver->setNormalizer('sequence', $this->normalizerFactory->getClosure('int'));
+        $resolver->setNormalizer('displayed', $this->normalizerFactory->getClosure('bool'));
     }
 }

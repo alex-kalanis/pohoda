@@ -50,22 +50,10 @@ class Parameter extends AbstractAgenda
 
         // validate / format options
         $resolver->setRequired('name');
-        $resolver->setNormalizer('name', function ($options, $value) {
-            $prefix = 'VPr';
-
-            if ('list' == $options['type']) {
-                $prefix = 'RefVPr';
-            }
-
-            if (str_starts_with($value, $prefix)) {
-                return $value;
-            }
-
-            return $prefix . $value;
-        });
+        $resolver->setNormalizer('name', $this->normalizerFactory->getClosure('parameter_name'));
         $resolver->setRequired('type');
         $resolver->setAllowedValues('type', ['text', 'memo', 'currency', 'boolean', 'number', 'datetime', 'integer', 'list']);
-        $resolver->setNormalizer('value', function ($options, $value) use ($resolver) {
+        $resolver->setNormalizer('value', function ($options, $value) {
             $normalizer = $options['type'];
 
             // date for datetime
@@ -74,9 +62,9 @@ class Parameter extends AbstractAgenda
             }
 
             try {
-                return \call_user_func($resolver->getNormalizer($normalizer), [], $value);
-            } catch (\Exception $e) {
-                return \is_array($value) ? $value : (string) $value;
+                return \call_user_func($this->normalizerFactory->getClosure($normalizer), [], $value);
+            } catch (\Exception) {
+                return \is_array($value) ? $value : \strval($value);
             }
         });
     }

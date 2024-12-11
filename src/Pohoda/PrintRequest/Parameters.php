@@ -151,7 +151,7 @@ class Parameters extends AbstractAgenda
         // available options
         $resolver->setDefined($this->elements);
 
-        $resolver->setNormalizer('copy', $resolver->getNormalizer('int'));
-        $resolver->setNormalizer('datePrint', $resolver->getNormalizer('string'));
+        $resolver->setNormalizer('copy', $this->normalizerFactory->getClosure('int'));
+        $resolver->setNormalizer('datePrint', $this->normalizerFactory->getClosure('string'));
     }
 }

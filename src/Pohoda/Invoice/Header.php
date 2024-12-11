@@ -31,25 +31,25 @@ class Header extends DocumentHeader
         // validate / format options
         $resolver->setDefault('invoiceType', 'issuedInvoice');
         $resolver->setAllowedValues('invoiceType', ['issuedInvoice', 'issuedCreditNotice', 'issuedDebitNote', 'issuedAdvanceInvoice', 'receivable', 'issuedProformaInvoice', 'penalty', 'issuedCorrectiveTax', 'receivedInvoice', 'receivedCreditNotice', 'receivedDebitNote', 'receivedAdvanceInvoice', 'commitment', 'receivedProformaInvoice', 'receivedCorrectiveTax']);
-        $resolver->setNormalizer('symVar', $resolver->getNormalizer('string20'));
-        $resolver->setNormalizer('originalDocument', $resolver->getNormalizer('string32'));
-        $resolver->setNormalizer('symPar', $resolver->getNormalizer('string20'));
-        $resolver->setNormalizer('date', $resolver->getNormalizer('date'));
-        $resolver->setNormalizer('dateTax', $resolver->getNormalizer('date'));
-        $resolver->setNormalizer('dateAccounting', $resolver->getNormalizer('date'));
-        $resolver->setNormalizer('dateKHDPH', $resolver->getNormalizer('date'));
-        $resolver->setNormalizer('dateDue', $resolver->getNormalizer('date'));
-        $resolver->setNormalizer('dateApplicationVAT', $resolver->getNormalizer('date'));
-        $resolver->setNormalizer('dateDelivery', $resolver->getNormalizer('date'));
-        $resolver->setNormalizer('numberKHDPH', $resolver->getNormalizer('string32'));
-        $resolver->setNormalizer('text', $resolver->getNormalizer('string240'));
-        $resolver->setNormalizer('numberOrder', $resolver->getNormalizer('string32'));
-        $resolver->setNormalizer('dateOrder', $resolver->getNormalizer('date'));
-        $resolver->setNormalizer('symConst', $resolver->getNormalizer('string4'));
-        $resolver->setNormalizer('symSpec', $resolver->getNormalizer('string16'));
-        $resolver->setNormalizer('paymentTerminal', $resolver->getNormalizer('bool'));
-        $resolver->setNormalizer('postponedIssue', $resolver->getNormalizer('bool'));
-        $resolver->setNormalizer('histRate', $resolver->getNormalizer('bool'));
-        $resolver->setNormalizer('dateTaxOriginalDocumentMOSS', $resolver->getNormalizer('date'));
+        $resolver->setNormalizer('symVar', $this->normalizerFactory->getClosure('string20'));
+        $resolver->setNormalizer('originalDocument', $this->normalizerFactory->getClosure('string32'));
+        $resolver->setNormalizer('symPar', $this->normalizerFactory->getClosure('string20'));
+        $resolver->setNormalizer('date', $this->normalizerFactory->getClosure('date'));
+        $resolver->setNormalizer('dateTax', $this->normalizerFactory->getClosure('date'));
+        $resolver->setNormalizer('dateAccounting', $this->normalizerFactory->getClosure('date'));
+        $resolver->setNormalizer('dateKHDPH', $this->normalizerFactory->getClosure('date'));
+        $resolver->setNormalizer('dateDue', $this->normalizerFactory->getClosure('date'));
+        $resolver->setNormalizer('dateApplicationVAT', $this->normalizerFactory->getClosure('date'));
+        $resolver->setNormalizer('dateDelivery', $this->normalizerFactory->getClosure('date'));
+        $resolver->setNormalizer('numberKHDPH', $this->normalizerFactory->getClosure('string32'));
+        $resolver->setNormalizer('text', $this->normalizerFactory->getClosure('string240'));
+        $resolver->setNormalizer('numberOrder', $this->normalizerFactory->getClosure('string32'));
+        $resolver->setNormalizer('dateOrder', $this->normalizerFactory->getClosure('date'));
+        $resolver->setNormalizer('symConst', $this->normalizerFactory->getClosure('string4'));
+        $resolver->setNormalizer('symSpec', $this->normalizerFactory->getClosure('string16'));
+        $resolver->setNormalizer('paymentTerminal', $this->normalizerFactory->getClosure('bool'));
+        $resolver->setNormalizer('postponedIssue', $this->normalizerFactory->getClosure('bool'));
+        $resolver->setNormalizer('histRate', $this->normalizerFactory->getClosure('bool'));
+        $resolver->setNormalizer('dateTaxOriginalDocumentMOSS', $this->normalizerFactory->getClosure('date'));
     }
 }

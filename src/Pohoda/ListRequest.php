@@ -105,24 +105,7 @@ class ListRequest extends AbstractAgenda
 
         // validate / format options
         $resolver->setRequired('type');
-        $resolver->setNormalizer('type', function ($options, $value) {
-            // Addressbook is custom
-            if ('Addressbook' == $value) {
-                return 'AddressBook';
-            }
-
-            // IssueSlip is custom
-            if ('IssueSlip' == $value) {
-                return 'Vydejka';
-            }
-
-            // CashSlip is custom
-            if ('CashSlip' == $value) {
-                return 'Prodejka';
-            }
-
-            return $value;
-        });
+        $resolver->setNormalizer('type', $this->normalizerFactory->getClosure('list_request_type'));
         $resolver->setDefault('namespace', function (Options $options) {
             if ('Stock' == $options['type']) {
                 return 'lStk';

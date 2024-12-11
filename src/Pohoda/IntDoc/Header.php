@@ -29,17 +29,17 @@ class Header extends DocumentHeader
         parent::configureOptions($resolver);
 
         // validate / format options
-        $resolver->setNormalizer('symVar', $resolver->getNormalizer('string20'));
-        $resolver->setNormalizer('symPar', $resolver->getNormalizer('string20'));
-        $resolver->setNormalizer('date', $resolver->getNormalizer('date'));
-        $resolver->setNormalizer('dateTax', $resolver->getNormalizer('date'));
-        $resolver->setNormalizer('dateAccounting', $resolver->getNormalizer('date'));
-        $resolver->setNormalizer('dateDelivery', $resolver->getNormalizer('date'));
-        $resolver->setNormalizer('dateKVDPH', $resolver->getNormalizer('date'));
-        $resolver->setNormalizer('dateKHDPH', $resolver->getNormalizer('date'));
-        $resolver->setNormalizer('numberKHDPH', $resolver->getNormalizer('string32'));
-        $resolver->setNormalizer('text', $resolver->getNormalizer('string240'));
-        $resolver->setNormalizer('liquidation', $resolver->getNormalizer('bool'));
-        $resolver->setNormalizer('markRecord', $resolver->getNormalizer('bool'));
+        $resolver->setNormalizer('symVar', $this->normalizerFactory->getClosure('string20'));
+        $resolver->setNormalizer('symPar', $this->normalizerFactory->getClosure('string20'));
+        $resolver->setNormalizer('date', $this->normalizerFactory->getClosure('date'));
+        $resolver->setNormalizer('dateTax', $this->normalizerFactory->getClosure('date'));
+        $resolver->setNormalizer('dateAccounting', $this->normalizerFactory->getClosure('date'));
+        $resolver->setNormalizer('dateDelivery', $this->normalizerFactory->getClosure('date'));
+        $resolver->setNormalizer('dateKVDPH', $this->normalizerFactory->getClosure('date'));
+        $resolver->setNormalizer('dateKHDPH', $this->normalizerFactory->getClosure('date'));
+        $resolver->setNormalizer('numberKHDPH', $this->normalizerFactory->getClosure('string32'));
+        $resolver->setNormalizer('text', $this->normalizerFactory->getClosure('string240'));
+        $resolver->setNormalizer('liquidation', $this->normalizerFactory->getClosure('bool'));
+        $resolver->setNormalizer('markRecord', $this->normalizerFactory->getClosure('bool'));
     }
 }

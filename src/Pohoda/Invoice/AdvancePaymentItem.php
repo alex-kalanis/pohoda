@@ -41,10 +41,10 @@ class AdvancePaymentItem extends Item
         $resolver->setDefined($this->elements);
 
         // validate / format options
-        $resolver->setNormalizer('quantity', $resolver->getNormalizer('float'));
-        $resolver->setNormalizer('payVAT', $resolver->getNormalizer('bool'));
+        $resolver->setNormalizer('quantity', $this->normalizerFactory->getClosure('float'));
+        $resolver->setNormalizer('payVAT', $this->normalizerFactory->getClosure('bool'));
         $resolver->setAllowedValues('rateVAT', ['none', 'third', 'low', 'high']);
-        $resolver->setNormalizer('discountPercentage', $resolver->getNormalizer('float'));
-        $resolver->setNormalizer('note', $resolver->getNormalizer('string90'));
+        $resolver->setNormalizer('discountPercentage', $this->normalizerFactory->getClosure('float'));
+        $resolver->setNormalizer('note', $this->normalizerFactory->getClosure('string90'));
     }
 }

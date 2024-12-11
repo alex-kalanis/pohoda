@@ -39,9 +39,9 @@ class EstablishmentType extends AbstractAgenda
         $resolver->setDefined($this->elements);
 
         // validate / format options
-        $resolver->setNormalizer('company', $resolver->getNormalizer('string255'));
-        $resolver->setNormalizer('city', $resolver->getNormalizer('string45'));
-        $resolver->setNormalizer('street', $resolver->getNormalizer('string64'));
-        $resolver->setNormalizer('zip', $resolver->getNormalizer('string15'));
+        $resolver->setNormalizer('company', $this->normalizerFactory->getClosure('string255'));
+        $resolver->setNormalizer('city', $this->normalizerFactory->getClosure('string45'));
+        $resolver->setNormalizer('street', $this->normalizerFactory->getClosure('string64'));
+        $resolver->setNormalizer('zip', $this->normalizerFactory->getClosure('string15'));
     }
 }

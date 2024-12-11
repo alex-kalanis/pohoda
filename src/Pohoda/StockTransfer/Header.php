@@ -59,11 +59,11 @@ class Header extends AbstractAgenda
         $resolver->setDefined($this->elements);
 
         // validate / format options
-        $resolver->setNormalizer('date', $resolver->getNormalizer('date'));
-        $resolver->setNormalizer('time', $resolver->getNormalizer('time'));
-        $resolver->setNormalizer('dateOfReceipt', $resolver->getNormalizer('date'));
-        $resolver->setNormalizer('timeOfReceipt', $resolver->getNormalizer('time'));
-        $resolver->setNormalizer('symPar', $resolver->getNormalizer('string20'));
-        $resolver->setNormalizer('text', $resolver->getNormalizer('string48'));
+        $resolver->setNormalizer('date', $this->normalizerFactory->getClosure('date'));
+        $resolver->setNormalizer('time', $this->normalizerFactory->getClosure('time'));
+        $resolver->setNormalizer('dateOfReceipt', $this->normalizerFactory->getClosure('date'));
+        $resolver->setNormalizer('timeOfReceipt', $this->normalizerFactory->getClosure('time'));
+        $resolver->setNormalizer('symPar', $this->normalizerFactory->getClosure('string20'));
+        $resolver->setNormalizer('text', $this->normalizerFactory->getClosure('string48'));
     }
 }

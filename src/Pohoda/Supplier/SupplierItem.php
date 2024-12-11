@@ -47,18 +47,18 @@ class SupplierItem extends AbstractAgenda
         // available options
         $resolver->setDefined($this->elements);
 
-        $resolver->setNormalizer('default', $resolver->getNormalizer('bool'));
-        $resolver->setNormalizer('orderCode', $resolver->getNormalizer('string64'));
-        $resolver->setNormalizer('orderName', $resolver->getNormalizer('string90'));
-        $resolver->setNormalizer('purchasingPrice', $resolver->getNormalizer('number'));
-        $resolver->setNormalizer('rate', $resolver->getNormalizer('float'));
-        $resolver->setNormalizer('payVAT', $resolver->getNormalizer('bool'));
-        $resolver->setNormalizer('ean', $resolver->getNormalizer('string20'));
-        $resolver->setNormalizer('printEAN', $resolver->getNormalizer('bool'));
-        $resolver->setNormalizer('unitEAN', $resolver->getNormalizer('string10'));
-        $resolver->setNormalizer('unitCoefEAN', $resolver->getNormalizer('float'));
-        $resolver->setNormalizer('deliveryTime', $resolver->getNormalizer('int'));
-        $resolver->setNormalizer('minQuantity', $resolver->getNormalizer('float'));
-        $resolver->setNormalizer('unit', $resolver->getNormalizer('string10'));
+        $resolver->setNormalizer('default', $this->normalizerFactory->getClosure('bool'));
+        $resolver->setNormalizer('orderCode', $this->normalizerFactory->getClosure('string64'));
+        $resolver->setNormalizer('orderName', $this->normalizerFactory->getClosure('string90'));
+        $resolver->setNormalizer('purchasingPrice', $this->normalizerFactory->getClosure('number'));
+        $resolver->setNormalizer('rate', $this->normalizerFactory->getClosure('float'));
+        $resolver->setNormalizer('payVAT', $this->normalizerFactory->getClosure('bool'));
+        $resolver->setNormalizer('ean', $this->normalizerFactory->getClosure('string20'));
+        $resolver->setNormalizer('printEAN', $this->normalizerFactory->getClosure('bool'));
+        $resolver->setNormalizer('unitEAN', $this->normalizerFactory->getClosure('string10'));
+        $resolver->setNormalizer('unitCoefEAN', $this->normalizerFactory->getClosure('float'));
+        $resolver->setNormalizer('deliveryTime', $this->normalizerFactory->getClosure('int'));
+        $resolver->setNormalizer('minQuantity', $this->normalizerFactory->getClosure('float'));
+        $resolver->setNormalizer('unit', $this->normalizerFactory->getClosure('string10'));
     }
 }

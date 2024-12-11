@@ -39,8 +39,8 @@ class StockItem extends AbstractAgenda
         $resolver->setDefined($this->elements);
 
         // validate / format options
-        $resolver->setNormalizer('insertAttachStock', $resolver->getNormalizer('bool'));
-        $resolver->setNormalizer('applyUserSettingsFilterOnTheStore', $resolver->getNormalizer('bool'));
-        $resolver->setNormalizer('serialNumber', $resolver->getNormalizer('string40'));
+        $resolver->setNormalizer('insertAttachStock', $this->normalizerFactory->getClosure('bool'));
+        $resolver->setNormalizer('applyUserSettingsFilterOnTheStore', $this->normalizerFactory->getClosure('bool'));
+        $resolver->setNormalizer('serialNumber', $this->normalizerFactory->getClosure('string40'));
     }
 }

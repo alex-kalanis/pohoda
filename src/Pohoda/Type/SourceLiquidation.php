@@ -39,6 +39,6 @@ class SourceLiquidation extends AbstractAgenda
         $resolver->setDefined($this->elements);
 
         // validate / format options
-        $resolver->setNormalizer('sourceItemId', $resolver->getNormalizer('int'));
+        $resolver->setNormalizer('sourceItemId', $this->normalizerFactory->getClosure('int'));
     }
 }

@@ -12,11 +12,11 @@ class OptionsResolverTest extends CommonTestClass
 {
     public function testResolverString(): void
     {
-        $lib = new OptionsResolver();
-        $closure1 = $lib->getNormalizer('string');
+        $lib = new OptionsResolver\Normalizers\NormalizerFactory();
+        $closure1 = $lib->getClosure('string');
         $this->assertEquals('this is some string', $closure1(null, 'this is some string'));
 
-        $closure2 = $lib->getNormalizer('str');
+        $closure2 = $lib->getClosure('str');
         $this->assertEquals('this is another string', $closure2(null, 'this is another string'));
     }
 

@@ -94,9 +94,9 @@ class UserList extends AbstractAgenda
         // validate / format options
         $resolver->setRequired('code');
         $resolver->setRequired('name');
-        $resolver->setNormalizer('constants', $resolver->getNormalizer('bool'));
-        $resolver->setNormalizer('dateTimeStamp', $resolver->getNormalizer('datetime'));
-        $resolver->setNormalizer('dateValidFrom', $resolver->getNormalizer('date'));
-        $resolver->setNormalizer('submenu', $resolver->getNormalizer('boolean'));
+        $resolver->setNormalizer('constants', $this->normalizerFactory->getClosure('bool'));
+        $resolver->setNormalizer('dateTimeStamp', $this->normalizerFactory->getClosure('datetime'));
+        $resolver->setNormalizer('dateValidFrom', $this->normalizerFactory->getClosure('date'));
+        $resolver->setNormalizer('submenu', $this->normalizerFactory->getClosure('boolean'));
     }
 }

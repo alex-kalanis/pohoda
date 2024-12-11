@@ -33,15 +33,15 @@ class CurrencyHome extends AbstractAgenda
         $resolver->setDefined($this->elements);
 
         // validate / format options
-        $resolver->setNormalizer('priceNone', $resolver->getNormalizer('float'));
-        $resolver->setNormalizer('price3', $resolver->getNormalizer('float'));
-        $resolver->setNormalizer('price3VAT', $resolver->getNormalizer('float'));
-        $resolver->setNormalizer('price3Sum', $resolver->getNormalizer('float'));
-        $resolver->setNormalizer('priceLow', $resolver->getNormalizer('float'));
-        $resolver->setNormalizer('priceLowVAT', $resolver->getNormalizer('float'));
-        $resolver->setNormalizer('priceLowSum', $resolver->getNormalizer('float'));
-        $resolver->setNormalizer('priceHigh', $resolver->getNormalizer('float'));
-        $resolver->setNormalizer('priceHighVAT', $resolver->getNormalizer('float'));
-        $resolver->setNormalizer('priceHighSum', $resolver->getNormalizer('float'));
+        $resolver->setNormalizer('priceNone', $this->normalizerFactory->getClosure('float'));
+        $resolver->setNormalizer('price3', $this->normalizerFactory->getClosure('float'));
+        $resolver->setNormalizer('price3VAT', $this->normalizerFactory->getClosure('float'));
+        $resolver->setNormalizer('price3Sum', $this->normalizerFactory->getClosure('float'));
+        $resolver->setNormalizer('priceLow', $this->normalizerFactory->getClosure('float'));
+        $resolver->setNormalizer('priceLowVAT', $this->normalizerFactory->getClosure('float'));
+        $resolver->setNormalizer('priceLowSum', $this->normalizerFactory->getClosure('float'));
+        $resolver->setNormalizer('priceHigh', $this->normalizerFactory->getClosure('float'));
+        $resolver->setNormalizer('priceHighVAT', $this->normalizerFactory->getClosure('float'));
+        $resolver->setNormalizer('priceHighSum', $this->normalizerFactory->getClosure('float'));
     }
 }
