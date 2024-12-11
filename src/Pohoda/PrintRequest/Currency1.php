@@ -12,5 +12,4 @@ namespace Riesenia\Pohoda\PrintRequest;
 
 class Currency1 extends NumberType
 {
-
 }

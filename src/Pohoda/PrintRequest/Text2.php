@@ -12,5 +12,4 @@ namespace Riesenia\Pohoda\PrintRequest;
 
 class Text2 extends TextType
 {
-
 }

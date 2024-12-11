@@ -16,7 +16,7 @@ use Riesenia\Pohoda\Common\OptionsResolver;
 class Parameters extends AbstractAgenda
 {
     /** @var string[] */
-    protected array $elements = ['copy', 'datePrint', 'checkbox1', 'checkbox2', 'checkbox3', 'checkbox4', 'checkbox5', 'checkbox6', 'checkbox7', 'radioButton1', 'spin1', 'currency1', 'month1', 'month2', 'year1', 'date1', 'date2', 'date3', 'date4', 'text1', 'text2', 'text3', 'combobox1', 'combobox2', 'combobox3', 'comboboxEx1', 'comboboxEx2'];
+    protected array $elements = ['copy', 'datePrint', 'checkbox1', 'checkbox2', 'checkbox3', 'checkbox4', 'checkbox5', 'checkbox6', 'checkbox7', 'checkbox8', 'radioButton1', 'spin1', 'currency1', 'month1', 'month2', 'year1', 'date1', 'date2', 'date3', 'date4', 'text1', 'text2', 'text3', 'combobox1', 'combobox2', 'combobox3', 'comboboxEx1', 'comboboxEx2'];
 
     /**
      * {@inheritdoc}
@@ -50,6 +50,10 @@ class Parameters extends AbstractAgenda
         // process checkbox7
         if (isset($data['checkbox7'])) {
           $data['checkbox7'] = new Checkbox7($data['checkbox7'], $ico, $resolveOptions);
+        }
+        // process checkbox8
+        if (isset($data['checkbox8'])) {
+          $data['checkbox8'] = new Checkbox8($data['checkbox8'], $ico, $resolveOptions);
         }
         // process radioButton1
         if (isset($data['radioButton1'])) {

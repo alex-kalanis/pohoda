@@ -12,5 +12,4 @@ namespace Riesenia\Pohoda\PrintRequest;
 
 class RadioButton1 extends RadioButtonType
 {
-
 }

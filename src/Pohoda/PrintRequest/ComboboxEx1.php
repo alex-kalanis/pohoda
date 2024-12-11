@@ -12,5 +12,4 @@ namespace Riesenia\Pohoda\PrintRequest;
 
 class ComboboxEx1 extends ComboboxType
 {
-
 }

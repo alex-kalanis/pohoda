@@ -10,6 +10,6 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\PrintRequest;
 
-class Checkbox3 extends CheckboxType
+class Checkbox8 extends CheckboxType
 {
 }

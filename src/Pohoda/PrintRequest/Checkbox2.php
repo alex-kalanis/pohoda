@@ -12,5 +12,4 @@ namespace Riesenia\Pohoda\PrintRequest;
 
 class Checkbox2 extends CheckboxType
 {
-
 }
