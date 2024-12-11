@@ -78,7 +78,6 @@ class NormalizerFactory
             'datetime' => new DateTimes($param),
             'time' => new Times($param),
             'list_request_type' => new ListRequestType($param),
-            'parameter_name' => new ParameterName($param),
             default => throw new DomainException('Not a valid normalizer type: ' . $type),
         };
     }

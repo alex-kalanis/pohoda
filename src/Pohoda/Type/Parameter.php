@@ -50,7 +50,20 @@ class Parameter extends AbstractAgenda
 
         // validate / format options
         $resolver->setRequired('name');
-        $resolver->setNormalizer('name', $this->normalizerFactory->getClosure('parameter_name'));
+        $resolver->setNormalizer('name', function (OptionsResolver $options, mixed $value): string {
+            $prefix = 'VPr';
+            $value = \strval($value);
+
+            if ('list' == $options['type']) {
+                $prefix = 'RefVPr';
+            }
+
+            if (str_starts_with($value, $prefix)) {
+                return $value;
+            }
+
+            return $prefix . $value;
+        });
         $resolver->setRequired('type');
         $resolver->setAllowedValues('type', ['text', 'memo', 'currency', 'boolean', 'number', 'datetime', 'integer', 'list']);
         $resolver->setNormalizer('value', function ($options, $value) {
