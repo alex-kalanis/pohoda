@@ -10,20 +10,12 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\Common;
 
+use Closure;
 use Symfony\Component\OptionsResolver\OptionsResolver as SymfonyOptionsResolver;
 
 class OptionsResolver extends SymfonyOptionsResolver
 {
-    /**
-     * Date formats.
-     */
-    const DATE_FORMATS = [
-        'date' => 'Y-m-d',
-        'datetime' => 'Y-m-d\TH:i:s',
-        'time' => 'H:i:s'
-    ];
-
-    /** @var array<string,\Closure> */
+    /** @var array<string, Closure> */
     protected array $loadedNormalizers = [];
 
     /**
@@ -31,9 +23,11 @@ class OptionsResolver extends SymfonyOptionsResolver
      *
      * @param string $type
      *
-     * @return \Closure
+     * @return Closure
+     *
+     * Technically it's factory
      */
-    public function getNormalizer(string $type): \Closure
+    public function getNormalizer(string $type): Closure
     {
         if (isset($this->loadedNormalizers[$type])) {
             return $this->loadedNormalizers[$type];
@@ -58,9 +52,8 @@ class OptionsResolver extends SymfonyOptionsResolver
             $normalizer = $this->createNormalizer($type);
         }
 
-        $this->loadedNormalizers[$type] = $normalizer;
-
-        return $normalizer;
+        $this->loadedNormalizers[$type] = $normalizer->normalize(...); // Closure::fromCallable([$normalizer, 'normalize'])
+        return $this->loadedNormalizers[$type];
     }
 
     /**
@@ -72,109 +65,20 @@ class OptionsResolver extends SymfonyOptionsResolver
      *     nullable?: bool|null,
      * } $param
      *
-     * @return \Closure
+     * @return OptionResolver\AbstractNormalizer
+     * @see vendor/symfony/options-resolver/OptionsResolver.php:1128
      */
-    protected function createNormalizer(string $type, array $param = []): \Closure
+    protected function createNormalizer(string $type, array $param = []): OptionResolver\AbstractNormalizer
     {
-        switch ($type) {
-            case 'str':
-            case 'string':
-                return function ($options, $value) use ($param): string {
-                    // remove new lines
-                    $value = \str_replace(["\r\n", "\r", "\n"], ' ', \strval($value));
-
-                    // param is used for string length
-                    $length = empty($param['length']) ? null : \intval($param['length']);
-                    return \mb_substr(\strval($value), 0, $length, 'utf-8');
-                };
-
-            case 'date':
-            case 'datetime':
-            case 'time':
-                $format = static::DATE_FORMATS[$type];
-
-                return function ($options, $value) use ($param, $format): string {
-                    // param is used for nullable
-                    if (!empty($param['nullable']) && empty($value)) {
-                        return '';
-                    }
-
-                    if ($value instanceof \DateTimeInterface) {
-                        return $value->format($format);
-                    }
-
-                    $time = \strtotime($value);
-
-                    if (!$time) {
-                        throw new \DomainException('Not a valid date: ' . $value);
-                    }
-
-                    return \date($format, $time);
-                };
-
-            case 'float':
-            case 'number':
-                return function ($options, $value) use ($param): string {
-                    $preform = \strval(
-                        \preg_replace(
-                            '/[^0-9,.-]/',
-                            '',
-                            \strval($value)
-                        )
-                    );
-                    if (!empty($param['nullable']) && empty(\strlen($preform))) {
-                        return '';
-                    }
-                    return \str_replace(
-                        ',',
-                        '.',
-                        \strval(
-                            \floatval(
-                                \str_replace(
-                                    ',',
-                                    '.',
-                                    $preform
-                                )
-                            )
-                        )
-                    );
-                };
-
-            case 'int':
-            case 'integer':
-                return function ($options, $value) use ($param): string {
-                    $preform = \strval(
-                        \preg_replace(
-                            '/[^0-9,.-]/',
-                            '',
-                            \strval($value)
-                        )
-                    );
-                    if (!empty($param['nullable']) && empty(\strlen($preform))) {
-                        return '';
-                    }
-                    return \strval(
-                        \intval(
-                            \str_replace(
-                                ',',
-                                '.',
-                                $preform
-                            )
-                        )
-                    );
-                };
-
-            case 'bool':
-            case 'boolean':
-                return function ($options, $value) use ($param): string {
-                    if (!empty($param['nullable']) && empty($value) && !\is_bool($value)) {
-                        return '';
-                    }
-                    return !$value || \is_string($value) && 'false' === \strtolower($value) ? 'false' : 'true';
-                };
-
-            default:
-                throw new \DomainException('Not a valid normalizer type: ' . $type);
-        }
+        return match ($type) {
+            'str', 'string' => new OptionResolver\Strings($param),
+            'float', 'number' => new OptionResolver\Numbers($param),
+            'int', 'integer' => new OptionResolver\Integers($param),
+            'bool', 'boolean' => new OptionResolver\Booleans($param),
+            'date' => new OptionResolver\Dates($param),
+            'datetime' => new OptionResolver\DateTimes($param),
+            'time' => new OptionResolver\Times($param),
+            default => throw new \DomainException('Not a valid normalizer type: ' . $type),
+        };
     }
 }
