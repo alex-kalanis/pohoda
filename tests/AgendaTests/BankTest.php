@@ -2,8 +2,10 @@
 
 namespace AgendaTests;
 
+
 use CommonTestClass;
 use Riesenia\Pohoda;
+use Riesenia\Pohoda\ValueTransformer;
 
 
 class BankTest extends CommonTestClass
@@ -76,7 +78,10 @@ class BankTest extends CommonTestClass
 
     protected function getLib(): Pohoda\Bank
     {
-        return new Pohoda\Bank(new Pohoda\Common\NamespacesPaths(), [
+        return new Pohoda\Bank(
+            new Pohoda\Common\NamespacesPaths(),
+            new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()),
+            [
             'bankType' => 'receipt',
             'account' => 'KB',
             'statementNumber' => [

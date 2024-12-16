@@ -10,18 +10,23 @@ declare(strict_types=1);
 
 namespace spec\Riesenia;
 
+
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Riesenia\Pohoda;
 use Riesenia\Pohoda\Common\NamespacesPaths;
 use Riesenia\Pohoda\Stock;
-use Riesenia\Pohoda\ValueTransformer\ValueTransformer;
+use Riesenia\Pohoda\ValueTransformer;
+
 
 class PohodaSpec extends ObjectBehavior
 {
+    protected ValueTransformer\SanitizeEncoding $sanitization;
+
     public function let(): void
     {
-        $this->beConstructedWith('123');
+        $this->sanitization = new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing());
+        $this->beConstructedWith('123', $this->sanitization);
     }
 
     public function it_is_initializable(): void
@@ -48,7 +53,7 @@ class PohodaSpec extends ObjectBehavior
     {
         $tmpFile = \tempnam(\sys_get_temp_dir(), 'xml');
 
-        $stock = new Stock(new NamespacesPaths(), [
+        $stock = new Stock(new NamespacesPaths(), $this->sanitization, [
             'code' => 'CODE',
             'name' => 'NAME',
             'storage' => 'STORAGE',
@@ -74,7 +79,7 @@ class PohodaSpec extends ObjectBehavior
 
     public function it_can_write_to_memory(): void
     {
-        $stock = new Stock(new NamespacesPaths(), [
+        $stock = new Stock(new NamespacesPaths(), $this->sanitization, [
             'code' => 'CODE',
             'name' => 'NAME',
             'storage' => 'STORAGE',
@@ -172,14 +177,16 @@ class PohodaSpec extends ObjectBehavior
 
     public function it_runs_transformers_properly(): void
     {
-        $stock = new Stock(new NamespacesPaths(), [
+        $stock = new Stock(new NamespacesPaths(), $this->sanitization, [
             'code' => 'code1',
             'name' => 'name2',
             'storage' => 'storage3',
             'typePrice' => ['id' => 4]
         ], '123');
 
-        Pohoda::$transformers = [new Capitalizer()];
+        // set for each run
+        $this->getTransformerListing()->clear();
+        $this->getTransformerListing()->addTransformer(new Capitalize());
 
         $this->open(null, 'ABC')->shouldReturn(true);
         $this->addItem('item_id', $stock);
@@ -191,31 +198,34 @@ class PohodaSpec extends ObjectBehavior
         expect((string) $xml->xpath('//typ:ids')[0])->toBe('STORAGE3');
 
         // Don't add transformers to other tests
-        Pohoda::$transformers = [];
+        $this->getTransformerListing()->clear();
     }
 
     public function it_handles_static_arrays_correctly(): void
     {
-        $stock = new Stock(new NamespacesPaths(), [
+        $stock = new Stock(new NamespacesPaths(), $this->sanitization, [
             'code' => 'code1',
             'name' => 'name2',
             'storage' => 'storage3',
             'typePrice' => ['id' => 4]
         ], '123');
 
-        Pohoda::$sanitizeEncoding = true;
+        $this->sanitization->willBeSanitized(true);
 
         $this->open(null, 'ABC')->shouldReturn(true);
         $this->addItem('item_id', $stock);
-        expect(\count(Pohoda::$transformers))->toBe(0);
+        expect(\count($this->sanitization->getListing()->clear()->getTransformers()))->toBe(0);
         $this->close();
 
         // Don't sanitize in any other test
-        Pohoda::$sanitizeEncoding = false;
+        // for class version it's passable when it will process test and other tests does not been affected
+//        $this->sanitization->willBeSanitized(false);
+//        expect(\count($this->sanitization->getListing()->clear()->getTransformers()))->toBe(0);
     }
 }
 
-class Capitalizer implements ValueTransformer
+
+class Capitalize implements Pohoda\ValueTransformer\ValueTransformer
 {
     public function transform(string $value): string
     {

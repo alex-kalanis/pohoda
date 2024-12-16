@@ -2,11 +2,13 @@
 
 namespace BasicTests;
 
+
 use CommonTestClass;
 use LogicException;
 use OutOfRangeException;
 use Riesenia\Pohoda\Common\NamespacesPaths;
 use Riesenia\Pohoda\Common\SetNamespaceTrait;
+
 
 class NamespaceTraitTest extends CommonTestClass
 {

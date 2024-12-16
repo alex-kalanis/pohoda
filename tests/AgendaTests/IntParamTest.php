@@ -2,8 +2,10 @@
 
 namespace AgendaTests;
 
+
 use CommonTestClass;
 use Riesenia\Pohoda;
+use Riesenia\Pohoda\ValueTransformer;
 
 
 class IntParamTest extends CommonTestClass
@@ -23,7 +25,7 @@ class IntParamTest extends CommonTestClass
 
     public function testCreateList(): void
     {
-        $lib = new Pohoda\IntParam(new Pohoda\Common\NamespacesPaths(), [
+        $lib = new Pohoda\IntParam(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [
             'name' => 'NAME',
             'parameterType' => 'listValue',
         ], '123');
@@ -33,7 +35,7 @@ class IntParamTest extends CommonTestClass
 
     protected function getLib(): Pohoda\IntParam
     {
-        return new Pohoda\IntParam(new Pohoda\Common\NamespacesPaths(), [
+        return new Pohoda\IntParam(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [
             'name' => 'NAME',
             'parameterType' => 'textValue',
             'parameterSettings' => ['length' => 40]

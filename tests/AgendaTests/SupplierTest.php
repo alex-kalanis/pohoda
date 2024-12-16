@@ -2,8 +2,11 @@
 
 namespace AgendaTests;
 
+
 use CommonTestClass;
 use Riesenia\Pohoda;
+use Riesenia\Pohoda\ValueTransformer;
+
 
 class SupplierTest extends CommonTestClass
 {
@@ -22,7 +25,7 @@ class SupplierTest extends CommonTestClass
 
     protected function getLib(): Pohoda\Supplier
     {
-        return new Pohoda\Supplier(new Pohoda\Common\NamespacesPaths(), [
+        return new Pohoda\Supplier(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [
             'stockItem' => [
                 'stockItem' => [
                     'ids' => 'B04'

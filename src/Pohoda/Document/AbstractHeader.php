@@ -12,6 +12,8 @@ namespace Riesenia\Pohoda\Document;
 
 use Riesenia\Pohoda\Common;
 use Riesenia\Pohoda\Type;
+use Riesenia\Pohoda\ValueTransformer\SanitizeEncoding;
+
 
 abstract class AbstractHeader extends AbstractPart
 {
@@ -20,19 +22,25 @@ abstract class AbstractHeader extends AbstractPart
     /**
      * {@inheritdoc}
      */
-    public function __construct(Common\NamespacesPaths $namespacesPaths, array $data, string $ico, bool $resolveOptions = true)
+    public function __construct(
+        Common\NamespacesPaths $namespacesPaths,
+        SanitizeEncoding $sanitizeEncoding,
+        array $data,
+        string $ico,
+        bool $resolveOptions = true,
+    )
     {
         // process partner identity
         if (isset($data['partnerIdentity'])) {
-            $data['partnerIdentity'] = new Type\Address($namespacesPaths, $data['partnerIdentity'], $ico, $resolveOptions);
+            $data['partnerIdentity'] = new Type\Address($namespacesPaths, $sanitizeEncoding, $data['partnerIdentity'], $ico, $resolveOptions);
         }
 
         // process my identity
         if (isset($data['myIdentity'])) {
-            $data['myIdentity'] = new Type\MyAddress($namespacesPaths, $data['myIdentity'], $ico, $resolveOptions);
+            $data['myIdentity'] = new Type\MyAddress($namespacesPaths, $sanitizeEncoding, $data['myIdentity'], $ico, $resolveOptions);
         }
 
-        parent::__construct($namespacesPaths, $data, $ico, $resolveOptions);
+        parent::__construct($namespacesPaths, $sanitizeEncoding, $data, $ico, $resolveOptions);
     }
 
     /**

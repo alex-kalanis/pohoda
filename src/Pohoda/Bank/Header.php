@@ -10,8 +10,11 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\Bank;
 
+
 use Riesenia\Pohoda\Common;
 use Riesenia\Pohoda\Document\AbstractHeader;
+use Riesenia\Pohoda\ValueTransformer\SanitizeEncoding;
+
 
 class Header extends AbstractHeader
 {
@@ -24,14 +27,20 @@ class Header extends AbstractHeader
     /**
      * {@inheritdoc}
      */
-    public function __construct(Common\NamespacesPaths $namespacesPaths, array $data, string $ico, bool $resolveOptions = true)
+    public function __construct(
+        Common\NamespacesPaths $namespacesPaths,
+        SanitizeEncoding $sanitizeEncoding,
+        array $data,
+        string $ico,
+        bool $resolveOptions = true,
+    )
     {
         // process report
         if (isset($data['statementNumber'])) {
-            $data['statementNumber'] = new StatementNumber($namespacesPaths, $data['statementNumber'], $ico, $resolveOptions);
+            $data['statementNumber'] = new StatementNumber($namespacesPaths, $sanitizeEncoding, $data['statementNumber'], $ico, $resolveOptions);
         }
 
-        parent::__construct($namespacesPaths, $data, $ico, $resolveOptions);
+        parent::__construct($namespacesPaths, $sanitizeEncoding, $data, $ico, $resolveOptions);
     }
 
     /**

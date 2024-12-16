@@ -2,8 +2,10 @@
 
 namespace AgendaTests;
 
+
 use CommonTestClass;
 use Riesenia\Pohoda;
+use Riesenia\Pohoda\ValueTransformer;
 
 
 class IntDocTest extends CommonTestClass
@@ -82,7 +84,7 @@ class IntDocTest extends CommonTestClass
 
     protected function getLib(): Pohoda\IntDoc
     {
-        return new Pohoda\IntDoc(new Pohoda\Common\NamespacesPaths(), [
+        return new Pohoda\IntDoc(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [
             'partnerIdentity' => [
                 'id' => 25
             ],

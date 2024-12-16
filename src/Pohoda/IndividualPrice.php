@@ -10,7 +10,9 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda;
 
+
 use Riesenia\Pohoda\Common\OptionsResolver;
+
 
 class IndividualPrice extends AbstractAgenda
 {

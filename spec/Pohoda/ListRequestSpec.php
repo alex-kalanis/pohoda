@@ -10,15 +10,17 @@ declare(strict_types=1);
 
 namespace spec\Riesenia\Pohoda;
 
+
 use PhpSpec\ObjectBehavior;
 use Riesenia\Pohoda\Common\NamespacesPaths;
+use Riesenia\Pohoda\ValueTransformer;
 
 
 class ListRequestSpec extends ObjectBehavior
 {
     public function it_creates_correct_xml_for_category(): void
     {
-        $this->beConstructedWith(new NamespacesPaths(), [
+        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [
             'type' => 'Category'
         ], '123');
 
@@ -27,7 +29,7 @@ class ListRequestSpec extends ObjectBehavior
 
     public function it_creates_correct_xml_for_action_prices(): void
     {
-        $this->beConstructedWith(new NamespacesPaths(), [
+        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [
             'type' => 'ActionPrice'
         ], '123');
 
@@ -36,7 +38,7 @@ class ListRequestSpec extends ObjectBehavior
 
     public function it_creates_correct_xml_for_order(): void
     {
-        $this->beConstructedWith(new NamespacesPaths(), [
+        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [
             'type' => 'Order'
         ], '123');
 
@@ -45,7 +47,7 @@ class ListRequestSpec extends ObjectBehavior
 
     public function it_creates_correct_xml_for_advance_invoice(): void
     {
-        $this->beConstructedWith(new NamespacesPaths(), [
+        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [
             'type' => 'Invoice',
             'invoiceType' => 'issuedAdvanceInvoice'
         ], '123');
@@ -55,7 +57,7 @@ class ListRequestSpec extends ObjectBehavior
 
     public function it_creates_correct_xml_for_vydejka(): void
     {
-        $this->beConstructedWith(new NamespacesPaths(), [
+        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [
             'type' => 'Vydejka'
         ], '123');
 
@@ -64,7 +66,7 @@ class ListRequestSpec extends ObjectBehavior
 
     public function it_creates_correct_xml_for_issue_slip(): void
     {
-        $this->beConstructedWith(new NamespacesPaths(), [
+        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [
             'type' => 'IssueSlip'
         ], '123');
 
@@ -73,7 +75,7 @@ class ListRequestSpec extends ObjectBehavior
 
     public function it_creates_correct_xml_for_prodejka(): void
     {
-        $this->beConstructedWith(new NamespacesPaths(), [
+        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [
             'type' => 'Prodejka'
         ], '123');
 
@@ -82,7 +84,7 @@ class ListRequestSpec extends ObjectBehavior
 
     public function it_creates_correct_xml_for_cash_slip(): void
     {
-        $this->beConstructedWith(new NamespacesPaths(), [
+        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [
             'type' => 'CashSlip'
         ], '123');
 
@@ -91,7 +93,7 @@ class ListRequestSpec extends ObjectBehavior
 
     public function it_creates_correct_xml_for_address_book(): void
     {
-        $this->beConstructedWith(new NamespacesPaths(), [
+        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [
             'type' => 'Addressbook'
         ], '123');
 
@@ -100,7 +102,7 @@ class ListRequestSpec extends ObjectBehavior
 
     public function it_creates_correct_xml_for_int_params(): void
     {
-        $this->beConstructedWith(new NamespacesPaths(), [
+        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [
             'type' => 'IntParam'
         ], '123');
 
@@ -109,7 +111,7 @@ class ListRequestSpec extends ObjectBehavior
 
     public function it_creates_correct_xml_for_user_lists(): void
     {
-        $this->beConstructedWith(new NamespacesPaths(), [
+        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [
             'type' => 'UserList'
         ], '123');
 
@@ -118,7 +120,7 @@ class ListRequestSpec extends ObjectBehavior
 
     public function it_creates_correct_xml_for_invoice_with_user_filter_name(): void
     {
-        $this->beConstructedWith(new NamespacesPaths(), [
+        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [
             'type' => 'Invoice'
         ], '123');
 
@@ -127,7 +129,7 @@ class ListRequestSpec extends ObjectBehavior
 
     public function it_creates_correct_xml_for_stock_with_complex_filter(): void
     {
-        $this->beConstructedWith(new NamespacesPaths(), [
+        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [
             'type' => 'Stock'
         ], '123');
 
@@ -140,7 +142,7 @@ class ListRequestSpec extends ObjectBehavior
      */
     public function it_creates_proper_restriction_data(): void
     {
-        $this->beConstructedWith(new NamespacesPaths(),
+        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()),
             ['type' => 'Invoice'],
             '123'
         );

@@ -10,8 +10,10 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda;
 
+
 use Riesenia\Pohoda\Common\OptionsResolver;
 use Riesenia\Pohoda\UserList\ItemUserCode;
+
 
 /**
  * Definition of user-defined list
@@ -42,7 +44,7 @@ class UserList extends AbstractAgenda
             $this->data['itemUserCodes'] = [];
         }
 
-        $this->data['itemUserCodes'][] = new ItemUserCode($this->namespacesPaths, $data, $this->ico);
+        $this->data['itemUserCodes'][] = new ItemUserCode($this->namespacesPaths, $this->sanitizeEncoding, $data, $this->ico);
 
         return $this;
     }

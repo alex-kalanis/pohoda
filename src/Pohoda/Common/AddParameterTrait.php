@@ -34,7 +34,7 @@ trait AddParameterTrait
             $this->data['parameters'] = [];
         }
 
-        $this->data['parameters'][] = new Parameter($this->namespacesPaths, [
+        $this->data['parameters'][] = new Parameter($this->namespacesPaths, $this->sanitizeEncoding, [
             'name' => $name,
             'type' => $type,
             'value' => $value,

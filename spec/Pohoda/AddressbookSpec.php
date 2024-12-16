@@ -10,24 +10,31 @@ declare(strict_types=1);
 
 namespace spec\Riesenia\Pohoda;
 
+
 use PhpSpec\ObjectBehavior;
 use Riesenia\Pohoda\Common\NamespacesPaths;
+use Riesenia\Pohoda\ValueTransformer;
 
 
 class AddressbookSpec extends ObjectBehavior
 {
     public function let(): void
     {
-        $this->beConstructedWith(new NamespacesPaths(), [
-            'identity' => [
-                'address' => [
-                    'name' => 'NAME',
-                    'ico' => '123'
-                ]
+        $this->beConstructedWith(
+            new NamespacesPaths(),
+            new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()),
+            [
+                'identity' => [
+                    'address' => [
+                        'name' => 'NAME',
+                        'ico' => '123'
+                    ]
+                ],
+                'phone' => '123',
+                'centre' => ['id' => 1]
             ],
-            'phone' => '123',
-            'centre' => ['id' => 1]
-        ], '123');
+            '123'
+        );
     }
 
     public function it_is_initializable_and_extends_agenda(): void
@@ -62,7 +69,7 @@ class AddressbookSpec extends ObjectBehavior
 
     public function it_can_delete_address(): void
     {
-        $this->beConstructedWith(new NamespacesPaths(), [], '123');
+        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [], '123');
 
         $this->addActionType('delete', [
             'company' => 'COMPANY'
@@ -73,7 +80,7 @@ class AddressbookSpec extends ObjectBehavior
 
     public function it_leaves_special_characters_intact_by_default(): void
     {
-        $this->beConstructedWith(new NamespacesPaths(), [
+        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [
             'identity' => [
                 'address' => [
                     'name' => 'Călărași ñüé¿s',

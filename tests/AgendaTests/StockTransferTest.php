@@ -2,8 +2,11 @@
 
 namespace AgendaTests;
 
+
 use CommonTestClass;
 use Riesenia\Pohoda;
+use Riesenia\Pohoda\ValueTransformer;
+
 
 class StockTransferTest extends CommonTestClass
 {
@@ -64,7 +67,7 @@ class StockTransferTest extends CommonTestClass
 
     protected function getLib(): Pohoda\StockTransfer
     {
-        return new Pohoda\StockTransfer(new Pohoda\Common\NamespacesPaths(), [
+        return new Pohoda\StockTransfer(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [
             'date' => '2015-01-10',
             'store' => [
                 'ids' => 'MAIN',

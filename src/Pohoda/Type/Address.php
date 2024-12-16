@@ -10,8 +10,11 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\Type;
 
+
 use Riesenia\Pohoda\AbstractAgenda;
 use Riesenia\Pohoda\Common;
+use Riesenia\Pohoda\ValueTransformer\SanitizeEncoding;
+
 
 class Address extends AbstractAgenda
 {
@@ -31,19 +34,25 @@ class Address extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    public function __construct(Common\NamespacesPaths $namespacesPaths, array $data, string $ico, bool $resolveOptions = true)
+    public function __construct(
+        Common\NamespacesPaths $namespacesPaths,
+        SanitizeEncoding $sanitizeEncoding,
+        array $data,
+        string $ico,
+        bool $resolveOptions = true,
+    )
     {
         // process address
         if (isset($data['address'])) {
-            $data['address'] = new AddressType($namespacesPaths, $data['address'], $ico, $resolveOptions);
+            $data['address'] = new AddressType($namespacesPaths, $sanitizeEncoding, $data['address'], $ico, $resolveOptions);
         }
 
         // process shipping address
         if (isset($data['shipToAddress'])) {
-            $data['shipToAddress'] = new ShipToAddressType($namespacesPaths, $data['shipToAddress'], $ico, $resolveOptions);
+            $data['shipToAddress'] = new ShipToAddressType($namespacesPaths, $sanitizeEncoding, $data['shipToAddress'], $ico, $resolveOptions);
         }
 
-        parent::__construct($namespacesPaths, $data, $ico, $resolveOptions);
+        parent::__construct($namespacesPaths, $sanitizeEncoding, $data, $ico, $resolveOptions);
     }
 
     /**

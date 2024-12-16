@@ -10,8 +10,11 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\Stock;
 
+
 use Riesenia\Pohoda\AbstractAgenda;
 use Riesenia\Pohoda\Common;
+use Riesenia\Pohoda\ValueTransformer\SanitizeEncoding;
+
 
 class StockItem extends AbstractAgenda
 {
@@ -24,16 +27,22 @@ class StockItem extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    public function __construct(Common\NamespacesPaths $namespacesPaths, array $data, string $ico, bool $resolveOptions = true)
+    public function __construct(
+        Common\NamespacesPaths $namespacesPaths,
+        SanitizeEncoding $sanitizeEncoding,
+        array $data,
+        string $ico,
+        bool $resolveOptions = true,
+    )
     {
         // process stockPriceItem
         if (isset($data['stockPriceItem']) && is_array($data['stockPriceItem'])) {
-            $data['stockPriceItem'] = \array_map(function ($stockPriceItem) use ($namespacesPaths, $ico, $resolveOptions) {
-                return new Price($namespacesPaths, $stockPriceItem['stockPrice'], $ico, $resolveOptions);
+            $data['stockPriceItem'] = \array_map(function ($stockPriceItem) use ($namespacesPaths, $sanitizeEncoding, $ico, $resolveOptions) {
+                return new Price($namespacesPaths, $sanitizeEncoding, $stockPriceItem['stockPrice'], $ico, $resolveOptions);
             }, $data['stockPriceItem']);
         }
 
-        parent::__construct($namespacesPaths, $data, $ico, $resolveOptions);
+        parent::__construct($namespacesPaths, $sanitizeEncoding, $data, $ico, $resolveOptions);
     }
 
     /**

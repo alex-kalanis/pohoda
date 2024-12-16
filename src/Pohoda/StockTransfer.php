@@ -11,6 +11,9 @@ declare(strict_types=1);
 namespace Riesenia\Pohoda;
 
 
+use Riesenia\Pohoda\ValueTransformer\SanitizeEncoding;
+
+
 class StockTransfer extends AbstractAgenda
 {
     use Common\AddParameterToHeaderTrait;
@@ -18,12 +21,18 @@ class StockTransfer extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    public function __construct(Common\NamespacesPaths $namespacesPaths, array $data, string $ico, bool $resolveOptions = true)
+    public function __construct(
+        Common\NamespacesPaths $namespacesPaths,
+        SanitizeEncoding $sanitizeEncoding,
+        array $data,
+        string $ico,
+        bool $resolveOptions = true,
+    )
     {
         // pass to header
-        $data = ['header' => new StockTransfer\Header($namespacesPaths, $data, $ico, $resolveOptions)];
+        $data = ['header' => new StockTransfer\Header($namespacesPaths, $sanitizeEncoding, $data, $ico, $resolveOptions)];
 
-        parent::__construct($namespacesPaths, $data, $ico, $resolveOptions);
+        parent::__construct($namespacesPaths, $sanitizeEncoding, $data, $ico, $resolveOptions);
     }
 
     public function getImportRoot(): string
@@ -49,7 +58,7 @@ class StockTransfer extends AbstractAgenda
             $this->data['prevodkaDetail'] = [];
         }
 
-        $this->data['prevodkaDetail'][] = new StockTransfer\Item($this->namespacesPaths, $data, $this->ico);
+        $this->data['prevodkaDetail'][] = new StockTransfer\Item($this->namespacesPaths, $this->sanitizeEncoding, $data, $this->ico);
 
         return $this;
     }

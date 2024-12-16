@@ -10,23 +10,32 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda;
 
+
 use Riesenia\Pohoda\PrintRequest\PrinterSettings;
 use Riesenia\Pohoda\PrintRequest\Record;
+use Riesenia\Pohoda\ValueTransformer\SanitizeEncoding;
+
 
 class PrintRequest extends AbstractAgenda
 {
     /**
      * {@inheritdoc}
      */
-    public function __construct(Common\NamespacesPaths $namespacesPaths, array $data, string $ico, bool $resolveOptions = true)
+    public function __construct(
+        Common\NamespacesPaths $namespacesPaths,
+        SanitizeEncoding $sanitizeEncoding,
+        array $data,
+        string $ico,
+        bool $resolveOptions = true,
+    )
     {
         // process record
-        $data['record'] = new Record($namespacesPaths, $data['record'], $ico, $resolveOptions);
+        $data['record'] = new Record($namespacesPaths, $sanitizeEncoding, $data['record'], $ico, $resolveOptions);
 
         // process printer settings
-        $data['printerSettings'] = new PrinterSettings($namespacesPaths, $data['printerSettings'], $ico, $resolveOptions);
+        $data['printerSettings'] = new PrinterSettings($namespacesPaths, $sanitizeEncoding, $data['printerSettings'], $ico, $resolveOptions);
 
-        parent::__construct($namespacesPaths, $data, $ico, $resolveOptions);
+        parent::__construct($namespacesPaths, $sanitizeEncoding, $data, $ico, $resolveOptions);
     }
 
     /**

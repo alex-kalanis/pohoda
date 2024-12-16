@@ -10,8 +10,11 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\Stock;
 
+
 use Riesenia\Pohoda\AbstractAgenda;
 use Riesenia\Pohoda\Common;
+use Riesenia\Pohoda\ValueTransformer\SanitizeEncoding;
+
 
 class Header extends AbstractAgenda
 {
@@ -35,19 +38,25 @@ class Header extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    public function __construct(Common\NamespacesPaths $namespacesPaths, array $data, string $ico, bool $resolveOptions = true)
+    public function __construct(
+        Common\NamespacesPaths $namespacesPaths,
+        SanitizeEncoding $sanitizeEncoding,
+        array $data,
+        string $ico,
+        bool $resolveOptions = true,
+    )
     {
         // process intrastat
         if (isset($data['intrastat'])) {
-            $data['intrastat'] = new Intrastat($namespacesPaths, $data['intrastat'], $ico, $resolveOptions);
+            $data['intrastat'] = new Intrastat($namespacesPaths, $sanitizeEncoding, $data['intrastat'], $ico, $resolveOptions);
         }
 
         // process recyclingContrib
         if (isset($data['recyclingContrib'])) {
-            $data['recyclingContrib'] = new RecyclingContrib($namespacesPaths, $data['recyclingContrib'], $ico, $resolveOptions);
+            $data['recyclingContrib'] = new RecyclingContrib($namespacesPaths, $sanitizeEncoding, $data['recyclingContrib'], $ico, $resolveOptions);
         }
 
-        parent::__construct($namespacesPaths, $data, $ico, $resolveOptions);
+        parent::__construct($namespacesPaths, $sanitizeEncoding, $data, $ico, $resolveOptions);
     }
 
     /**
@@ -71,7 +80,7 @@ class Header extends AbstractAgenda
             $this->data['pictures'] = [];
         }
 
-        $this->data['pictures'][] = new Picture($this->namespacesPaths, [
+        $this->data['pictures'][] = new Picture($this->namespacesPaths, $this->sanitizeEncoding, [
             'filepath' => $filepath,
             'description' => $description,
             'order' => null === $order ? ++$this->imagesCounter : $order,
@@ -97,7 +106,7 @@ class Header extends AbstractAgenda
             $this->data['categories'] = [];
         }
 
-        $this->data['categories'][] = new Category($this->namespacesPaths, [
+        $this->data['categories'][] = new Category($this->namespacesPaths, $this->sanitizeEncoding, [
             'idCategory' => $categoryId
         ], $this->ico);
     }
@@ -120,7 +129,7 @@ class Header extends AbstractAgenda
             $this->data['intParameters'] = [];
         }
 
-        $this->data['intParameters'][] = new IntParameter($this->namespacesPaths, $data, $this->ico);
+        $this->data['intParameters'][] = new IntParameter($this->namespacesPaths, $this->sanitizeEncoding, $data, $this->ico);
     }
 
     /**

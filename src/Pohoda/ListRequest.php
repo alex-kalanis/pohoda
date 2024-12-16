@@ -10,11 +10,13 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda;
 
+
 use Riesenia\Pohoda\Common\OptionsResolver;
 use Riesenia\Pohoda\ListRequest\Filter;
 use Riesenia\Pohoda\ListRequest\RestrictionData;
 use Riesenia\Pohoda\ListRequest\UserFilterName;
 use Symfony\Component\OptionsResolver\Options;
+
 
 class ListRequest extends AbstractAgenda
 {
@@ -27,7 +29,7 @@ class ListRequest extends AbstractAgenda
      */
     public function addFilter(array $data): self
     {
-        $this->data['filter'] = new Filter($this->namespacesPaths, $data, $this->ico);
+        $this->data['filter'] = new Filter($this->namespacesPaths, $this->sanitizeEncoding, $data, $this->ico);
 
         return $this;
     }
@@ -41,7 +43,7 @@ class ListRequest extends AbstractAgenda
      */
     public function addRestrictionData(array $data): self
     {
-        $this->data['restrictionData'] = new RestrictionData($this->namespacesPaths, $data, $this->ico);
+        $this->data['restrictionData'] = new RestrictionData($this->namespacesPaths, $this->sanitizeEncoding, $data, $this->ico);
 
         return $this;
     }
@@ -55,7 +57,7 @@ class ListRequest extends AbstractAgenda
      */
     public function addUserFilterName(string $name): self
     {
-        $this->data['userFilterName'] = new UserFilterName($this->namespacesPaths, ['userFilterName' => $name], $this->ico);
+        $this->data['userFilterName'] = new UserFilterName($this->namespacesPaths, $this->sanitizeEncoding, ['userFilterName' => $name], $this->ico);
 
         return $this;
     }

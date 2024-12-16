@@ -10,15 +10,18 @@ declare(strict_types=1);
 
 namespace spec\Riesenia\Pohoda;
 
+
 use PhpSpec\ObjectBehavior;
 use Riesenia\Pohoda\Common\NamespacesPaths;
 use Riesenia\Pohoda\Storage;
+use Riesenia\Pohoda\ValueTransformer;
+
 
 class StorageSpec extends ObjectBehavior
 {
     public function let(): void
     {
-        $this->beConstructedWith(new NamespacesPaths(), [
+        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [
             'code' => 'MAIN'
         ], '123');
     }
@@ -36,7 +39,7 @@ class StorageSpec extends ObjectBehavior
 
     public function it_can_add_substorages(): void
     {
-        $sub = new Storage(new NamespacesPaths(), [
+        $sub = new Storage(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [
             'code' => 'Sub',
             'name' => 'Sub'
         ], '123');
@@ -45,7 +48,7 @@ class StorageSpec extends ObjectBehavior
 
         $this->getXML()->asXML()->shouldReturn('<str:storage version="2.0"><str:itemStorage code="MAIN"><str:subStorages><str:itemStorage code="Sub" name="Sub"/></str:subStorages></str:itemStorage></str:storage>');
 
-        $subsub = new Storage(new NamespacesPaths(), [
+        $subsub = new Storage(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [
             'code' => 'SubSub',
             'name' => 'SubSub'
         ], '123');

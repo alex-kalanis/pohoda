@@ -2,8 +2,11 @@
 
 namespace AgendaTests;
 
+
 use CommonTestClass;
 use Riesenia\Pohoda;
+use Riesenia\Pohoda\ValueTransformer;
+
 
 class PrintRequestTest extends CommonTestClass
 {
@@ -22,7 +25,7 @@ class PrintRequestTest extends CommonTestClass
 
     public function testKnownPdfData(): void
     {
-        $lib = new Pohoda\PrintRequest(new Pohoda\Common\NamespacesPaths(), [
+        $lib = new Pohoda\PrintRequest(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [
             'record' => [
                 'agenda' => 'vydane_faktury',
                 'filter' => [
@@ -60,7 +63,7 @@ class PrintRequestTest extends CommonTestClass
 
     protected function getLib(): Pohoda\PrintRequest
     {
-        return new Pohoda\PrintRequest(new Pohoda\Common\NamespacesPaths(), [
+        return new Pohoda\PrintRequest(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [
             'record' => [
                 'agenda' => 'vydane_faktury',
                 'filter' => [

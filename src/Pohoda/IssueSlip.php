@@ -10,7 +10,9 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda;
 
+
 use Riesenia\Pohoda\Type\Link;
+
 
 class IssueSlip extends AbstractDocument
 {
@@ -38,7 +40,7 @@ class IssueSlip extends AbstractDocument
             $this->data['links'] = [];
         }
 
-        $this->data['links'][] = new Link($this->namespacesPaths, $data, $this->ico);
+        $this->data['links'][] = new Link($this->namespacesPaths, $this->sanitizeEncoding, $data, $this->ico);
 
         return $this;
     }

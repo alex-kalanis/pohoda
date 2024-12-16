@@ -10,7 +10,10 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda;
 
+
 use Riesenia\Pohoda\Contract\Desc;
+use Riesenia\Pohoda\ValueTransformer\SanitizeEncoding;
+
 
 class Contract extends AbstractAgenda
 {
@@ -25,12 +28,18 @@ class Contract extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    public function __construct(Common\NamespacesPaths $namespacesPaths, array $data, string $ico, bool $resolveOptions = true)
+    public function __construct(
+        Common\NamespacesPaths $namespacesPaths,
+        SanitizeEncoding $sanitizeEncoding,
+        array $data,
+        string $ico,
+        bool $resolveOptions = true,
+    )
     {
         // pass to header
-        $data = ['header' => new Desc($namespacesPaths, $data, $ico, $resolveOptions)];
+        $data = ['header' => new Desc($namespacesPaths, $sanitizeEncoding, $data, $ico, $resolveOptions)];
 
-        parent::__construct($namespacesPaths, $data, $ico, $resolveOptions);
+        parent::__construct($namespacesPaths, $sanitizeEncoding, $data, $ico, $resolveOptions);
     }
 
     /**

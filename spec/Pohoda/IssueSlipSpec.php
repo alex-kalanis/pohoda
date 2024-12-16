@@ -10,15 +10,17 @@ declare(strict_types=1);
 
 namespace spec\Riesenia\Pohoda;
 
+
 use PhpSpec\ObjectBehavior;
 use Riesenia\Pohoda\Common\NamespacesPaths;
+use Riesenia\Pohoda\ValueTransformer;
 
 
 class IssueSlipSpec extends ObjectBehavior
 {
     public function let(): void
     {
-        $this->beConstructedWith(new NamespacesPaths(), [
+        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [
             'date' => '2015-01-10',
             'dateOrder' => '2015-01-04',
             'text' => 'Vyd',

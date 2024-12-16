@@ -8,7 +8,9 @@
 
 declare(strict_types=1);
 
+
 namespace Riesenia\Pohoda;
+
 
 class Bank extends AbstractDocument
 {

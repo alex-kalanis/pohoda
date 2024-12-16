@@ -10,7 +10,9 @@ declare(strict_types=1);
 
 namespace Riesenia;
 
+
 use Riesenia\Pohoda\AbstractAgenda;
+
 
 /**
  * Factory for Pohoda objects.
@@ -61,17 +63,6 @@ use Riesenia\Pohoda\AbstractAgenda;
 class Pohoda
 {
 
-    public static string $encoding = 'windows-1250';
-
-    public static bool $sanitizeEncoding = false;
-
-    /**
-     * A set of transformers that will be used when serializing data.
-     *
-     * @var \Riesenia\Pohoda\ValueTransformer\ValueTransformer[]
-     */
-    public static array $transformers = [];
-
     protected string $application = 'Pohoda connector';
 
     protected bool $isInMemory;
@@ -89,10 +80,11 @@ class Pohoda
 
     public function __construct(
         protected readonly string $ico,
+        protected Pohoda\ValueTransformer\SanitizeEncoding $sanitizeEncoding = new Pohoda\ValueTransformer\SanitizeEncoding(new Pohoda\ValueTransformer\Listing())
     )
     {
         $this->namespacesPaths = new Pohoda\Common\NamespacesPaths();
-        $this->agendaFactory = new Pohoda\AgendaFactory($this->namespacesPaths, $this->ico);
+        $this->agendaFactory = new Pohoda\AgendaFactory($this->namespacesPaths, $this->sanitizeEncoding, $this->ico);
     }
 
     /**
@@ -105,6 +97,16 @@ class Pohoda
     public function setApplicationName(string $name): void
     {
         $this->application = $name;
+    }
+
+    /**
+     * Get class listing transformers for content serialization
+     *
+     * @return Pohoda\ValueTransformer\Listing
+     */
+    public function getTransformerListing(): Pohoda\ValueTransformer\Listing
+    {
+        return $this->sanitizeEncoding->getListing();
     }
 
     /**
@@ -144,7 +146,7 @@ class Pohoda
             }
         }
 
-        $this->xmlWriter->startDocument('1.0', self::$encoding);
+        $this->xmlWriter->startDocument('1.0', $this->sanitizeEncoding->getEncoding());
         $this->xmlWriter->startElementNs('dat', 'dataPack', null);
 
         $this->xmlWriter->writeAttribute('id', $id);

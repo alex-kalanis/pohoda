@@ -2,8 +2,11 @@
 
 namespace AgendaTests;
 
+
 use CommonTestClass;
 use Riesenia\Pohoda;
+use Riesenia\Pohoda\ValueTransformer;
+
 
 class OrderTest extends CommonTestClass
 {
@@ -92,7 +95,7 @@ class OrderTest extends CommonTestClass
 
     public function testDeleteOrder(): void
     {
-        $lib = new Pohoda\Order(new Pohoda\Common\NamespacesPaths(), [], '123');
+        $lib = new Pohoda\Order(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [], '123');
         $lib->addActionType('delete', [
             'number' => '222'
         ], 'prijate_objednavky');
@@ -102,7 +105,7 @@ class OrderTest extends CommonTestClass
 
     public function testWithSpecialCharsIntact(): void
     {
-        $lib = new Pohoda\Addressbook(new Pohoda\Common\NamespacesPaths(), [
+        $lib = new Pohoda\Addressbook(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [
             'identity' => [
                 'address' => [
                     'name' => 'Călărași ñüé¿s',
@@ -123,7 +126,7 @@ class OrderTest extends CommonTestClass
 
     protected function getLib(): Pohoda\Order
     {
-        return new Pohoda\Order(new Pohoda\Common\NamespacesPaths(), [
+        return new Pohoda\Order(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [
             'partnerIdentity' => [
                 'id' => 25
             ],

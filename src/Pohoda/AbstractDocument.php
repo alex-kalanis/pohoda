@@ -12,6 +12,8 @@ namespace Riesenia\Pohoda;
 
 use Riesenia\Pohoda\Common\AddParameterToHeaderTrait;
 use Riesenia\Pohoda\Common\OptionsResolver;
+use Riesenia\Pohoda\ValueTransformer\SanitizeEncoding;
+
 
 abstract class AbstractDocument extends AbstractAgenda
 {
@@ -22,15 +24,21 @@ abstract class AbstractDocument extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    public function __construct(Common\NamespacesPaths $namespacesPaths, array $data, string $ico, bool $resolveOptions = true)
+    public function __construct(
+        Common\NamespacesPaths $namespacesPaths,
+        SanitizeEncoding $sanitizeEncoding,
+        array $data,
+        string $ico,
+        bool $resolveOptions = true,
+    )
     {
-        $this->documentPartFactory = new DocumentPartFactory($namespacesPaths, $ico);
+        $this->documentPartFactory = new DocumentPartFactory($namespacesPaths, $sanitizeEncoding, $ico);
         // pass to header
         if ($data) {
             $data = ['header' => $this->getDocumentPart('Header', $data, $resolveOptions)];
         }
 
-        parent::__construct($namespacesPaths, $data, $ico, $resolveOptions);
+        parent::__construct($namespacesPaths, $sanitizeEncoding, $data, $ico, $resolveOptions);
     }
 
     /**

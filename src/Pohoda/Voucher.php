@@ -2,6 +2,7 @@
 
 namespace Riesenia\Pohoda;
 
+
 class Voucher extends AbstractDocument
 {
 

@@ -2,8 +2,10 @@
 
 namespace AgendaTests;
 
+
 use CommonTestClass;
 use Riesenia\Pohoda;
+use Riesenia\Pohoda\ValueTransformer;
 
 
 class IssueSlipTest extends CommonTestClass
@@ -97,7 +99,7 @@ class IssueSlipTest extends CommonTestClass
 
     protected function getLib(): Pohoda\IssueSlip
     {
-        return new Pohoda\IssueSlip(new Pohoda\Common\NamespacesPaths(), [
+        return new Pohoda\IssueSlip(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [
             'date' => '2015-01-10',
             'dateOrder' => '2015-01-04',
             'text' => 'Vyd',

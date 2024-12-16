@@ -10,7 +10,9 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda;
 
+
 use Riesenia\Pohoda\Type\TaxDocument;
+
 
 class IntDoc extends AbstractDocument
 {
@@ -29,7 +31,7 @@ class IntDoc extends AbstractDocument
      */
     public function addTaxDocument(array $data): self
     {
-        $this->data['taxDocument'] = new TaxDocument($this->namespacesPaths, $data, $this->ico);
+        $this->data['taxDocument'] = new TaxDocument($this->namespacesPaths, $this->sanitizeEncoding, $data, $this->ico);
 
         return $this;
     }

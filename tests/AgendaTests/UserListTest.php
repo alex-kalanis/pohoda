@@ -2,8 +2,11 @@
 
 namespace AgendaTests;
 
+
 use CommonTestClass;
 use Riesenia\Pohoda;
+use Riesenia\Pohoda\ValueTransformer;
+
 
 class UserListTest extends CommonTestClass
 {
@@ -27,7 +30,7 @@ class UserListTest extends CommonTestClass
 
     public function testCreateSecondaryXml(): void
     {
-        $lib = new Pohoda\UserList(new Pohoda\Common\NamespacesPaths(), [
+        $lib = new Pohoda\UserList(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [
             'code' => 'CODE',
             'name' => 'NAME',
             'dateTimeStamp' => new \DateTime('2015-04-17 22:41:07'),
@@ -45,7 +48,7 @@ class UserListTest extends CommonTestClass
 
     protected function getLib(): Pohoda\UserList
     {
-        return new Pohoda\UserList(new Pohoda\Common\NamespacesPaths(), [
+        return new Pohoda\UserList(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [
             'code' => 'CODE',
             'name' => 'NAME',
         ], '123');

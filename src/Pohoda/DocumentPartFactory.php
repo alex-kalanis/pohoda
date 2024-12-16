@@ -7,12 +7,14 @@ use DomainException;
 use ReflectionClass;
 use ReflectionException;
 use Riesenia\Pohoda\Common\NamespacesPaths;
+use Riesenia\Pohoda\ValueTransformer\SanitizeEncoding;
 
 
 class DocumentPartFactory
 {
     public function __construct(
         protected readonly NamespacesPaths $namespacesPaths,
+        protected readonly SanitizeEncoding $sanitizeEncoding,
         protected readonly string $companyNumber,
     )
     {
@@ -41,7 +43,13 @@ class DocumentPartFactory
         }
 
         try {
-            $instance = $reflection->newInstance($this->namespacesPaths, $data, $this->companyNumber, $resolveOptions);
+            $instance = $reflection->newInstance(
+                $this->namespacesPaths,
+                $this->sanitizeEncoding,
+                $data,
+                $this->companyNumber,
+                $resolveOptions,
+            );
             // @codeCoverageIgnoreStart
         } catch (ReflectionException) {
             throw new DomainException('Entity initialization failed: ' . $name);

@@ -2,8 +2,10 @@
 
 namespace AgendaTests;
 
+
 use CommonTestClass;
 use Riesenia\Pohoda;
+use Riesenia\Pohoda\ValueTransformer;
 
 
 class InvoiceTest extends CommonTestClass
@@ -137,7 +139,7 @@ class InvoiceTest extends CommonTestClass
 
     protected function getLib(): Pohoda\Invoice
     {
-        return new Pohoda\Invoice(new Pohoda\Common\NamespacesPaths(), [
+        return new Pohoda\Invoice(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [
             'partnerIdentity' => [
                 'id' => 25
             ],

@@ -6,6 +6,8 @@ use CommonTestClass;
 use Riesenia\Pohoda\Common\AddActionTypeTrait;
 use OutOfRangeException;
 use Riesenia\Pohoda\Common\NamespacesPaths;
+use Riesenia\Pohoda\ValueTransformer\Listing;
+use Riesenia\Pohoda\ValueTransformer\SanitizeEncoding;
 
 
 class ActionTypeTraitTest extends CommonTestClass
@@ -34,9 +36,11 @@ class XActionType
     public array $data = [];
     protected string $ico = 'dummy';
     protected readonly NamespacesPaths $namespacesPaths;
+    protected readonly SanitizeEncoding $sanitizeEncoding;
 
     public function __construct()
     {
         $this->namespacesPaths = new NamespacesPaths();
+        $this->sanitizeEncoding = new SanitizeEncoding(new Listing());
     }
 }

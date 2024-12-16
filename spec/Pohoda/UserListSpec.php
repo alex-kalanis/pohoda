@@ -12,13 +12,14 @@ namespace spec\Riesenia\Pohoda;
 
 use PhpSpec\ObjectBehavior;
 use Riesenia\Pohoda\Common\NamespacesPaths;
+use Riesenia\Pohoda\ValueTransformer;
 
 
 class UserListSpec extends ObjectBehavior
 {
     public function let(): void
     {
-        $this->beConstructedWith(new NamespacesPaths(), [
+        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [
             'code' => 'CODE',
             'name' => 'NAME'
         ], '123');

@@ -5,6 +5,7 @@ namespace BasicTests;
 use CommonTestClass;
 use Riesenia\Pohoda\Common\AddParameterTrait;
 use Riesenia\Pohoda\Common\NamespacesPaths;
+use Riesenia\Pohoda\ValueTransformer;
 
 
 class ParameterTraitTest extends CommonTestClass
@@ -35,9 +36,11 @@ class XParameter
     public array $data = [];
     protected string $ico = 'dummy';
     protected readonly NamespacesPaths $namespacesPaths;
+    protected readonly ValueTransformer\SanitizeEncoding $sanitizeEncoding;
 
     public function __construct()
     {
         $this->namespacesPaths = new NamespacesPaths();
+        $this->sanitizeEncoding = new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing());
     }
 }

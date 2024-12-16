@@ -2,8 +2,10 @@
 
 namespace AgendaTests;
 
+
 use CommonTestClass;
 use Riesenia\Pohoda;
+use Riesenia\Pohoda\ValueTransformer;
 
 
 class ReceiptTest extends CommonTestClass
@@ -81,7 +83,7 @@ class ReceiptTest extends CommonTestClass
 
     protected function getLib(): Pohoda\Receipt
     {
-        return new Pohoda\Receipt(new Pohoda\Common\NamespacesPaths(), [
+        return new Pohoda\Receipt(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [
             'date' => new \DateTimeImmutable('2015-01-10'),
             'dateOfReceipt' => '',
             'text' => 'Prijemka',

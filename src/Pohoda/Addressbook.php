@@ -10,7 +10,10 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda;
 
+
 use Riesenia\Pohoda\Addressbook\Header;
+use Riesenia\Pohoda\ValueTransformer\SanitizeEncoding;
+
 
 class Addressbook extends AbstractAgenda
 {
@@ -25,14 +28,20 @@ class Addressbook extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    public function __construct(Common\NamespacesPaths $namespacesPaths, array $data, string $ico, bool $resolveOptions = true)
+    public function __construct(
+        Common\NamespacesPaths $namespacesPaths,
+        SanitizeEncoding $sanitizeEncoding,
+        array $data,
+        string $ico,
+        bool $resolveOptions = true,
+    )
     {
         // pass to header
         if ($data) {
-            $data = ['header' => new Header($namespacesPaths, $data, $ico, $resolveOptions)];
+            $data = ['header' => new Header($namespacesPaths, $sanitizeEncoding, $data, $ico, $resolveOptions)];
         }
 
-        parent::__construct($namespacesPaths, $data, $ico, $resolveOptions);
+        parent::__construct($namespacesPaths, $sanitizeEncoding, $data, $ico, $resolveOptions);
     }
 
     /**

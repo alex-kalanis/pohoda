@@ -10,9 +10,12 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\StockTransfer;
 
+
 use Riesenia\Pohoda\AbstractAgenda;
 use Riesenia\Pohoda\Common;
 use Riesenia\Pohoda\Type;
+use Riesenia\Pohoda\ValueTransformer\SanitizeEncoding;
+
 
 class Header extends AbstractAgenda
 {
@@ -27,14 +30,20 @@ class Header extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    public function __construct(Common\NamespacesPaths $namespacesPaths, array $data, string $ico, bool $resolveOptions = true)
+    public function __construct(
+        Common\NamespacesPaths $namespacesPaths,
+        SanitizeEncoding $sanitizeEncoding,
+        array $data,
+        string $ico,
+        bool $resolveOptions = true,
+    )
     {
         // process partner identity
         if (isset($data['partnerIdentity'])) {
-            $data['partnerIdentity'] = new Type\Address($namespacesPaths, $data['partnerIdentity'], $ico, $resolveOptions);
+            $data['partnerIdentity'] = new Type\Address($namespacesPaths, $sanitizeEncoding, $data['partnerIdentity'], $ico, $resolveOptions);
         }
 
-        parent::__construct($namespacesPaths, $data, $ico, $resolveOptions);
+        parent::__construct($namespacesPaths, $sanitizeEncoding, $data, $ico, $resolveOptions);
     }
 
     /**

@@ -10,10 +10,12 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda;
 
+
 use Riesenia\Pohoda;
 use Riesenia\Pohoda\Common\OptionsResolver;
-use Riesenia\Pohoda\ValueTransformer\EncodingTransformer;
 use Riesenia\Pohoda\ValueTransformer\ValueTransformer;
+use SimpleXMLElement;
+
 
 /**
  * Base class for Pohoda objects.
@@ -48,6 +50,7 @@ abstract class AbstractAgenda
      */
     public function __construct(
         protected readonly Common\NamespacesPaths $namespacesPaths,
+        protected Pohoda\ValueTransformer\SanitizeEncoding $sanitizeEncoding,
         array $data,
         protected readonly string $ico,
         bool $resolveOptions = true,
@@ -83,9 +86,9 @@ abstract class AbstractAgenda
     /**
      * Get XML.
      *
-     * @return \SimpleXMLElement
+     * @return SimpleXMLElement
      */
-    abstract public function getXML(): \SimpleXMLElement;
+    abstract public function getXML(): SimpleXMLElement;
 
     /**
      * Configure options for options resolver.
@@ -99,12 +102,12 @@ abstract class AbstractAgenda
     /**
      * Create XML.
      *
-     * @return \SimpleXMLElement
+     * @return SimpleXMLElement
      */
-    protected function createXML(): \SimpleXMLElement
+    protected function createXML(): SimpleXMLElement
     {
         $np = $this->namespacesPaths->allNamespaces();
-        return new \SimpleXMLElement('<?xml version="1.0" encoding="' . Pohoda::$encoding . '"?><root ' . \implode(' ', \array_map(function ($k, $v) {
+        return new SimpleXMLElement('<?xml version="1.0" encoding="' . $this->sanitizeEncoding->getEncoding() . '"?><root ' . \implode(' ', \array_map(function ($k, $v) {
             return 'xmlns:' . $k . '="' . $v . '"';
         }, \array_keys($np), \array_values($np))) . '></root>');
     }
@@ -124,13 +127,13 @@ abstract class AbstractAgenda
     /**
      * Add batch elements.
      *
-     * @param \SimpleXMLElement $xml
-     * @param string[]          $elements
-     * @param string|null       $namespace
+     * @param SimpleXMLElement $xml
+     * @param string[]         $elements
+     * @param string|null      $namespace
      *
      * @return void
      */
-    protected function addElements(\SimpleXMLElement $xml, array $elements, ?string $namespace = null): void
+    protected function addElements(SimpleXMLElement $xml, array $elements, ?string $namespace = null): void
     {
         foreach ($elements as $element) {
             if (!isset($this->data[$element])) {
@@ -152,7 +155,12 @@ abstract class AbstractAgenda
                 $attrElement = $namespace ? $xml->children($namespace, true)->{$attrElement} : $xml->{$attrElement};
 
                 $sanitized = $this->sanitize($this->data[$element]);
-                $attrNamespace ? $attrElement->addAttribute($attrNamespace . ':' . $attrName, $sanitized, $this->namespace($attrNamespace)) : $attrElement->addAttribute($attrName, $sanitized);
+                $attrNamespace ? $attrElement->addAttribute(
+                        $attrNamespace . ':' . $attrName,
+                        $sanitized,
+                        $this->namespace($attrNamespace)
+                    )
+                    : $attrElement->addAttribute($attrName, $sanitized);
 
                 continue;
             }
@@ -193,14 +201,14 @@ abstract class AbstractAgenda
     /**
      * Add ref element.
      *
-     * @param \SimpleXMLElement $xml
-     * @param string            $name
-     * @param mixed             $value
-     * @param string|null       $namespace
+     * @param SimpleXMLElement $xml
+     * @param string           $name
+     * @param mixed            $value
+     * @param string|null      $namespace
      *
-     * @return \SimpleXMLElement
+     * @return SimpleXMLElement
      */
-    protected function addRefElement(\SimpleXMLElement $xml, string $name, mixed $value, ?string $namespace = null): \SimpleXMLElement
+    protected function addRefElement(SimpleXMLElement $xml, string $name, mixed $value, ?string $namespace = null): SimpleXMLElement
     {
         $node = $namespace ? $xml->addChild($name, '', $this->namespace($namespace)) : $xml->addChild($name);
 
@@ -238,14 +246,9 @@ abstract class AbstractAgenda
      */
     protected function sanitize(mixed $value): string
     {
-        $transformers = Pohoda::$transformers;
+        $this->sanitizeEncoding->listingWithEncoding();
 
-        if (Pohoda::$sanitizeEncoding) {
-            $transformers[] = new EncodingTransformer('utf-8', Pohoda::$encoding . '//translit');
-            $transformers[] = new EncodingTransformer(Pohoda::$encoding, 'utf-8');
-        }
-
-        $value = \array_reduce($transformers, function (string $value, ValueTransformer $transformer): string {
+        $value = \array_reduce($this->sanitizeEncoding->getListing()->getTransformers(), function (string $value, ValueTransformer $transformer): string {
             return $transformer->transform($value);
         }, strval($value));
 
@@ -255,12 +258,12 @@ abstract class AbstractAgenda
     /**
      * Append SimpleXMLElement to another SimpleXMLElement.
      *
-     * @param \SimpleXMLElement $xml
-     * @param \SimpleXMLElement $node
+     * @param SimpleXMLElement $xml
+     * @param SimpleXMLElement $node
      *
      * @return void
      */
-    protected function appendNode(\SimpleXMLElement $xml, \SimpleXMLElement $node): void
+    protected function appendNode(SimpleXMLElement $xml, SimpleXMLElement $node): void
     {
         $dom = \dom_import_simplexml($xml);
         $dom2 = \dom_import_simplexml($node);

@@ -10,9 +10,12 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\Invoice;
 
+
 use Riesenia\Pohoda\Common;
 use Riesenia\Pohoda\Document\AbstractItem;
 use Riesenia\Pohoda\Type\RecyclingContrib;
+use Riesenia\Pohoda\ValueTransformer\SanitizeEncoding;
+
 
 class Item extends AbstractItem
 {
@@ -25,12 +28,18 @@ class Item extends AbstractItem
     /**
      * @inheritdoc
      */
-    public function __construct(Common\NamespacesPaths $namespacesPaths, array $data, string $ico, bool $resolveOptions = true) {
+    public function __construct(
+        Common\NamespacesPaths $namespacesPaths,
+        SanitizeEncoding $sanitizeEncoding,
+        array $data,
+        string $ico,
+        bool $resolveOptions = true,
+    ) {
         if (isset($data['recyclingContrib'])) {
-            $data['recyclingContrib'] = new RecyclingContrib($namespacesPaths, $data['recyclingContrib'], $ico, $resolveOptions);
+            $data['recyclingContrib'] = new RecyclingContrib($namespacesPaths, $sanitizeEncoding, $data['recyclingContrib'], $ico, $resolveOptions);
         }
 
-        parent::__construct($namespacesPaths, $data, $ico, $resolveOptions);
+        parent::__construct($namespacesPaths, $sanitizeEncoding, $data, $ico, $resolveOptions);
     }
 
     /**

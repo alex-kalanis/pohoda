@@ -11,6 +11,9 @@ declare(strict_types=1);
 namespace Riesenia\Pohoda;
 
 
+use Riesenia\Pohoda\ValueTransformer\SanitizeEncoding;
+
+
 class Supplier extends AbstractAgenda
 {
 
@@ -22,21 +25,27 @@ class Supplier extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    public function __construct(Common\NamespacesPaths $namespacesPaths, array $data, string $ico, bool $resolveOptions = true)
+    public function __construct(
+        Common\NamespacesPaths $namespacesPaths,
+        SanitizeEncoding $sanitizeEncoding,
+        array $data,
+        string $ico,
+        bool $resolveOptions = true,
+    )
     {
         // process stockItem
         if (isset($data['stockItem'])) {
-            $data['stockItem'] = new Supplier\StockItem($namespacesPaths, $data['stockItem'], $ico, $resolveOptions);
+            $data['stockItem'] = new Supplier\StockItem($namespacesPaths, $sanitizeEncoding, $data['stockItem'], $ico, $resolveOptions);
         }
 
         // process suppliers
         if (isset($data['suppliers']) && is_array($data['suppliers'])) {
-            $data['suppliers'] = \array_map(function ($supplier) use ($namespacesPaths, $ico, $resolveOptions) {
-                return new Supplier\SupplierItem($namespacesPaths, $supplier['supplierItem'], $ico, $resolveOptions);
+            $data['suppliers'] = \array_map(function ($supplier) use ($namespacesPaths, $sanitizeEncoding, $ico, $resolveOptions) {
+                return new Supplier\SupplierItem($namespacesPaths, $sanitizeEncoding, $supplier['supplierItem'], $ico, $resolveOptions);
             }, $data['suppliers']);
         }
 
-        parent::__construct($namespacesPaths, $data, $ico, $resolveOptions);
+        parent::__construct($namespacesPaths, $sanitizeEncoding, $data, $ico, $resolveOptions);
     }
 
     /**

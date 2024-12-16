@@ -2,8 +2,11 @@
 
 namespace AgendaTests;
 
+
 use CommonTestClass;
 use Riesenia\Pohoda;
+use Riesenia\Pohoda\ValueTransformer;
+
 
 class IndividualPriceTest extends CommonTestClass
 {
@@ -24,7 +27,11 @@ class IndividualPriceTest extends CommonTestClass
 
     protected function getLib(): Pohoda\IndividualPrice
     {
-        return new Pohoda\IndividualPrice(new Pohoda\Common\NamespacesPaths(), [
-        ], '123');
+        return new Pohoda\IndividualPrice(
+            new Pohoda\Common\NamespacesPaths(),
+            new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()),
+            [],
+            '123'
+        );
     }
 }

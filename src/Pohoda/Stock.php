@@ -10,9 +10,12 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda;
 
+
 use Riesenia\Pohoda\Stock\Header;
 use Riesenia\Pohoda\Stock\Price;
 use Riesenia\Pohoda\Stock\StockItem;
+use Riesenia\Pohoda\ValueTransformer\SanitizeEncoding;
+
 
 class Stock extends AbstractAgenda
 {
@@ -22,14 +25,20 @@ class Stock extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    public function __construct(Common\NamespacesPaths $namespacesPaths, array $data, string $ico, bool $resolveOptions = true)
+    public function __construct(
+        Common\NamespacesPaths $namespacesPaths,
+        SanitizeEncoding $sanitizeEncoding,
+        array $data,
+        string $ico,
+        bool $resolveOptions = true,
+    )
     {
         // pass to header
         if ($data) {
-            $data = ['header' => new Header($namespacesPaths, $data, $ico, $resolveOptions)];
+            $data = ['header' => new Header($namespacesPaths, $sanitizeEncoding, $data, $ico, $resolveOptions)];
         }
 
-        parent::__construct($namespacesPaths, $data, $ico, $resolveOptions);
+        parent::__construct($namespacesPaths, $sanitizeEncoding, $data, $ico, $resolveOptions);
     }
 
     public function getImportRoot(): string
@@ -55,7 +64,7 @@ class Stock extends AbstractAgenda
             $this->data['stockDetail'] = [];
         }
 
-        $this->data['stockDetail'][] = new StockItem($this->namespacesPaths, $data, $this->ico);
+        $this->data['stockDetail'][] = new StockItem($this->namespacesPaths, $this->sanitizeEncoding, $data, $this->ico);
 
         return $this;
     }
@@ -79,7 +88,7 @@ class Stock extends AbstractAgenda
             $this->data['stockPriceItem'] = [];
         }
 
-        $this->data['stockPriceItem'][] = new Price($this->namespacesPaths, [
+        $this->data['stockPriceItem'][] = new Price($this->namespacesPaths, $this->sanitizeEncoding, [
             'ids' => $code,
             'price' => $value
         ], $this->ico);

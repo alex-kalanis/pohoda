@@ -2,8 +2,10 @@
 
 namespace AgendaTests;
 
+
 use CommonTestClass;
 use Riesenia\Pohoda;
+use Riesenia\Pohoda\ValueTransformer;
 
 
 class OfferTest extends CommonTestClass
@@ -84,7 +86,7 @@ class OfferTest extends CommonTestClass
 
     protected function getLib(): Pohoda\Offer
     {
-        return new Pohoda\Offer(new Pohoda\Common\NamespacesPaths(), [
+        return new Pohoda\Offer(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [
             'partnerIdentity' => [
                 'id' => 25
             ],

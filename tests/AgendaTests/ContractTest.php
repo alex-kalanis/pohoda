@@ -2,8 +2,10 @@
 
 namespace AgendaTests;
 
+
 use CommonTestClass;
 use Riesenia\Pohoda;
+use Riesenia\Pohoda\ValueTransformer;
 
 
 class ContractTest extends CommonTestClass
@@ -31,7 +33,7 @@ class ContractTest extends CommonTestClass
 
     public function testDiffPartner(): void
     {
-        $lib = new Pohoda\Contract(new Pohoda\Common\NamespacesPaths(), [
+        $lib = new Pohoda\Contract(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [
             'text' => 'zakazka1337',
             'responsiblePerson' => ['ids' => 'Z0005'],
             'partnerIdentity' => [
@@ -58,9 +60,13 @@ class ContractTest extends CommonTestClass
 
     protected function getLib(): Pohoda\Contract
     {
-        return new Pohoda\Contract(new Pohoda\Common\NamespacesPaths(), [
-            'text' => 'zakazka15',
-            'responsiblePerson' => ['ids' => 'Z0005']
-        ], '123');
+        return new Pohoda\Contract(
+            new Pohoda\Common\NamespacesPaths(),
+            new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()),
+            [
+                'text' => 'zakazka15',
+                'responsiblePerson' => ['ids' => 'Z0005']
+            ], '123'
+        );
     }
 }
