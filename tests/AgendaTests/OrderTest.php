@@ -92,7 +92,7 @@ class OrderTest extends CommonTestClass
 
     public function testDeleteOrder(): void
     {
-        $lib = new Pohoda\Order([], '123');
+        $lib = new Pohoda\Order(new Pohoda\Common\NamespacesPaths(), [], '123');
         $lib->addActionType('delete', [
             'number' => '222'
         ], 'prijate_objednavky');
@@ -102,7 +102,7 @@ class OrderTest extends CommonTestClass
 
     public function testWithSpecialCharsIntact(): void
     {
-        $lib = new Pohoda\Addressbook([
+        $lib = new Pohoda\Addressbook(new Pohoda\Common\NamespacesPaths(), [
             'identity' => [
                 'address' => [
                     'name' => 'Călărași ñüé¿s',
@@ -123,7 +123,7 @@ class OrderTest extends CommonTestClass
 
     protected function getLib(): Pohoda\Order
     {
-        return new Pohoda\Order([
+        return new Pohoda\Order(new Pohoda\Common\NamespacesPaths(), [
             'partnerIdentity' => [
                 'id' => 25
             ],

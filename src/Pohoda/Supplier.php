@@ -10,9 +10,6 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda;
 
-use Riesenia\Pohoda\Common\OptionsResolver;
-use Riesenia\Pohoda\Supplier\StockItem;
-use Riesenia\Pohoda\Supplier\SupplierItem;
 
 class Supplier extends AbstractAgenda
 {
@@ -25,21 +22,21 @@ class Supplier extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    public function __construct(array $data, string $ico, bool $resolveOptions = true)
+    public function __construct(Common\NamespacesPaths $namespacesPaths, array $data, string $ico, bool $resolveOptions = true)
     {
         // process stockItem
         if (isset($data['stockItem'])) {
-            $data['stockItem'] = new StockItem($data['stockItem'], $ico, $resolveOptions);
+            $data['stockItem'] = new Supplier\StockItem($namespacesPaths, $data['stockItem'], $ico, $resolveOptions);
         }
 
         // process suppliers
         if (isset($data['suppliers']) && is_array($data['suppliers'])) {
-            $data['suppliers'] = \array_map(function ($supplier) use ($ico, $resolveOptions) {
-                return new SupplierItem($supplier['supplierItem'], $ico, $resolveOptions);
+            $data['suppliers'] = \array_map(function ($supplier) use ($namespacesPaths, $ico, $resolveOptions) {
+                return new Supplier\SupplierItem($namespacesPaths, $supplier['supplierItem'], $ico, $resolveOptions);
             }, $data['suppliers']);
         }
 
-        parent::__construct($data, $ico, $resolveOptions);
+        parent::__construct($namespacesPaths, $data, $ico, $resolveOptions);
     }
 
     /**
@@ -58,7 +55,7 @@ class Supplier extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    protected function configureOptions(OptionsResolver $resolver): void
+    protected function configureOptions(Common\OptionsResolver $resolver): void
     {
         // available options
         $resolver->setDefined(['stockItem', 'suppliers']);

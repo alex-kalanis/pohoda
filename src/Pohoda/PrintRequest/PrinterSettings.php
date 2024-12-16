@@ -11,7 +11,7 @@ declare(strict_types=1);
 namespace Riesenia\Pohoda\PrintRequest;
 
 use Riesenia\Pohoda\AbstractAgenda;
-use Riesenia\Pohoda\Common\OptionsResolver;
+use Riesenia\Pohoda\Common;
 
 class PrinterSettings extends AbstractAgenda
 {
@@ -21,22 +21,22 @@ class PrinterSettings extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    public function __construct(array $data, string $ico, bool $resolveOptions = true)
+    public function __construct(Common\NamespacesPaths $namespacesPaths, array $data, string $ico, bool $resolveOptions = true)
     {
         // process report
         if (isset($data['report'])) {
-            $data['report'] = new Report($data['report'], $ico, $resolveOptions);
+            $data['report'] = new Report($namespacesPaths, $data['report'], $ico, $resolveOptions);
         }
         // process pdf
         if (isset($data['pdf'])) {
-            $data['pdf'] = new Pdf($data['pdf'], $ico, $resolveOptions);
+            $data['pdf'] = new Pdf($namespacesPaths, $data['pdf'], $ico, $resolveOptions);
         }
         // process parameters
         if (isset($data['parameters'])) {
-            $data['parameters'] = new Parameters($data['parameters'], $ico, $resolveOptions);
+            $data['parameters'] = new Parameters($namespacesPaths, $data['parameters'], $ico, $resolveOptions);
         }
 
-        parent::__construct($data, $ico, $resolveOptions);
+        parent::__construct($namespacesPaths, $data, $ico, $resolveOptions);
     }
 
     /**
@@ -54,7 +54,7 @@ class PrinterSettings extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    protected function configureOptions(OptionsResolver $resolver): void
+    protected function configureOptions(Common\OptionsResolver $resolver): void
     {
         // available options
         $resolver->setDefined($this->elements);

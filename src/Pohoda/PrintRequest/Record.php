@@ -11,19 +11,19 @@ declare(strict_types=1);
 namespace Riesenia\Pohoda\PrintRequest;
 
 use Riesenia\Pohoda\AbstractAgenda;
-use Riesenia\Pohoda\Common\OptionsResolver;
+use Riesenia\Pohoda\Common;
 
 class Record extends AbstractAgenda
 {
     /**
      * {@inheritdoc}
      */
-    public function __construct(array $data, string $ico, bool $resolveOptions = true)
+    public function __construct(Common\NamespacesPaths $namespacesPaths, array $data, string $ico, bool $resolveOptions = true)
     {
         // process filter
-        $data['filter'] = new Filter($data['filter'], $ico, $resolveOptions);
+        $data['filter'] = new Filter($namespacesPaths, $data['filter'], $ico, $resolveOptions);
 
-        parent::__construct($data, $ico, $resolveOptions);
+        parent::__construct($namespacesPaths, $data, $ico, $resolveOptions);
     }
 
     /**
@@ -42,7 +42,7 @@ class Record extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    protected function configureOptions(OptionsResolver $resolver): void
+    protected function configureOptions(Common\OptionsResolver $resolver): void
     {
         // available options
         $resolver->setDefined(['agenda', 'filter']);

@@ -42,7 +42,7 @@ class UserList extends AbstractAgenda
             $this->data['itemUserCodes'] = [];
         }
 
-        $this->data['itemUserCodes'][] = new ItemUserCode($data, $this->ico);
+        $this->data['itemUserCodes'][] = new ItemUserCode($this->namespacesPaths, $data, $this->ico);
 
         return $this;
     }

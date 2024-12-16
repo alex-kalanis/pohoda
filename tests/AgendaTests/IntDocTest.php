@@ -82,7 +82,7 @@ class IntDocTest extends CommonTestClass
 
     protected function getLib(): Pohoda\IntDoc
     {
-        return new Pohoda\IntDoc([
+        return new Pohoda\IntDoc(new Pohoda\Common\NamespacesPaths(), [
             'partnerIdentity' => [
                 'id' => 25
             ],

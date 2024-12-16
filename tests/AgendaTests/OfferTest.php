@@ -84,7 +84,7 @@ class OfferTest extends CommonTestClass
 
     protected function getLib(): Pohoda\Offer
     {
-        return new Pohoda\Offer([
+        return new Pohoda\Offer(new Pohoda\Common\NamespacesPaths(), [
             'partnerIdentity' => [
                 'id' => 25
             ],

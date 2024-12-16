@@ -11,13 +11,12 @@ declare(strict_types=1);
 namespace Riesenia\Pohoda\StockTransfer;
 
 use Riesenia\Pohoda\AbstractAgenda;
-use Riesenia\Pohoda\Common\AddParameterTrait;
-use Riesenia\Pohoda\Common\OptionsResolver;
-use Riesenia\Pohoda\Type\Address;
+use Riesenia\Pohoda\Common;
+use Riesenia\Pohoda\Type;
 
 class Header extends AbstractAgenda
 {
-    use AddParameterTrait;
+    use Common\AddParameterTrait;
 
     /** @var string[] */
     protected array $refElements = ['number', 'store', 'centreSource', 'centreDestination', 'activity', 'contract'];
@@ -28,14 +27,14 @@ class Header extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    public function __construct(array $data, string $ico, bool $resolveOptions = true)
+    public function __construct(Common\NamespacesPaths $namespacesPaths, array $data, string $ico, bool $resolveOptions = true)
     {
         // process partner identity
         if (isset($data['partnerIdentity'])) {
-            $data['partnerIdentity'] = new Address($data['partnerIdentity'], $ico, $resolveOptions);
+            $data['partnerIdentity'] = new Type\Address($namespacesPaths, $data['partnerIdentity'], $ico, $resolveOptions);
         }
 
-        parent::__construct($data, $ico, $resolveOptions);
+        parent::__construct($namespacesPaths, $data, $ico, $resolveOptions);
     }
 
     /**
@@ -53,7 +52,7 @@ class Header extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    protected function configureOptions(OptionsResolver $resolver): void
+    protected function configureOptions(Common\OptionsResolver $resolver): void
     {
         // available options
         $resolver->setDefined($this->elements);

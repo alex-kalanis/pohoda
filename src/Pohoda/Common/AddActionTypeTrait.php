@@ -29,7 +29,7 @@ trait AddActionTypeTrait
             throw new \OutOfRangeException('Duplicate action type.');
         }
 
-        $this->data['actionType'] = new ActionType([
+        $this->data['actionType'] = new ActionType($this->namespacesPaths, [
             'type' => $type,
             'filter' => $filter,
             'agenda' => $agenda

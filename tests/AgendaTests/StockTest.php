@@ -106,7 +106,7 @@ class StockTest extends CommonTestClass
 
     protected function testDeleteStock(): void
     {
-        $lib = new Pohoda\Stock([], '123');
+        $lib = new Pohoda\Stock(new Pohoda\Common\NamespacesPaths(), [], '123');
         $lib->addActionType('delete', [
             'code' => 'CODE',
             'store' => ['ids' => 'STORAGE']
@@ -122,7 +122,7 @@ class StockTest extends CommonTestClass
 
     protected function getLib(): Pohoda\Stock
     {
-        return new Pohoda\Stock([
+        return new Pohoda\Stock(new Pohoda\Common\NamespacesPaths(), [
             'code' => 'CODE',
             'name' => 'NAME',
             'isSales' => '0',

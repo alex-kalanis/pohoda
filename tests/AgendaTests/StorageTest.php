@@ -23,7 +23,7 @@ class StorageTest extends CommonTestClass
     public function testAddSubStorages(): void
     {
         $lib = $this->getLib();
-        $sub = new Pohoda\Storage([
+        $sub = new Pohoda\Storage(new Pohoda\Common\NamespacesPaths(), [
             'code' => 'Sub',
             'name' => 'Sub'
         ], '123');
@@ -32,7 +32,7 @@ class StorageTest extends CommonTestClass
 
         $this->assertEquals('<str:storage version="2.0"><str:itemStorage code="MAIN"><str:subStorages><str:itemStorage code="Sub" name="Sub"/></str:subStorages></str:itemStorage></str:storage>', $lib->getXML()->asXML());
 
-        $subsub = new Pohoda\Storage([
+        $subsub = new Pohoda\Storage(new Pohoda\Common\NamespacesPaths(), [
             'code' => 'SubSub',
             'name' => 'SubSub'
         ], '123');
@@ -44,7 +44,7 @@ class StorageTest extends CommonTestClass
 
     protected function getLib(): Pohoda\Storage
     {
-        return new Pohoda\Storage([
+        return new Pohoda\Storage(new Pohoda\Common\NamespacesPaths(), [
             'code' => 'MAIN'
         ], '123');
     }

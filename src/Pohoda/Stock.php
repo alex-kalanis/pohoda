@@ -10,29 +10,26 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda;
 
-use Riesenia\Pohoda\Common\AddActionTypeTrait;
-use Riesenia\Pohoda\Common\AddParameterToHeaderTrait;
-use Riesenia\Pohoda\Common\OptionsResolver;
 use Riesenia\Pohoda\Stock\Header;
 use Riesenia\Pohoda\Stock\Price;
 use Riesenia\Pohoda\Stock\StockItem;
 
 class Stock extends AbstractAgenda
 {
-    use AddActionTypeTrait;
-    use AddParameterToHeaderTrait;
+    use Common\AddActionTypeTrait;
+    use Common\AddParameterToHeaderTrait;
 
     /**
      * {@inheritdoc}
      */
-    public function __construct(array $data, string $ico, bool $resolveOptions = true)
+    public function __construct(Common\NamespacesPaths $namespacesPaths, array $data, string $ico, bool $resolveOptions = true)
     {
         // pass to header
         if ($data) {
-            $data = ['header' => new Header($data, $ico, $resolveOptions)];
+            $data = ['header' => new Header($namespacesPaths, $data, $ico, $resolveOptions)];
         }
 
-        parent::__construct($data, $ico, $resolveOptions);
+        parent::__construct($namespacesPaths, $data, $ico, $resolveOptions);
     }
 
     public function getImportRoot(): string
@@ -58,7 +55,7 @@ class Stock extends AbstractAgenda
             $this->data['stockDetail'] = [];
         }
 
-        $this->data['stockDetail'][] = new StockItem($data, $this->ico);
+        $this->data['stockDetail'][] = new StockItem($this->namespacesPaths, $data, $this->ico);
 
         return $this;
     }
@@ -82,7 +79,7 @@ class Stock extends AbstractAgenda
             $this->data['stockPriceItem'] = [];
         }
 
-        $this->data['stockPriceItem'][] = new Price([
+        $this->data['stockPriceItem'][] = new Price($this->namespacesPaths, [
             'ids' => $code,
             'price' => $value
         ], $this->ico);
@@ -157,7 +154,7 @@ class Stock extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    protected function configureOptions(OptionsResolver $resolver): void
+    protected function configureOptions(Common\OptionsResolver $resolver): void
     {
         // available options
         $resolver->setDefined(['header']);

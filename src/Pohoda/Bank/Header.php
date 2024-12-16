@@ -10,10 +10,10 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\Bank;
 
-use Riesenia\Pohoda\Common\OptionsResolver;
-use Riesenia\Pohoda\Document\AbstractHeader as DocumentHeader;
+use Riesenia\Pohoda\Common;
+use Riesenia\Pohoda\Document\AbstractHeader;
 
-class Header extends DocumentHeader
+class Header extends AbstractHeader
 {
     /** @var string[] */
     protected array $refElements = ['account', 'accounting', 'classificationVAT', 'classificationKVDPH', 'paymentAccount', 'centre', 'activity', 'contract', 'MOSS', 'evidentiaryResourcesMOSS'];
@@ -24,20 +24,20 @@ class Header extends DocumentHeader
     /**
      * {@inheritdoc}
      */
-    public function __construct(array $data, string $ico, bool $resolveOptions = true)
+    public function __construct(Common\NamespacesPaths $namespacesPaths, array $data, string $ico, bool $resolveOptions = true)
     {
         // process report
         if (isset($data['statementNumber'])) {
-            $data['statementNumber'] = new StatementNumber($data['statementNumber'], $ico, $resolveOptions);
+            $data['statementNumber'] = new StatementNumber($namespacesPaths, $data['statementNumber'], $ico, $resolveOptions);
         }
 
-        parent::__construct($data, $ico, $resolveOptions);
+        parent::__construct($namespacesPaths, $data, $ico, $resolveOptions);
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function configureOptions(OptionsResolver $resolver): void
+    protected function configureOptions(Common\OptionsResolver $resolver): void
     {
         parent::configureOptions($resolver);
 

@@ -137,7 +137,7 @@ class InvoiceTest extends CommonTestClass
 
     protected function getLib(): Pohoda\Invoice
     {
-        return new Pohoda\Invoice([
+        return new Pohoda\Invoice(new Pohoda\Common\NamespacesPaths(), [
             'partnerIdentity' => [
                 'id' => 25
             ],

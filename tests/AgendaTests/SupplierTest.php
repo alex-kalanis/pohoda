@@ -22,7 +22,7 @@ class SupplierTest extends CommonTestClass
 
     protected function getLib(): Pohoda\Supplier
     {
-        return new Pohoda\Supplier([
+        return new Pohoda\Supplier(new Pohoda\Common\NamespacesPaths(), [
             'stockItem' => [
                 'stockItem' => [
                     'ids' => 'B04'

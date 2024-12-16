@@ -41,11 +41,13 @@ abstract class AbstractAgenda
     /**
      * Construct agenda using provided data.
      *
+     * @param Common\NamespacesPaths $namespacesPaths
      * @param array<string,mixed> $data
      * @param string              $ico
      * @param bool                $resolveOptions
      */
     public function __construct(
+        protected readonly Common\NamespacesPaths $namespacesPaths,
         array $data,
         protected readonly string $ico,
         bool $resolveOptions = true,
@@ -101,9 +103,10 @@ abstract class AbstractAgenda
      */
     protected function createXML(): \SimpleXMLElement
     {
+        $np = $this->namespacesPaths->allNamespaces();
         return new \SimpleXMLElement('<?xml version="1.0" encoding="' . Pohoda::$encoding . '"?><root ' . \implode(' ', \array_map(function ($k, $v) {
             return 'xmlns:' . $k . '="' . $v . '"';
-        }, \array_keys(Pohoda::$namespaces), Pohoda::$namespaces)) . '></root>');
+        }, \array_keys($np), \array_values($np))) . '></root>');
     }
 
     /**
@@ -115,11 +118,7 @@ abstract class AbstractAgenda
      */
     protected function namespace(string $short): string
     {
-        if (!isset(Pohoda::$namespaces[$short])) {
-            throw new \OutOfRangeException('Invalid namespace.');
-        }
-
-        return Pohoda::$namespaces[$short];
+        return $this->namespacesPaths->namespace($short);
     }
 
     /**

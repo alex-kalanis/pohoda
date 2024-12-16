@@ -11,7 +11,7 @@ declare(strict_types=1);
 namespace Riesenia\Pohoda\StockTransfer;
 
 use Riesenia\Pohoda\AbstractAgenda;
-use Riesenia\Pohoda\Common\OptionsResolver;
+use Riesenia\Pohoda\Common;
 use Riesenia\Pohoda\Type\StockItem;
 
 class Item extends AbstractAgenda
@@ -22,14 +22,14 @@ class Item extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    public function __construct(array $data, string $ico, bool $resolveOptions = true)
+    public function __construct(Common\NamespacesPaths $namespacesPaths, array $data, string $ico, bool $resolveOptions = true)
     {
         // process stock item
         if (isset($data['stockItem'])) {
-            $data['stockItem'] = new StockItem($data['stockItem'], $ico, $resolveOptions);
+            $data['stockItem'] = new StockItem($namespacesPaths, $data['stockItem'], $ico, $resolveOptions);
         }
 
-        parent::__construct($data, $ico, $resolveOptions);
+        parent::__construct($namespacesPaths, $data, $ico, $resolveOptions);
     }
 
     /**
@@ -47,7 +47,7 @@ class Item extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    protected function configureOptions(OptionsResolver $resolver): void
+    protected function configureOptions(Common\OptionsResolver $resolver): void
     {
         // available options
         $resolver->setDefined($this->elements);

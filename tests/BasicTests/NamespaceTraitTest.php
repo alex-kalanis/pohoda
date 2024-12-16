@@ -3,8 +3,10 @@
 namespace BasicTests;
 
 use CommonTestClass;
-use Riesenia\Pohoda\Common\SetNamespaceTrait;
 use LogicException;
+use OutOfRangeException;
+use Riesenia\Pohoda\Common\NamespacesPaths;
+use Riesenia\Pohoda\Common\SetNamespaceTrait;
 
 class NamespaceTraitTest extends CommonTestClass
 {
@@ -30,6 +32,13 @@ class NamespaceTraitTest extends CommonTestClass
         $lib->setNamespace('foo');
         $this->expectException(LogicException::class);
         $lib->getXML();
+    }
+
+    public function testNonExistentName(): void
+    {
+        $lib = new NamespacesPaths();
+        $this->expectException(OutOfRangeException::class);
+        $lib->namespace('this does not exists');
     }
 }
 

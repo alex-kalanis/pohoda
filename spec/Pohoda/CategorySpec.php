@@ -10,14 +10,17 @@ declare(strict_types=1);
 
 namespace spec\Riesenia\Pohoda;
 
+
 use PhpSpec\ObjectBehavior;
 use Riesenia\Pohoda\Category;
+use Riesenia\Pohoda\Common\NamespacesPaths;
+
 
 class CategorySpec extends ObjectBehavior
 {
     public function let(): void
     {
-        $this->beConstructedWith([
+        $this->beConstructedWith(new NamespacesPaths(), [
             'name' => 'Main',
             'sequence' => 1,
             'displayed' => true
@@ -37,13 +40,13 @@ class CategorySpec extends ObjectBehavior
 
     public function it_can_add_subcategories(): void
     {
-        $sub = new Category([
+        $sub = new Category(new NamespacesPaths(), [
             'name' => 'Sub',
             'sequence' => 1,
             'displayed' => true
         ], '123');
 
-        $subsub = new Category([
+        $subsub = new Category(new NamespacesPaths(), [
             'name' => 'SubSub',
             'sequence' => 1,
             'displayed' => false
@@ -51,7 +54,7 @@ class CategorySpec extends ObjectBehavior
 
         $sub->addSubcategory($subsub);
 
-        $sub2 = new Category([
+        $sub2 = new Category(new NamespacesPaths(), [
             'name' => 'Sub2',
             'sequence' => '2',
             'displayed' => true

@@ -22,15 +22,15 @@ abstract class AbstractDocument extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    public function __construct(array $data, string $ico, bool $resolveOptions = true)
+    public function __construct(Common\NamespacesPaths $namespacesPaths, array $data, string $ico, bool $resolveOptions = true)
     {
-        $this->documentPartFactory = new DocumentPartFactory($ico);
+        $this->documentPartFactory = new DocumentPartFactory($namespacesPaths, $ico);
         // pass to header
         if ($data) {
             $data = ['header' => $this->getDocumentPart('Header', $data, $resolveOptions)];
         }
 
-        parent::__construct($data, $ico, $resolveOptions);
+        parent::__construct($namespacesPaths, $data, $ico, $resolveOptions);
     }
 
     /**

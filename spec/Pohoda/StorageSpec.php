@@ -11,13 +11,14 @@ declare(strict_types=1);
 namespace spec\Riesenia\Pohoda;
 
 use PhpSpec\ObjectBehavior;
+use Riesenia\Pohoda\Common\NamespacesPaths;
 use Riesenia\Pohoda\Storage;
 
 class StorageSpec extends ObjectBehavior
 {
     public function let(): void
     {
-        $this->beConstructedWith([
+        $this->beConstructedWith(new NamespacesPaths(), [
             'code' => 'MAIN'
         ], '123');
     }
@@ -35,7 +36,7 @@ class StorageSpec extends ObjectBehavior
 
     public function it_can_add_substorages(): void
     {
-        $sub = new Storage([
+        $sub = new Storage(new NamespacesPaths(), [
             'code' => 'Sub',
             'name' => 'Sub'
         ], '123');
@@ -44,7 +45,7 @@ class StorageSpec extends ObjectBehavior
 
         $this->getXML()->asXML()->shouldReturn('<str:storage version="2.0"><str:itemStorage code="MAIN"><str:subStorages><str:itemStorage code="Sub" name="Sub"/></str:subStorages></str:itemStorage></str:storage>');
 
-        $subsub = new Storage([
+        $subsub = new Storage(new NamespacesPaths(), [
             'code' => 'SubSub',
             'name' => 'SubSub'
         ], '123');

@@ -10,24 +10,20 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda;
 
-use Riesenia\Pohoda\Common\AddParameterToHeaderTrait;
-use Riesenia\Pohoda\Common\OptionsResolver;
-use Riesenia\Pohoda\StockTransfer\Header;
-use Riesenia\Pohoda\StockTransfer\Item;
 
 class StockTransfer extends AbstractAgenda
 {
-    use AddParameterToHeaderTrait;
+    use Common\AddParameterToHeaderTrait;
 
     /**
      * {@inheritdoc}
      */
-    public function __construct(array $data, string $ico, bool $resolveOptions = true)
+    public function __construct(Common\NamespacesPaths $namespacesPaths, array $data, string $ico, bool $resolveOptions = true)
     {
         // pass to header
-        $data = ['header' => new Header($data, $ico, $resolveOptions)];
+        $data = ['header' => new StockTransfer\Header($namespacesPaths, $data, $ico, $resolveOptions)];
 
-        parent::__construct($data, $ico, $resolveOptions);
+        parent::__construct($namespacesPaths, $data, $ico, $resolveOptions);
     }
 
     public function getImportRoot(): string
@@ -53,7 +49,7 @@ class StockTransfer extends AbstractAgenda
             $this->data['prevodkaDetail'] = [];
         }
 
-        $this->data['prevodkaDetail'][] = new Item($data, $this->ico);
+        $this->data['prevodkaDetail'][] = new StockTransfer\Item($this->namespacesPaths, $data, $this->ico);
 
         return $this;
     }
@@ -74,7 +70,7 @@ class StockTransfer extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    protected function configureOptions(OptionsResolver $resolver): void
+    protected function configureOptions(Common\OptionsResolver $resolver): void
     {
         // available options
         $resolver->setDefined(['header']);

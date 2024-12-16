@@ -11,12 +11,14 @@ declare(strict_types=1);
 namespace spec\Riesenia\Pohoda;
 
 use PhpSpec\ObjectBehavior;
+use Riesenia\Pohoda\Common\NamespacesPaths;
+
 
 class AddressbookSpec extends ObjectBehavior
 {
     public function let(): void
     {
-        $this->beConstructedWith([
+        $this->beConstructedWith(new NamespacesPaths(), [
             'identity' => [
                 'address' => [
                     'name' => 'NAME',
@@ -60,7 +62,7 @@ class AddressbookSpec extends ObjectBehavior
 
     public function it_can_delete_address(): void
     {
-        $this->beConstructedWith([], '123');
+        $this->beConstructedWith(new NamespacesPaths(), [], '123');
 
         $this->addActionType('delete', [
             'company' => 'COMPANY'
@@ -71,7 +73,7 @@ class AddressbookSpec extends ObjectBehavior
 
     public function it_leaves_special_characters_intact_by_default(): void
     {
-        $this->beConstructedWith([
+        $this->beConstructedWith(new NamespacesPaths(), [
             'identity' => [
                 'address' => [
                     'name' => 'Călărași ñüé¿s',

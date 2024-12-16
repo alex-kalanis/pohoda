@@ -24,7 +24,7 @@ class IndividualPriceTest extends CommonTestClass
 
     protected function getLib(): Pohoda\IndividualPrice
     {
-        return new Pohoda\IndividualPrice([
+        return new Pohoda\IndividualPrice(new Pohoda\Common\NamespacesPaths(), [
         ], '123');
     }
 }

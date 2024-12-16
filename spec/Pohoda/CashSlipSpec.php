@@ -11,12 +11,14 @@ declare(strict_types=1);
 namespace spec\Riesenia\Pohoda;
 
 use PhpSpec\ObjectBehavior;
+use Riesenia\Pohoda\Common\NamespacesPaths;
+
 
 class CashSlipSpec extends ObjectBehavior
 {
     public function let()
     {
-        $this->beConstructedWith([
+        $this->beConstructedWith(new NamespacesPaths(), [
             'date' => '2015-01-10',
             'text' => 'Prod',
             'partnerIdentity' => [

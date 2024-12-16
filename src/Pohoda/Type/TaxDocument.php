@@ -11,7 +11,7 @@ declare(strict_types=1);
 namespace Riesenia\Pohoda\Type;
 
 use Riesenia\Pohoda\AbstractAgenda;
-use Riesenia\Pohoda\Common\OptionsResolver;
+use Riesenia\Pohoda\Common;
 
 class TaxDocument extends AbstractAgenda
 {
@@ -24,14 +24,14 @@ class TaxDocument extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    public function __construct(array $data, string $ico, bool $resolveOptions = true)
+    public function __construct(Common\NamespacesPaths $namespacesPaths, array $data, string $ico, bool $resolveOptions = true)
     {
         // process source liquidation
         if (isset($data['sourceLiquidation'])) {
-            $data['sourceLiquidation'] = new SourceLiquidation($data['sourceLiquidation'], $ico, $resolveOptions);
+            $data['sourceLiquidation'] = new SourceLiquidation($namespacesPaths, $data['sourceLiquidation'], $ico, $resolveOptions);
         }
 
-        parent::__construct($data, $ico, $resolveOptions);
+        parent::__construct($namespacesPaths, $data, $ico, $resolveOptions);
     }
 
     /**
@@ -49,7 +49,7 @@ class TaxDocument extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    protected function configureOptions(OptionsResolver $resolver): void
+    protected function configureOptions(Common\OptionsResolver $resolver): void
     {
         // available options
         $resolver->setDefined($this->elements);

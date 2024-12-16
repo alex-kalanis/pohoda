@@ -39,7 +39,7 @@ class Invoice extends AbstractDocument
             $this->data['links'] = [];
         }
 
-        $this->data['links'][] = new Link($data, $this->ico);
+        $this->data['links'][] = new Link($this->namespacesPaths, $data, $this->ico);
 
         return $this;
     }
@@ -62,7 +62,7 @@ class Invoice extends AbstractDocument
             $this->data['invoiceDetail'] = [];
         }
 
-        $this->data['invoiceDetail'][] = new AdvancePaymentItem($data, $this->ico);
+        $this->data['invoiceDetail'][] = new AdvancePaymentItem($this->namespacesPaths, $data, $this->ico);
 
         return $this;
     }

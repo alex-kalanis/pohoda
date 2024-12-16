@@ -24,7 +24,7 @@ class ActionPriceTest extends CommonTestClass
 
     protected function getLib(): Pohoda\ActionPrice
     {
-        return new Pohoda\ActionPrice([
+        return new Pohoda\ActionPrice(new Pohoda\Common\NamespacesPaths(), [
         ], '123');
     }
 }

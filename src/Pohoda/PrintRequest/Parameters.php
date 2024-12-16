@@ -11,7 +11,7 @@ declare(strict_types=1);
 namespace Riesenia\Pohoda\PrintRequest;
 
 use Riesenia\Pohoda\AbstractAgenda;
-use Riesenia\Pohoda\Common\OptionsResolver;
+use Riesenia\Pohoda\Common;
 
 class Parameters extends AbstractAgenda
 {
@@ -21,114 +21,114 @@ class Parameters extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    public function __construct(array $data, string $ico, bool $resolveOptions = true)
+    public function __construct(Common\NamespacesPaths $namespacesPaths, array $data, string $ico, bool $resolveOptions = true)
     {
         // process checkbox1
         if (isset($data['checkbox1'])) {
-            $data['checkbox1'] = new Checkbox1($data['checkbox1'], $ico, $resolveOptions);
+            $data['checkbox1'] = new Checkbox1($namespacesPaths, $data['checkbox1'], $ico, $resolveOptions);
         }
         // process checkbox2
         if (isset($data['checkbox2'])) {
-          $data['checkbox2'] = new Checkbox2($data['checkbox2'], $ico, $resolveOptions);
+          $data['checkbox2'] = new Checkbox2($namespacesPaths, $data['checkbox2'], $ico, $resolveOptions);
         }
         // process checkbox3
         if (isset($data['checkbox3'])) {
-          $data['checkbox3'] = new Checkbox3($data['checkbox3'], $ico, $resolveOptions);
+          $data['checkbox3'] = new Checkbox3($namespacesPaths, $data['checkbox3'], $ico, $resolveOptions);
         }
         // process checkbox4
         if (isset($data['checkbox4'])) {
-          $data['checkbox4'] = new Checkbox4($data['checkbox4'], $ico, $resolveOptions);
+          $data['checkbox4'] = new Checkbox4($namespacesPaths, $data['checkbox4'], $ico, $resolveOptions);
         }
         // process checkbox5
         if (isset($data['checkbox5'])) {
-          $data['checkbox5'] = new Checkbox5($data['checkbox5'], $ico, $resolveOptions);
+          $data['checkbox5'] = new Checkbox5($namespacesPaths, $data['checkbox5'], $ico, $resolveOptions);
         }
         // process checkbox6
         if (isset($data['checkbox6'])) {
-          $data['checkbox6'] = new Checkbox6($data['checkbox6'], $ico, $resolveOptions);
+          $data['checkbox6'] = new Checkbox6($namespacesPaths, $data['checkbox6'], $ico, $resolveOptions);
         }
         // process checkbox7
         if (isset($data['checkbox7'])) {
-          $data['checkbox7'] = new Checkbox7($data['checkbox7'], $ico, $resolveOptions);
+          $data['checkbox7'] = new Checkbox7($namespacesPaths, $data['checkbox7'], $ico, $resolveOptions);
         }
         // process checkbox8
         if (isset($data['checkbox8'])) {
-          $data['checkbox8'] = new Checkbox8($data['checkbox8'], $ico, $resolveOptions);
+          $data['checkbox8'] = new Checkbox8($namespacesPaths, $data['checkbox8'], $ico, $resolveOptions);
         }
         // process radioButton1
         if (isset($data['radioButton1'])) {
-          $data['radioButton1'] = new RadioButton1($data['radioButton1'], $ico, $resolveOptions);
+          $data['radioButton1'] = new RadioButton1($namespacesPaths, $data['radioButton1'], $ico, $resolveOptions);
         }
         // process spin1
         if (isset($data['spin1'])) {
-          $data['spin1'] = new Spin1($data['spin1'], $ico, $resolveOptions);
+          $data['spin1'] = new Spin1($namespacesPaths, $data['spin1'], $ico, $resolveOptions);
         }
         // process currency1
         if (isset($data['currency1'])) {
-          $data['currency1'] = new Currency1($data['currency1'], $ico, $resolveOptions);
+          $data['currency1'] = new Currency1($namespacesPaths, $data['currency1'], $ico, $resolveOptions);
         }
         // process month1
         if (isset($data['month1'])) {
-          $data['month1'] = new Month1($data['month1'], $ico, $resolveOptions);
+          $data['month1'] = new Month1($namespacesPaths, $data['month1'], $ico, $resolveOptions);
         }
         // process month2
         if (isset($data['month2'])) {
-          $data['month2'] = new Month2($data['month2'], $ico, $resolveOptions);
+          $data['month2'] = new Month2($namespacesPaths, $data['month2'], $ico, $resolveOptions);
         }
         // process year1
         if (isset($data['year1'])) {
-          $data['year1'] = new Year1($data['year1'], $ico, $resolveOptions);
+          $data['year1'] = new Year1($namespacesPaths, $data['year1'], $ico, $resolveOptions);
         }
         // process date1
         if (isset($data['date1'])) {
-          $data['date1'] = new Date1($data['date1'], $ico, $resolveOptions);
+          $data['date1'] = new Date1($namespacesPaths, $data['date1'], $ico, $resolveOptions);
         }
         // process date2
         if (isset($data['date2'])) {
-          $data['date2'] = new Date2($data['date2'], $ico, $resolveOptions);
+          $data['date2'] = new Date2($namespacesPaths, $data['date2'], $ico, $resolveOptions);
         }
         // process date3
         if (isset($data['date3'])) {
-          $data['date3'] = new Date3($data['date3'], $ico, $resolveOptions);
+          $data['date3'] = new Date3($namespacesPaths, $data['date3'], $ico, $resolveOptions);
         }
         // process date4
         if (isset($data['date4'])) {
-          $data['date4'] = new Date4($data['date4'], $ico, $resolveOptions);
+          $data['date4'] = new Date4($namespacesPaths, $data['date4'], $ico, $resolveOptions);
         }
         // process text1
         if (isset($data['text1'])) {
-          $data['text1'] = new Text1($data['text1'], $ico, $resolveOptions);
+          $data['text1'] = new Text1($namespacesPaths, $data['text1'], $ico, $resolveOptions);
         }
         // process text2
         if (isset($data['text2'])) {
-          $data['text2'] = new Text2($data['text2'], $ico, $resolveOptions);
+          $data['text2'] = new Text2($namespacesPaths, $data['text2'], $ico, $resolveOptions);
         }
         // process text3
         if (isset($data['text3'])) {
-          $data['text3'] = new Text3($data['text3'], $ico, $resolveOptions);
+          $data['text3'] = new Text3($namespacesPaths, $data['text3'], $ico, $resolveOptions);
         }
         // process combobox1
         if (isset($data['combobox1'])) {
-          $data['combobox1'] = new Combobox1($data['combobox1'], $ico, $resolveOptions);
+          $data['combobox1'] = new Combobox1($namespacesPaths, $data['combobox1'], $ico, $resolveOptions);
         }
         // process combobox2
         if (isset($data['combobox2'])) {
-          $data['combobox2'] = new Combobox2($data['combobox2'], $ico, $resolveOptions);
+          $data['combobox2'] = new Combobox2($namespacesPaths, $data['combobox2'], $ico, $resolveOptions);
         }
         // process combobox3
         if (isset($data['combobox3'])) {
-          $data['combobox3'] = new Combobox3($data['combobox3'], $ico, $resolveOptions);
+          $data['combobox3'] = new Combobox3($namespacesPaths, $data['combobox3'], $ico, $resolveOptions);
         }
         // process comboboxEx1
         if (isset($data['comboboxEx1'])) {
-          $data['comboboxEx1'] = new ComboboxEx1($data['comboboxEx1'], $ico, $resolveOptions);
+          $data['comboboxEx1'] = new ComboboxEx1($namespacesPaths, $data['comboboxEx1'], $ico, $resolveOptions);
         }
         // process comboboxEx2
         if (isset($data['comboboxEx2'])) {
-          $data['comboboxEx2'] = new ComboboxEx2($data['comboboxEx2'], $ico, $resolveOptions);
+          $data['comboboxEx2'] = new ComboboxEx2($namespacesPaths, $data['comboboxEx2'], $ico, $resolveOptions);
         }
 
-        parent::__construct($data, $ico, $resolveOptions);
+        parent::__construct($namespacesPaths, $data, $ico, $resolveOptions);
     }
 
     /**
@@ -146,7 +146,7 @@ class Parameters extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    protected function configureOptions(OptionsResolver $resolver): void
+    protected function configureOptions(Common\OptionsResolver $resolver): void
     {
         // available options
         $resolver->setDefined($this->elements);

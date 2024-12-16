@@ -11,12 +11,14 @@ declare(strict_types=1);
 namespace spec\Riesenia\Pohoda;
 
 use PhpSpec\ObjectBehavior;
+use Riesenia\Pohoda\Common\NamespacesPaths;
+
 
 class IntParamSpec extends ObjectBehavior
 {
     public function let(): void
     {
-        $this->beConstructedWith([
+        $this->beConstructedWith(new NamespacesPaths(), [
             'name' => 'NAME',
             'parameterType' => 'textValue',
             'parameterSettings' => ['length' => 40]

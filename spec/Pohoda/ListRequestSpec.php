@@ -11,12 +11,14 @@ declare(strict_types=1);
 namespace spec\Riesenia\Pohoda;
 
 use PhpSpec\ObjectBehavior;
+use Riesenia\Pohoda\Common\NamespacesPaths;
+
 
 class ListRequestSpec extends ObjectBehavior
 {
     public function it_creates_correct_xml_for_category(): void
     {
-        $this->beConstructedWith([
+        $this->beConstructedWith(new NamespacesPaths(), [
             'type' => 'Category'
         ], '123');
 
@@ -25,7 +27,7 @@ class ListRequestSpec extends ObjectBehavior
 
     public function it_creates_correct_xml_for_action_prices(): void
     {
-        $this->beConstructedWith([
+        $this->beConstructedWith(new NamespacesPaths(), [
             'type' => 'ActionPrice'
         ], '123');
 
@@ -34,7 +36,7 @@ class ListRequestSpec extends ObjectBehavior
 
     public function it_creates_correct_xml_for_order(): void
     {
-        $this->beConstructedWith([
+        $this->beConstructedWith(new NamespacesPaths(), [
             'type' => 'Order'
         ], '123');
 
@@ -43,7 +45,7 @@ class ListRequestSpec extends ObjectBehavior
 
     public function it_creates_correct_xml_for_advance_invoice(): void
     {
-        $this->beConstructedWith([
+        $this->beConstructedWith(new NamespacesPaths(), [
             'type' => 'Invoice',
             'invoiceType' => 'issuedAdvanceInvoice'
         ], '123');
@@ -53,7 +55,7 @@ class ListRequestSpec extends ObjectBehavior
 
     public function it_creates_correct_xml_for_vydejka(): void
     {
-        $this->beConstructedWith([
+        $this->beConstructedWith(new NamespacesPaths(), [
             'type' => 'Vydejka'
         ], '123');
 
@@ -62,7 +64,7 @@ class ListRequestSpec extends ObjectBehavior
 
     public function it_creates_correct_xml_for_issue_slip(): void
     {
-        $this->beConstructedWith([
+        $this->beConstructedWith(new NamespacesPaths(), [
             'type' => 'IssueSlip'
         ], '123');
 
@@ -71,7 +73,7 @@ class ListRequestSpec extends ObjectBehavior
 
     public function it_creates_correct_xml_for_prodejka(): void
     {
-        $this->beConstructedWith([
+        $this->beConstructedWith(new NamespacesPaths(), [
             'type' => 'Prodejka'
         ], '123');
 
@@ -80,7 +82,7 @@ class ListRequestSpec extends ObjectBehavior
 
     public function it_creates_correct_xml_for_cash_slip(): void
     {
-        $this->beConstructedWith([
+        $this->beConstructedWith(new NamespacesPaths(), [
             'type' => 'CashSlip'
         ], '123');
 
@@ -89,7 +91,7 @@ class ListRequestSpec extends ObjectBehavior
 
     public function it_creates_correct_xml_for_address_book(): void
     {
-        $this->beConstructedWith([
+        $this->beConstructedWith(new NamespacesPaths(), [
             'type' => 'Addressbook'
         ], '123');
 
@@ -98,7 +100,7 @@ class ListRequestSpec extends ObjectBehavior
 
     public function it_creates_correct_xml_for_int_params(): void
     {
-        $this->beConstructedWith([
+        $this->beConstructedWith(new NamespacesPaths(), [
             'type' => 'IntParam'
         ], '123');
 
@@ -107,7 +109,7 @@ class ListRequestSpec extends ObjectBehavior
 
     public function it_creates_correct_xml_for_user_lists(): void
     {
-        $this->beConstructedWith([
+        $this->beConstructedWith(new NamespacesPaths(), [
             'type' => 'UserList'
         ], '123');
 
@@ -116,7 +118,7 @@ class ListRequestSpec extends ObjectBehavior
 
     public function it_creates_correct_xml_for_invoice_with_user_filter_name(): void
     {
-        $this->beConstructedWith([
+        $this->beConstructedWith(new NamespacesPaths(), [
             'type' => 'Invoice'
         ], '123');
 
@@ -125,7 +127,7 @@ class ListRequestSpec extends ObjectBehavior
 
     public function it_creates_correct_xml_for_stock_with_complex_filter(): void
     {
-        $this->beConstructedWith([
+        $this->beConstructedWith(new NamespacesPaths(), [
             'type' => 'Stock'
         ], '123');
 
@@ -138,7 +140,7 @@ class ListRequestSpec extends ObjectBehavior
      */
     public function it_creates_proper_restriction_data(): void
     {
-        $this->beConstructedWith(
+        $this->beConstructedWith(new NamespacesPaths(),
             ['type' => 'Invoice'],
             '123'
         );

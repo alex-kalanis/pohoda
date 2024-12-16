@@ -11,14 +11,11 @@ declare(strict_types=1);
 namespace Riesenia\Pohoda;
 
 use Riesenia\Pohoda\Addressbook\Header;
-use Riesenia\Pohoda\Common\AddActionTypeTrait;
-use Riesenia\Pohoda\Common\AddParameterToHeaderTrait;
-use Riesenia\Pohoda\Common\OptionsResolver;
 
 class Addressbook extends AbstractAgenda
 {
-    use AddActionTypeTrait;
-    use AddParameterToHeaderTrait;
+    use Common\AddActionTypeTrait;
+    use Common\AddParameterToHeaderTrait;
 
     public function getImportRoot(): string
     {
@@ -28,14 +25,14 @@ class Addressbook extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    public function __construct(array $data, string $ico, bool $resolveOptions = true)
+    public function __construct(Common\NamespacesPaths $namespacesPaths, array $data, string $ico, bool $resolveOptions = true)
     {
         // pass to header
         if ($data) {
-            $data = ['header' => new Header($data, $ico, $resolveOptions)];
+            $data = ['header' => new Header($namespacesPaths, $data, $ico, $resolveOptions)];
         }
 
-        parent::__construct($data, $ico, $resolveOptions);
+        parent::__construct($namespacesPaths, $data, $ico, $resolveOptions);
     }
 
     /**
@@ -54,7 +51,7 @@ class Addressbook extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    protected function configureOptions(OptionsResolver $resolver): void
+    protected function configureOptions(Common\OptionsResolver $resolver): void
     {
         // available options
         $resolver->setDefined(['header']);

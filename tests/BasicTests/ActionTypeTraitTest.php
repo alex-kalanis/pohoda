@@ -5,6 +5,8 @@ namespace BasicTests;
 use CommonTestClass;
 use Riesenia\Pohoda\Common\AddActionTypeTrait;
 use OutOfRangeException;
+use Riesenia\Pohoda\Common\NamespacesPaths;
+
 
 class ActionTypeTraitTest extends CommonTestClass
 {
@@ -31,4 +33,10 @@ class XActionType
 
     public array $data = [];
     protected string $ico = 'dummy';
+    protected readonly NamespacesPaths $namespacesPaths;
+
+    public function __construct()
+    {
+        $this->namespacesPaths = new NamespacesPaths();
+    }
 }

@@ -64,7 +64,7 @@ class StockTransferTest extends CommonTestClass
 
     protected function getLib(): Pohoda\StockTransfer
     {
-        return new Pohoda\StockTransfer([
+        return new Pohoda\StockTransfer(new Pohoda\Common\NamespacesPaths(), [
             'date' => '2015-01-10',
             'store' => [
                 'ids' => 'MAIN',

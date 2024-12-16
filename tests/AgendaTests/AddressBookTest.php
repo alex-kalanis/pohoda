@@ -44,7 +44,7 @@ class AddressBookTest extends CommonTestClass
 
     public function testDeleteAddress(): void
     {
-        $lib = new Pohoda\Addressbook([], '123');
+        $lib = new Pohoda\Addressbook(new Pohoda\Common\NamespacesPaths(), [], '123');
         $lib->addActionType('delete', [
             'company' => 'COMPANY'
         ]);
@@ -54,7 +54,7 @@ class AddressBookTest extends CommonTestClass
 
     public function testWithSpecialCharsIntact(): void
     {
-        $lib = new Pohoda\Addressbook([
+        $lib = new Pohoda\Addressbook(new Pohoda\Common\NamespacesPaths(), [
             'identity' => [
                 'address' => [
                     'name' => 'Călărași ñüé¿s',
@@ -75,7 +75,7 @@ class AddressBookTest extends CommonTestClass
 
     protected function getLib(): Pohoda\Addressbook
     {
-        return new Pohoda\Addressbook([
+        return new Pohoda\Addressbook(new Pohoda\Common\NamespacesPaths(), [
             'identity' => [
                 'address' => [
                     'name' => 'NAME',

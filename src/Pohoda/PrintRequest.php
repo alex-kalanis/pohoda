@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda;
 
-use Riesenia\Pohoda\Common\OptionsResolver;
 use Riesenia\Pohoda\PrintRequest\PrinterSettings;
 use Riesenia\Pohoda\PrintRequest\Record;
 
@@ -19,15 +18,15 @@ class PrintRequest extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    public function __construct(array $data, string $ico, bool $resolveOptions = true)
+    public function __construct(Common\NamespacesPaths $namespacesPaths, array $data, string $ico, bool $resolveOptions = true)
     {
         // process record
-        $data['record'] = new Record($data['record'], $ico, $resolveOptions);
+        $data['record'] = new Record($namespacesPaths, $data['record'], $ico, $resolveOptions);
 
         // process printer settings
-        $data['printerSettings'] = new PrinterSettings($data['printerSettings'], $ico, $resolveOptions);
+        $data['printerSettings'] = new PrinterSettings($namespacesPaths, $data['printerSettings'], $ico, $resolveOptions);
 
-        parent::__construct($data, $ico, $resolveOptions);
+        parent::__construct($namespacesPaths, $data, $ico, $resolveOptions);
     }
 
     /**
@@ -46,7 +45,7 @@ class PrintRequest extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    protected function configureOptions(OptionsResolver $resolver): void
+    protected function configureOptions(Common\OptionsResolver $resolver): void
     {
         // available options
         $resolver->setDefined(['record', 'printerSettings']);

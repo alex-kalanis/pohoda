@@ -11,7 +11,8 @@ use ReflectionException;
 class AgendaFactory
 {
     public function __construct(
-        protected readonly string $companyNumber
+        protected readonly Common\NamespacesPaths $namespacesPaths,
+        protected readonly string $companyNumber,
     )
     {
     }
@@ -38,7 +39,7 @@ class AgendaFactory
         }
 
         try {
-            $instance = $reflection->newInstance($data, $this->companyNumber, $resolveOptions);
+            $instance = $reflection->newInstance($this->namespacesPaths, $data, $this->companyNumber, $resolveOptions);
             // @codeCoverageIgnoreStart
         } catch (ReflectionException) {
             throw new DomainException('Agenda class initialization failed: ' . $name);

@@ -27,7 +27,7 @@ class ListRequest extends AbstractAgenda
      */
     public function addFilter(array $data): self
     {
-        $this->data['filter'] = new Filter($data, $this->ico);
+        $this->data['filter'] = new Filter($this->namespacesPaths, $data, $this->ico);
 
         return $this;
     }
@@ -41,7 +41,7 @@ class ListRequest extends AbstractAgenda
      */
     public function addRestrictionData(array $data): self
     {
-        $this->data['restrictionData'] = new RestrictionData($data, $this->ico);
+        $this->data['restrictionData'] = new RestrictionData($this->namespacesPaths, $data, $this->ico);
 
         return $this;
     }
@@ -55,7 +55,7 @@ class ListRequest extends AbstractAgenda
      */
     public function addUserFilterName(string $name): self
     {
-        $this->data['userFilterName'] = new UserFilterName(['userFilterName' => $name], $this->ico);
+        $this->data['userFilterName'] = new UserFilterName($this->namespacesPaths, ['userFilterName' => $name], $this->ico);
 
         return $this;
     }

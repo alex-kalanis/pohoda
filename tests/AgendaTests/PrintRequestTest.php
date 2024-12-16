@@ -22,7 +22,7 @@ class PrintRequestTest extends CommonTestClass
 
     public function testKnownPdfData(): void
     {
-        $lib = new Pohoda\PrintRequest([
+        $lib = new Pohoda\PrintRequest(new Pohoda\Common\NamespacesPaths(), [
             'record' => [
                 'agenda' => 'vydane_faktury',
                 'filter' => [
@@ -60,7 +60,7 @@ class PrintRequestTest extends CommonTestClass
 
     protected function getLib(): Pohoda\PrintRequest
     {
-        return new Pohoda\PrintRequest([
+        return new Pohoda\PrintRequest(new Pohoda\Common\NamespacesPaths(), [
             'record' => [
                 'agenda' => 'vydane_faktury',
                 'filter' => [

@@ -81,7 +81,7 @@ class ReceiptTest extends CommonTestClass
 
     protected function getLib(): Pohoda\Receipt
     {
-        return new Pohoda\Receipt([
+        return new Pohoda\Receipt(new Pohoda\Common\NamespacesPaths(), [
             'date' => new \DateTimeImmutable('2015-01-10'),
             'dateOfReceipt' => '',
             'text' => 'Prijemka',

@@ -11,12 +11,11 @@ declare(strict_types=1);
 namespace Riesenia\Pohoda\Stock;
 
 use Riesenia\Pohoda\AbstractAgenda;
-use Riesenia\Pohoda\Common\AddParameterTrait;
-use Riesenia\Pohoda\Common\OptionsResolver;
+use Riesenia\Pohoda\Common;
 
 class Header extends AbstractAgenda
 {
-    use AddParameterTrait;
+    use Common\AddParameterTrait;
 
     /** @var string[] */
     protected array $refElements = ['storage', 'typePrice', 'typeRP', 'supplier', 'typeServiceMOSS'];
@@ -36,19 +35,19 @@ class Header extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    public function __construct(array $data, string $ico, bool $resolveOptions = true)
+    public function __construct(Common\NamespacesPaths $namespacesPaths, array $data, string $ico, bool $resolveOptions = true)
     {
         // process intrastat
         if (isset($data['intrastat'])) {
-            $data['intrastat'] = new Intrastat($data['intrastat'], $ico, $resolveOptions);
+            $data['intrastat'] = new Intrastat($namespacesPaths, $data['intrastat'], $ico, $resolveOptions);
         }
 
         // process recyclingContrib
         if (isset($data['recyclingContrib'])) {
-            $data['recyclingContrib'] = new RecyclingContrib($data['recyclingContrib'], $ico, $resolveOptions);
+            $data['recyclingContrib'] = new RecyclingContrib($namespacesPaths, $data['recyclingContrib'], $ico, $resolveOptions);
         }
 
-        parent::__construct($data, $ico, $resolveOptions);
+        parent::__construct($namespacesPaths, $data, $ico, $resolveOptions);
     }
 
     /**
@@ -72,7 +71,7 @@ class Header extends AbstractAgenda
             $this->data['pictures'] = [];
         }
 
-        $this->data['pictures'][] = new Picture([
+        $this->data['pictures'][] = new Picture($this->namespacesPaths, [
             'filepath' => $filepath,
             'description' => $description,
             'order' => null === $order ? ++$this->imagesCounter : $order,
@@ -98,7 +97,7 @@ class Header extends AbstractAgenda
             $this->data['categories'] = [];
         }
 
-        $this->data['categories'][] = new Category([
+        $this->data['categories'][] = new Category($this->namespacesPaths, [
             'idCategory' => $categoryId
         ], $this->ico);
     }
@@ -121,7 +120,7 @@ class Header extends AbstractAgenda
             $this->data['intParameters'] = [];
         }
 
-        $this->data['intParameters'][] = new IntParameter($data, $this->ico);
+        $this->data['intParameters'][] = new IntParameter($this->namespacesPaths, $data, $this->ico);
     }
 
     /**
@@ -139,7 +138,7 @@ class Header extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    protected function configureOptions(OptionsResolver $resolver): void
+    protected function configureOptions(Common\OptionsResolver $resolver): void
     {
         // available options
         $resolver->setDefined($this->elements);

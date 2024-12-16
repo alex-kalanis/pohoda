@@ -13,6 +13,7 @@ namespace spec\Riesenia;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Riesenia\Pohoda;
+use Riesenia\Pohoda\Common\NamespacesPaths;
 use Riesenia\Pohoda\Stock;
 use Riesenia\Pohoda\ValueTransformer\ValueTransformer;
 
@@ -47,7 +48,7 @@ class PohodaSpec extends ObjectBehavior
     {
         $tmpFile = \tempnam(\sys_get_temp_dir(), 'xml');
 
-        $stock = new Stock([
+        $stock = new Stock(new NamespacesPaths(), [
             'code' => 'CODE',
             'name' => 'NAME',
             'storage' => 'STORAGE',
@@ -73,7 +74,7 @@ class PohodaSpec extends ObjectBehavior
 
     public function it_can_write_to_memory(): void
     {
-        $stock = new Stock([
+        $stock = new Stock(new NamespacesPaths(), [
             'code' => 'CODE',
             'name' => 'NAME',
             'storage' => 'STORAGE',
@@ -171,7 +172,7 @@ class PohodaSpec extends ObjectBehavior
 
     public function it_runs_transformers_properly(): void
     {
-        $stock = new Stock([
+        $stock = new Stock(new NamespacesPaths(), [
             'code' => 'code1',
             'name' => 'name2',
             'storage' => 'storage3',
@@ -195,7 +196,7 @@ class PohodaSpec extends ObjectBehavior
 
     public function it_handles_static_arrays_correctly(): void
     {
-        $stock = new Stock([
+        $stock = new Stock(new NamespacesPaths(), [
             'code' => 'code1',
             'name' => 'name2',
             'storage' => 'storage3',

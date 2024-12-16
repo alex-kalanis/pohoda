@@ -6,12 +6,14 @@ namespace Riesenia\Pohoda;
 use DomainException;
 use ReflectionClass;
 use ReflectionException;
+use Riesenia\Pohoda\Common\NamespacesPaths;
 
 
 class DocumentPartFactory
 {
     public function __construct(
-        protected readonly string $companyNumber
+        protected readonly NamespacesPaths $namespacesPaths,
+        protected readonly string $companyNumber,
     )
     {
     }
@@ -39,7 +41,7 @@ class DocumentPartFactory
         }
 
         try {
-            $instance = $reflection->newInstance($data, $this->companyNumber, $resolveOptions);
+            $instance = $reflection->newInstance($this->namespacesPaths, $data, $this->companyNumber, $resolveOptions);
             // @codeCoverageIgnoreStart
         } catch (ReflectionException) {
             throw new DomainException('Entity initialization failed: ' . $name);

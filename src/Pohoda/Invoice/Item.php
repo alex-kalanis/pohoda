@@ -10,12 +10,11 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\Invoice;
 
-use Riesenia\Pohoda\Common\OptionsResolver;
-use Riesenia\Pohoda\Document\AbstractItem as DocumentItem;
-use Riesenia\Pohoda\Type\CurrencyItem;
+use Riesenia\Pohoda\Common;
+use Riesenia\Pohoda\Document\AbstractItem;
 use Riesenia\Pohoda\Type\RecyclingContrib;
 
-class Item extends DocumentItem
+class Item extends AbstractItem
 {
     /** @var string[] */
     protected array $refElements = ['typeServiceMOSS', 'accounting', 'classificationVAT', 'classificationKVDPH', 'centre', 'activity', 'contract'];
@@ -26,18 +25,18 @@ class Item extends DocumentItem
     /**
      * @inheritdoc
      */
-    public function __construct(array $data, string $ico, bool $resolveOptions = true) {
+    public function __construct(Common\NamespacesPaths $namespacesPaths, array $data, string $ico, bool $resolveOptions = true) {
         if (isset($data['recyclingContrib'])) {
-            $data['recyclingContrib'] = new RecyclingContrib($data['recyclingContrib'], $ico, $resolveOptions);
+            $data['recyclingContrib'] = new RecyclingContrib($namespacesPaths, $data['recyclingContrib'], $ico, $resolveOptions);
         }
 
-        parent::__construct($data, $ico, $resolveOptions);
+        parent::__construct($namespacesPaths, $data, $ico, $resolveOptions);
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function configureOptions(OptionsResolver $resolver): void
+    protected function configureOptions(Common\OptionsResolver $resolver): void
     {
         parent::configureOptions($resolver);
 

@@ -10,31 +10,29 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\Document;
 
-use Riesenia\Pohoda\Common\AddParameterTrait;
-use Riesenia\Pohoda\Common\OptionsResolver;
-use Riesenia\Pohoda\Type\Address;
-use Riesenia\Pohoda\Type\MyAddress;
+use Riesenia\Pohoda\Common;
+use Riesenia\Pohoda\Type;
 
 abstract class AbstractHeader extends AbstractPart
 {
-    use AddParameterTrait;
+    use Common\AddParameterTrait;
 
     /**
      * {@inheritdoc}
      */
-    public function __construct(array $data, string $ico, bool $resolveOptions = true)
+    public function __construct(Common\NamespacesPaths $namespacesPaths, array $data, string $ico, bool $resolveOptions = true)
     {
         // process partner identity
         if (isset($data['partnerIdentity'])) {
-            $data['partnerIdentity'] = new Address($data['partnerIdentity'], $ico, $resolveOptions);
+            $data['partnerIdentity'] = new Type\Address($namespacesPaths, $data['partnerIdentity'], $ico, $resolveOptions);
         }
 
         // process my identity
         if (isset($data['myIdentity'])) {
-            $data['myIdentity'] = new MyAddress($data['myIdentity'], $ico, $resolveOptions);
+            $data['myIdentity'] = new Type\MyAddress($namespacesPaths, $data['myIdentity'], $ico, $resolveOptions);
         }
 
-        parent::__construct($data, $ico, $resolveOptions);
+        parent::__construct($namespacesPaths, $data, $ico, $resolveOptions);
     }
 
     /**
@@ -60,7 +58,7 @@ abstract class AbstractHeader extends AbstractPart
     /**
      * {@inheritdoc}
      */
-    protected function configureOptions(OptionsResolver $resolver): void
+    protected function configureOptions(Common\OptionsResolver $resolver): void
     {
         // available options
         $resolver->setDefined($this->elements);

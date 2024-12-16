@@ -23,7 +23,7 @@ class IntParamTest extends CommonTestClass
 
     public function testCreateList(): void
     {
-        $lib = new Pohoda\IntParam([
+        $lib = new Pohoda\IntParam(new Pohoda\Common\NamespacesPaths(), [
             'name' => 'NAME',
             'parameterType' => 'listValue',
         ], '123');
@@ -33,7 +33,7 @@ class IntParamTest extends CommonTestClass
 
     protected function getLib(): Pohoda\IntParam
     {
-        return new Pohoda\IntParam([
+        return new Pohoda\IntParam(new Pohoda\Common\NamespacesPaths(), [
             'name' => 'NAME',
             'parameterType' => 'textValue',
             'parameterSettings' => ['length' => 40]

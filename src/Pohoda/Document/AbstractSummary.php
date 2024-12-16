@@ -10,28 +10,27 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\Document;
 
-use Riesenia\Pohoda\Common\OptionsResolver;
-use Riesenia\Pohoda\Type\CurrencyForeign;
-use Riesenia\Pohoda\Type\CurrencyHome;
+use Riesenia\Pohoda\Common;
+use Riesenia\Pohoda\Type;
 
 abstract class AbstractSummary extends AbstractPart
 {
     /**
      * {@inheritdoc}
      */
-    public function __construct(array $data, string $ico, bool $resolveOptions = true)
+    public function __construct(Common\NamespacesPaths $namespacesPaths, array $data, string $ico, bool $resolveOptions = true)
     {
         // process home currency
         if (isset($data['homeCurrency'])) {
-            $data['homeCurrency'] = new CurrencyHome($data['homeCurrency'], $ico, $resolveOptions);
+            $data['homeCurrency'] = new Type\CurrencyHome($namespacesPaths, $data['homeCurrency'], $ico, $resolveOptions);
         }
 
         // process foreign currency
         if (isset($data['foreignCurrency'])) {
-            $data['foreignCurrency'] = new CurrencyForeign($data['foreignCurrency'], $ico, $resolveOptions);
+            $data['foreignCurrency'] = new Type\CurrencyForeign($namespacesPaths, $data['foreignCurrency'], $ico, $resolveOptions);
         }
 
-        parent::__construct($data, $ico, $resolveOptions);
+        parent::__construct($namespacesPaths, $data, $ico, $resolveOptions);
     }
 
     /**
@@ -57,7 +56,7 @@ abstract class AbstractSummary extends AbstractPart
     /**
      * {@inheritdoc}
      */
-    protected function configureOptions(OptionsResolver $resolver): void
+    protected function configureOptions(Common\OptionsResolver $resolver): void
     {
         // available options
         $resolver->setDefined($this->elements);

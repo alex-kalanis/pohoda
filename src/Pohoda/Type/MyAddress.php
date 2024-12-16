@@ -11,12 +11,11 @@ declare(strict_types=1);
 namespace Riesenia\Pohoda\Type;
 
 use Riesenia\Pohoda\AbstractAgenda;
-use Riesenia\Pohoda\Common\OptionsResolver;
-use Riesenia\Pohoda\Common\SetNamespaceTrait;
+use Riesenia\Pohoda\Common;
 
 class MyAddress extends AbstractAgenda
 {
-    use SetNamespaceTrait;
+    use Common\SetNamespaceTrait;
 
     /** @var string[] */
     protected array $elements = ['address', 'establishment'];
@@ -24,24 +23,24 @@ class MyAddress extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    public function __construct(array $data, string $ico, bool $resolveOptions = true)
+    public function __construct(Common\NamespacesPaths $namespacesPaths, array $data, string $ico, bool $resolveOptions = true)
     {
         // process address
         if (isset($data['address'])) {
-            $data['address'] = new AddressInternetType($data['address'], $ico, $resolveOptions);
+            $data['address'] = new AddressInternetType($namespacesPaths, $data['address'], $ico, $resolveOptions);
         }
         // process establishment
         if (isset($data['establishment'])) {
-            $data['establishment'] = new EstablishmentType($data['establishment'], $ico, $resolveOptions);
+            $data['establishment'] = new EstablishmentType($namespacesPaths, $data['establishment'], $ico, $resolveOptions);
         }
 
-        parent::__construct($data, $ico, $resolveOptions);
+        parent::__construct($namespacesPaths, $data, $ico, $resolveOptions);
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function configureOptions(OptionsResolver $resolver): void
+    protected function configureOptions(Common\OptionsResolver $resolver): void
     {
         // available options
         $resolver->setDefined($this->elements);

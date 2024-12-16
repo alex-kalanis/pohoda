@@ -97,7 +97,7 @@ class IssueSlipTest extends CommonTestClass
 
     protected function getLib(): Pohoda\IssueSlip
     {
-        return new Pohoda\IssueSlip([
+        return new Pohoda\IssueSlip(new Pohoda\Common\NamespacesPaths(), [
             'date' => '2015-01-10',
             'dateOrder' => '2015-01-04',
             'text' => 'Vyd',

@@ -76,7 +76,7 @@ class BankTest extends CommonTestClass
 
     protected function getLib(): Pohoda\Bank
     {
-        return new Pohoda\Bank([
+        return new Pohoda\Bank(new Pohoda\Common\NamespacesPaths(), [
             'bankType' => 'receipt',
             'account' => 'KB',
             'statementNumber' => [
