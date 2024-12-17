@@ -8,19 +8,19 @@ class Listing
     /**
      * A set of transformers that will be used when serializing data.
      *
-     * @var ValueTransformer[]
+     * @var ValueTransformerInterface[]
      */
     protected array $list = [];
 
     /**
-     * @return ValueTransformer[]
+     * @return ValueTransformerInterface[]
      */
     public function getTransformers(): array
     {
         return $this->list;
     }
 
-    public function addTransformer(ValueTransformer $transformer): self
+    public function addTransformer(ValueTransformerInterface $transformer): self
     {
         $this->list[] = $transformer;
         return $this;

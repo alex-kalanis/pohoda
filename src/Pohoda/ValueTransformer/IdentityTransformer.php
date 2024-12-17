@@ -8,14 +8,16 @@
 
 declare(strict_types=1);
 
+
 namespace Riesenia\Pohoda\ValueTransformer;
+
 
 /**
  * A transformer that returns the input value unchanged.
  *
  * This transformer performs no modifications and simply passes the original value through.
  */
-class IdentityTransformer implements ValueTransformer
+class IdentityTransformer implements ValueTransformerInterface
 {
     public function transform(string $value): string
     {

@@ -9,14 +9,16 @@
 
 declare(strict_types=1);
 
+
 namespace Riesenia\Pohoda\ValueTransformer;
+
 
 /**
  * A transformer that rewrites Cyrillic script to its Latin alphabet equivalent.
  *
  * Note: This transformation is a phonetic representation and does not provide a translation of the text.
  */
-class CyrillicTransliterationTransformer implements ValueTransformer
+class CyrillicTransliterationTransformer implements ValueTransformerInterface
 {
     /**
      * {@inheritdoc}

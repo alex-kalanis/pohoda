@@ -20,17 +20,55 @@ class VoucherTest extends CommonTestClass
 
     public function testCreateCorrectXml(): void
     {
-        $this->assertEquals('<vch:voucher version="2.0"/>', $this->getLib()->getXML()->asXML());
+        $this->assertEquals('<vch:voucher version="2.0"><vch:voucherHeader>' . $this->defaultHeader() . '</vch:voucherHeader></vch:voucher>', $this->getLib()->getXML()->asXML());
+    }
+
+    public function testSetSummary(): void
+    {
+        $lib = $this->getLib();
+        $lib->addSummary([
+            'homeCurrency' => [
+                'priceNone' => 500
+            ]
+        ]);
+
+        $this->assertEquals('<vch:voucher version="2.0"><vch:voucherHeader>' . $this->defaultHeader() . '</vch:voucherHeader><vch:voucherSummary><vch:homeCurrency><typ:priceNone>500</typ:priceNone></vch:homeCurrency></vch:voucherSummary></vch:voucher>', $lib->getXML()->asXML());
+    }
+
+    public function testSetItem(): void
+    {
+        $lib = $this->getLib();
+        $lib->addItem([
+            'text' => 'test one',
+            'quantity' => 369,
+            'unit' => 2,
+            'homeCurrency' => [
+                'unitPrice' => 153,
+            ],
+            'note' => 'testing one',
+        ]);
+        $lib->addItem([
+            'text' => 'test two',
+            'quantity' => 42,
+            'unit' => 816,
+            'homeCurrency' => [
+                'price' => 816,
+            ],
+            'note' => 'testing two',
+        ]);
+
+        $this->assertEquals('<vch:voucher version="2.0"><vch:voucherHeader>' . $this->defaultHeader() . '</vch:voucherHeader><vch:voucherDetail><vch:voucherItem><vch:text>test one</vch:text><vch:quantity>369</vch:quantity><vch:unit>2</vch:unit><vch:homeCurrency><typ:unitPrice>153</typ:unitPrice></vch:homeCurrency><vch:note>testing one</vch:note></vch:voucherItem><vch:voucherItem><vch:text>test two</vch:text><vch:quantity>42</vch:quantity><vch:unit>816</vch:unit><vch:homeCurrency><typ:price>816</typ:price></vch:homeCurrency><vch:note>testing two</vch:note></vch:voucherItem></vch:voucherDetail></vch:voucher>', $lib->getXML()->asXML());
     }
 
     protected function defaultHeader(): string
     {
-        return '<bnk:bankType>receipt</bnk:bankType><bnk:account><typ:ids>KB</typ:ids></bnk:account><bnk:statementNumber><bnk:statementNumber>004</bnk:statementNumber><bnk:numberMovement>0002</bnk:numberMovement></bnk:statementNumber><bnk:symVar>456</bnk:symVar><bnk:dateStatement>2021-12-20</bnk:dateStatement><bnk:datePayment>2021-11-22</bnk:datePayment><bnk:text>STORMWARE s.r.o.</bnk:text><bnk:paymentAccount><typ:accountNo>4660550217</typ:accountNo><typ:bankCode>5500</typ:bankCode></bnk:paymentAccount><bnk:symConst>555</bnk:symConst><bnk:symSpec>666</bnk:symSpec>';
+        return '<vch:id>123456</vch:id>';
     }
 
     protected function getLib(): Pohoda\Voucher
     {
         return new Pohoda\Voucher(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [
+            'id' => '123456',
         ], '123');
     }
 }

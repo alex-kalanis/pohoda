@@ -225,7 +225,7 @@ class PohodaSpec extends ObjectBehavior
 }
 
 
-class Capitalize implements Pohoda\ValueTransformer\ValueTransformer
+class Capitalize implements Pohoda\ValueTransformer\ValueTransformerInterface
 {
     public function transform(string $value): string
     {

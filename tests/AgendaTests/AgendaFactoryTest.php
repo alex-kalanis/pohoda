@@ -46,7 +46,9 @@ class AgendaFactoryTest extends CommonTestClass
     public function testSuccess(): void
     {
         $lib = new Pohoda\AgendaFactory(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), 'some no');
-        $this->assertInstanceOf(Pohoda\AbstractAgenda::class, $lib->getAgenda('Bank', []));
+        $agenda = $lib->getAgenda('Bank', []);
+        $this->assertInstanceOf(Pohoda\AbstractAgenda::class, $agenda);
+        $this->assertFalse($agenda->canImportRecursive());
     }
 
     public function testNonExistingEntity(): void

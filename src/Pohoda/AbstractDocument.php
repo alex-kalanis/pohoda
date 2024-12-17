@@ -10,6 +10,7 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda;
 
+
 use Riesenia\Pohoda\Common\AddParameterToHeaderTrait;
 use Riesenia\Pohoda\Common\OptionsResolver;
 use Riesenia\Pohoda\ValueTransformer\SanitizeEncoding;

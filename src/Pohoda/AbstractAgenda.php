@@ -13,7 +13,7 @@ namespace Riesenia\Pohoda;
 
 use Riesenia\Pohoda;
 use Riesenia\Pohoda\Common\OptionsResolver;
-use Riesenia\Pohoda\ValueTransformer\ValueTransformer;
+use Riesenia\Pohoda\ValueTransformer\ValueTransformerInterface;
 use SimpleXMLElement;
 
 
@@ -248,11 +248,15 @@ abstract class AbstractAgenda
     {
         $this->sanitizeEncoding->listingWithEncoding();
 
-        $value = \array_reduce($this->sanitizeEncoding->getListing()->getTransformers(), function (string $value, ValueTransformer $transformer): string {
-            return $transformer->transform($value);
-        }, strval($value));
-
-        return \htmlspecialchars($value);
+        return \htmlspecialchars(
+            \array_reduce(
+                $this->sanitizeEncoding->getListing()->getTransformers(),
+                function (string $value, ValueTransformerInterface $transformer): string {
+                    return $transformer->transform($value);
+                },
+                strval($value)
+            )
+        );
     }
 
     /**

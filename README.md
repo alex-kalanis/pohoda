@@ -161,7 +161,7 @@ With interface *ValueTransformer* you can implement the transformation, which ch
 ```php
 use Riesenia\Pohoda;
 
-class Capitalizer implements \Riesenia\Pohoda\ValueTransformer\ValueTransformer
+class Capitalizer implements \Riesenia\Pohoda\ValueTransformer\ValueTransformerInterface
 {
     public function transform(string $value): string
     {

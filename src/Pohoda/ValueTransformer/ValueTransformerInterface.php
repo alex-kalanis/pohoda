@@ -8,9 +8,11 @@
 
 declare(strict_types=1);
 
+
 namespace Riesenia\Pohoda\ValueTransformer;
 
-interface ValueTransformer
+
+interface ValueTransformerInterface
 {
     /**
      * Transform data in xml nodes.
