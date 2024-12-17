@@ -10,8 +10,13 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\Common;
 
+
 use Riesenia\Pohoda\Type\ActionType;
 
+
+/**
+ * @property array<string, mixed> $data
+ */
 trait AddActionTypeTrait
 {
     /**

@@ -8,8 +8,13 @@
 
 declare(strict_types=1);
 
+
 namespace Riesenia\Pohoda\Common;
 
+
+/**
+ * @property string[] $elements
+ */
 trait SetNamespaceTrait
 {
     protected ?string $namespace = null;

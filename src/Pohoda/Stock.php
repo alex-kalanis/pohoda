@@ -34,7 +34,7 @@ class Stock extends AbstractAgenda
     )
     {
         // pass to header
-        if ($data) {
+        if (!empty($data)) {
             $data = ['header' => new Header($namespacesPaths, $sanitizeEncoding, $data, $ico, $resolveOptions)];
         }
 

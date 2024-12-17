@@ -20,7 +20,7 @@ abstract class AbstractDocument extends AbstractAgenda
 {
     use AddParameterToHeaderTrait;
 
-    protected readonly DocumentPartFactory $documentPartFactory;
+    protected DocumentPartFactory $documentPartFactory;
 
     /**
      * {@inheritdoc}
@@ -35,7 +35,7 @@ abstract class AbstractDocument extends AbstractAgenda
     {
         $this->documentPartFactory = new DocumentPartFactory($namespacesPaths, $sanitizeEncoding, $ico);
         // pass to header
-        if ($data) {
+        if (!empty($data)) {
             $data = ['header' => $this->getDocumentPart('Header', $data, $resolveOptions)];
         }
 

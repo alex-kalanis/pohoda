@@ -10,9 +10,11 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\Type;
 
+
 use Riesenia\Pohoda\AbstractAgenda;
 use Riesenia\Pohoda\Common\OptionsResolver;
 use Riesenia\Pohoda\Common\SetNamespaceTrait;
+
 
 class CurrencyItem extends AbstractAgenda
 {

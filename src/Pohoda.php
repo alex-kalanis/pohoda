@@ -71,8 +71,8 @@ class Pohoda
 
     protected \XMLReader $xmlReader;
 
-    protected readonly Pohoda\AgendaFactory $agendaFactory;
-    protected readonly Pohoda\Common\NamespacesPaths $namespacesPaths;
+    protected Pohoda\AgendaFactory $agendaFactory;
+    protected Pohoda\Common\NamespacesPaths $namespacesPaths;
 
     protected string $elementName;
 

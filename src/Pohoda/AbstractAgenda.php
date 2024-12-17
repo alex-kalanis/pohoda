@@ -26,7 +26,7 @@ use SimpleXMLElement;
 abstract class AbstractAgenda
 {
 
-    protected readonly OptionsResolver\Normalizers\NormalizerFactory $normalizerFactory;
+    protected OptionsResolver\Normalizers\NormalizerFactory $normalizerFactory;
 
     /** @var array<string, mixed> */
     protected array $data = [];
@@ -34,7 +34,7 @@ abstract class AbstractAgenda
     /** @var string[] */
     protected array $refElements = [];
 
-    /** @var array<string,array{string,string,string|null}> */
+    /** @var array<string, array{0:string, 1:string, 2:string|null}> */
     protected array $elementsAttributesMapper = [];
 
     /** @var OptionsResolver[] */

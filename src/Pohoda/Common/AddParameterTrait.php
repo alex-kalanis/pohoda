@@ -10,8 +10,13 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\Common;
 
+
 use Riesenia\Pohoda\Type\Parameter;
 
+
+/**
+ * @property array<string, mixed> $data
+ */
 trait AddParameterTrait
 {
     /**
