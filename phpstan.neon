@@ -14,5 +14,6 @@ parameters:
             path: 'src/Pohoda/AgendaFactory.php'
         # pass data class
         - '#Parameter \#3 \$data of class [a-zA-Z0-9_\\]+ constructor expects array\<string\, mixed\>\, mixed given.#'
+        - '#Parameter \#2 \$data of method Riesenia\\Pohoda\\PrintRequest\\ParameterFactory\:\:getByKey\(\) expects#'
         # strval, intval, floatval, boolval functions
         - '#Parameter \#1 \$va[rl]u?e? of function [sibf][tnol][rtoo][la]?t?val expects#'
