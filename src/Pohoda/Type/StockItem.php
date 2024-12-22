@@ -12,30 +12,41 @@ namespace Riesenia\Pohoda\Type;
 
 
 use Riesenia\Pohoda\AbstractAgenda;
-use Riesenia\Pohoda\Common\OptionsResolver;
-use Riesenia\Pohoda\Common\SetNamespaceTrait;
+use Riesenia\Pohoda\Common;
+use Riesenia\Pohoda\ValueTransformer\SanitizeEncoding;
 
 
 class StockItem extends AbstractAgenda
 {
-    use SetNamespaceTrait;
+    use Common\SetNamespaceTrait;
 
     /** @var string[] */
     protected array $refElements = ['store', 'stockItem'];
 
-    /** {@inheritDoc} */
-    protected array $elementsAttributesMapper = [
-        'insertAttachStock' => ['stockItem', 'insertAttachStock', null],
-        'applyUserSettingsFilterOnTheStore' => ['stockItem', 'applyUserSettingsFilterOnTheStore', null]
-    ];
-
     /** @var string[] */
     protected array $elements = ['store', 'stockItem', 'insertAttachStock', 'applyUserSettingsFilterOnTheStore', 'serialNumber'];
+
+    public function __construct(
+        Common\NamespacesPaths $namespacesPaths,
+        SanitizeEncoding $sanitizeEncoding,
+        array $data,
+        string $companyRegistrationNumber,
+        bool $resolveOptions = true,
+    )
+    {
+        // init attributes
+        $this->elementsAttributesMapper = [
+            'insertAttachStock' => new Common\ElementAttributes('stockItem', 'insertAttachStock'),
+            'applyUserSettingsFilterOnTheStore' => new Common\ElementAttributes('stockItem', 'applyUserSettingsFilterOnTheStore'),
+        ];
+
+        parent::__construct($namespacesPaths, $sanitizeEncoding, $data, $companyRegistrationNumber, $resolveOptions);
+    }
 
     /**
      * {@inheritdoc}
      */
-    protected function configureOptions(OptionsResolver $resolver): void
+    protected function configureOptions(Common\OptionsResolver $resolver): void
     {
         // available options
         $resolver->setDefined($this->elements);

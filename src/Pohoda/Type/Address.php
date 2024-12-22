@@ -26,11 +26,6 @@ class Address extends AbstractAgenda
     /** @var string[] */
     protected array $elements = ['id', 'extId', 'address', 'addressLinkToAddress', 'shipToAddress'];
 
-    /** {@inheritDoc} */
-    protected array $elementsAttributesMapper = [
-        'addressLinkToAddress' => ['address', 'linkToAddress', null],
-    ];
-
     /**
      * {@inheritdoc}
      */
@@ -42,6 +37,11 @@ class Address extends AbstractAgenda
         bool $resolveOptions = true,
     )
     {
+        // init attributes
+        $this->elementsAttributesMapper = [
+            'addressLinkToAddress' => new Common\ElementAttributes('address', 'linkToAddress'),
+        ];
+
         // process address
         if (isset($data['address'])) {
             $data['address'] = new AddressType($namespacesPaths, $sanitizeEncoding, $data['address'], $companyRegistrationNumber, $resolveOptions);

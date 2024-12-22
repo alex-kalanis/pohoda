@@ -10,8 +10,10 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\Order;
 
+
 use Riesenia\Pohoda\Common\OptionsResolver;
 use Riesenia\Pohoda\Document\AbstractSummary as DocumentSummary;
+
 
 class Summary extends DocumentSummary
 {

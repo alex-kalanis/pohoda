@@ -34,7 +34,7 @@ abstract class AbstractAgenda
     /** @var string[] */
     protected array $refElements = [];
 
-    /** @var array<string, array{0:string, 1:string, 2:string|null}> */
+    /** @var array<string, Common\ElementAttributes> */
     protected array $elementsAttributesMapper = [];
 
     /** @var OptionsResolver[] */
@@ -149,18 +149,18 @@ abstract class AbstractAgenda
 
             // element attribute
             if (isset($this->elementsAttributesMapper[$element])) {
-                list($attrElement, $attrName, $attrNamespace) = $this->elementsAttributesMapper[$element];
+                $attrs = $this->elementsAttributesMapper[$element];
 
                 // get element
-                $attrElement = $namespace ? $xml->children($namespace, true)->{$attrElement} : $xml->{$attrElement};
+                $attrElement = $namespace ? $xml->children($namespace, true)->{$attrs->attrElement} : $xml->{$attrs->attrElement};
 
                 $sanitized = $this->sanitize($this->data[$element]);
-                $attrNamespace ? $attrElement->addAttribute(
-                        $attrNamespace . ':' . $attrName,
+                $attrs->attrNamespace ? $attrElement->addAttribute(
+                    $attrs->attrNamespace . ':' . $attrs->attrName,
                         $sanitized,
-                        $this->namespace($attrNamespace)
+                        $this->namespace($attrs->attrNamespace)
                     )
-                    : $attrElement->addAttribute($attrName, $sanitized);
+                    : $attrElement->addAttribute($attrs->attrName, $sanitized);
 
                 continue;
             }

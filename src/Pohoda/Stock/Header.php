@@ -23,12 +23,6 @@ class Header extends AbstractAgenda
     /** @var string[] */
     protected array $refElements = ['storage', 'typePrice', 'typeRP', 'supplier', 'typeServiceMOSS'];
 
-    /** {@inheritDoc} */
-    protected array $elementsAttributesMapper = [
-        'purchasingPricePayVAT' => ['purchasingPrice', 'payVAT', null],
-        'sellingPricePayVAT' => ['sellingPrice', 'payVAT', null]
-    ];
-
     /** @var string[] */
     protected array $elements = ['stockType', 'code', 'EAN', 'PLU', 'isSales', 'isSerialNumber', 'isInternet', 'isBatch', 'purchasingRateVAT', 'sellingRateVAT', 'name', 'nameComplement', 'unit', 'unit2', 'unit3', 'coefficient2', 'coefficient3', 'storage', 'typePrice', 'purchasingPrice', 'purchasingPricePayVAT', 'sellingPrice', 'sellingPricePayVAT', 'limitMin', 'limitMax', 'mass', 'volume', 'supplier', 'orderName', 'orderQuantity', 'shortName', 'typeRP', 'guaranteeType', 'guarantee', 'producer', 'typeServiceMOSS', 'description', 'description2', 'note', 'intrastat', 'recyclingContrib'];
 
@@ -46,6 +40,12 @@ class Header extends AbstractAgenda
         bool $resolveOptions = true,
     )
     {
+        // init attributes
+        $this->elementsAttributesMapper = [
+            'purchasingPricePayVAT' => new Common\ElementAttributes('purchasingPrice', 'payVAT'),
+            'sellingPricePayVAT' => new Common\ElementAttributes('sellingPrice', 'payVAT'),
+        ];
+
         // process intrastat
         if (isset($data['intrastat'])) {
             $data['intrastat'] = new Intrastat($namespacesPaths, $sanitizeEncoding, $data['intrastat'], $companyRegistrationNumber, $resolveOptions);
