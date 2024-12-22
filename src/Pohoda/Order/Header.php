@@ -12,10 +12,10 @@ namespace Riesenia\Pohoda\Order;
 
 
 use Riesenia\Pohoda\Common\OptionsResolver;
-use Riesenia\Pohoda\Document\AbstractHeader as DocumentHeader;
+use Riesenia\Pohoda\Document\AbstractHeader;
 
 
-class Header extends DocumentHeader
+class Header extends AbstractHeader
 {
     /** @var string[] */
     protected array $refElements = ['extId', 'number', 'paymentType', 'priceLevel', 'centre', 'activity', 'contract', 'regVATinEU', 'MOSS', 'evidentiaryResourcesMOSS', 'carrier'];

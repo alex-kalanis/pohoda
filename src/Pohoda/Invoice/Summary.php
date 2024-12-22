@@ -10,10 +10,12 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\Invoice;
 
-use Riesenia\Pohoda\Common\OptionsResolver;
-use Riesenia\Pohoda\Document\AbstractSummary as DocumentSummary;
 
-class Summary extends DocumentSummary
+use Riesenia\Pohoda\Common\OptionsResolver;
+use Riesenia\Pohoda\Document\AbstractSummary;
+
+
+class Summary extends AbstractSummary
 {
     /** @var string[] */
     protected array $elements = ['roundingDocument', 'roundingVAT', 'homeCurrency', 'foreignCurrency'];

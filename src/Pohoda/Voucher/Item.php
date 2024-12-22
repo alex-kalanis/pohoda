@@ -2,9 +2,11 @@
 
 namespace Riesenia\Pohoda\Voucher;
 
-use Riesenia\Pohoda\Document\AbstractItem as DocumentItem;
 
-class Item extends DocumentItem
+use Riesenia\Pohoda\Document\AbstractItem;
+
+
+class Item extends AbstractItem
 {
     /** @var string[] */
     protected array $refElements = ['number', 'cashAccount', 'centre', 'activity', 'contract'];

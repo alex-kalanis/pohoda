@@ -10,10 +10,12 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\CashSlip;
 
-use Riesenia\Pohoda\Common\OptionsResolver;
-use Riesenia\Pohoda\Document\AbstractHeader as DocumentHeader;
 
-class Header extends DocumentHeader
+use Riesenia\Pohoda\Common\OptionsResolver;
+use Riesenia\Pohoda\Document\AbstractHeader;
+
+
+class Header extends AbstractHeader
 {
     /** @var string[] */
     protected array $refElements = ['number', 'accounting', 'paymentType', 'priceLevel', 'centre', 'activity', 'contract', 'kasa'];

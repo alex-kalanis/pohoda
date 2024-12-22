@@ -10,6 +10,7 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\Document;
 
+
 use Riesenia\Pohoda\Common;
 use Riesenia\Pohoda\Type;
 use Riesenia\Pohoda\ValueTransformer\SanitizeEncoding;

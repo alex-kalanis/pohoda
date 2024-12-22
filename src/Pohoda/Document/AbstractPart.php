@@ -10,8 +10,10 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\Document;
 
+
 use Riesenia\Pohoda\AbstractAgenda;
 use Riesenia\Pohoda\Common\SetNamespaceTrait;
+
 
 abstract class AbstractPart extends AbstractAgenda
 {

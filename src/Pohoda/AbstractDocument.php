@@ -106,16 +106,17 @@ abstract class AbstractDocument extends AbstractAgenda
 
     /**
      * Document part factory.
+     * This code is the loader for things like "Header", "Summary", "Item"
      *
-     * @param string              $name
+     * @param string              $partName
      * @param array<string,mixed> $data
      * @param bool                $resolveOptions
      *
      * @return Document\AbstractPart
      */
-    protected function getDocumentPart(string $name, array $data, bool $resolveOptions = true): Document\AbstractPart
+    protected function getDocumentPart(string $partName, array $data, bool $resolveOptions = true): Document\AbstractPart
     {
-        $part = $this->documentPartFactory->getPart(\get_class($this), $name, $data, $resolveOptions);
+        $part = $this->documentPartFactory->getPart(\get_class($this), $partName, $data, $resolveOptions);
         $part->setNamespace($this->getDocumentNamespace());
         $part->setNodePrefix($this->getDocumentName());
         return $part;

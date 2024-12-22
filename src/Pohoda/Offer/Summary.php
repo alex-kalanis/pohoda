@@ -12,10 +12,10 @@ namespace Riesenia\Pohoda\Offer;
 
 
 use Riesenia\Pohoda\Common\OptionsResolver;
-use Riesenia\Pohoda\Document\AbstractSummary as DocumentSummary;
+use Riesenia\Pohoda\Document\AbstractSummary;
 
 
-class Summary extends DocumentSummary
+class Summary extends AbstractSummary
 {
     /** @var string[] */
     protected array $elements = ['roundingDocument', 'roundingVAT', 'homeCurrency', 'foreignCurrency'];

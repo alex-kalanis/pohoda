@@ -2,9 +2,11 @@
 
 namespace Riesenia\Pohoda\Voucher;
 
-use Riesenia\Pohoda\Document\AbstractSummary as DocumentSummary;
 
-class Summary extends DocumentSummary
+use Riesenia\Pohoda\Document\AbstractSummary;
+
+
+class Summary extends AbstractSummary
 {
     /** @var string[] */
     protected array $elements = [

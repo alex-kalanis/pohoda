@@ -10,8 +10,10 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\Stock;
 
+
 use Riesenia\Pohoda\AbstractAgenda;
 use Riesenia\Pohoda\Common\OptionsResolver;
+
 
 class Price extends AbstractAgenda
 {

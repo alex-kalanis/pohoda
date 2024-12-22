@@ -10,8 +10,10 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\IntParam;
 
+
 use Riesenia\Pohoda\AbstractAgenda;
 use Riesenia\Pohoda\Common\OptionsResolver;
+
 
 class Settings extends AbstractAgenda
 {

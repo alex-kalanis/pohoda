@@ -10,6 +10,7 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\PrintRequest;
 
+
 class RadioButton1 extends RadioButtonType
 {
 }

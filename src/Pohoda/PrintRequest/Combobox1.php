@@ -10,6 +10,7 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\PrintRequest;
 
+
 class Combobox1 extends ComboboxType
 {
 }

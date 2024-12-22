@@ -10,10 +10,12 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\IssueSlip;
 
-use Riesenia\Pohoda\Common\OptionsResolver;
-use Riesenia\Pohoda\Document\AbstractItem as DocumentItem;
 
-class Item extends DocumentItem
+use Riesenia\Pohoda\Common\OptionsResolver;
+use Riesenia\Pohoda\Document\AbstractItem;
+
+
+class Item extends AbstractItem
 {
     /** @var string[] */
     protected array $refElements = ['typeServiceMOSS', 'centre', 'activity', 'contract'];

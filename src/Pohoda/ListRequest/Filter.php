@@ -10,8 +10,10 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\ListRequest;
 
+
 use Riesenia\Pohoda\AbstractAgenda;
 use Riesenia\Pohoda\Common\OptionsResolver;
+
 
 class Filter extends AbstractAgenda
 {

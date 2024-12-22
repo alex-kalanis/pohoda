@@ -12,10 +12,10 @@ namespace Riesenia\Pohoda\Offer;
 
 
 use Riesenia\Pohoda\Common\OptionsResolver;
-use Riesenia\Pohoda\Document\AbstractItem as DocumentItem;
+use Riesenia\Pohoda\Document\AbstractItem;
 
 
-class Item extends DocumentItem
+class Item extends AbstractItem
 {
     /** @var string[] */
     protected array $refElements = ['typeServiceMOSS', 'centre', 'activity', 'contract'];
