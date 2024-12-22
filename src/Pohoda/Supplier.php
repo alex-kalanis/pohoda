@@ -29,23 +29,23 @@ class Supplier extends AbstractAgenda
         Common\NamespacesPaths $namespacesPaths,
         SanitizeEncoding $sanitizeEncoding,
         array $data,
-        string $ico,
+        string $companyRegistrationNumber,
         bool $resolveOptions = true,
     )
     {
         // process stockItem
         if (isset($data['stockItem'])) {
-            $data['stockItem'] = new Supplier\StockItem($namespacesPaths, $sanitizeEncoding, $data['stockItem'], $ico, $resolveOptions);
+            $data['stockItem'] = new Supplier\StockItem($namespacesPaths, $sanitizeEncoding, $data['stockItem'], $companyRegistrationNumber, $resolveOptions);
         }
 
         // process suppliers
         if (isset($data['suppliers']) && is_array($data['suppliers'])) {
-            $data['suppliers'] = \array_map(function ($supplier) use ($namespacesPaths, $sanitizeEncoding, $ico, $resolveOptions) {
-                return new Supplier\SupplierItem($namespacesPaths, $sanitizeEncoding, $supplier['supplierItem'], $ico, $resolveOptions);
+            $data['suppliers'] = \array_map(function ($supplier) use ($namespacesPaths, $sanitizeEncoding, $companyRegistrationNumber, $resolveOptions) {
+                return new Supplier\SupplierItem($namespacesPaths, $sanitizeEncoding, $supplier['supplierItem'], $companyRegistrationNumber, $resolveOptions);
             }, $data['suppliers']);
         }
 
-        parent::__construct($namespacesPaths, $sanitizeEncoding, $data, $ico, $resolveOptions);
+        parent::__construct($namespacesPaths, $sanitizeEncoding, $data, $companyRegistrationNumber, $resolveOptions);
     }
 
     /**

@@ -28,11 +28,11 @@ class Parameters extends AbstractAgenda
         Common\NamespacesPaths $namespacesPaths,
         SanitizeEncoding $sanitizeEncoding,
         array $data,
-        string $ico,
+        string $companyRegistrationNumber,
         bool $resolveOptions = true,
     )
     {
-        $factory = new ParameterFactory($namespacesPaths, $sanitizeEncoding, $ico);
+        $factory = new ParameterFactory($namespacesPaths, $sanitizeEncoding, $companyRegistrationNumber);
 
         foreach ($factory->getKeys() as $key) {
             // fill elements from factory
@@ -43,7 +43,7 @@ class Parameters extends AbstractAgenda
             }
         }
 
-        parent::__construct($namespacesPaths, $sanitizeEncoding, $data, $ico, $resolveOptions);
+        parent::__construct($namespacesPaths, $sanitizeEncoding, $data, $companyRegistrationNumber, $resolveOptions);
     }
 
     /**

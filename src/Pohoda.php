@@ -17,26 +17,26 @@ use Riesenia\Pohoda\AbstractAgenda;
 /**
  * Factory for Pohoda objects.
  *
- * @method \Riesenia\Pohoda\Addressbook   createAddressbook(array $data = [])
- * @method \Riesenia\Pohoda\Bank          createBank(array $data = [])
- * @method \Riesenia\Pohoda\CashSlip      createCashSlip(array $data = [])
- * @method \Riesenia\Pohoda\Category      createCategory(array $data = [])
- * @method \Riesenia\Pohoda\Contract      createContract(array $data = [])
- * @method \Riesenia\Pohoda\IntDoc        createIntDoc(array $data = [])
- * @method \Riesenia\Pohoda\IntParam      createIntParam(array $data = [])
- * @method \Riesenia\Pohoda\Invoice       createInvoice(array $data = [])
- * @method \Riesenia\Pohoda\IssueSlip     createIssueSlip(array $data = [])
- * @method \Riesenia\Pohoda\ListRequest   createListRequest(array $data = [])
- * @method \Riesenia\Pohoda\Offer         createOffer(array $data = [])
- * @method \Riesenia\Pohoda\Order         createOrder(array $data = [])
- * @method \Riesenia\Pohoda\PrintRequest  createPrintRequest(array $data = [])
- * @method \Riesenia\Pohoda\Receipt       createReceipt(array $data = [])
- * @method \Riesenia\Pohoda\Stock         createStock(array $data = [])
- * @method \Riesenia\Pohoda\StockTransfer createStockTransfer(array $data = [])
- * @method \Riesenia\Pohoda\Storage       createStorage(array $data = [])
- * @method \Riesenia\Pohoda\Supplier      createSupplier(array $data = [])
- * @method \Riesenia\Pohoda\UserList      createUserList(array $data = [])
- * @method \Riesenia\Pohoda\Voucher       createVoucher(array $data = [])
+ * @method Pohoda\Addressbook   createAddressbook(array $data = [])
+ * @method Pohoda\Bank          createBank(array $data = [])
+ * @method Pohoda\CashSlip      createCashSlip(array $data = [])
+ * @method Pohoda\Category      createCategory(array $data = [])
+ * @method Pohoda\Contract      createContract(array $data = [])
+ * @method Pohoda\IntDoc        createIntDoc(array $data = [])
+ * @method Pohoda\IntParam      createIntParam(array $data = [])
+ * @method Pohoda\Invoice       createInvoice(array $data = [])
+ * @method Pohoda\IssueSlip     createIssueSlip(array $data = [])
+ * @method Pohoda\ListRequest   createListRequest(array $data = [])
+ * @method Pohoda\Offer         createOffer(array $data = [])
+ * @method Pohoda\Order         createOrder(array $data = [])
+ * @method Pohoda\PrintRequest  createPrintRequest(array $data = [])
+ * @method Pohoda\Receipt       createReceipt(array $data = [])
+ * @method Pohoda\Stock         createStock(array $data = [])
+ * @method Pohoda\StockTransfer createStockTransfer(array $data = [])
+ * @method Pohoda\Storage       createStorage(array $data = [])
+ * @method Pohoda\Supplier      createSupplier(array $data = [])
+ * @method Pohoda\UserList      createUserList(array $data = [])
+ * @method Pohoda\Voucher       createVoucher(array $data = [])
  * @method \bool loadAddressbook(string $filename)
  * @method \bool loadBank(string $filename)
  * @method \bool loadCashSlip(string $filename)
@@ -79,12 +79,12 @@ class Pohoda
     protected bool $importRecursive = false;
 
     public function __construct(
-        protected readonly string $ico,
+        protected readonly string $companyRegistrationNumber,
         protected Pohoda\ValueTransformer\SanitizeEncoding $sanitizeEncoding = new Pohoda\ValueTransformer\SanitizeEncoding(new Pohoda\ValueTransformer\Listing())
     )
     {
         $this->namespacesPaths = new Pohoda\Common\NamespacesPaths();
-        $this->agendaFactory = new Pohoda\AgendaFactory($this->namespacesPaths, $this->sanitizeEncoding, $this->ico);
+        $this->agendaFactory = new Pohoda\AgendaFactory($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber);
     }
 
     /**
@@ -150,7 +150,7 @@ class Pohoda
         $this->xmlWriter->startElementNs('dat', 'dataPack', null);
 
         $this->xmlWriter->writeAttribute('id', $id);
-        $this->xmlWriter->writeAttribute('ico', $this->ico);
+        $this->xmlWriter->writeAttribute('ico', $this->companyRegistrationNumber);
         $this->xmlWriter->writeAttribute('application', $this->application);
         $this->xmlWriter->writeAttribute('version', '2.0');
         $this->xmlWriter->writeAttribute('note', $note);

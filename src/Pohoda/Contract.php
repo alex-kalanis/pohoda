@@ -32,14 +32,14 @@ class Contract extends AbstractAgenda
         Common\NamespacesPaths $namespacesPaths,
         SanitizeEncoding $sanitizeEncoding,
         array $data,
-        string $ico,
+        string $companyRegistrationNumber,
         bool $resolveOptions = true,
     )
     {
         // pass to header
-        $data = ['header' => new Desc($namespacesPaths, $sanitizeEncoding, $data, $ico, $resolveOptions)];
+        $data = ['header' => new Desc($namespacesPaths, $sanitizeEncoding, $data, $companyRegistrationNumber, $resolveOptions)];
 
-        parent::__construct($namespacesPaths, $sanitizeEncoding, $data, $ico, $resolveOptions);
+        parent::__construct($namespacesPaths, $sanitizeEncoding, $data, $companyRegistrationNumber, $resolveOptions);
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace BasicTests;
 
+
 use CommonTestClass;
 use Riesenia\Pohoda\Common\AddParameterTrait;
 use Riesenia\Pohoda\Common\NamespacesPaths;
@@ -34,7 +35,7 @@ class XParameter
     use AddParameterTrait;
 
     public array $data = [];
-    protected string $ico = 'dummy';
+    protected string $companyRegistrationNumber = 'dummy';
     protected readonly NamespacesPaths $namespacesPaths;
     protected readonly ValueTransformer\SanitizeEncoding $sanitizeEncoding;
 

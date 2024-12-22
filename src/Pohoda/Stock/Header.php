@@ -42,21 +42,21 @@ class Header extends AbstractAgenda
         Common\NamespacesPaths $namespacesPaths,
         SanitizeEncoding $sanitizeEncoding,
         array $data,
-        string $ico,
+        string $companyRegistrationNumber,
         bool $resolveOptions = true,
     )
     {
         // process intrastat
         if (isset($data['intrastat'])) {
-            $data['intrastat'] = new Intrastat($namespacesPaths, $sanitizeEncoding, $data['intrastat'], $ico, $resolveOptions);
+            $data['intrastat'] = new Intrastat($namespacesPaths, $sanitizeEncoding, $data['intrastat'], $companyRegistrationNumber, $resolveOptions);
         }
 
         // process recyclingContrib
         if (isset($data['recyclingContrib'])) {
-            $data['recyclingContrib'] = new RecyclingContrib($namespacesPaths, $sanitizeEncoding, $data['recyclingContrib'], $ico, $resolveOptions);
+            $data['recyclingContrib'] = new RecyclingContrib($namespacesPaths, $sanitizeEncoding, $data['recyclingContrib'], $companyRegistrationNumber, $resolveOptions);
         }
 
-        parent::__construct($namespacesPaths, $sanitizeEncoding, $data, $ico, $resolveOptions);
+        parent::__construct($namespacesPaths, $sanitizeEncoding, $data, $companyRegistrationNumber, $resolveOptions);
     }
 
     /**
@@ -85,7 +85,7 @@ class Header extends AbstractAgenda
             'description' => $description,
             'order' => null === $order ? ++$this->imagesCounter : $order,
             'default' => $default
-        ], $this->ico);
+        ], $this->companyRegistrationNumber);
     }
 
     /**
@@ -108,7 +108,7 @@ class Header extends AbstractAgenda
 
         $this->data['categories'][] = new Category($this->namespacesPaths, $this->sanitizeEncoding, [
             'idCategory' => $categoryId
-        ], $this->ico);
+        ], $this->companyRegistrationNumber);
     }
 
     /**
@@ -129,7 +129,7 @@ class Header extends AbstractAgenda
             $this->data['intParameters'] = [];
         }
 
-        $this->data['intParameters'][] = new IntParameter($this->namespacesPaths, $this->sanitizeEncoding, $data, $this->ico);
+        $this->data['intParameters'][] = new IntParameter($this->namespacesPaths, $this->sanitizeEncoding, $data, $this->companyRegistrationNumber);
     }
 
     /**

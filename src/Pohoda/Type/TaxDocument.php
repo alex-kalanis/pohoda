@@ -31,16 +31,16 @@ class TaxDocument extends AbstractAgenda
         Common\NamespacesPaths $namespacesPaths,
         SanitizeEncoding $sanitizeEncoding,
         array $data,
-        string $ico,
+        string $companyRegistrationNumber,
         bool $resolveOptions = true,
     )
     {
         // process source liquidation
         if (isset($data['sourceLiquidation'])) {
-            $data['sourceLiquidation'] = new SourceLiquidation($namespacesPaths, $sanitizeEncoding, $data['sourceLiquidation'], $ico, $resolveOptions);
+            $data['sourceLiquidation'] = new SourceLiquidation($namespacesPaths, $sanitizeEncoding, $data['sourceLiquidation'], $companyRegistrationNumber, $resolveOptions);
         }
 
-        parent::__construct($namespacesPaths, $sanitizeEncoding, $data, $ico, $resolveOptions);
+        parent::__construct($namespacesPaths, $sanitizeEncoding, $data, $companyRegistrationNumber, $resolveOptions);
     }
 
     /**

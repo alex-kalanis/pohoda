@@ -26,21 +26,21 @@ abstract class AbstractHeader extends AbstractPart
         Common\NamespacesPaths $namespacesPaths,
         SanitizeEncoding $sanitizeEncoding,
         array $data,
-        string $ico,
+        string $companyRegistrationNumber,
         bool $resolveOptions = true,
     )
     {
         // process partner identity
         if (isset($data['partnerIdentity'])) {
-            $data['partnerIdentity'] = new Type\Address($namespacesPaths, $sanitizeEncoding, $data['partnerIdentity'], $ico, $resolveOptions);
+            $data['partnerIdentity'] = new Type\Address($namespacesPaths, $sanitizeEncoding, $data['partnerIdentity'], $companyRegistrationNumber, $resolveOptions);
         }
 
         // process my identity
         if (isset($data['myIdentity'])) {
-            $data['myIdentity'] = new Type\MyAddress($namespacesPaths, $sanitizeEncoding, $data['myIdentity'], $ico, $resolveOptions);
+            $data['myIdentity'] = new Type\MyAddress($namespacesPaths, $sanitizeEncoding, $data['myIdentity'], $companyRegistrationNumber, $resolveOptions);
         }
 
-        parent::__construct($namespacesPaths, $sanitizeEncoding, $data, $ico, $resolveOptions);
+        parent::__construct($namespacesPaths, $sanitizeEncoding, $data, $companyRegistrationNumber, $resolveOptions);
     }
 
     /**

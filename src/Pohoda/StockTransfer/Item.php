@@ -29,16 +29,16 @@ class Item extends AbstractAgenda
         Common\NamespacesPaths $namespacesPaths,
         SanitizeEncoding $sanitizeEncoding,
         array $data,
-        string $ico,
+        string $companyRegistrationNumber,
         bool $resolveOptions = true,
     )
     {
         // process stock item
         if (isset($data['stockItem'])) {
-            $data['stockItem'] = new StockItem($namespacesPaths, $sanitizeEncoding, $data['stockItem'], $ico, $resolveOptions);
+            $data['stockItem'] = new StockItem($namespacesPaths, $sanitizeEncoding, $data['stockItem'], $companyRegistrationNumber, $resolveOptions);
         }
 
-        parent::__construct($namespacesPaths, $sanitizeEncoding, $data, $ico, $resolveOptions);
+        parent::__construct($namespacesPaths, $sanitizeEncoding, $data, $companyRegistrationNumber, $resolveOptions);
     }
 
     /**

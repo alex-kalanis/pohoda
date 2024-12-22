@@ -29,16 +29,16 @@ class Stock extends AbstractAgenda
         Common\NamespacesPaths $namespacesPaths,
         SanitizeEncoding $sanitizeEncoding,
         array $data,
-        string $ico,
+        string $companyRegistrationNumber,
         bool $resolveOptions = true,
     )
     {
         // pass to header
         if (!empty($data)) {
-            $data = ['header' => new Header($namespacesPaths, $sanitizeEncoding, $data, $ico, $resolveOptions)];
+            $data = ['header' => new Header($namespacesPaths, $sanitizeEncoding, $data, $companyRegistrationNumber, $resolveOptions)];
         }
 
-        parent::__construct($namespacesPaths, $sanitizeEncoding, $data, $ico, $resolveOptions);
+        parent::__construct($namespacesPaths, $sanitizeEncoding, $data, $companyRegistrationNumber, $resolveOptions);
     }
 
     public function getImportRoot(): string
@@ -64,7 +64,7 @@ class Stock extends AbstractAgenda
             $this->data['stockDetail'] = [];
         }
 
-        $this->data['stockDetail'][] = new StockItem($this->namespacesPaths, $this->sanitizeEncoding, $data, $this->ico);
+        $this->data['stockDetail'][] = new StockItem($this->namespacesPaths, $this->sanitizeEncoding, $data, $this->companyRegistrationNumber);
 
         return $this;
     }
@@ -91,7 +91,7 @@ class Stock extends AbstractAgenda
         $this->data['stockPriceItem'][] = new Price($this->namespacesPaths, $this->sanitizeEncoding, [
             'ids' => $code,
             'price' => $value
-        ], $this->ico);
+        ], $this->companyRegistrationNumber);
 
         return $this;
     }

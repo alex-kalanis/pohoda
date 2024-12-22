@@ -31,18 +31,18 @@ class StockItem extends AbstractAgenda
         Common\NamespacesPaths $namespacesPaths,
         SanitizeEncoding $sanitizeEncoding,
         array $data,
-        string $ico,
+        string $companyRegistrationNumber,
         bool $resolveOptions = true,
     )
     {
         // process stockPriceItem
         if (isset($data['stockPriceItem']) && is_array($data['stockPriceItem'])) {
-            $data['stockPriceItem'] = \array_map(function ($stockPriceItem) use ($namespacesPaths, $sanitizeEncoding, $ico, $resolveOptions) {
-                return new Price($namespacesPaths, $sanitizeEncoding, $stockPriceItem['stockPrice'], $ico, $resolveOptions);
+            $data['stockPriceItem'] = \array_map(function ($stockPriceItem) use ($namespacesPaths, $sanitizeEncoding, $companyRegistrationNumber, $resolveOptions) {
+                return new Price($namespacesPaths, $sanitizeEncoding, $stockPriceItem['stockPrice'], $companyRegistrationNumber, $resolveOptions);
             }, $data['stockPriceItem']);
         }
 
-        parent::__construct($namespacesPaths, $sanitizeEncoding, $data, $ico, $resolveOptions);
+        parent::__construct($namespacesPaths, $sanitizeEncoding, $data, $companyRegistrationNumber, $resolveOptions);
     }
 
     /**

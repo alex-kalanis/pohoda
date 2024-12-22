@@ -28,7 +28,7 @@ class IntParam extends AbstractAgenda
         Common\NamespacesPaths $namespacesPaths,
         SanitizeEncoding $sanitizeEncoding,
         array $data,
-        string $ico,
+        string $companyRegistrationNumber,
         bool $resolveOptions = true,
     )
     {
@@ -39,10 +39,10 @@ class IntParam extends AbstractAgenda
 
         // process settings
         if (isset($data['parameterSettings'])) {
-            $data['parameterSettings'] = new Settings($namespacesPaths, $sanitizeEncoding, $data['parameterSettings'], $ico, $resolveOptions);
+            $data['parameterSettings'] = new Settings($namespacesPaths, $sanitizeEncoding, $data['parameterSettings'], $companyRegistrationNumber, $resolveOptions);
         }
 
-        parent::__construct($namespacesPaths, $sanitizeEncoding, $data, $ico, $resolveOptions);
+        parent::__construct($namespacesPaths, $sanitizeEncoding, $data, $companyRegistrationNumber, $resolveOptions);
     }
 
     public function getImportRoot(): string

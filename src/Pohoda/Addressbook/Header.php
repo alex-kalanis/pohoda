@@ -34,16 +34,16 @@ class Header extends AbstractAgenda
         Common\NamespacesPaths $namespacesPaths,
         SanitizeEncoding $sanitizeEncoding,
         array $data,
-        string $ico,
+        string $companyRegistrationNumber,
         bool $resolveOptions = true,
     )
     {
         // process identity
         if (isset($data['identity'])) {
-            $data['identity'] = new Address($namespacesPaths, $sanitizeEncoding, $data['identity'], $ico, $resolveOptions);
+            $data['identity'] = new Address($namespacesPaths, $sanitizeEncoding, $data['identity'], $companyRegistrationNumber, $resolveOptions);
         }
 
-        parent::__construct($namespacesPaths, $sanitizeEncoding, $data, $ico, $resolveOptions);
+        parent::__construct($namespacesPaths, $sanitizeEncoding, $data, $companyRegistrationNumber, $resolveOptions);
     }
 
     /**

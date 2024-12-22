@@ -29,17 +29,17 @@ abstract class AbstractDocument extends AbstractAgenda
         Common\NamespacesPaths $namespacesPaths,
         SanitizeEncoding $sanitizeEncoding,
         array $data,
-        string $ico,
+        string $companyRegistrationNumber,
         bool $resolveOptions = true,
     )
     {
-        $this->documentPartFactory = new DocumentPartFactory($namespacesPaths, $sanitizeEncoding, $ico);
+        $this->documentPartFactory = new DocumentPartFactory($namespacesPaths, $sanitizeEncoding, $companyRegistrationNumber);
         // pass to header
         if (!empty($data)) {
             $data = ['header' => $this->getDocumentPart('Header', $data, $resolveOptions)];
         }
 
-        parent::__construct($namespacesPaths, $sanitizeEncoding, $data, $ico, $resolveOptions);
+        parent::__construct($namespacesPaths, $sanitizeEncoding, $data, $companyRegistrationNumber, $resolveOptions);
     }
 
     /**

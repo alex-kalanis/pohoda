@@ -25,14 +25,14 @@ class Record extends AbstractAgenda
         Common\NamespacesPaths $namespacesPaths,
         SanitizeEncoding $sanitizeEncoding,
         array $data,
-        string $ico,
+        string $companyRegistrationNumber,
         bool $resolveOptions = true,
     )
     {
         // process filter
-        $data['filter'] = new Filter($namespacesPaths, $sanitizeEncoding, $data['filter'], $ico, $resolveOptions);
+        $data['filter'] = new Filter($namespacesPaths, $sanitizeEncoding, $data['filter'], $companyRegistrationNumber, $resolveOptions);
 
-        parent::__construct($namespacesPaths, $sanitizeEncoding, $data, $ico, $resolveOptions);
+        parent::__construct($namespacesPaths, $sanitizeEncoding, $data, $companyRegistrationNumber, $resolveOptions);
     }
 
     /**

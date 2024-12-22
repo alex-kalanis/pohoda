@@ -31,16 +31,16 @@ class Header extends AbstractHeader
         Common\NamespacesPaths $namespacesPaths,
         SanitizeEncoding $sanitizeEncoding,
         array $data,
-        string $ico,
+        string $companyRegistrationNumber,
         bool $resolveOptions = true,
     )
     {
         // process report
         if (isset($data['statementNumber'])) {
-            $data['statementNumber'] = new StatementNumber($namespacesPaths, $sanitizeEncoding, $data['statementNumber'], $ico, $resolveOptions);
+            $data['statementNumber'] = new StatementNumber($namespacesPaths, $sanitizeEncoding, $data['statementNumber'], $companyRegistrationNumber, $resolveOptions);
         }
 
-        parent::__construct($namespacesPaths, $sanitizeEncoding, $data, $ico, $resolveOptions);
+        parent::__construct($namespacesPaths, $sanitizeEncoding, $data, $companyRegistrationNumber, $resolveOptions);
     }
 
     /**

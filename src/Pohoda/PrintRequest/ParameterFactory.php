@@ -45,7 +45,7 @@ class ParameterFactory
     public function __construct(
         protected readonly Common\NamespacesPaths $namespacesPaths,
         protected readonly SanitizeEncoding $sanitizeEncoding,
-        protected readonly string $ico,
+        protected readonly string $companyRegistrationNumber,
     )
     {
     }
@@ -67,7 +67,7 @@ class ParameterFactory
                 $this->namespacesPaths,
                 $this->sanitizeEncoding,
                 $data,
-                $this->ico,
+                $this->companyRegistrationNumber,
                 $resolveOptions
             );
         } catch (ReflectionException $e) {

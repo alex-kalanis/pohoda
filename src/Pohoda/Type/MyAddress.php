@@ -30,20 +30,20 @@ class MyAddress extends AbstractAgenda
         Common\NamespacesPaths $namespacesPaths,
         SanitizeEncoding $sanitizeEncoding,
         array $data,
-        string $ico,
+        string $companyRegistrationNumber,
         bool $resolveOptions = true,
     )
     {
         // process address
         if (isset($data['address'])) {
-            $data['address'] = new AddressInternetType($namespacesPaths, $sanitizeEncoding, $data['address'], $ico, $resolveOptions);
+            $data['address'] = new AddressInternetType($namespacesPaths, $sanitizeEncoding, $data['address'], $companyRegistrationNumber, $resolveOptions);
         }
         // process establishment
         if (isset($data['establishment'])) {
-            $data['establishment'] = new EstablishmentType($namespacesPaths, $sanitizeEncoding, $data['establishment'], $ico, $resolveOptions);
+            $data['establishment'] = new EstablishmentType($namespacesPaths, $sanitizeEncoding, $data['establishment'], $companyRegistrationNumber, $resolveOptions);
         }
 
-        parent::__construct($namespacesPaths, $sanitizeEncoding, $data, $ico, $resolveOptions);
+        parent::__construct($namespacesPaths, $sanitizeEncoding, $data, $companyRegistrationNumber, $resolveOptions);
     }
 
     /**

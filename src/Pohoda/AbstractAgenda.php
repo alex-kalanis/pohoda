@@ -45,14 +45,14 @@ abstract class AbstractAgenda
      *
      * @param Common\NamespacesPaths $namespacesPaths
      * @param array<string,mixed> $data
-     * @param string              $ico
+     * @param string              $companyRegistrationNumber
      * @param bool                $resolveOptions
      */
     public function __construct(
         protected readonly Common\NamespacesPaths $namespacesPaths,
         protected Pohoda\ValueTransformer\SanitizeEncoding $sanitizeEncoding,
         array $data,
-        protected readonly string $ico,
+        protected readonly string $companyRegistrationNumber,
         bool $resolveOptions = true,
     )
     {

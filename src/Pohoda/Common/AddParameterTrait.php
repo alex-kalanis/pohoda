@@ -44,7 +44,7 @@ trait AddParameterTrait
             'type' => $type,
             'value' => $value,
             'list' => $list
-        ], $this->ico);
+        ], $this->companyRegistrationNumber);
 
         return $this;
     }

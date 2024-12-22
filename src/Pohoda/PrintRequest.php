@@ -25,17 +25,17 @@ class PrintRequest extends AbstractAgenda
         Common\NamespacesPaths $namespacesPaths,
         SanitizeEncoding $sanitizeEncoding,
         array $data,
-        string $ico,
+        string $companyRegistrationNumber,
         bool $resolveOptions = true,
     )
     {
         // process record
-        $data['record'] = new Record($namespacesPaths, $sanitizeEncoding, $data['record'], $ico, $resolveOptions);
+        $data['record'] = new Record($namespacesPaths, $sanitizeEncoding, $data['record'], $companyRegistrationNumber, $resolveOptions);
 
         // process printer settings
-        $data['printerSettings'] = new PrinterSettings($namespacesPaths, $sanitizeEncoding, $data['printerSettings'], $ico, $resolveOptions);
+        $data['printerSettings'] = new PrinterSettings($namespacesPaths, $sanitizeEncoding, $data['printerSettings'], $companyRegistrationNumber, $resolveOptions);
 
-        parent::__construct($namespacesPaths, $sanitizeEncoding, $data, $ico, $resolveOptions);
+        parent::__construct($namespacesPaths, $sanitizeEncoding, $data, $companyRegistrationNumber, $resolveOptions);
     }
 
     /**

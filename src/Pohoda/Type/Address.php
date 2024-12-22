@@ -38,21 +38,21 @@ class Address extends AbstractAgenda
         Common\NamespacesPaths $namespacesPaths,
         SanitizeEncoding $sanitizeEncoding,
         array $data,
-        string $ico,
+        string $companyRegistrationNumber,
         bool $resolveOptions = true,
     )
     {
         // process address
         if (isset($data['address'])) {
-            $data['address'] = new AddressType($namespacesPaths, $sanitizeEncoding, $data['address'], $ico, $resolveOptions);
+            $data['address'] = new AddressType($namespacesPaths, $sanitizeEncoding, $data['address'], $companyRegistrationNumber, $resolveOptions);
         }
 
         // process shipping address
         if (isset($data['shipToAddress'])) {
-            $data['shipToAddress'] = new ShipToAddressType($namespacesPaths, $sanitizeEncoding, $data['shipToAddress'], $ico, $resolveOptions);
+            $data['shipToAddress'] = new ShipToAddressType($namespacesPaths, $sanitizeEncoding, $data['shipToAddress'], $companyRegistrationNumber, $resolveOptions);
         }
 
-        parent::__construct($namespacesPaths, $sanitizeEncoding, $data, $ico, $resolveOptions);
+        parent::__construct($namespacesPaths, $sanitizeEncoding, $data, $companyRegistrationNumber, $resolveOptions);
     }
 
     /**

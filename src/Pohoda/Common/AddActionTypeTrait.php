@@ -42,7 +42,7 @@ trait AddActionTypeTrait
                 'filter' => $filter,
                 'agenda' => $agenda
             ],
-            $this->ico,
+            $this->companyRegistrationNumber,
         );
 
         return $this;

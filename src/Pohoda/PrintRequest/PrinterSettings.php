@@ -28,24 +28,24 @@ class PrinterSettings extends AbstractAgenda
         Common\NamespacesPaths $namespacesPaths,
         SanitizeEncoding $sanitizeEncoding,
         array $data,
-        string $ico,
+        string $companyRegistrationNumber,
         bool $resolveOptions = true,
     )
     {
         // process report
         if (isset($data['report'])) {
-            $data['report'] = new Report($namespacesPaths, $sanitizeEncoding, $data['report'], $ico, $resolveOptions);
+            $data['report'] = new Report($namespacesPaths, $sanitizeEncoding, $data['report'], $companyRegistrationNumber, $resolveOptions);
         }
         // process pdf
         if (isset($data['pdf'])) {
-            $data['pdf'] = new Pdf($namespacesPaths, $sanitizeEncoding, $data['pdf'], $ico, $resolveOptions);
+            $data['pdf'] = new Pdf($namespacesPaths, $sanitizeEncoding, $data['pdf'], $companyRegistrationNumber, $resolveOptions);
         }
         // process parameters
         if (isset($data['parameters'])) {
-            $data['parameters'] = new Parameters($namespacesPaths, $sanitizeEncoding, $data['parameters'], $ico, $resolveOptions);
+            $data['parameters'] = new Parameters($namespacesPaths, $sanitizeEncoding, $data['parameters'], $companyRegistrationNumber, $resolveOptions);
         }
 
-        parent::__construct($namespacesPaths, $sanitizeEncoding, $data, $ico, $resolveOptions);
+        parent::__construct($namespacesPaths, $sanitizeEncoding, $data, $companyRegistrationNumber, $resolveOptions);
     }
 
     /**

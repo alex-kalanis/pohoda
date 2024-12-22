@@ -32,14 +32,14 @@ class Item extends AbstractItem
         Common\NamespacesPaths $namespacesPaths,
         SanitizeEncoding $sanitizeEncoding,
         array $data,
-        string $ico,
+        string $companyRegistrationNumber,
         bool $resolveOptions = true,
     ) {
         if (isset($data['recyclingContrib'])) {
-            $data['recyclingContrib'] = new RecyclingContrib($namespacesPaths, $sanitizeEncoding, $data['recyclingContrib'], $ico, $resolveOptions);
+            $data['recyclingContrib'] = new RecyclingContrib($namespacesPaths, $sanitizeEncoding, $data['recyclingContrib'], $companyRegistrationNumber, $resolveOptions);
         }
 
-        parent::__construct($namespacesPaths, $sanitizeEncoding, $data, $ico, $resolveOptions);
+        parent::__construct($namespacesPaths, $sanitizeEncoding, $data, $companyRegistrationNumber, $resolveOptions);
     }
 
     /**

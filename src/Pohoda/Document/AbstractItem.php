@@ -27,26 +27,26 @@ abstract class AbstractItem extends AbstractPart
         Common\NamespacesPaths $namespacesPaths,
         SanitizeEncoding $sanitizeEncoding,
         array $data,
-        string $ico,
+        string $companyRegistrationNumber,
         bool $resolveOptions = true,
     )
     {
         // process home currency
         if (isset($data['homeCurrency'])) {
-            $data['homeCurrency'] = new Type\CurrencyItem($namespacesPaths, $sanitizeEncoding, $data['homeCurrency'], $ico, $resolveOptions);
+            $data['homeCurrency'] = new Type\CurrencyItem($namespacesPaths, $sanitizeEncoding, $data['homeCurrency'], $companyRegistrationNumber, $resolveOptions);
         }
 
         // process foreign currency
         if (isset($data['foreignCurrency'])) {
-            $data['foreignCurrency'] = new Type\CurrencyItem($namespacesPaths, $sanitizeEncoding, $data['foreignCurrency'], $ico, $resolveOptions);
+            $data['foreignCurrency'] = new Type\CurrencyItem($namespacesPaths, $sanitizeEncoding, $data['foreignCurrency'], $companyRegistrationNumber, $resolveOptions);
         }
 
         // process stock item
         if (isset($data['stockItem'])) {
-            $data['stockItem'] = new Type\StockItem($namespacesPaths, $sanitizeEncoding, $data['stockItem'], $ico, $resolveOptions);
+            $data['stockItem'] = new Type\StockItem($namespacesPaths, $sanitizeEncoding, $data['stockItem'], $companyRegistrationNumber, $resolveOptions);
         }
 
-        parent::__construct($namespacesPaths, $sanitizeEncoding, $data, $ico, $resolveOptions);
+        parent::__construct($namespacesPaths, $sanitizeEncoding, $data, $companyRegistrationNumber, $resolveOptions);
     }
 
     /**

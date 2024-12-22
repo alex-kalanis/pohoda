@@ -2,6 +2,7 @@
 
 namespace BasicTests;
 
+
 use CommonTestClass;
 use Riesenia\Pohoda\Common\AddActionTypeTrait;
 use OutOfRangeException;
@@ -34,7 +35,7 @@ class XActionType
     use AddActionTypeTrait;
 
     public array $data = [];
-    protected string $ico = 'dummy';
+    protected string $companyRegistrationNumber = 'dummy';
     protected readonly NamespacesPaths $namespacesPaths;
     protected readonly SanitizeEncoding $sanitizeEncoding;
 

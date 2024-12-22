@@ -34,16 +34,16 @@ class Desc extends AbstractAgenda
         Common\NamespacesPaths $namespacesPaths,
         SanitizeEncoding $sanitizeEncoding,
         array $data,
-        string $ico,
+        string $companyRegistrationNumber,
         bool $resolveOptions = true,
     )
     {
         // process partner identity
         if (isset($data['partnerIdentity'])) {
-            $data['partnerIdentity'] = new Address($namespacesPaths, $sanitizeEncoding, $data['partnerIdentity'], $ico, $resolveOptions);
+            $data['partnerIdentity'] = new Address($namespacesPaths, $sanitizeEncoding, $data['partnerIdentity'], $companyRegistrationNumber, $resolveOptions);
         }
 
-        parent::__construct($namespacesPaths, $sanitizeEncoding, $data, $ico, $resolveOptions);
+        parent::__construct($namespacesPaths, $sanitizeEncoding, $data, $companyRegistrationNumber, $resolveOptions);
     }
 
     /**
