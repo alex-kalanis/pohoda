@@ -32,20 +32,20 @@ class NormalizerFactory
         }
 
         if (str_starts_with($type, '?string')) {
-            // strings have length
-            $normalizer = $this->createNormalizer('string', ['length' => \intval(\substr($type, 7)), 'nullable' => true]);
+            // strings can be nullable and have length
+            $normalizer = $this->createNormalizer('string', \intval(\substr($type, 7)), true);
         } elseif (str_starts_with($type, '?str')) {
-            // types can be nullable
-            $normalizer = $this->createNormalizer('string', ['length' => \intval(\substr($type, 4)), 'nullable' => true]);
+            // short strings can be nullable and have length
+            $normalizer = $this->createNormalizer('string', \intval(\substr($type, 4)), true);
         } elseif (str_starts_with($type, 'string')) {
             // strings have length
-            $normalizer = $this->createNormalizer('string', ['length' => \intval(\substr($type, 6))]);
+            $normalizer = $this->createNormalizer('string', \intval(\substr($type, 6)));
         } elseif (str_starts_with($type, 'str')) {
-            // strings have length
-            $normalizer = $this->createNormalizer('string', ['length' => \intval(\substr($type, 3))]);
+            // short strings have length
+            $normalizer = $this->createNormalizer('string', \intval(\substr($type, 3)));
         } elseif (str_starts_with($type, '?')) {
             // types can be nullable
-            $normalizer = $this->createNormalizer(\substr($type, 1), ['nullable' => true]);
+            $normalizer = $this->createNormalizer(\substr($type, 1), null, true);
         } else {
             $normalizer = $this->createNormalizer($type);
         }
@@ -57,27 +57,24 @@ class NormalizerFactory
     /**
      * Create normalizer.
      *
-     * @param string     $type
-     * @param array{
-     *     length?: int|null,
-     *     nullable?: bool|null,
-     * } $param
-     *
+     * @param string   $type
+     * @param int|null $length
+     * @param bool     $nullable
      * @throws DomainException
      * @return AbstractNormalizer
      * @see vendor/symfony/options-resolver/OptionsResolver.php:1128
      */
-    protected function createNormalizer(string $type, array $param = []): AbstractNormalizer
+    protected function createNormalizer(string $type, ?int $length = null, bool $nullable = false): AbstractNormalizer
     {
         return match ($type) {
-            'str', 'string' => new Strings($param),
-            'float', 'number' => new Numbers($param),
-            'int', 'integer' => new Integers($param),
-            'bool', 'boolean' => new Booleans($param),
-            'date' => new Dates($param),
-            'datetime' => new DateTimes($param),
-            'time' => new Times($param),
-            'list_request_type' => new ListRequestType($param),
+            'str', 'string' => new Strings($length, $nullable),
+            'float', 'number' => new Numbers($length, $nullable),
+            'int', 'integer' => new Integers($length, $nullable),
+            'bool', 'boolean' => new Booleans($length, $nullable),
+            'date' => new Dates($length, $nullable),
+            'datetime' => new DateTimes($length, $nullable),
+            'time' => new Times($length, $nullable),
+            'list_request_type' => new ListRequestType($length, $nullable),
             default => throw new DomainException('Not a valid normalizer type: ' . $type),
         };
     }

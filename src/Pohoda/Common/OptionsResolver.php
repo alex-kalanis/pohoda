@@ -10,7 +10,9 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\Common;
 
+
 use Symfony\Component\OptionsResolver\OptionsResolver as SymfonyOptionsResolver;
+
 
 class OptionsResolver extends SymfonyOptionsResolver
 {

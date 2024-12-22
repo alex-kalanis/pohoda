@@ -14,7 +14,7 @@ class Integers extends AbstractNormalizer
                 \strval($value)
             )
         );
-        if (!empty($this->config['nullable']) && empty(\strlen($preform))) {
+        if ($this->nullable && empty(\strlen($preform))) {
             return '';
         }
         return \strval(

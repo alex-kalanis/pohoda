@@ -8,14 +8,9 @@ namespace Riesenia\Pohoda\Common\OptionsResolver\Normalizers;
  */
 abstract class AbstractNormalizer
 {
-    /**
-     * @param array{
-     *      length?: int|null,
-     *      nullable?: bool|null,
-     *  } $config
-     */
     public function __construct(
-        protected readonly array $config,
+        protected readonly int|null $length,
+        protected readonly bool $nullable,
     )
     {
     }

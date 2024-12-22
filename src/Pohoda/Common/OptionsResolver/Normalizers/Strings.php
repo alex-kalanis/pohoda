@@ -11,7 +11,7 @@ class Strings extends AbstractNormalizer
         $value = \str_replace(["\r\n", "\r", "\n"], ' ', \strval($value));
 
         // param is used for string length
-        $length = empty($this->config['length']) ? null : \intval($this->config['length']);
+        $length = empty($this->length) ? null : \intval($this->length);
         return \mb_substr(\strval($value), 0, $length, 'utf-8');
     }
 }

@@ -20,7 +20,7 @@ abstract class AbstractDates extends AbstractNormalizer
     public function normalize(mixed $options, mixed $value): string
     {
         // param is used for nullable
-        if (!empty($this->config['nullable']) && empty($value)) {
+        if ($this->nullable && empty($value)) {
             return '';
         }
 
