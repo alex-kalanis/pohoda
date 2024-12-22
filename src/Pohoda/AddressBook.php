@@ -11,11 +11,11 @@ declare(strict_types=1);
 namespace Riesenia\Pohoda;
 
 
-use Riesenia\Pohoda\Addressbook\Header;
+use Riesenia\Pohoda\AddressBook\Header;
 use Riesenia\Pohoda\ValueTransformer\SanitizeEncoding;
 
 
-class Addressbook extends AbstractAgenda
+class AddressBook extends AbstractAgenda
 {
     use Common\AddActionTypeTrait;
     use Common\AddParameterToHeaderTrait;

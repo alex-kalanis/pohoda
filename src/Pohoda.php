@@ -17,7 +17,7 @@ use Riesenia\Pohoda\AbstractAgenda;
 /**
  * Factory for Pohoda objects.
  *
- * @method Pohoda\Addressbook   createAddressbook(array $data = [])
+ * @method Pohoda\AddressBook   createAddressBook(array $data = [])
  * @method Pohoda\Bank          createBank(array $data = [])
  * @method Pohoda\CashSlip      createCashSlip(array $data = [])
  * @method Pohoda\Category      createCategory(array $data = [])

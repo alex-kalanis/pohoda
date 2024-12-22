@@ -16,7 +16,7 @@ use Riesenia\Pohoda\Common\NamespacesPaths;
 use Riesenia\Pohoda\ValueTransformer;
 
 
-class AddressbookSpec extends ObjectBehavior
+class AddressBookSpec extends ObjectBehavior
 {
     public function let(): void
     {
@@ -39,7 +39,7 @@ class AddressbookSpec extends ObjectBehavior
 
     public function it_is_initializable_and_extends_agenda(): void
     {
-        $this->shouldHaveType('Riesenia\Pohoda\Addressbook');
+        $this->shouldHaveType('Riesenia\Pohoda\AddressBook');
         $this->shouldHaveType('Riesenia\Pohoda\AbstractAgenda');
     }
 

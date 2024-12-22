@@ -13,7 +13,7 @@ class AddressBookTest extends CommonTestClass
     public function testInit(): void
     {
         $lib = $this->getLib();
-        $this->assertInstanceOf(Pohoda\Addressbook::class, $lib);
+        $this->assertInstanceOf(Pohoda\AddressBook::class, $lib);
         $this->assertInstanceOf(Pohoda\AbstractAgenda::class, $lib);
         $this->assertEquals('lAdb:addressbook', $lib->getImportRoot());
     }
@@ -47,7 +47,7 @@ class AddressBookTest extends CommonTestClass
 
     public function testDeleteAddress(): void
     {
-        $lib = new Pohoda\Addressbook(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [], '123');
+        $lib = new Pohoda\AddressBook(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [], '123');
         $lib->addActionType('delete', [
             'company' => 'COMPANY'
         ]);
@@ -57,7 +57,7 @@ class AddressBookTest extends CommonTestClass
 
     public function testWithSpecialCharsIntact(): void
     {
-        $lib = new Pohoda\Addressbook(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [
+        $lib = new Pohoda\AddressBook(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [
             'identity' => [
                 'address' => [
                     'name' => 'Călărași ñüé¿s',
@@ -76,9 +76,9 @@ class AddressBookTest extends CommonTestClass
         return '<adb:identity><typ:address><typ:name>NAME</typ:name><typ:ico>123</typ:ico></typ:address></adb:identity><adb:phone>123</adb:phone><adb:centre><typ:id>1</typ:id></adb:centre>';
     }
 
-    protected function getLib(): Pohoda\Addressbook
+    protected function getLib(): Pohoda\AddressBook
     {
-        return new Pohoda\Addressbook(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [
+        return new Pohoda\AddressBook(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [
             'identity' => [
                 'address' => [
                     'name' => 'NAME',

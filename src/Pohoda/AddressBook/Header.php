@@ -8,7 +8,7 @@
 
 declare(strict_types=1);
 
-namespace Riesenia\Pohoda\Addressbook;
+namespace Riesenia\Pohoda\AddressBook;
 
 
 use Riesenia\Pohoda\AbstractAgenda;
