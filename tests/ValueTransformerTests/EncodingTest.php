@@ -29,6 +29,7 @@ class EncodingTest extends CommonTestClass
             ['UTF-8', 'ISO-8859-1', 'simple without cyrillic', 'simple without cyrillic'],
             ['UTF-8', 'ISO-8859-1//IGNORE', 'Симеон Борисов Сакскобургготски', '  '],
             ['UTF-8', 'ISO-8859-1//IGNORE', 'Θεσσαλονίκη', ''],
+            ['UTF-8', 'ISO-8859-1', 'Θεσσαλονίκη', 'Θεσσαλονίκη'], // silently fail
         ];
     }
 }

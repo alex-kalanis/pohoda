@@ -34,10 +34,9 @@ class Parameter extends AbstractAgenda
                 $this->addRefElement($xml, 'typ:list', $this->data['list']);
             }
 
-            return $xml;
+        } else {
+            $xml->addChild('typ:' . $this->data['type'] . 'Value', \htmlspecialchars(strval($this->data['value'])));
         }
-
-        $xml->addChild('typ:' . $this->data['type'] . 'Value', \htmlspecialchars(strval($this->data['value'])));
 
         return $xml;
     }

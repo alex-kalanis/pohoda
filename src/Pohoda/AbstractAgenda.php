@@ -273,8 +273,10 @@ abstract class AbstractAgenda
         $dom2 = \dom_import_simplexml($node);
 
         if (!$dom->ownerDocument) {
+            // @codeCoverageIgnoreStart
             throw new \InvalidArgumentException('Invalid XML.');
         }
+        // @codeCoverageIgnoreEnd
 
         $dom->appendChild($dom->ownerDocument->importNode($dom2, true));
     }

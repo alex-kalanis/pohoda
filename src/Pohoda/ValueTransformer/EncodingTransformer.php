@@ -32,7 +32,7 @@ class EncodingTransformer implements ValueTransformerInterface
      */
     public function transform(string $value): string
     {
-        $result = \iconv($this->fromEncoding, $this->toEncoding, $value);
+        $result = @\iconv($this->fromEncoding, $this->toEncoding, $value);
 
         if (false === $result) {
             return $value;

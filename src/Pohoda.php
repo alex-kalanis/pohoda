@@ -37,7 +37,7 @@ use Riesenia\Pohoda\AbstractAgenda;
  * @method Pohoda\Supplier      createSupplier(array $data = [])
  * @method Pohoda\UserList      createUserList(array $data = [])
  * @method Pohoda\Voucher       createVoucher(array $data = [])
- * @method \bool loadAddressbook(string $filename)
+ * @method \bool loadAddressBook(string $filename)
  * @method \bool loadBank(string $filename)
  * @method \bool loadCashSlip(string $filename)
  * @method \bool loadCategory(string $filename)
@@ -142,8 +142,11 @@ class Pohoda
             $this->isInMemory = false;
 
             if (!$this->xmlWriter->openUri($filename)) {
+                // @codeCoverageIgnoreStart
+                // I cannot test this, because it needs source file somewhere online
                 return false;
             }
+            // @codeCoverageIgnoreEnd
         }
 
         $this->xmlWriter->startDocument('1.0', $this->sanitizeEncoding->getEncoding());
@@ -209,7 +212,7 @@ class Pohoda
     {
         $this->xmlReader = new \XMLReader();
 
-        if (!$this->xmlReader->open($filename)) {
+        if (!@$this->xmlReader->open($filename)) {
             return false;
         }
 

@@ -100,4 +100,47 @@ class BankTest extends CommonTestClass
             ]
         ], '123');
     }
+
+    // testing RefItem in AbstractAgenda
+    public function testItem1(): void
+    {
+        $lib = new Pohoda\Bank\Item(
+            new Pohoda\Common\NamespacesPaths(),
+            new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()),
+            [
+                'accounting' => [
+                    'which' => [ // deeper, list
+                        '123',
+                        '456',
+                        '789',
+                    ]
+                ],
+            ],
+            '123',
+        );
+        $lib->setNamespace('lst');
+        $lib->setNodePrefix('test');
+        $this->assertEquals('<lst:testItem><lst:accounting><lst:which>123</lst:which><lst:which>456</lst:which><lst:which>789</lst:which></lst:accounting></lst:testItem>', $lib->getXML()->asXML());
+    }
+
+    public function testItem2(): void
+    {
+        $lib = new Pohoda\Bank\Item(
+            new Pohoda\Common\NamespacesPaths(),
+            new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()),
+            [
+                'accounting' => [
+                    'which' => [ // deeper, items
+                        'foo' => '123',
+                        'bar' => '456',
+                        'baz' => '789',
+                    ]
+                ],
+            ],
+            '123',
+        );
+        $lib->setNamespace('lst');
+        $lib->setNodePrefix('test');
+        $this->assertEquals('<lst:testItem><lst:accounting><lst:which><typ:foo>123</typ:foo><typ:bar>456</typ:bar><typ:baz>789</typ:baz></lst:which></lst:accounting></lst:testItem>', $lib->getXML()->asXML());
+    }
 }
