@@ -41,7 +41,7 @@ class IntDoc extends AbstractDocument
      */
     protected function getDocumentElements(): array
     {
-        return \array_merge(parent::getDocumentElements(), ['taxDocument']);
+        return \array_merge(['taxDocument'], parent::getDocumentElements());
     }
 
     /**
