@@ -176,3 +176,8 @@ $pohoda->getTransformerListing()->addTransformer(new Capitalizer());
 
 ...
 ```
+
+## Sources
+
+* [XML Import](https://www.stormware.cz/pohoda/xml/dokladyimport/)
+* [XML Export](https://www.stormware.cz/pohoda/xml/dokladyexport/)
