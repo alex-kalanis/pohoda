@@ -28,20 +28,29 @@ class CyrillicTransliterationTransformer implements ValueTransformerInterface
         $normalized = \Normalizer::normalize($value, \Normalizer::FORM_C);
 
         if (false === $normalized) {
+            // @codeCoverageIgnoreStart
+            // must do some error with Normalizer class
             return $value;
         }
+        // @codeCoverageIgnoreEnd
 
         $transformer = \Transliterator::create('Any-Latin; Latin-ASCII');
 
         if (is_null($transformer)) {
+            // @codeCoverageIgnoreStart
+            // this can happen only if there is no latin encoding installed - not happen with Pohoda which need that
             return $value;
         }
+        // @codeCoverageIgnoreEnd
 
         $chars = \preg_split('//u', $normalized, -1, PREG_SPLIT_NO_EMPTY);
 
         if (false === $chars) {
+            // @codeCoverageIgnoreStart
+            // can happen only when something in preg_split fails
             return $value;
         }
+        // @codeCoverageIgnoreEnd
 
         $result = '';
 

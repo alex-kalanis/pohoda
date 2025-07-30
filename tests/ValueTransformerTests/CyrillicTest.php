@@ -24,8 +24,10 @@ class CyrillicTest extends CommonTestClass
     public static function dataProvider(): array
     {
         return [
-            ['simple without cyrillic', 'simple without cyrillic', ],
-            [transliterator_transliterate('Russian-Latin/BGN', 'Симеон Борисов Сакскобургготски'), 'Simeon Borisov Sakskoburggot·ski', ],
+            ['simple without cyrillic', 'simple without cyrillic', ], // latin
+            ['Симеон Борисов Сакскобургготски', 'Simeon Borisov Sakskoburggot·ski', ], // cyrillic directly
+            [transliterator_transliterate('Russian-Latin/BGN', 'Симеон Борисов Сакскобургготски'), 'Simeon Borisov Sakskoburggot·ski', ], // cyrillic encoded
+            ['巡音ルカ', '巡音ルカ', ], // JP, not cyrillic
         ];
     }
 }
