@@ -1,15 +1,12 @@
 <?php
 
-namespace AgendaTests\Document;
+namespace tests\AgendaTests\Document;
 
-
-use CommonTestClass;
+use tests\CommonTestClass;
 use LogicException;
 use Riesenia\Pohoda\Common\NamespacesPaths;
-use Riesenia\Pohoda\Document\AbstractItem;
 use Riesenia\Pohoda\ValueTransformer\Listing;
 use Riesenia\Pohoda\ValueTransformer\SanitizeEncoding;
-
 
 class AbstractItemTest extends CommonTestClass
 {
@@ -47,10 +44,4 @@ class AbstractItemTest extends CommonTestClass
         $lib->setNodePrefix('test');
         $this->assertEmpty($lib->getXML());
     }
-}
-
-
-class XDocumentItem extends AbstractItem
-{
-    protected array $elements = ['homeCurrency', 'foreignCurrency', 'stockItem'];
 }

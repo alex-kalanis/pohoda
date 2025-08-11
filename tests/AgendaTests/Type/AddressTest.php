@@ -1,14 +1,12 @@
 <?php
 
-namespace AgendaTests\Type;
+namespace tests\AgendaTests\Type;
 
-
-use CommonTestClass;
+use tests\CommonTestClass;
 use Riesenia\Pohoda\Common\NamespacesPaths;
 use Riesenia\Pohoda\Type\Address;
 use Riesenia\Pohoda\ValueTransformer\Listing;
 use Riesenia\Pohoda\ValueTransformer\SanitizeEncoding;
-
 
 class AddressTest extends CommonTestClass
 {

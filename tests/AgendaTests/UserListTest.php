@@ -1,12 +1,10 @@
 <?php
 
-namespace AgendaTests;
+namespace tests\AgendaTests;
 
-
-use CommonTestClass;
+use tests\CommonTestClass;
 use Riesenia\Pohoda;
 use Riesenia\Pohoda\ValueTransformer;
-
 
 class UserListTest extends CommonTestClass
 {

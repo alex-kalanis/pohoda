@@ -1,11 +1,9 @@
 <?php
 
-namespace ValueTransformerTests;
+namespace tests\ValueTransformerTests;
 
-
-use CommonTestClass;
+use tests\CommonTestClass;
 use Riesenia\Pohoda\ValueTransformer\CyrillicTransliterationTransformer;
-
 
 class CyrillicTest extends CommonTestClass
 {
@@ -25,7 +23,7 @@ class CyrillicTest extends CommonTestClass
     {
         return [
             ['simple without cyrillic', 'simple without cyrillic', ], // latin
-            ['Симеон Борисов Сакскобургготски', 'Simeon Borisov Sakskoburggot·ski', ], // cyrillic directly
+            ['Симеон Борисов Сакскобургготски', 'Simeon Borisov Sakskoburggotski', ], // cyrillic directly
             [transliterator_transliterate('Russian-Latin/BGN', 'Симеон Борисов Сакскобургготски'), 'Simeon Borisov Sakskoburggot·ski', ], // cyrillic encoded
             ['巡音ルカ', '巡音ルカ', ], // JP, not cyrillic
         ];

@@ -1,12 +1,10 @@
 <?php
 
-namespace BasicTests;
+namespace tests\BasicTests;
 
-
-use CommonTestClass;
+use tests\CommonTestClass;
 use DomainException;
 use Riesenia\Pohoda\Common\OptionsResolver;
-
 
 class OptionsResolverTest extends CommonTestClass
 {

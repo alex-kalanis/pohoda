@@ -1,11 +1,9 @@
 <?php
 
-namespace ValueTransformerTests;
+namespace tests\ValueTransformerTests;
 
-
-use CommonTestClass;
+use tests\CommonTestClass;
 use Riesenia\Pohoda\ValueTransformer;
-
 
 class ListingTest extends CommonTestClass
 {

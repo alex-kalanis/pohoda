@@ -1,10 +1,9 @@
 <?php
 
-namespace AgendaTests;
+namespace tests\AgendaTests;
 
-use CommonTestClass;
+use tests\CommonTestClass;
 use Riesenia\Pohoda;
-
 
 class PohodaExportTest extends CommonTestClass
 {

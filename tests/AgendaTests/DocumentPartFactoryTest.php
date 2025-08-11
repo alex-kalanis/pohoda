@@ -1,13 +1,11 @@
 <?php
 
-namespace AgendaTests;
+namespace tests\AgendaTests;
 
-
-use CommonTestClass;
+use tests\CommonTestClass;
 use DomainException;
 use Riesenia\Pohoda;
 use Riesenia\Pohoda\ValueTransformer;
-
 
 class DocumentPartFactoryTest extends CommonTestClass
 {
@@ -48,27 +46,5 @@ class DocumentPartFactoryTest extends CommonTestClass
         $this->expectExceptionMessage('Entity is not an instance of AbstractPart: ');
         $this->expectException(DomainException::class);
         $lib->getPart(__NAMESPACE__, 'XDocPartNotInstance', []);
-    }
-}
-
-
-class XDocPartNotInit extends Pohoda\Document\AbstractPart
-{
-    protected function __construct()
-    {
-        // this one will kill the init - cannot initialize protected
-        parent::__construct(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [], 'num');
-    }
-
-    public function configureOptions(Pohoda\Common\OptionsResolver $resolver): void
-    {
-    }
-}
-
-
-class XDocPartNotInstance
-{
-    public function __construct(object $obj1, object $obj2, array $data, string $number, bool $opts = false)
-    {
     }
 }

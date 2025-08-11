@@ -1,15 +1,12 @@
 <?php
 
-namespace AgendaTests\Document;
+namespace tests\AgendaTests\Document;
 
-
-use CommonTestClass;
+use tests\CommonTestClass;
 use LogicException;
 use Riesenia\Pohoda\Common\NamespacesPaths;
-use Riesenia\Pohoda\Document\AbstractHeader;
 use Riesenia\Pohoda\ValueTransformer\Listing;
 use Riesenia\Pohoda\ValueTransformer\SanitizeEncoding;
-
 
 class AbstractHeaderTest extends CommonTestClass
 {
@@ -27,9 +24,4 @@ class AbstractHeaderTest extends CommonTestClass
         $this->expectException(LogicException::class);
         $lib->getXML();
     }
-}
-
-
-class XDocumentHeader extends AbstractHeader
-{
 }

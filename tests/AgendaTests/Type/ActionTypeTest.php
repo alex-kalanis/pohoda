@@ -1,15 +1,13 @@
 <?php
 
-namespace AgendaTests\Type;
+namespace tests\AgendaTests\Type;
 
-
-use CommonTestClass;
+use tests\CommonTestClass;
 use LogicException;
 use Riesenia\Pohoda\Common\NamespacesPaths;
 use Riesenia\Pohoda\Type\ActionType;
 use Riesenia\Pohoda\ValueTransformer\Listing;
 use Riesenia\Pohoda\ValueTransformer\SanitizeEncoding;
-
 
 class ActionTypeTest extends CommonTestClass
 {

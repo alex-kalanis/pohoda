@@ -1,15 +1,9 @@
 <?php
 
-namespace BasicTests;
+namespace tests\BasicTests;
 
-
-use CommonTestClass;
-use Riesenia\Pohoda\Common\AddActionTypeTrait;
+use tests\CommonTestClass;
 use OutOfRangeException;
-use Riesenia\Pohoda\Common\NamespacesPaths;
-use Riesenia\Pohoda\ValueTransformer\Listing;
-use Riesenia\Pohoda\ValueTransformer\SanitizeEncoding;
-
 
 class ActionTypeTraitTest extends CommonTestClass
 {
@@ -26,22 +20,5 @@ class ActionTypeTraitTest extends CommonTestClass
         $this->assertNotEmpty($lib->addActionType('add'));
         $this->expectException(OutOfRangeException::class);
         $lib->addActionType('delete');
-    }
-}
-
-
-class XActionType
-{
-    use AddActionTypeTrait;
-
-    public array $data = [];
-    protected string $companyRegistrationNumber = 'dummy';
-    protected readonly NamespacesPaths $namespacesPaths;
-    protected readonly SanitizeEncoding $sanitizeEncoding;
-
-    public function __construct()
-    {
-        $this->namespacesPaths = new NamespacesPaths();
-        $this->sanitizeEncoding = new SanitizeEncoding(new Listing());
     }
 }

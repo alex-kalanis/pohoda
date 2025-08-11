@@ -3,7 +3,6 @@
 // intentionally another namespace here - I need to mock few classes for testing
 namespace Riesenia\Pohoda;
 
-
 class XAgendaNotInit extends AbstractAgenda
 {
     protected function __construct()
@@ -32,10 +31,10 @@ class XAgendaNotInstance
 
 
 // now test part
-namespace AgendaTests;
+namespace tests\AgendaTests;
 
 
-use CommonTestClass;
+use tests\CommonTestClass;
 use DomainException;
 use Riesenia\Pohoda;
 use Riesenia\Pohoda\ValueTransformer;

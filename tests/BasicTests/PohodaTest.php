@@ -1,14 +1,12 @@
 <?php
 
-namespace BasicTests;
+namespace tests\BasicTests;
 
-
-use CommonTestClass;
+use tests\CommonTestClass;
 use Riesenia\Pohoda;
 use Riesenia\Pohoda\Common\NamespacesPaths;
 use Riesenia\Pohoda\Stock;
 use Riesenia\Pohoda\ValueTransformer;
-
 
 class PohodaTest extends CommonTestClass
 {
@@ -259,14 +257,5 @@ class PohodaTest extends CommonTestClass
         return new Pohoda(
             '123', $this->sanitization,
         );
-    }
-}
-
-
-class XCapitalize implements Pohoda\ValueTransformer\ValueTransformerInterface
-{
-    public function transform(string $value): string
-    {
-        return \strtoupper($value);
     }
 }

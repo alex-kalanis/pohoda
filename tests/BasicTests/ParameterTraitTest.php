@@ -1,13 +1,8 @@
 <?php
 
-namespace BasicTests;
+namespace tests\BasicTests;
 
-
-use CommonTestClass;
-use Riesenia\Pohoda\Common\AddParameterTrait;
-use Riesenia\Pohoda\Common\NamespacesPaths;
-use Riesenia\Pohoda\ValueTransformer;
-
+use tests\CommonTestClass;
 
 class ParameterTraitTest extends CommonTestClass
 {
@@ -26,22 +21,5 @@ class ParameterTraitTest extends CommonTestClass
         $this->assertNotEmpty($lib->data);
         $this->assertTrue(isset($lib->data['parameters']));
         $this->assertEquals(2, count($lib->data['parameters']));
-    }
-}
-
-
-class XParameter
-{
-    use AddParameterTrait;
-
-    public array $data = [];
-    protected string $companyRegistrationNumber = 'dummy';
-    protected readonly NamespacesPaths $namespacesPaths;
-    protected readonly ValueTransformer\SanitizeEncoding $sanitizeEncoding;
-
-    public function __construct()
-    {
-        $this->namespacesPaths = new NamespacesPaths();
-        $this->sanitizeEncoding = new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing());
     }
 }

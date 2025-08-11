@@ -9,4 +9,3 @@ if ($composter) {
 }
 
 require_once __DIR__ . DIRECTORY_SEPARATOR . '_autoload.php';
-require_once __DIR__ . DIRECTORY_SEPARATOR . 'CommonTestClass.php';

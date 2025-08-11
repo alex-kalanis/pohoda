@@ -1,15 +1,13 @@
 <?php
 
-namespace AgendaTests\Type;
+namespace tests\AgendaTests\Type;
 
-
-use CommonTestClass;
+use tests\CommonTestClass;
 use DomainException;
 use Riesenia\Pohoda\Common\NamespacesPaths;
 use Riesenia\Pohoda\PrintRequest;
 use Riesenia\Pohoda\ValueTransformer\Listing;
 use Riesenia\Pohoda\ValueTransformer\SanitizeEncoding;
-
 
 class ParameterFactoryTest extends CommonTestClass
 {
@@ -40,27 +38,3 @@ class ParameterFactoryTest extends CommonTestClass
         $lib->getByKey('not_instance', [], false);
     }
 }
-
-
-class XFailClass
-{
-    public function __construct(
-        object $obj1,
-        object $obj2,
-        array $arr,
-        string $str,
-        bool $bool,
-    )
-    {
-    }
-}
-
-
-class XParamFactory extends PrintRequest\ParameterFactory
-{
-    protected array $instances = [
-        'just_standard' => \stdClass::class,
-        'not_instance' => XFailClass::class,
-    ];
-}
-

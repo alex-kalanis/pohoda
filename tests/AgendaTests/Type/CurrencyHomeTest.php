@@ -1,14 +1,12 @@
 <?php
 
-namespace AgendaTests\Type;
+namespace tests\AgendaTests\Type;
 
-
-use CommonTestClass;
+use tests\CommonTestClass;
 use Riesenia\Pohoda;
 use Riesenia\Pohoda\Type\CurrencyHome;
 use Riesenia\Pohoda\ValueTransformer\Listing;
 use Riesenia\Pohoda\ValueTransformer\SanitizeEncoding;
-
 
 class CurrencyHomeTest extends CommonTestClass
 {

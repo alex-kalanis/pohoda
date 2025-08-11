@@ -1,14 +1,11 @@
 <?php
 
-namespace BasicTests;
+namespace tests\BasicTests;
 
-
-use CommonTestClass;
+use tests\CommonTestClass;
 use LogicException;
 use OutOfRangeException;
 use Riesenia\Pohoda\Common\NamespacesPaths;
-use Riesenia\Pohoda\Common\SetNamespaceTrait;
-
 
 class NamespaceTraitTest extends CommonTestClass
 {
@@ -42,25 +39,4 @@ class NamespaceTraitTest extends CommonTestClass
         $this->expectException(OutOfRangeException::class);
         $lib->namespace('this does not exists');
     }
-}
-
-
-class XNamespace
-{
-    use SetNamespaceTrait;
-
-    protected array $elements = [];
-
-    protected function createXML(): \SimpleXMLElement
-    {
-        return new \SimpleXMLElement('<?xml version="1.0" ?><root></root>');
-    }
-
-    protected function namespace(string $short): string
-    {
-        return $short;
-    }
-
-    protected function addElements(\SimpleXMLElement $xml, array $elements, ?string $namespace = null): void
-    {}
 }
