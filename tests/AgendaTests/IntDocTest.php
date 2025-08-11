@@ -61,7 +61,7 @@ class IntDocTest extends CommonTestClass
             ]
         ]);
 
-        $this->assertEquals('<int:intDoc version="2.0"><int:intDocHeader>' . $this->defaultHeader() . '</int:intDocHeader><int:taxDocument><int:sourceLiquidation><typ:sourceItemId>123456879</typ:sourceItemId></int:sourceLiquidation></int:taxDocument></int:intDoc>', $lib->getXML()->asXML());
+        $this->assertEquals('<int:intDoc version="2.0"><int:taxDocument><int:sourceLiquidation><typ:sourceItemId>123456879</typ:sourceItemId></int:sourceLiquidation></int:taxDocument><int:intDocHeader>' . $this->defaultHeader() . '</int:intDocHeader></int:intDoc>', $lib->getXML()->asXML());
     }
 
     public function testSetParams(): void
