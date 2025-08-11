@@ -25,22 +25,22 @@ class ListStock extends AbstractAgenda
 
         if ($this->data['timestamp']) {
             $date = $this->data['timestamp'];
-            if (is_a($date, \DateTimeInterface::class)) {
+            if (is_object($date) && is_a($date, \DateTimeInterface::class)) {
                 $date = $date->format('Y-m-d\TH:i:s');
             }
-            $xml->addAttribute('dateTimeStamp', $date);
+            $xml->addAttribute('dateTimeStamp', strval($date));
         }
 
         if ($this->data['validFrom']) {
             $dateFrom = $this->data['validFrom'];
-            if (is_a($dateFrom, \DateTimeInterface::class)) {
+            if (is_object($date) && is_a($dateFrom, \DateTimeInterface::class)) {
                 $dateFrom = $dateFrom->format('Y-m-d');
             }
-            $xml->addAttribute('dateValidFrom', $dateFrom);
+            $xml->addAttribute('dateValidFrom', strval($dateFrom));
         }
 
         if ($this->data['state']) {
-            $xml->addAttribute('state', $this->data['state']);
+            $xml->addAttribute('state', strval($this->data['state']));
         }
 
         return $xml;
