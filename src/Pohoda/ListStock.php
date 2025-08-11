@@ -33,7 +33,7 @@ class ListStock extends AbstractAgenda
 
         if ($this->data['validFrom']) {
             $dateFrom = $this->data['validFrom'];
-            if (is_object($date) && is_a($dateFrom, \DateTimeInterface::class)) {
+            if (is_object($dateFrom) && is_a($dateFrom, \DateTimeInterface::class)) {
                 $dateFrom = $dateFrom->format('Y-m-d');
             }
             $xml->addAttribute('dateValidFrom', strval($dateFrom));
