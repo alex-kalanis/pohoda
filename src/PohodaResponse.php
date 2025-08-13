@@ -55,7 +55,6 @@ class PohodaResponse extends Pohoda
 
         $this->xmlWriter->writeAttribute('id', $id);
         $this->xmlWriter->writeAttribute('ico', $this->companyRegistrationNumber);
-        $this->xmlWriter->writeAttribute('application', $this->application);
         $this->xmlWriter->writeAttribute('version', '2.0');
         $this->xmlWriter->writeAttribute('note', $note);
         $this->xmlWriter->writeAttribute('state', $state);

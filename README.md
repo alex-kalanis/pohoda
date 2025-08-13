@@ -181,3 +181,5 @@ $pohoda->getTransformerListing()->addTransformer(new Capitalizer());
 
 * [XML Import](https://www.stormware.cz/pohoda/xml/dokladyimport/)
 * [XML Export](https://www.stormware.cz/pohoda/xml/dokladyexport/)
+* [Schemas](https://www.stormware.cz/pohoda/xml/seznamschemat/)
+* [Checker](https://www.stormware.cz/pohoda/xml/xmlvalidator/) - Win 32bit

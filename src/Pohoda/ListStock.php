@@ -58,6 +58,14 @@ class ListStock extends AbstractAgenda
         $resolver->setRequired('type');
         $resolver->setNormalizer('type', $this->normalizerFactory->getClosure('list_request_type'));
         $resolver->setDefault('namespace', function (Options $options) {
+            if ('Stock' == $options['type']) {
+                return 'lStk';
+            }
+
+            if ('AddressBook' == $options['type']) {
+                return 'lAdb';
+            }
+
             return 'lst';
         });
     }
