@@ -107,8 +107,16 @@ class PohodaTest extends CommonTestClass
     public function testNoFile(): void
     {
         $lib = $this->getLib();
-        $this->assertFalse($lib->load('file://this_file_does_not_exists', 'ABC'));
+        $this->assertFalse($lib->load('ABC', 'file://this_file_does_not_exists'));
     }
+
+/*
+    public function testNoString(): void
+    {
+        $lib = $this->getLib();
+        $this->assertFalse($lib->load('Category', 'this is not valid <?xml string!'));
+    }
+*/
 
     public function testCanWriteToMemory(): void
     {
@@ -134,7 +142,7 @@ class PohodaTest extends CommonTestClass
         $this->assertEquals('ITEM_ID', strval($xml->children('dat', true)->dataPackItem->attributes()['id']));
     }
 
-    public function testProcessesRecursiveExportCorrectly(): void
+    public function testProcessesRecursiveExportCorrectlyFile(): void
     {
         $this->tempFile = \tempnam(\sys_get_temp_dir(), 'xml');
 
@@ -199,7 +207,78 @@ class PohodaTest extends CommonTestClass
         </rsp:responsePack>');
 
         $lib = $this->getLib();
-        $lib->loadCategory($this->tempFile);
+        $this->assertNotEmpty($lib->loadCategory($this->tempFile));
+
+        // read only root elements
+        $this->assertEquals('Kategorie-A', strval($lib->next()->children('ctg', true)->name));
+        $this->assertEquals('Kategorie-D', strval($lib->next()->children('ctg', true)->name));
+        $this->assertNull($lib->next());
+    }
+
+    public function testProcessesRecursiveExportCorrectlyString(): void
+    {
+        $data = '<?xml version="1.0" encoding="Windows-1250"?>
+        <rsp:responsePack version="2.0" id="002" state="ok" note="" xmlns:rsp="http://www.stormware.cz/schema/version_2/response.xsd" xmlns:lst="http://www.stormware.cz/schema/version_2/list.xsd" xmlns:ctg="http://www.stormware.cz/schema/version_2/category.xsd">
+            <rsp:responsePackItem version="2.0" id="a56" state="ok">
+                <lst:listCategory version="2.0" state="ok">
+                    <lst:categoryDetail version="2.0">
+                        <ctg:category>
+                            <ctg:id>1</ctg:id>
+                            <ctg:name>Kategorie-A</ctg:name>
+                            <ctg:description/>
+                            <ctg:sequence>0</ctg:sequence>
+                            <ctg:displayed>true</ctg:displayed>
+                            <ctg:picture/>
+                            <ctg:note/>
+                            <ctg:internetParams>
+                                <ctg:idInternetParams>3</ctg:idInternetParams>
+                            </ctg:internetParams>
+                            <ctg:subCategories>
+                                <ctg:category>
+                                    <ctg:id>2</ctg:id>
+                                    <ctg:name>Kategorie-B</ctg:name>
+                                    <ctg:description>testovaci kategorie B</ctg:description>
+                                    <ctg:sequence>1</ctg:sequence>
+                                    <ctg:displayed>true</ctg:displayed>
+                                    <ctg:picture/>
+                                    <ctg:note/>
+                                    <ctg:internetParams>
+                                        <ctg:idInternetParams>1</ctg:idInternetParams>
+                                    </ctg:internetParams>
+                                </ctg:category>
+                                <ctg:category>
+                                    <ctg:id>3</ctg:id>
+                                    <ctg:name>Kategorie-C</ctg:name>
+                                    <ctg:description>testovaci kategorie C</ctg:description>
+                                    <ctg:sequence>2</ctg:sequence>
+                                    <ctg:displayed>true</ctg:displayed>
+                                    <ctg:picture/>
+                                    <ctg:note/>
+                                    <ctg:internetParams>
+                                        <ctg:idInternetParams>2</ctg:idInternetParams>
+                                    </ctg:internetParams>
+                                </ctg:category>
+                            </ctg:subCategories>
+                        </ctg:category>
+                        <ctg:category>
+                            <ctg:id>4</ctg:id>
+                            <ctg:name>Kategorie-D</ctg:name>
+                            <ctg:description>testovaci kategorie D</ctg:description>
+                            <ctg:sequence>0</ctg:sequence>
+                            <ctg:displayed>true</ctg:displayed>
+                            <ctg:picture/>
+                            <ctg:note/>
+                            <ctg:internetParams>
+                                <ctg:idInternetParams/>
+                            </ctg:internetParams>
+                        </ctg:category>
+                    </lst:categoryDetail>
+                </lst:listCategory>
+            </rsp:responsePackItem>
+        </rsp:responsePack>';
+
+        $lib = $this->getLib();
+        $this->assertNotEmpty($lib->loadCategory($data));
 
         // read only root elements
         $this->assertEquals('Kategorie-A', strval($lib->next()->children('ctg', true)->name));

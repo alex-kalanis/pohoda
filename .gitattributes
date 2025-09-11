@@ -13,3 +13,4 @@
 /.php_cs.dist.php       export-ignore
 /.gitattributes         export-ignore
 /.gitignore             export-ignore
+/.scrutinizer.yml       export-ignore

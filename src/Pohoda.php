@@ -64,7 +64,6 @@ use Riesenia\Pohoda\AbstractAgenda;
  */
 class Pohoda
 {
-
     protected string $application = 'Pohoda connector';
 
     protected bool $isInMemory;
@@ -206,7 +205,7 @@ class Pohoda
      * Load XML file.
      *
      * @param string $name
-     * @param string $filename
+     * @param string $filename filename or current xml content
      *
      * @return bool
      */
@@ -214,8 +213,17 @@ class Pohoda
     {
         $this->xmlReader = new \XMLReader();
 
-        if (!@$this->xmlReader->open($filename)) {
-            return false;
+        if ($this->detectXmlFileHeader($filename)) {
+            if (!@$this->xmlReader->XML($filename)) {
+                // @codeCoverageIgnoreStart
+                // cannot create string which will be parsed as XML and crash itself afterward
+                return false;
+            }
+            // @codeCoverageIgnoreEnd
+        } else {
+            if (!@$this->xmlReader->open($filename)) {
+                return false;
+            }
         }
 
         $class = $this->agendaFactory->getAgenda($name, [], false);
@@ -223,6 +231,19 @@ class Pohoda
         $this->importRecursive = $class->canImportRecursive();
 
         return true;
+    }
+
+    /**
+     * Detect if passed file is in fact XML and not just path
+     * A bit simple, but it is enough for now
+     *
+     * @param string $string
+     *
+     * @return bool
+     */
+    protected function detectXmlFileHeader(string $string): bool
+    {
+        return str_contains(substr($string, 0, 64), '<?xml');
     }
 
     /**
