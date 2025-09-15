@@ -21,18 +21,13 @@ class StockTransfer extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    public function __construct(
-        Common\NamespacesPaths $namespacesPaths,
-        SanitizeEncoding $sanitizeEncoding,
-        array $data,
-        string $companyRegistrationNumber,
-        bool $resolveOptions = true,
-    )
+    public function setData(array $data): parent
     {
         // pass to header
-        $data = ['header' => new StockTransfer\Header($namespacesPaths, $sanitizeEncoding, $data, $companyRegistrationNumber, $resolveOptions)];
+        $header = new StockTransfer\Header($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->resolveOptions, $this->normalizerFactory);
+        $data = ['header' => $header->setData($data)];
 
-        parent::__construct($namespacesPaths, $sanitizeEncoding, $data, $companyRegistrationNumber, $resolveOptions);
+        return parent::setData($data);
     }
 
     public function getImportRoot(): string
@@ -58,7 +53,8 @@ class StockTransfer extends AbstractAgenda
             $this->data['prevodkaDetail'] = [];
         }
 
-        $this->data['prevodkaDetail'][] = new StockTransfer\Item($this->namespacesPaths, $this->sanitizeEncoding, $data, $this->companyRegistrationNumber);
+        $prevodkaDetail = new StockTransfer\Item($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->resolveOptions, $this->normalizerFactory);
+        $this->data['prevodkaDetail'][] = $prevodkaDetail->setData($data);
 
         return $this;
     }

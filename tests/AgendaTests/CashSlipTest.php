@@ -90,7 +90,8 @@ class CashSlipTest extends CommonTestClass
 
     protected function getLib(): Pohoda\CashSlip
     {
-        return new Pohoda\CashSlip(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [
+        $lib = new Pohoda\CashSlip(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
+        return $lib->setData([
             'date' => '2015-01-10',
             'text' => 'Prod',
             'partnerIdentity' => [
@@ -100,6 +101,6 @@ class CashSlipTest extends CommonTestClass
                 ]
             ],
             'intNote' => 'Note'
-        ], '123');
+        ]);
     }
 }

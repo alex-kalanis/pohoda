@@ -13,7 +13,6 @@ namespace Riesenia\Pohoda\PrintRequest;
 
 use Riesenia\Pohoda\AbstractAgenda;
 use Riesenia\Pohoda\Common;
-use Riesenia\Pohoda\ValueTransformer\SanitizeEncoding;
 
 
 class Parameters extends AbstractAgenda
@@ -24,26 +23,20 @@ class Parameters extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    public function __construct(
-        Common\NamespacesPaths $namespacesPaths,
-        SanitizeEncoding $sanitizeEncoding,
-        array $data,
-        string $companyRegistrationNumber,
-        bool $resolveOptions = true,
-    )
+    public function setData(array $data): parent
     {
-        $factory = new ParameterFactory($namespacesPaths, $sanitizeEncoding, $companyRegistrationNumber);
+        $factory = new ParameterFactory($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->normalizerFactory);
 
         foreach ($factory->getKeys() as $key) {
             // fill elements from factory
             $this->elements[] = $key;
             // add instance to data
             if (isset($data[$key])) {
-                $data[$key] = $factory->getByKey($key, $data[$key], $resolveOptions);
+                $data[$key] = $factory->getByKey($key, $this->resolveOptions)->setData($data[$key]);
             }
         }
 
-        parent::__construct($namespacesPaths, $sanitizeEncoding, $data, $companyRegistrationNumber, $resolveOptions);
+        return parent::setData($data);
     }
 
     /**

@@ -20,10 +20,11 @@ class ContractSpec extends ObjectBehavior
 {
     public function let(): void
     {
-        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [
+        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
+        $this->setData([
             'text' => 'zakazka15',
             'responsiblePerson' => ['ids' => 'Z0005']
-        ], '123');
+        ]);
     }
 
     public function it_is_initializable_and_extends_agenda(): void

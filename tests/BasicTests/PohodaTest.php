@@ -81,16 +81,18 @@ class PohodaTest extends CommonTestClass
     {
         $this->tempFile = \tempnam(\sys_get_temp_dir(), 'xml');
 
-        $stock = new Stock(new NamespacesPaths(), $this->sanitization, [
+        $data = [
             'code' => 'CODE',
             'name' => 'NAME',
             'storage' => 'STORAGE',
             'typePrice' => ['id' => 1]
-        ], '123');
+        ];
+        $stock = new Stock(new NamespacesPaths(), $this->sanitization, '123');
+        $stock->setData($data);
 
         $lib = $this->getLib();
         $this->assertTrue($lib->open($this->tempFile, 'ABC'));
-        $lib->addItem('ITEM_ID', $stock);
+        $lib->addItem('ITEM_ID', $stock, $data);
         $lib->close();
 
         $xml = \simplexml_load_file($this->tempFile);
@@ -120,16 +122,18 @@ class PohodaTest extends CommonTestClass
 
     public function testCanWriteToMemory(): void
     {
-        $stock = new Stock(new NamespacesPaths(), $this->sanitization, [
+        $data = [
             'code' => 'CODE',
             'name' => 'NAME',
             'storage' => 'STORAGE',
             'typePrice' => ['id' => 1]
-        ], '123');
+        ];
+        $stock = new Stock(new NamespacesPaths(), $this->sanitization, '123');
+        $stock->setData($data);
 
         $lib = $this->getLib();
         $this->assertTrue($lib->open(null, 'ABC'));
-        $lib->addItem('ITEM_ID', $stock);
+        $lib->addItem('ITEM_ID', $stock, $data);
 
         $xml = \simplexml_load_string($lib->close());
 
@@ -288,12 +292,14 @@ class PohodaTest extends CommonTestClass
 
     public function testRunTransformersProperly(): void
     {
-        $stock = new Stock(new NamespacesPaths(), $this->sanitization, [
+        $data = [
             'code' => 'code1',
             'name' => 'name2',
             'storage' => 'storage3',
             'typePrice' => ['id' => 4]
-        ], '123');
+        ];
+        $stock = new Stock(new NamespacesPaths(), $this->sanitization, '123');
+        $stock->setData($data);
 
         $lib = $this->getLib();
         // set for each run
@@ -301,7 +307,7 @@ class PohodaTest extends CommonTestClass
         $lib->getTransformerListing()->addTransformer(new XCapitalize());
 
         $this->assertTrue($lib->open(null, 'ABC'));
-        $lib->addItem('item_id', $stock);
+        $lib->addItem('item_id', $stock, $data);
 
         $xml = \simplexml_load_string($lib->close());
 
@@ -315,18 +321,20 @@ class PohodaTest extends CommonTestClass
 
     public function testHandleSanitizeCorrectly(): void
     {
-        $stock = new Stock(new NamespacesPaths(), $this->sanitization, [
+        $data = [
             'code' => 'code1',
             'name' => 'name2',
             'storage' => 'storage3',
             'typePrice' => ['id' => 4]
-        ], '123');
+        ];
+        $stock = new Stock(new NamespacesPaths(), $this->sanitization, '123');
+        $stock->setData($data);
 
         $this->sanitization->willBeSanitized(true);
 
         $lib = $this->getLib();
         $this->assertTrue($lib->open(null, 'ABC'));
-        $lib->addItem('item_id', $stock);
+        $lib->addItem('item_id', $stock, $data);
         $this->assertEquals(0, \count($this->sanitization->getListing()->clear()->getTransformers()));
         $lib->close();
     }

@@ -12,11 +12,12 @@ class AddressTest extends CommonTestClass
 {
     public function testUpdateParams(): void
     {
-        $lib = new Address(new NamespacesPaths(), new SanitizeEncoding(new Listing()), [
+        $lib = new Address(new NamespacesPaths(), new SanitizeEncoding(new Listing()), 'foo');
+        $lib->setData([
             'shipToAddress' => [
                 'name' => 'example',
             ],
-            ], 'foo');
+        ]);
         $lib->setNamespace('lst');
         $lib->setNodeName('bar');
         $this->assertEquals('', $lib->getXML());

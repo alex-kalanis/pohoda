@@ -18,9 +18,10 @@ use Riesenia\Pohoda\ValueTransformer;
 
 class OrderSpec extends ObjectBehavior
 {
-    public function let(): void
+    public function constructSelf(): void
     {
-        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [
+        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
+        $this->setData([
             'partnerIdentity' => [
                 'id' => 25
             ],
@@ -32,22 +33,25 @@ class OrderSpec extends ObjectBehavior
             ],
             'date' => '2015-01-10',
             'intNote' => 'Note'
-        ], '123');
+        ]);
     }
 
     public function it_is_initializable_and_extends_agenda(): void
     {
+        $this->constructSelf();
         $this->shouldHaveType('Riesenia\Pohoda\Order');
         $this->shouldHaveType('Riesenia\Pohoda\AbstractAgenda');
     }
 
     public function it_creates_correct_xml(): void
     {
+        $this->constructSelf();
         $this->getXML()->asXML()->shouldReturn('<ord:order version="2.0"><ord:orderHeader>' . $this->defaultHeader() . '</ord:orderHeader></ord:order>');
     }
 
     public function it_can_set_action_type(): void
     {
+        $this->constructSelf();
         $this->addActionType('update', [
             'numberOrder' => '222'
         ]);
@@ -57,6 +61,7 @@ class OrderSpec extends ObjectBehavior
 
     public function it_can_add_items(): void
     {
+        $this->constructSelf();
         $this->addItem([
             'text' => 'NAME 1',
             'quantity' => 1,
@@ -88,6 +93,7 @@ class OrderSpec extends ObjectBehavior
 
     public function it_can_set_summary(): void
     {
+        $this->constructSelf();
         $this->addSummary([
             'roundingDocument' => 'math2one',
             'foreignCurrency' => [
@@ -103,6 +109,7 @@ class OrderSpec extends ObjectBehavior
 
     public function it_can_set_parameters(): void
     {
+        $this->constructSelf();
         $this->addParameter('IsOn', 'boolean', 'true');
         $this->addParameter('VPrNum', 'number', 10.43);
         $this->addParameter('RefVPrCountry', 'list', 'SK', 'Country');
@@ -113,7 +120,7 @@ class OrderSpec extends ObjectBehavior
 
     public function it_can_delete_order(): void
     {
-        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [], '123');
+        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
 
         $this->addActionType('delete', [
             'number' => '222'

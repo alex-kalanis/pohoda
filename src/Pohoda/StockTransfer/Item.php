@@ -14,7 +14,6 @@ namespace Riesenia\Pohoda\StockTransfer;
 use Riesenia\Pohoda\AbstractAgenda;
 use Riesenia\Pohoda\Common;
 use Riesenia\Pohoda\Type\StockItem;
-use Riesenia\Pohoda\ValueTransformer\SanitizeEncoding;
 
 
 class Item extends AbstractAgenda
@@ -25,20 +24,15 @@ class Item extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    public function __construct(
-        Common\NamespacesPaths $namespacesPaths,
-        SanitizeEncoding $sanitizeEncoding,
-        array $data,
-        string $companyRegistrationNumber,
-        bool $resolveOptions = true,
-    )
+    public function setData(array $data): parent
     {
         // process stock item
         if (isset($data['stockItem'])) {
-            $data['stockItem'] = new StockItem($namespacesPaths, $sanitizeEncoding, $data['stockItem'], $companyRegistrationNumber, $resolveOptions);
+            $stockItem = new StockItem($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->resolveOptions, $this->normalizerFactory);
+            $data['stockItem'] = $stockItem->setData($data['stockItem']);
         }
 
-        parent::__construct($namespacesPaths, $sanitizeEncoding, $data, $companyRegistrationNumber, $resolveOptions);
+        return parent::setData($data);
     }
 
     /**

@@ -28,20 +28,15 @@ class AddressBook extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    public function __construct(
-        Common\NamespacesPaths $namespacesPaths,
-        SanitizeEncoding $sanitizeEncoding,
-        array $data,
-        string $companyRegistrationNumber,
-        bool $resolveOptions = true,
-    )
+    public function setData(array $data): parent
     {
         // pass to header
         if (!empty($data)) {
-            $data = ['header' => new Header($namespacesPaths, $sanitizeEncoding, $data, $companyRegistrationNumber, $resolveOptions)];
+            $header = new Header($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->resolveOptions);
+            $data = ['header' => $header->setData($data)];
         }
 
-        parent::__construct($namespacesPaths, $sanitizeEncoding, $data, $companyRegistrationNumber, $resolveOptions);
+        return parent::setData($data);
     }
 
     /**

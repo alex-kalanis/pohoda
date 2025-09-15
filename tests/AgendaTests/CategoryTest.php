@@ -23,25 +23,28 @@ class CategoryTest extends CommonTestClass
 
     public function testAddSubCategories(): void
     {
-        $sub = new Pohoda\Category(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [
+        $sub = new Pohoda\Category(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
+        $sub->setData([
             'name' => 'Sub',
             'sequence' => 1,
             'displayed' => true
-        ], '123');
+        ]);
 
-        $subSub = new Pohoda\Category(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [
+        $subSub = new Pohoda\Category(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
+        $subSub->setData([
             'name' => 'SubSub',
             'sequence' => 1,
             'displayed' => false
-        ], '123');
+        ]);
 
         $sub->addSubcategory($subSub);
 
-        $sub2 = new Pohoda\Category(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [
+        $sub2 = new Pohoda\Category(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
+        $sub2->setData([
             'name' => 'Sub2',
             'sequence' => '2',
             'displayed' => true
-        ], '123');
+        ]);
 
         $lib = $this->getLib();
         $lib->addSubcategory($sub);
@@ -52,10 +55,11 @@ class CategoryTest extends CommonTestClass
 
     protected function getLib(): Pohoda\Category
     {
-        return new Pohoda\Category(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [
+        $lib = new Pohoda\Category(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
+        return $lib->setData([
             'name' => 'Main',
             'sequence' => 1,
             'displayed' => true
-        ], '123');
+        ]);
     }
 }

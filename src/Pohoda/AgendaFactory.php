@@ -14,18 +14,18 @@ class AgendaFactory
         protected readonly Common\NamespacesPaths $namespacesPaths,
         protected readonly ValueTransformer\SanitizeEncoding $sanitizeEncoding,
         protected readonly string $companyNumber,
+        protected Common\OptionsResolver\Normalizers\NormalizerFactory $normalizerFactory = new Common\OptionsResolver\Normalizers\NormalizerFactory(),
     )
     {
     }
 
     /**
      * @param string $name
-     * @param array<string,mixed> $data
      * @param bool $resolveOptions
      * @throws DomainException
      * @return AbstractAgenda
      */
-    public function getAgenda(string $name, array $data, bool $resolveOptions = true): AbstractAgenda
+    public function getAgenda(string $name, bool $resolveOptions = true): AbstractAgenda
     {
         /** @var class-string<AbstractAgenda> $className */
         $className = __NAMESPACE__ . '\\' . $name;
@@ -43,9 +43,9 @@ class AgendaFactory
             $instance = $reflection->newInstance(
                 $this->namespacesPaths,
                 $this->sanitizeEncoding,
-                $data,
                 $this->companyNumber,
                 $resolveOptions,
+                $this->normalizerFactory,
             );
             // @codeCoverageIgnoreStart
         } catch (ReflectionException) {

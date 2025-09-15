@@ -13,7 +13,6 @@ namespace Riesenia\Pohoda\Type;
 
 use Riesenia\Pohoda\AbstractAgenda;
 use Riesenia\Pohoda\Common;
-use Riesenia\Pohoda\ValueTransformer\SanitizeEncoding;
 
 
 class TaxDocument extends AbstractAgenda
@@ -27,20 +26,15 @@ class TaxDocument extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    public function __construct(
-        Common\NamespacesPaths $namespacesPaths,
-        SanitizeEncoding $sanitizeEncoding,
-        array $data,
-        string $companyRegistrationNumber,
-        bool $resolveOptions = true,
-    )
+    public function setData(array $data): parent
     {
         // process source liquidation
         if (isset($data['sourceLiquidation'])) {
-            $data['sourceLiquidation'] = new SourceLiquidation($namespacesPaths, $sanitizeEncoding, $data['sourceLiquidation'], $companyRegistrationNumber, $resolveOptions);
+            $sourceLiquidation = new SourceLiquidation($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->resolveOptions, $this->normalizerFactory);
+            $data['sourceLiquidation'] = $sourceLiquidation->setData($data['sourceLiquidation']);
         }
 
-        parent::__construct($namespacesPaths, $sanitizeEncoding, $data, $companyRegistrationNumber, $resolveOptions);
+        return parent::setData($data);
     }
 
     /**

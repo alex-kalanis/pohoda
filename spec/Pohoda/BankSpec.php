@@ -20,10 +20,8 @@ class BankSpec extends ObjectBehavior
 {
     public function let(): void
     {
-        $this->beConstructedWith(
-            new NamespacesPaths(),
-            new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()),
-            [
+        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
+        $this->setData([
             'bankType' => 'receipt',
             'account' => 'KB',
             'statementNumber' => [
@@ -40,7 +38,7 @@ class BankSpec extends ObjectBehavior
                 'accountNo' => '4660550217',
                 'bankCode' => '5500'
             ]
-        ], '123');
+        ]);
     }
 
     public function it_is_initializable_and_extends_agenda(): void

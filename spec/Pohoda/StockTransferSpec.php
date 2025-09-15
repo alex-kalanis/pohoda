@@ -20,7 +20,8 @@ class StockTransferSpec extends ObjectBehavior
 {
     public function let(): void
     {
-        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [
+        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
+        $this->setData([
             'date' => '2015-01-10',
             'store' => [
                 'ids' => 'MAIN',
@@ -36,7 +37,7 @@ class StockTransferSpec extends ObjectBehavior
                 'id' => 1,
             ],
             'intNote' => 'Note'
-        ], '123');
+        ]);
     }
 
     public function it_is_initializable_and_extends_agenda(): void

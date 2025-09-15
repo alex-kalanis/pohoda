@@ -13,7 +13,6 @@ namespace Riesenia\Pohoda\Document;
 
 use Riesenia\Pohoda\Common;
 use Riesenia\Pohoda\Type;
-use Riesenia\Pohoda\ValueTransformer\SanitizeEncoding;
 
 
 abstract class AbstractHeader extends AbstractPart
@@ -23,25 +22,21 @@ abstract class AbstractHeader extends AbstractPart
     /**
      * {@inheritdoc}
      */
-    public function __construct(
-        Common\NamespacesPaths $namespacesPaths,
-        SanitizeEncoding $sanitizeEncoding,
-        array $data,
-        string $companyRegistrationNumber,
-        bool $resolveOptions = true,
-    )
+    public function setData(array $data): parent
     {
         // process partner identity
         if (isset($data['partnerIdentity'])) {
-            $data['partnerIdentity'] = new Type\Address($namespacesPaths, $sanitizeEncoding, $data['partnerIdentity'], $companyRegistrationNumber, $resolveOptions);
+            $parentIdentity = new Type\Address($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->resolveOptions, $this->normalizerFactory);
+            $data['partnerIdentity'] = $parentIdentity->setData($data['partnerIdentity']);
         }
 
         // process my identity
         if (isset($data['myIdentity'])) {
-            $data['myIdentity'] = new Type\MyAddress($namespacesPaths, $sanitizeEncoding, $data['myIdentity'], $companyRegistrationNumber, $resolveOptions);
+            $myIdentity = new Type\MyAddress($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->resolveOptions, $this->normalizerFactory);
+            $data['myIdentity'] = $myIdentity->setData($data['myIdentity']);
         }
 
-        parent::__construct($namespacesPaths, $sanitizeEncoding, $data, $companyRegistrationNumber, $resolveOptions);
+        return parent::setData($data);
     }
 
     /**

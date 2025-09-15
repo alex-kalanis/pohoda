@@ -12,18 +12,17 @@ class CurrencyHomeTest extends CommonTestClass
 {
     public function testInit(): void
     {
-        $lib = $this->getLib([], false);
+        $lib = $this->getLib(false);
         $this->assertInstanceOf(CurrencyHome::class, $lib);
         $this->assertInstanceOf(Pohoda\AbstractAgenda::class, $lib);
         $this->assertNull($lib->getImportRoot());
     }
 
-    protected function getLib(array $params, bool $resolve = true): CurrencyHome
+    protected function getLib(bool $resolve = true): CurrencyHome
     {
         return new CurrencyHome(
             new Pohoda\Common\NamespacesPaths(),
             new SanitizeEncoding(new Listing()),
-            $params,
             '123',
             $resolve,
         );

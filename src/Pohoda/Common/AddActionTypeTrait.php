@@ -34,16 +34,18 @@ trait AddActionTypeTrait
             throw new \OutOfRangeException('Duplicate action type.');
         }
 
-        $this->data['actionType'] = new ActionType(
+        $actionType = new ActionType(
             $this->namespacesPaths,
             $this->sanitizeEncoding,
-            [
-                'type' => $type,
-                'filter' => $filter,
-                'agenda' => $agenda
-            ],
             $this->companyRegistrationNumber,
+            $this->resolveOptions,
+            $this->normalizerFactory,
         );
+        $this->data['actionType'] = $actionType->setData([
+            'type' => $type,
+            'filter' => $filter,
+            'agenda' => $agenda
+        ]);
 
         return $this;
     }

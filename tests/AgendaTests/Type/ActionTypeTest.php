@@ -13,17 +13,17 @@ class ActionTypeTest extends CommonTestClass
 {
     public function testNoNamespace(): void
     {
-        $lib = new ActionType(new NamespacesPaths(), new SanitizeEncoding(new Listing()), ['type' => 'add'], 'foo');
+        $lib = new ActionType(new NamespacesPaths(), new SanitizeEncoding(new Listing()), 'foo');
         $this->expectException(LogicException::class);
-        $lib->getXML();
+        $lib->setData(['type' => 'add'])->getXML();
     }
 
     public function testUpdateParams(): void
     {
-        $lib = new ActionType(new NamespacesPaths(), new SanitizeEncoding(new Listing()), [
-            'type' => 'add/update',
-            ], 'foo', false);
+        $lib = new ActionType(new NamespacesPaths(), new SanitizeEncoding(new Listing()), 'foo', false);
         $lib->setNamespace('lst');
-        $this->assertEquals('', $lib->getXML());
+        $this->assertEquals('', $lib->setData([
+            'type' => 'add/update',
+        ])->getXML());
     }
 }

@@ -12,7 +12,6 @@ namespace Riesenia\Pohoda;
 
 
 use Riesenia\Pohoda;
-use Riesenia\Pohoda\Common\OptionsResolver;
 use Riesenia\Pohoda\ValueTransformer\ValueTransformerInterface;
 use SimpleXMLElement;
 
@@ -26,8 +25,6 @@ use SimpleXMLElement;
 abstract class AbstractAgenda
 {
 
-    protected OptionsResolver\Normalizers\NormalizerFactory $normalizerFactory;
-
     /** @var array<string, mixed> */
     protected array $data = [];
 
@@ -37,28 +34,26 @@ abstract class AbstractAgenda
     /** @var array<string, Common\ElementAttributes> */
     protected array $elementsAttributesMapper = [];
 
-    /** @var OptionsResolver[] */
+    /** @var Common\OptionsResolver[] */
     private static array $resolvers = [];
 
     /**
      * Construct agenda using provided data.
      *
      * @param Common\NamespacesPaths $namespacesPaths
-     * @param array<string,mixed> $data
-     * @param string              $companyRegistrationNumber
-     * @param bool                $resolveOptions
+     * @param ValueTransformer\SanitizeEncoding $sanitizeEncoding
+     * @param string $companyRegistrationNumber
+     * @param bool $resolveOptions
+     * @param Common\OptionsResolver\Normalizers\NormalizerFactory $normalizerFactory
      */
     public function __construct(
         protected readonly Common\NamespacesPaths $namespacesPaths,
         protected Pohoda\ValueTransformer\SanitizeEncoding $sanitizeEncoding,
-        array $data,
         protected readonly string $companyRegistrationNumber,
-        bool $resolveOptions = true,
+        protected bool $resolveOptions = true,
+        protected Common\OptionsResolver\Normalizers\NormalizerFactory $normalizerFactory = new Common\OptionsResolver\Normalizers\NormalizerFactory()
     )
     {
-        $this->normalizerFactory = new OptionsResolver\Normalizers\NormalizerFactory();
-        // resolve options
-        $this->data = $resolveOptions ? $this->resolveOptions($data) : $data;
     }
 
     /**
@@ -84,6 +79,22 @@ abstract class AbstractAgenda
     }
 
     /**
+     * Set & resolve data options
+     * Necessary for late setting when there is more options available
+     *
+     * @param array<string, mixed> $data
+     *
+     * @return $this
+     */
+    public function setData(array $data): self
+    {
+        // resolve options
+        $this->data = $this->resolveOptions ? $this->resolveOptions($data) : $data;
+
+        return $this;
+    }
+
+    /**
      * Get XML.
      *
      * @return SimpleXMLElement
@@ -93,11 +104,11 @@ abstract class AbstractAgenda
     /**
      * Configure options for options resolver.
      *
-     * @param OptionsResolver $resolver
+     * @param Common\OptionsResolver $resolver
      *
      * @return void
      */
-    abstract protected function configureOptions(OptionsResolver $resolver): void;
+    abstract protected function configureOptions(Common\OptionsResolver $resolver): void;
 
     /**
      * Create XML.
@@ -293,7 +304,7 @@ abstract class AbstractAgenda
         $class = \get_class($this);
 
         if (!isset(self::$resolvers[$class])) {
-            self::$resolvers[$class] = new OptionsResolver();
+            self::$resolvers[$class] = new Common\OptionsResolver();
             $this->configureOptions(self::$resolvers[$class]);
         }
 

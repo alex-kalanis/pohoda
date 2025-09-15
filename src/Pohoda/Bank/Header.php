@@ -13,7 +13,6 @@ namespace Riesenia\Pohoda\Bank;
 
 use Riesenia\Pohoda\Common;
 use Riesenia\Pohoda\Document\AbstractHeader;
-use Riesenia\Pohoda\ValueTransformer\SanitizeEncoding;
 
 
 class Header extends AbstractHeader
@@ -27,20 +26,15 @@ class Header extends AbstractHeader
     /**
      * {@inheritdoc}
      */
-    public function __construct(
-        Common\NamespacesPaths $namespacesPaths,
-        SanitizeEncoding $sanitizeEncoding,
-        array $data,
-        string $companyRegistrationNumber,
-        bool $resolveOptions = true,
-    )
+    public function setData(array $data): parent
     {
         // process report
         if (isset($data['statementNumber'])) {
-            $data['statementNumber'] = new StatementNumber($namespacesPaths, $sanitizeEncoding, $data['statementNumber'], $companyRegistrationNumber, $resolveOptions);
+            $statementNumber = new StatementNumber($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->resolveOptions, $this->normalizerFactory);
+            $data['statementNumber'] = $statementNumber->setData($data['statementNumber']);
         }
 
-        parent::__construct($namespacesPaths, $sanitizeEncoding, $data, $companyRegistrationNumber, $resolveOptions);
+        return parent::setData($data);
     }
 
     /**

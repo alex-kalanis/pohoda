@@ -29,7 +29,8 @@ class ListRequest extends AbstractAgenda
      */
     public function addFilter(array $data): self
     {
-        $this->data['filter'] = new Filter($this->namespacesPaths, $this->sanitizeEncoding, $data, $this->companyRegistrationNumber);
+        $filter = new Filter($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->resolveOptions, $this->normalizerFactory);
+        $this->data['filter'] = $filter->setData($data);
 
         return $this;
     }
@@ -43,7 +44,8 @@ class ListRequest extends AbstractAgenda
      */
     public function addRestrictionData(array $data): self
     {
-        $this->data['restrictionData'] = new RestrictionData($this->namespacesPaths, $this->sanitizeEncoding, $data, $this->companyRegistrationNumber);
+        $restrictionData = new RestrictionData($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->resolveOptions, $this->normalizerFactory);
+        $this->data['restrictionData'] = $restrictionData->setData($data);
 
         return $this;
     }
@@ -57,7 +59,8 @@ class ListRequest extends AbstractAgenda
      */
     public function addUserFilterName(string $name): self
     {
-        $this->data['userFilterName'] = new UserFilterName($this->namespacesPaths, $this->sanitizeEncoding, ['userFilterName' => $name], $this->companyRegistrationNumber);
+        $userFilterName = new UserFilterName($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->resolveOptions, $this->normalizerFactory);
+        $this->data['userFilterName'] = $userFilterName->setData(['userFilterName' => $name]);
 
         return $this;
     }

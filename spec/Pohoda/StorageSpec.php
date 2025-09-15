@@ -21,9 +21,10 @@ class StorageSpec extends ObjectBehavior
 {
     public function let(): void
     {
-        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [
+        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
+        $this->setData([
             'code' => 'MAIN'
-        ], '123');
+        ]);
     }
 
     public function it_is_initializable_and_extends_agenda(): void
@@ -39,19 +40,21 @@ class StorageSpec extends ObjectBehavior
 
     public function it_can_add_substorages(): void
     {
-        $sub = new Storage(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [
+        $sub = new Storage(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
+        $sub->setData([
             'code' => 'Sub',
             'name' => 'Sub'
-        ], '123');
+        ]);
 
         $this->addSubstorage($sub);
 
         $this->getXML()->asXML()->shouldReturn('<str:storage version="2.0"><str:itemStorage code="MAIN"><str:subStorages><str:itemStorage code="Sub" name="Sub"/></str:subStorages></str:itemStorage></str:storage>');
 
-        $subsub = new Storage(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [
+        $subsub = new Storage(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
+        $subsub->setData([
             'code' => 'SubSub',
             'name' => 'SubSub'
-        ], '123');
+        ]);
 
         $sub->addSubstorage($subsub);
 

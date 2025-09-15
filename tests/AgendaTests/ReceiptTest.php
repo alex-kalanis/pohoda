@@ -81,7 +81,8 @@ class ReceiptTest extends CommonTestClass
 
     protected function getLib(): Pohoda\Receipt
     {
-        return new Pohoda\Receipt(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [
+        $lib = new Pohoda\Receipt(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
+        return $lib->setData([
             'date' => new \DateTimeImmutable('2015-01-10'),
             'dateOfReceipt' => '',
             'text' => 'Prijemka',
@@ -92,6 +93,6 @@ class ReceiptTest extends CommonTestClass
                 'id' => 1,
             ],
             'intNote' => 'Note'
-        ], '123');
+        ]);
     }
 }

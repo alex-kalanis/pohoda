@@ -12,14 +12,14 @@ class AbstractItemTest extends CommonTestClass
 {
     public function testNoNamespace(): void
     {
-        $lib = new XDocumentItem(new NamespacesPaths(), new SanitizeEncoding(new Listing()), [], 'foo');
+        $lib = new XDocumentItem(new NamespacesPaths(), new SanitizeEncoding(new Listing()), 'foo');
         $this->expectException(LogicException::class);
         $lib->getXML();
     }
 
     public function testNoPrefix(): void
     {
-        $lib = new XDocumentItem(new NamespacesPaths(), new SanitizeEncoding(new Listing()), [], 'foo');
+        $lib = new XDocumentItem(new NamespacesPaths(), new SanitizeEncoding(new Listing()), 'foo');
         $lib->setNamespace('bar');
         $this->expectException(LogicException::class);
         $lib->getXML();
@@ -27,7 +27,7 @@ class AbstractItemTest extends CommonTestClass
 
     public function testInitParamsRun(): void
     {
-        $lib = new XDocumentItem(new NamespacesPaths(), new SanitizeEncoding(new Listing()), [
+        $data = [
             'homeCurrency' => [
                 'unitPrice' => 198
             ],
@@ -39,7 +39,9 @@ class AbstractItemTest extends CommonTestClass
                     'ids' => 'STM',
                 ],
             ],
-        ], 'foo');
+        ];
+        $lib = new XDocumentItem(new NamespacesPaths(), new SanitizeEncoding(new Listing()), 'foo');
+        $lib->setData($data);
         $lib->setNamespace('lst');
         $lib->setNodePrefix('test');
         $this->assertEmpty($lib->getXML());

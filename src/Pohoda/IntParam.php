@@ -12,7 +12,6 @@ namespace Riesenia\Pohoda;
 
 
 use Riesenia\Pohoda\IntParam\Settings;
-use Riesenia\Pohoda\ValueTransformer\SanitizeEncoding;
 
 
 class IntParam extends AbstractAgenda
@@ -24,13 +23,7 @@ class IntParam extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    public function __construct(
-        Common\NamespacesPaths $namespacesPaths,
-        SanitizeEncoding $sanitizeEncoding,
-        array $data,
-        string $companyRegistrationNumber,
-        bool $resolveOptions = true,
-    )
+    public function setData(array $data): parent
     {
         // prepare empty parameter list for list
         if ('listValue' == $data['parameterType']) {
@@ -39,10 +32,11 @@ class IntParam extends AbstractAgenda
 
         // process settings
         if (isset($data['parameterSettings'])) {
-            $data['parameterSettings'] = new Settings($namespacesPaths, $sanitizeEncoding, $data['parameterSettings'], $companyRegistrationNumber, $resolveOptions);
+            $parameterSettings = new Settings($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->resolveOptions, $this->normalizerFactory);
+            $data['parameterSettings'] = $parameterSettings->setData($data['parameterSettings']);
         }
 
-        parent::__construct($namespacesPaths, $sanitizeEncoding, $data, $companyRegistrationNumber, $resolveOptions);
+        return parent::setData($data);
     }
 
     public function getImportRoot(): string

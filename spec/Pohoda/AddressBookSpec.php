@@ -18,38 +18,37 @@ use Riesenia\Pohoda\ValueTransformer;
 
 class AddressBookSpec extends ObjectBehavior
 {
-    public function let(): void
+    public function constructSelf(): void
     {
-        $this->beConstructedWith(
-            new NamespacesPaths(),
-            new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()),
-            [
-                'identity' => [
-                    'address' => [
-                        'name' => 'NAME',
-                        'ico' => '123'
-                    ]
-                ],
-                'phone' => '123',
-                'centre' => ['id' => 1]
+        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
+        $this->setData([
+            'identity' => [
+                'address' => [
+                    'name' => 'NAME',
+                    'ico' => '123'
+                ]
             ],
-            '123'
-        );
+            'phone' => '123',
+            'centre' => ['id' => 1]
+        ]);
     }
 
     public function it_is_initializable_and_extends_agenda(): void
     {
+        $this->constructSelf();
         $this->shouldHaveType('Riesenia\Pohoda\AddressBook');
         $this->shouldHaveType('Riesenia\Pohoda\AbstractAgenda');
     }
 
     public function it_creates_correct_xml(): void
     {
+        $this->constructSelf();
         $this->getXML()->asXML()->shouldReturn('<adb:addressbook version="2.0"><adb:addressbookHeader>' . $this->defaultHeader() . '</adb:addressbookHeader></adb:addressbook>');
     }
 
     public function it_can_set_action_type(): void
     {
+        $this->constructSelf();
         $this->addActionType('update', [
             'company' => 'COMPANY'
         ]);
@@ -59,6 +58,7 @@ class AddressBookSpec extends ObjectBehavior
 
     public function it_can_set_parameters(): void
     {
+        $this->constructSelf();
         $this->addParameter('IsOn', 'boolean', 'true');
         $this->addParameter('VPrNum', 'number', 10.43);
         $this->addParameter('RefVPrCountry', 'list', 'SK', 'Country');
@@ -69,7 +69,7 @@ class AddressBookSpec extends ObjectBehavior
 
     public function it_can_delete_address(): void
     {
-        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [], '123');
+        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
 
         $this->addActionType('delete', [
             'company' => 'COMPANY'
@@ -80,7 +80,8 @@ class AddressBookSpec extends ObjectBehavior
 
     public function it_leaves_special_characters_intact_by_default(): void
     {
-        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [
+        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
+        $this->setData([
             'identity' => [
                 'address' => [
                     'name' => 'Călărași ñüé¿s',
@@ -89,7 +90,7 @@ class AddressBookSpec extends ObjectBehavior
             ],
             'phone' => '123',
             'centre' => ['id' => 1]
-        ], '123');
+        ]);
 
         $this->getXML()->asXML()->shouldReturn('<adb:addressbook version="2.0"><adb:addressbookHeader><adb:identity><typ:address><typ:name>Călărași ñüé¿s</typ:name><typ:city>Dâmbovița</typ:city></typ:address></adb:identity><adb:phone>123</adb:phone><adb:centre><typ:id>1</typ:id></adb:centre></adb:addressbookHeader></adb:addressbook>');
     }

@@ -12,14 +12,14 @@ class AbstractSummaryTest extends CommonTestClass
 {
     public function testNoNamespace(): void
     {
-        $lib = new XDocumentSummary(new NamespacesPaths(), new SanitizeEncoding(new Listing()), [], 'foo');
+        $lib = new XDocumentSummary(new NamespacesPaths(), new SanitizeEncoding(new Listing()), 'foo');
         $this->expectException(LogicException::class);
         $lib->getXML();
     }
 
     public function testNoPrefix(): void
     {
-        $lib = new XDocumentSummary(new NamespacesPaths(), new SanitizeEncoding(new Listing()), [], 'foo');
+        $lib = new XDocumentSummary(new NamespacesPaths(), new SanitizeEncoding(new Listing()), 'foo');
         $lib->setNamespace('bar');
         $this->expectException(LogicException::class);
         $lib->getXML();

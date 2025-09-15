@@ -13,7 +13,6 @@ namespace Riesenia\Pohoda\Document;
 
 use Riesenia\Pohoda\Common;
 use Riesenia\Pohoda\Type;
-use Riesenia\Pohoda\ValueTransformer\SanitizeEncoding;
 
 
 abstract class AbstractItem extends AbstractPart
@@ -23,30 +22,27 @@ abstract class AbstractItem extends AbstractPart
     /**
      * {@inheritdoc}
      */
-    public function __construct(
-        Common\NamespacesPaths $namespacesPaths,
-        SanitizeEncoding $sanitizeEncoding,
-        array $data,
-        string $companyRegistrationNumber,
-        bool $resolveOptions = true,
-    )
+    public function setData(array $data): parent
     {
         // process home currency
         if (isset($data['homeCurrency'])) {
-            $data['homeCurrency'] = new Type\CurrencyItem($namespacesPaths, $sanitizeEncoding, $data['homeCurrency'], $companyRegistrationNumber, $resolveOptions);
+            $homeCurrency = new Type\CurrencyItem($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->resolveOptions, $this->normalizerFactory);
+            $data['homeCurrency'] = $homeCurrency->setData($data['homeCurrency']);
         }
 
         // process foreign currency
         if (isset($data['foreignCurrency'])) {
-            $data['foreignCurrency'] = new Type\CurrencyItem($namespacesPaths, $sanitizeEncoding, $data['foreignCurrency'], $companyRegistrationNumber, $resolveOptions);
+            $foreignCurrency = new Type\CurrencyItem($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->resolveOptions, $this->normalizerFactory);
+            $data['foreignCurrency'] = $foreignCurrency->setData($data['foreignCurrency']);
         }
 
         // process stock item
         if (isset($data['stockItem'])) {
-            $data['stockItem'] = new Type\StockItem($namespacesPaths, $sanitizeEncoding, $data['stockItem'], $companyRegistrationNumber, $resolveOptions);
+            $stockItem = new Type\StockItem($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->resolveOptions, $this->normalizerFactory);
+            $data['stockItem'] = $stockItem->setData($data['stockItem']);
         }
 
-        parent::__construct($namespacesPaths, $sanitizeEncoding, $data, $companyRegistrationNumber, $resolveOptions);
+        return parent::setData($data);
     }
 
     /**

@@ -41,7 +41,8 @@ class Invoice extends AbstractDocument
             $this->data['links'] = [];
         }
 
-        $this->data['links'][] = new Link($this->namespacesPaths, $this->sanitizeEncoding, $data, $this->companyRegistrationNumber);
+        $link = new Link($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->resolveOptions, $this->normalizerFactory);
+        $this->data['links'][] = $link->setData($data);
 
         return $this;
     }
@@ -64,7 +65,8 @@ class Invoice extends AbstractDocument
             $this->data['invoiceDetail'] = [];
         }
 
-        $this->data['invoiceDetail'][] = new AdvancePaymentItem($this->namespacesPaths, $this->sanitizeEncoding, $data, $this->companyRegistrationNumber);
+        $invoiceDetail = new AdvancePaymentItem($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->resolveOptions, $this->normalizerFactory);
+        $this->data['invoiceDetail'][] = $invoiceDetail->setData($data);
 
         return $this;
     }

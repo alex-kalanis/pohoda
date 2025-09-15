@@ -19,10 +19,11 @@ class UserListSpec extends ObjectBehavior
 {
     public function let(): void
     {
-        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [
+        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
+        $this->setData( [
             'code' => 'CODE',
             'name' => 'NAME'
-        ], '123');
+        ]);
     }
 
     public function it_is_initializable_and_extends_agenda(): void

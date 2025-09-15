@@ -12,7 +12,7 @@ class ParameterTest extends CommonTestClass
 {
     public function testInit(): void
     {
-        $lib = $this->getLib([], false);
+        $lib = $this->getLib(false);
         $this->assertInstanceOf(Parameter::class, $lib);
         $this->assertInstanceOf(Pohoda\AbstractAgenda::class, $lib);
         $this->assertNull($lib->getImportRoot());
@@ -20,7 +20,7 @@ class ParameterTest extends CommonTestClass
 
     public function testCreateCorrectXml1(): void
     {
-        $this->assertEquals('<typ:parameter><typ:name>VPr_testing</typ:name><typ:textValue>foo_bar_baz</typ:textValue></typ:parameter>', $this->getLib(
+        $this->assertEquals('<typ:parameter><typ:name>VPr_testing</typ:name><typ:textValue>foo_bar_baz</typ:textValue></typ:parameter>', $this->getLib()->setData(
             [
                 'name' => 'VPr_testing',
                 'type' => 'text',
@@ -31,7 +31,7 @@ class ParameterTest extends CommonTestClass
 
     public function testCreateCorrectXml2(): void
     {
-        $this->assertEquals('<typ:parameter><typ:name>RefVPrtesting</typ:name><typ:listValueRef><typ:ids>456</typ:ids></typ:listValueRef><typ:list><typ:0>statementNumber</typ:0><typ:1>numberMovement</typ:1></typ:list></typ:parameter>', $this->getLib(
+        $this->assertEquals('<typ:parameter><typ:name>RefVPrtesting</typ:name><typ:listValueRef><typ:ids>456</typ:ids></typ:listValueRef><typ:list><typ:0>statementNumber</typ:0><typ:1>numberMovement</typ:1></typ:list></typ:parameter>', $this->getLib()->setData(
             [
                 'name' => 'testing',
                 'type' => 'list',
@@ -51,24 +51,24 @@ class ParameterTest extends CommonTestClass
         $lib = new Parameter(
             new Pohoda\Common\NamespacesPaths(),
             $sanitize,
-            [
-                'name' => 'testing',
-                'type' => 'list',
-                'value' => '456',
-                'list' => [
-                    '123',
-                    '456',
-                    '789',
-                ],
-            ],
             '123',
         );
+        $lib->setData([
+            'name' => 'testing',
+            'type' => 'list',
+            'value' => '456',
+            'list' => [
+                '123',
+                '456',
+                '789',
+            ],
+        ]);
         $this->assertEquals('<typ:parameter><typ:name>RefVPrtesting</typ:name><typ:listValueRef><typ:ids>456</typ:ids></typ:listValueRef><typ:list><typ:0>123</typ:0><typ:1>456</typ:1><typ:2>789</typ:2></typ:list></typ:parameter>', $lib->getXML()->asXML());
     }
 
     public function testParamDateTime(): void
     {
-        $lib = $this->getLib([
+        $lib = $this->getLib()->setData([
             'name' => 'bar',
             'type' => 'datetime',
             'value' => '2024-05-25',
@@ -76,12 +76,11 @@ class ParameterTest extends CommonTestClass
         $this->assertEquals('', $lib->getXML());
     }
 
-    protected function getLib(array $params, bool $resolve = true): Parameter
+    protected function getLib(bool $resolve = true): Parameter
     {
         return new Parameter(
             new Pohoda\Common\NamespacesPaths(),
             new SanitizeEncoding(new Listing()),
-            $params,
             '123',
             $resolve,
         );

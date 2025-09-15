@@ -20,7 +20,8 @@ class SupplierSpec extends ObjectBehavior
 {
     public function let(): void
     {
-        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [
+        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
+        $this->setData([
             'stockItem' => [
                 'stockItem' => [
                     'ids' => 'B04'
@@ -68,7 +69,7 @@ class SupplierSpec extends ObjectBehavior
                     ]
                 ]
             ]
-        ], '123');
+        ]);
     }
 
     public function it_is_initializable_and_extends_agenda(): void

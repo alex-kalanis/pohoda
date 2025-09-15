@@ -12,14 +12,14 @@ class AbstractHeaderTest extends CommonTestClass
 {
     public function testNoNamespace(): void
     {
-        $lib = new XDocumentHeader(new NamespacesPaths(), new SanitizeEncoding(new Listing()), [], 'foo');
+        $lib = new XDocumentHeader(new NamespacesPaths(), new SanitizeEncoding(new Listing()), 'foo');
         $this->expectException(LogicException::class);
         $lib->getXML();
     }
 
     public function testNoPrefix(): void
     {
-        $lib = new XDocumentHeader(new NamespacesPaths(), new SanitizeEncoding(new Listing()), [], 'foo');
+        $lib = new XDocumentHeader(new NamespacesPaths(), new SanitizeEncoding(new Listing()), 'foo');
         $lib->setNamespace('bar');
         $this->expectException(LogicException::class);
         $lib->getXML();

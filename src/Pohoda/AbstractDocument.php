@@ -28,18 +28,14 @@ abstract class AbstractDocument extends AbstractAgenda
     public function __construct(
         Common\NamespacesPaths $namespacesPaths,
         SanitizeEncoding $sanitizeEncoding,
-        array $data,
         string $companyRegistrationNumber,
         bool $resolveOptions = true,
+        OptionsResolver\Normalizers\NormalizerFactory $normalizerFactory = new OptionsResolver\Normalizers\NormalizerFactory(),
     )
     {
-        $this->documentPartFactory = new DocumentPartFactory($namespacesPaths, $sanitizeEncoding, $companyRegistrationNumber);
-        // pass to header
-        if (!empty($data)) {
-            $data = ['header' => $this->getDocumentPart('Header', $data, $resolveOptions)];
-        }
+        $this->documentPartFactory = new DocumentPartFactory($namespacesPaths, $sanitizeEncoding, $companyRegistrationNumber, $normalizerFactory);
 
-        parent::__construct($namespacesPaths, $sanitizeEncoding, $data, $companyRegistrationNumber, $resolveOptions);
+        parent::__construct($namespacesPaths, $sanitizeEncoding, $companyRegistrationNumber, $resolveOptions, $normalizerFactory);
     }
 
     /**
@@ -62,7 +58,7 @@ abstract class AbstractDocument extends AbstractAgenda
             $this->data[$key] = [];
         }
 
-        $part = $this->getDocumentPart('Item', $data);
+        $part = $this->getDocumentPart('Item')->setData($data);
         $this->data[$key][] = $part;
 
         return $part;
@@ -77,9 +73,21 @@ abstract class AbstractDocument extends AbstractAgenda
      */
     public function addSummary(array $data): self
     {
-        $this->data['summary'] = $this->getDocumentPart('Summary', $data);
+        $this->data['summary'] = $this->getDocumentPart('Summary')->setData($data);
 
         return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setData(array $data): parent
+    {
+        // pass to header
+        if (!empty($data)) {
+            $data = ['header' => $this->getDocumentPart('Header', $this->resolveOptions)->setData($data)];
+        }
+        return parent::setData($data);
     }
 
     /**
@@ -109,14 +117,13 @@ abstract class AbstractDocument extends AbstractAgenda
      * This code is the loader for things like "Header", "Summary", "Item"
      *
      * @param string              $partName
-     * @param array<string,mixed> $data
      * @param bool                $resolveOptions
      *
      * @return Document\AbstractPart
      */
-    protected function getDocumentPart(string $partName, array $data, bool $resolveOptions = true): Document\AbstractPart
+    protected function getDocumentPart(string $partName, bool $resolveOptions = true): Document\AbstractPart
     {
-        $part = $this->documentPartFactory->getPart(\get_class($this), $partName, $data, $resolveOptions);
+        $part = $this->documentPartFactory->getPart(\get_class($this), $partName, $resolveOptions);
         $part->setNamespace($this->getDocumentNamespace());
         $part->setNodePrefix($this->getDocumentName());
         return $part;

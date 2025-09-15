@@ -26,24 +26,20 @@ class MyAddress extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    public function __construct(
-        Common\NamespacesPaths $namespacesPaths,
-        SanitizeEncoding $sanitizeEncoding,
-        array $data,
-        string $companyRegistrationNumber,
-        bool $resolveOptions = true,
-    )
+    public function setData(array $data): parent
     {
         // process address
         if (isset($data['address'])) {
-            $data['address'] = new AddressInternetType($namespacesPaths, $sanitizeEncoding, $data['address'], $companyRegistrationNumber, $resolveOptions);
+            $address = new AddressInternetType($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->resolveOptions, $this->normalizerFactory);
+            $data['address'] = $address->setData($data['address']);
         }
         // process establishment
         if (isset($data['establishment'])) {
-            $data['establishment'] = new EstablishmentType($namespacesPaths, $sanitizeEncoding, $data['establishment'], $companyRegistrationNumber, $resolveOptions);
+            $establishment = new EstablishmentType($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->resolveOptions, $this->normalizerFactory);
+            $data['establishment'] = $establishment->setData($data['establishment']);
         }
 
-        parent::__construct($namespacesPaths, $sanitizeEncoding, $data, $companyRegistrationNumber, $resolveOptions);
+        return parent::setData($data);
     }
 
     /**

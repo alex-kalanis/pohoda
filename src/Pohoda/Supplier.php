@@ -11,8 +11,6 @@ declare(strict_types=1);
 namespace Riesenia\Pohoda;
 
 
-use Riesenia\Pohoda\ValueTransformer\SanitizeEncoding;
-
 
 class Supplier extends AbstractAgenda
 {
@@ -25,27 +23,23 @@ class Supplier extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    public function __construct(
-        Common\NamespacesPaths $namespacesPaths,
-        SanitizeEncoding $sanitizeEncoding,
-        array $data,
-        string $companyRegistrationNumber,
-        bool $resolveOptions = true,
-    )
+    public function setData(array $data): parent
     {
         // process stockItem
         if (isset($data['stockItem'])) {
-            $data['stockItem'] = new Supplier\StockItem($namespacesPaths, $sanitizeEncoding, $data['stockItem'], $companyRegistrationNumber, $resolveOptions);
+            $stockItem = new Supplier\StockItem($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->resolveOptions, $this->normalizerFactory);
+            $data['stockItem'] = $stockItem->setData($data['stockItem']);
         }
 
         // process suppliers
         if (isset($data['suppliers']) && is_array($data['suppliers'])) {
-            $data['suppliers'] = \array_map(function ($supplier) use ($namespacesPaths, $sanitizeEncoding, $companyRegistrationNumber, $resolveOptions) {
-                return new Supplier\SupplierItem($namespacesPaths, $sanitizeEncoding, $supplier['supplierItem'], $companyRegistrationNumber, $resolveOptions);
+            $data['suppliers'] = \array_map(function ($supplier) {
+                $SupplierItem = new Supplier\SupplierItem($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->resolveOptions, $this->normalizerFactory);
+                return $SupplierItem->setData($supplier['supplierItem']);
             }, $data['suppliers']);
         }
 
-        parent::__construct($namespacesPaths, $sanitizeEncoding, $data, $companyRegistrationNumber, $resolveOptions);
+        return parent::setData($data);
     }
 
     /**

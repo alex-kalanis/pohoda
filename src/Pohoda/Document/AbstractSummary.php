@@ -13,7 +13,6 @@ namespace Riesenia\Pohoda\Document;
 
 use Riesenia\Pohoda\Common;
 use Riesenia\Pohoda\Type;
-use Riesenia\Pohoda\ValueTransformer\SanitizeEncoding;
 
 
 abstract class AbstractSummary extends AbstractPart
@@ -21,25 +20,21 @@ abstract class AbstractSummary extends AbstractPart
     /**
      * {@inheritdoc}
      */
-    public function __construct(
-        Common\NamespacesPaths $namespacesPaths,
-        SanitizeEncoding $sanitizeEncoding,
-        array $data,
-        string $companyRegistrationNumber,
-        bool $resolveOptions = true,
-    )
+    public function setData(array $data): parent
     {
         // process home currency
         if (isset($data['homeCurrency'])) {
-            $data['homeCurrency'] = new Type\CurrencyHome($namespacesPaths, $sanitizeEncoding, $data['homeCurrency'], $companyRegistrationNumber, $resolveOptions);
+            $homeCurrency = new Type\CurrencyHome($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->resolveOptions, $this->normalizerFactory);
+            $data['homeCurrency'] = $homeCurrency->setData($data['homeCurrency']);
         }
 
         // process foreign currency
         if (isset($data['foreignCurrency'])) {
-            $data['foreignCurrency'] = new Type\CurrencyForeign($namespacesPaths, $sanitizeEncoding, $data['foreignCurrency'], $companyRegistrationNumber, $resolveOptions);
+            $foreignCurrency = new Type\CurrencyForeign($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->resolveOptions, $this->normalizerFactory);
+            $data['foreignCurrency'] = $foreignCurrency->setData($data['foreignCurrency']);
         }
 
-        parent::__construct($namespacesPaths, $sanitizeEncoding, $data, $companyRegistrationNumber, $resolveOptions);
+        return parent::setData($data);
     }
 
     /**

@@ -14,7 +14,6 @@ namespace Riesenia\Pohoda;
 use Riesenia\Pohoda\Stock\Header;
 use Riesenia\Pohoda\Stock\Price;
 use Riesenia\Pohoda\Stock\StockItem;
-use Riesenia\Pohoda\ValueTransformer\SanitizeEncoding;
 
 
 class Stock extends AbstractAgenda
@@ -25,20 +24,15 @@ class Stock extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    public function __construct(
-        Common\NamespacesPaths $namespacesPaths,
-        SanitizeEncoding $sanitizeEncoding,
-        array $data,
-        string $companyRegistrationNumber,
-        bool $resolveOptions = true,
-    )
+    public function setData(array $data): parent
     {
         // pass to header
         if (!empty($data)) {
-            $data = ['header' => new Header($namespacesPaths, $sanitizeEncoding, $data, $companyRegistrationNumber, $resolveOptions)];
+            $header = new Header($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->resolveOptions, $this->normalizerFactory);
+            $data = ['header' => $header->setData($data)];
         }
 
-        parent::__construct($namespacesPaths, $sanitizeEncoding, $data, $companyRegistrationNumber, $resolveOptions);
+        return parent::setData($data);
     }
 
     public function getImportRoot(): string
@@ -64,7 +58,8 @@ class Stock extends AbstractAgenda
             $this->data['stockDetail'] = [];
         }
 
-        $this->data['stockDetail'][] = new StockItem($this->namespacesPaths, $this->sanitizeEncoding, $data, $this->companyRegistrationNumber);
+        $stockDetail = new StockItem($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->resolveOptions, $this->normalizerFactory);
+        $this->data['stockDetail'][] = $stockDetail->setData($data);
 
         return $this;
     }
@@ -88,10 +83,11 @@ class Stock extends AbstractAgenda
             $this->data['stockPriceItem'] = [];
         }
 
-        $this->data['stockPriceItem'][] = new Price($this->namespacesPaths, $this->sanitizeEncoding, [
+        $price = new Price($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->resolveOptions, $this->normalizerFactory);
+        $this->data['stockPriceItem'][] = $price->setData([
             'ids' => $code,
             'price' => $value
-        ], $this->companyRegistrationNumber);
+        ]);
 
         return $this;
     }

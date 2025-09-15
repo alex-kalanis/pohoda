@@ -20,7 +20,8 @@ class CashSlipSpec extends ObjectBehavior
 {
     public function let()
     {
-        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [
+        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
+        $this->setData([
             'date' => '2015-01-10',
             'text' => 'Prod',
             'partnerIdentity' => [
@@ -30,7 +31,7 @@ class CashSlipSpec extends ObjectBehavior
                 ]
             ],
             'intNote' => 'Note'
-        ], '123');
+        ]);
     }
 
     public function it_is_initializable_and_extends_agenda(): void

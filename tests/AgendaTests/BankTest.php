@@ -76,10 +76,11 @@ class BankTest extends CommonTestClass
 
     protected function getLib(): Pohoda\Bank
     {
-        return new Pohoda\Bank(
+        $lib = new Pohoda\Bank(
             new Pohoda\Common\NamespacesPaths(),
             new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()),
-            [
+            '123');
+        return $lib->setData([
             'bankType' => 'receipt',
             'account' => 'KB',
             'statementNumber' => [
@@ -96,7 +97,7 @@ class BankTest extends CommonTestClass
                 'accountNo' => '4660550217',
                 'bankCode' => '5500'
             ]
-        ], '123');
+        ]);
     }
 
     // testing RefItem in AbstractAgenda
@@ -105,17 +106,17 @@ class BankTest extends CommonTestClass
         $lib = new Pohoda\Bank\Item(
             new Pohoda\Common\NamespacesPaths(),
             new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()),
-            [
-                'accounting' => [
-                    'which' => [ // deeper, list
-                        '123',
-                        '456',
-                        '789',
-                    ]
-                ],
-            ],
             '123',
         );
+        $lib->setData([
+            'accounting' => [
+                'which' => [ // deeper, list
+                    '123',
+                    '456',
+                    '789',
+                ]
+            ],
+        ]);
         $lib->setNamespace('lst');
         $lib->setNodePrefix('test');
         $this->assertEquals('<lst:testItem><lst:accounting><lst:which>123</lst:which><lst:which>456</lst:which><lst:which>789</lst:which></lst:accounting></lst:testItem>', $lib->getXML()->asXML());
@@ -126,17 +127,17 @@ class BankTest extends CommonTestClass
         $lib = new Pohoda\Bank\Item(
             new Pohoda\Common\NamespacesPaths(),
             new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()),
-            [
-                'accounting' => [
-                    'which' => [ // deeper, items
-                        'foo' => '123',
-                        'bar' => '456',
-                        'baz' => '789',
-                    ]
-                ],
-            ],
             '123',
         );
+        $lib->setData([
+            'accounting' => [
+                'which' => [ // deeper, items
+                    'foo' => '123',
+                    'bar' => '456',
+                    'baz' => '789',
+                ]
+            ],
+        ]);
         $lib->setNamespace('lst');
         $lib->setNodePrefix('test');
         $this->assertEquals('<lst:testItem><lst:accounting><lst:which><typ:foo>123</typ:foo><typ:bar>456</typ:bar><typ:baz>789</typ:baz></lst:which></lst:accounting></lst:testItem>', $lib->getXML()->asXML());

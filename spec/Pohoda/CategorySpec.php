@@ -21,11 +21,12 @@ class CategorySpec extends ObjectBehavior
 {
     public function let(): void
     {
-        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [
+        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
+        $this->setData([
             'name' => 'Main',
             'sequence' => 1,
             'displayed' => true
-        ], '123');
+        ]);
     }
 
     public function it_is_initializable_and_extends_agenda(): void
@@ -41,25 +42,28 @@ class CategorySpec extends ObjectBehavior
 
     public function it_can_add_subcategories(): void
     {
-        $sub = new Category(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [
+        $sub = new Category(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
+        $sub->setData([
             'name' => 'Sub',
             'sequence' => 1,
             'displayed' => true
-        ], '123');
+        ]);
 
-        $subsub = new Category(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [
+        $subsub = new Category(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
+        $subsub->setData([
             'name' => 'SubSub',
             'sequence' => 1,
             'displayed' => false
-        ], '123');
+        ]);
 
         $sub->addSubcategory($subsub);
 
-        $sub2 = new Category(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [
+        $sub2 = new Category(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
+        $sub2->setData([
             'name' => 'Sub2',
             'sequence' => '2',
             'displayed' => true
-        ], '123');
+        ]);
 
         $this->addSubcategory($sub);
         $this->addSubcategory($sub2);

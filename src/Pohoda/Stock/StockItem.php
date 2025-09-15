@@ -13,7 +13,6 @@ namespace Riesenia\Pohoda\Stock;
 
 use Riesenia\Pohoda\AbstractAgenda;
 use Riesenia\Pohoda\Common;
-use Riesenia\Pohoda\ValueTransformer\SanitizeEncoding;
 
 
 class StockItem extends AbstractAgenda
@@ -27,22 +26,17 @@ class StockItem extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    public function __construct(
-        Common\NamespacesPaths $namespacesPaths,
-        SanitizeEncoding $sanitizeEncoding,
-        array $data,
-        string $companyRegistrationNumber,
-        bool $resolveOptions = true,
-    )
+    public function setData(array $data): parent
     {
         // process stockPriceItem
         if (isset($data['stockPriceItem']) && is_array($data['stockPriceItem'])) {
-            $data['stockPriceItem'] = \array_map(function ($stockPriceItem) use ($namespacesPaths, $sanitizeEncoding, $companyRegistrationNumber, $resolveOptions) {
-                return new Price($namespacesPaths, $sanitizeEncoding, $stockPriceItem['stockPrice'], $companyRegistrationNumber, $resolveOptions);
+            $data['stockPriceItem'] = \array_map(function ($stockPriceItem) {
+                $price = new Price($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->resolveOptions, $this->normalizerFactory);
+                return $price->setData($stockPriceItem['stockPrice']);
             }, $data['stockPriceItem']);
         }
 
-        parent::__construct($namespacesPaths, $sanitizeEncoding, $data, $companyRegistrationNumber, $resolveOptions);
+        return parent::setData($data);
     }
 
     /**

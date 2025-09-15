@@ -23,7 +23,8 @@ class SupplierTest extends CommonTestClass
 
     protected function getLib(): Pohoda\Supplier
     {
-        return new Pohoda\Supplier(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [
+        $lib = new Pohoda\Supplier(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
+        return $lib->setData([
             'stockItem' => [
                 'stockItem' => [
                     'ids' => 'B04'
@@ -71,6 +72,6 @@ class SupplierTest extends CommonTestClass
                     ]
                 ]
             ]
-        ], '123');
+        ]);
     }
 }

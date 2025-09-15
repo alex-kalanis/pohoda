@@ -53,15 +53,17 @@ class PohodaSpec extends ObjectBehavior
     {
         $tmpFile = \tempnam(\sys_get_temp_dir(), 'xml');
 
-        $stock = new Stock(new NamespacesPaths(), $this->sanitization, [
+        $data = [
             'code' => 'CODE',
             'name' => 'NAME',
             'storage' => 'STORAGE',
             'typePrice' => ['id' => 1]
-        ], '123');
+        ];
+        $stock = new Stock(new NamespacesPaths(), $this->sanitization, '123');
+        $stock->setData($data);
 
         $this->open($tmpFile, 'ABC')->shouldReturn(true);
-        $this->addItem('ITEM_ID', $stock);
+        $this->addItem('ITEM_ID', $stock, $data);
         $this->close();
 
         $xml = \simplexml_load_file($tmpFile);
@@ -79,15 +81,17 @@ class PohodaSpec extends ObjectBehavior
 
     public function it_can_write_to_memory(): void
     {
-        $stock = new Stock(new NamespacesPaths(), $this->sanitization, [
+        $data = [
             'code' => 'CODE',
             'name' => 'NAME',
             'storage' => 'STORAGE',
             'typePrice' => ['id' => 1]
-        ], '123');
+        ];
+        $stock = new Stock(new NamespacesPaths(), $this->sanitization, '123');
+        $stock->setData($data);
 
         $this->open(null, 'ABC')->shouldReturn(true);
-        $this->addItem('ITEM_ID', $stock);
+        $this->addItem('ITEM_ID', $stock, $data);
 
         $xml = \simplexml_load_string($this->close()->getWrappedObject());
 
@@ -177,19 +181,21 @@ class PohodaSpec extends ObjectBehavior
 
     public function it_runs_transformers_properly(): void
     {
-        $stock = new Stock(new NamespacesPaths(), $this->sanitization, [
+        $data = [
             'code' => 'code1',
             'name' => 'name2',
             'storage' => 'storage3',
             'typePrice' => ['id' => 4]
-        ], '123');
+        ];
+        $stock = new Stock(new NamespacesPaths(), $this->sanitization, '123');
+        $stock->setData($data);
 
         // set for each run
         $this->getTransformerListing()->clear();
         $this->getTransformerListing()->addTransformer(new Capitalize());
 
         $this->open(null, 'ABC')->shouldReturn(true);
-        $this->addItem('item_id', $stock);
+        $this->addItem('item_id', $stock, $data);
 
         $xml = \simplexml_load_string($this->close()->getWrappedObject());
 
@@ -203,17 +209,19 @@ class PohodaSpec extends ObjectBehavior
 
     public function it_handles_static_arrays_correctly(): void
     {
-        $stock = new Stock(new NamespacesPaths(), $this->sanitization, [
+        $data = [
             'code' => 'code1',
             'name' => 'name2',
             'storage' => 'storage3',
             'typePrice' => ['id' => 4]
-        ], '123');
+        ];
+        $stock = new Stock(new NamespacesPaths(), $this->sanitization, '123');
+        $stock->setData($data);
 
         $this->sanitization->willBeSanitized(true);
 
         $this->open(null, 'ABC')->shouldReturn(true);
-        $this->addItem('item_id', $stock);
+        $this->addItem('item_id', $stock, $data);
         expect(\count($this->sanitization->getListing()->clear()->getTransformers()))->toBe(0);
         $this->close();
 

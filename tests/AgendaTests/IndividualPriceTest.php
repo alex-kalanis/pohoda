@@ -28,7 +28,6 @@ class IndividualPriceTest extends CommonTestClass
         return new Pohoda\IndividualPrice(
             new Pohoda\Common\NamespacesPaths(),
             new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()),
-            [],
             '123'
         );
     }

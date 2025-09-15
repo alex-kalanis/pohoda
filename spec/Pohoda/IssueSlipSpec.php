@@ -20,7 +20,8 @@ class IssueSlipSpec extends ObjectBehavior
 {
     public function let(): void
     {
-        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [
+        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
+        $this->setData([
             'date' => '2015-01-10',
             'dateOrder' => '2015-01-04',
             'text' => 'Vyd',
@@ -31,7 +32,7 @@ class IssueSlipSpec extends ObjectBehavior
                 ]
             ],
             'intNote' => 'Note'
-        ], '123');
+        ]);
     }
 
     public function it_is_initializable_and_extends_agenda(): void

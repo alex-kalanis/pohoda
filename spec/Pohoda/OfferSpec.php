@@ -20,7 +20,8 @@ class OfferSpec extends ObjectBehavior
 {
     public function let(): void
     {
-        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [
+        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
+        $this->setData([
             'partnerIdentity' => [
                 'id' => 25
             ],
@@ -32,7 +33,7 @@ class OfferSpec extends ObjectBehavior
             ],
             'date' => '2015-01-10',
             'intNote' => 'Note'
-        ], '123');
+        ]);
     }
 
     public function it_is_initializable_and_extends_agenda(): void

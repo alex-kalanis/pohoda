@@ -46,17 +46,17 @@ class ParameterFactory
         protected readonly Common\NamespacesPaths $namespacesPaths,
         protected readonly SanitizeEncoding $sanitizeEncoding,
         protected readonly string $companyRegistrationNumber,
+        protected readonly Common\OptionsResolver\Normalizers\NormalizerFactory $normalizerFactory = new Common\OptionsResolver\Normalizers\NormalizerFactory()
     )
     {
     }
 
     /**
      * @param string $key
-     * @param array<string, mixed> $data
      * @param bool $resolveOptions
      * @return Parameter
      */
-    public function getByKey(string $key, array $data, bool $resolveOptions): Parameter
+    public function getByKey(string $key, bool $resolveOptions): Parameter
     {
         if (!isset($this->instances[$key])) {
             throw new DomainException(sprintf('The key *%s* is not known.', $key));
@@ -66,9 +66,9 @@ class ParameterFactory
             $class = $reflection->newInstance(
                 $this->namespacesPaths,
                 $this->sanitizeEncoding,
-                $data,
                 $this->companyRegistrationNumber,
-                $resolveOptions
+                $resolveOptions,
+                $this->normalizerFactory,
             );
         } catch (ReflectionException $e) {
             throw new DomainException($e->getMessage(), $e->getCode(), $e);

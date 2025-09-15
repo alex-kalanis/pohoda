@@ -40,7 +40,8 @@ class IssueSlip extends AbstractDocument
             $this->data['links'] = [];
         }
 
-        $this->data['links'][] = new Link($this->namespacesPaths, $this->sanitizeEncoding, $data, $this->companyRegistrationNumber);
+        $link = new Link($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->resolveOptions, $this->normalizerFactory);
+        $this->data['links'][] = $link->setData($data);
 
         return $this;
     }

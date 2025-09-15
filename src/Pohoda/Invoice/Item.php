@@ -14,7 +14,6 @@ namespace Riesenia\Pohoda\Invoice;
 use Riesenia\Pohoda\Common;
 use Riesenia\Pohoda\Document\AbstractItem;
 use Riesenia\Pohoda\Type\RecyclingContrib;
-use Riesenia\Pohoda\ValueTransformer\SanitizeEncoding;
 
 
 class Item extends AbstractItem
@@ -28,18 +27,14 @@ class Item extends AbstractItem
     /**
      * @inheritdoc
      */
-    public function __construct(
-        Common\NamespacesPaths $namespacesPaths,
-        SanitizeEncoding $sanitizeEncoding,
-        array $data,
-        string $companyRegistrationNumber,
-        bool $resolveOptions = true,
-    ) {
+    public function setData(array $data): parent
+    {
         if (isset($data['recyclingContrib'])) {
-            $data['recyclingContrib'] = new RecyclingContrib($namespacesPaths, $sanitizeEncoding, $data['recyclingContrib'], $companyRegistrationNumber, $resolveOptions);
+            $recyclingContrib = new RecyclingContrib($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->resolveOptions, $this->normalizerFactory);
+            $data['recyclingContrib'] = $recyclingContrib->setData($data['recyclingContrib']);
         }
 
-        parent::__construct($namespacesPaths, $sanitizeEncoding, $data, $companyRegistrationNumber, $resolveOptions);
+        return parent::setData($data);
     }
 
     /**

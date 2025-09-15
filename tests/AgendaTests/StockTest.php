@@ -106,7 +106,7 @@ class StockTest extends CommonTestClass
 
     protected function testDeleteStock(): void
     {
-        $lib = new Pohoda\Stock(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [], '123');
+        $lib = new Pohoda\Stock(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
         $lib->addActionType('delete', [
             'code' => 'CODE',
             'store' => ['ids' => 'STORAGE']
@@ -122,7 +122,8 @@ class StockTest extends CommonTestClass
 
     protected function getLib(): Pohoda\Stock
     {
-        return new Pohoda\Stock(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [
+        $lib = new Pohoda\Stock(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
+        return $lib->setData([
             'code' => 'CODE',
             'name' => 'NAME',
             'isSales' => '0',
@@ -142,6 +143,6 @@ class StockTest extends CommonTestClass
                 'recyclingContribType' => 'X',
                 'coefficientOfRecyclingContrib' => 1
             ]
-        ], '123');
+        ]);
     }
 }

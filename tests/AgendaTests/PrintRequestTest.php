@@ -23,7 +23,8 @@ class PrintRequestTest extends CommonTestClass
 
     public function testKnownPdfData(): void
     {
-        $lib = new Pohoda\PrintRequest(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [
+        $lib = new Pohoda\PrintRequest(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
+        $lib->setData([
             'record' => [
                 'agenda' => 'vydane_faktury',
                 'filter' => [
@@ -55,13 +56,14 @@ class PrintRequestTest extends CommonTestClass
                     ]
                 ]
             ]
-        ], '123');
+        ]);
         $this->assertEquals('<prn:print version="1.0"><prn:record agenda="vydane_faktury"><ftr:filter><ftr:id>463</ftr:id></ftr:filter></prn:record><prn:printerSettings><prn:report><prn:id>111</prn:id></prn:report><prn:pdf><prn:fileName>Z:\\\\Pohoda_Export\Dokumenty_PDF\\\\receipts-123456789.pdf</prn:fileName></prn:pdf><prn:parameters><prn:checkbox1><prn:value>false</prn:value></prn:checkbox1><prn:checkbox2><prn:value>false</prn:value></prn:checkbox2><prn:checkbox5><prn:value>false</prn:value></prn:checkbox5><prn:checkbox6><prn:value>false</prn:value></prn:checkbox6><prn:checkbox8><prn:value>true</prn:value></prn:checkbox8></prn:parameters></prn:printerSettings></prn:print>', $lib->getXML()->asXML());
     }
 
     protected function getLib(): Pohoda\PrintRequest
     {
-        return new Pohoda\PrintRequest(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [
+        $lib = new Pohoda\PrintRequest(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
+        return $lib->setData([
             'record' => [
                 'agenda' => 'vydane_faktury',
                 'filter' => [
@@ -156,6 +158,6 @@ class PrintRequestTest extends CommonTestClass
                     ],
                 ],
             ],
-        ], '123');
+        ]);
     }
 }

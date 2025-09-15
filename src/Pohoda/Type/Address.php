@@ -32,9 +32,9 @@ class Address extends AbstractAgenda
     public function __construct(
         Common\NamespacesPaths $namespacesPaths,
         SanitizeEncoding $sanitizeEncoding,
-        array $data,
         string $companyRegistrationNumber,
         bool $resolveOptions = true,
+        Common\OptionsResolver\Normalizers\NormalizerFactory $normalizerFactory = new Common\OptionsResolver\Normalizers\NormalizerFactory(),
     )
     {
         // init attributes
@@ -42,17 +42,27 @@ class Address extends AbstractAgenda
             'addressLinkToAddress' => new Common\ElementAttributes('address', 'linkToAddress'),
         ];
 
+        parent::__construct($namespacesPaths, $sanitizeEncoding, $companyRegistrationNumber, $resolveOptions, $normalizerFactory);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setData(array $data): parent
+    {
         // process address
         if (isset($data['address'])) {
-            $data['address'] = new AddressType($namespacesPaths, $sanitizeEncoding, $data['address'], $companyRegistrationNumber, $resolveOptions);
+            $address = new AddressType($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->resolveOptions, $this->normalizerFactory);
+            $data['address'] = $address->setData($data['address']);
         }
 
         // process shipping address
         if (isset($data['shipToAddress'])) {
-            $data['shipToAddress'] = new ShipToAddressType($namespacesPaths, $sanitizeEncoding, $data['shipToAddress'], $companyRegistrationNumber, $resolveOptions);
+            $shipTo = new ShipToAddressType($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->resolveOptions, $this->normalizerFactory);
+            $data['shipToAddress'] = $shipTo->setData($data['shipToAddress']);
         }
 
-        parent::__construct($namespacesPaths, $sanitizeEncoding, $data, $companyRegistrationNumber, $resolveOptions);
+        return parent::setData($data);
     }
 
     /**

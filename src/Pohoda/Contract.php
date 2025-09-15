@@ -12,7 +12,6 @@ namespace Riesenia\Pohoda;
 
 
 use Riesenia\Pohoda\Contract\Desc;
-use Riesenia\Pohoda\ValueTransformer\SanitizeEncoding;
 
 
 class Contract extends AbstractAgenda
@@ -28,18 +27,13 @@ class Contract extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    public function __construct(
-        Common\NamespacesPaths $namespacesPaths,
-        SanitizeEncoding $sanitizeEncoding,
-        array $data,
-        string $companyRegistrationNumber,
-        bool $resolveOptions = true,
-    )
+    public function setData(array $data): parent
     {
         // pass to header
-        $data = ['header' => new Desc($namespacesPaths, $sanitizeEncoding, $data, $companyRegistrationNumber, $resolveOptions)];
+        $desc = new Desc($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->resolveOptions, $this->normalizerFactory);
+        $data = ['header' => $desc->setData($data)];
 
-        parent::__construct($namespacesPaths, $sanitizeEncoding, $data, $companyRegistrationNumber, $resolveOptions);
+        return parent::setData($data);
     }
 
     /**

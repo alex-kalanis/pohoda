@@ -35,9 +35,9 @@ class Header extends AbstractAgenda
     public function __construct(
         Common\NamespacesPaths $namespacesPaths,
         SanitizeEncoding $sanitizeEncoding,
-        array $data,
         string $companyRegistrationNumber,
         bool $resolveOptions = true,
+        Common\OptionsResolver\Normalizers\NormalizerFactory $normalizerFactory = new Common\OptionsResolver\Normalizers\NormalizerFactory()
     )
     {
         // init attributes
@@ -46,17 +46,27 @@ class Header extends AbstractAgenda
             'sellingPricePayVAT' => new Common\ElementAttributes('sellingPrice', 'payVAT'),
         ];
 
+        parent::__construct($namespacesPaths, $sanitizeEncoding, $companyRegistrationNumber, $resolveOptions, $normalizerFactory);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setData(array $data): parent
+    {
         // process intrastat
         if (isset($data['intrastat'])) {
-            $data['intrastat'] = new Intrastat($namespacesPaths, $sanitizeEncoding, $data['intrastat'], $companyRegistrationNumber, $resolveOptions);
+            $intrastat = new Intrastat($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->resolveOptions, $this->normalizerFactory);
+            $data['intrastat'] = $intrastat->setData($data['intrastat']);
         }
 
         // process recyclingContrib
         if (isset($data['recyclingContrib'])) {
-            $data['recyclingContrib'] = new RecyclingContrib($namespacesPaths, $sanitizeEncoding, $data['recyclingContrib'], $companyRegistrationNumber, $resolveOptions);
+            $recyclingContrib = new RecyclingContrib($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->resolveOptions, $this->normalizerFactory);
+            $data['recyclingContrib'] = $recyclingContrib->setData($data['recyclingContrib']);
         }
 
-        parent::__construct($namespacesPaths, $sanitizeEncoding, $data, $companyRegistrationNumber, $resolveOptions);
+        return parent::setData($data);
     }
 
     /**
@@ -80,12 +90,13 @@ class Header extends AbstractAgenda
             $this->data['pictures'] = [];
         }
 
-        $this->data['pictures'][] = new Picture($this->namespacesPaths, $this->sanitizeEncoding, [
+        $picture = new Picture($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->resolveOptions, $this->normalizerFactory);
+        $this->data['pictures'][] = $picture->setData([
             'filepath' => $filepath,
             'description' => $description,
             'order' => null === $order ? ++$this->imagesCounter : $order,
             'default' => $default
-        ], $this->companyRegistrationNumber);
+        ]);
     }
 
     /**
@@ -106,9 +117,10 @@ class Header extends AbstractAgenda
             $this->data['categories'] = [];
         }
 
-        $this->data['categories'][] = new Category($this->namespacesPaths, $this->sanitizeEncoding, [
+        $category = new Category($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->resolveOptions, $this->normalizerFactory);
+        $this->data['categories'][] = $category->setData([
             'idCategory' => $categoryId
-        ], $this->companyRegistrationNumber);
+        ]);
     }
 
     /**
@@ -129,7 +141,8 @@ class Header extends AbstractAgenda
             $this->data['intParameters'] = [];
         }
 
-        $this->data['intParameters'][] = new IntParameter($this->namespacesPaths, $this->sanitizeEncoding, $data, $this->companyRegistrationNumber);
+        $intParameters = new IntParameter($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->resolveOptions, $this->normalizerFactory);
+        $this->data['intParameters'][] = $intParameters->setData($data);
     }
 
     /**

@@ -24,28 +24,25 @@ class PrinterSettings extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    public function __construct(
-        Common\NamespacesPaths $namespacesPaths,
-        SanitizeEncoding $sanitizeEncoding,
-        array $data,
-        string $companyRegistrationNumber,
-        bool $resolveOptions = true,
-    )
+    public function setData(array $data): parent
     {
         // process report
         if (isset($data['report'])) {
-            $data['report'] = new Report($namespacesPaths, $sanitizeEncoding, $data['report'], $companyRegistrationNumber, $resolveOptions);
+            $report = new Report($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->resolveOptions, $this->normalizerFactory);
+            $data['report'] = $report->setData($data['report']);
         }
         // process pdf
         if (isset($data['pdf'])) {
-            $data['pdf'] = new Pdf($namespacesPaths, $sanitizeEncoding, $data['pdf'], $companyRegistrationNumber, $resolveOptions);
+            $pdf = new Pdf($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->resolveOptions, $this->normalizerFactory);
+            $data['pdf'] = $pdf->setData($data['pdf']);
         }
         // process parameters
         if (isset($data['parameters'])) {
-            $data['parameters'] = new Parameters($namespacesPaths, $sanitizeEncoding, $data['parameters'], $companyRegistrationNumber, $resolveOptions);
+            $parameters = new Parameters($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->resolveOptions, $this->normalizerFactory);
+            $data['parameters'] = $parameters->setData($data['parameters']);
         }
 
-        parent::__construct($namespacesPaths, $sanitizeEncoding, $data, $companyRegistrationNumber, $resolveOptions);
+        return parent::setData($data);
     }
 
     /**

@@ -65,7 +65,8 @@ class StockTransferTest extends CommonTestClass
 
     protected function getLib(): Pohoda\StockTransfer
     {
-        return new Pohoda\StockTransfer(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [
+        $lib = new Pohoda\StockTransfer(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
+        return $lib->setData([
             'date' => '2015-01-10',
             'store' => [
                 'ids' => 'MAIN',
@@ -81,6 +82,6 @@ class StockTransferTest extends CommonTestClass
                 'id' => 1,
             ],
             'intNote' => 'Note'
-        ], '123');
+        ]);
     }
 }

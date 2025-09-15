@@ -45,7 +45,7 @@ class AddressBookTest extends CommonTestClass
 
     public function testDeleteAddress(): void
     {
-        $lib = new Pohoda\AddressBook(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [], '123');
+        $lib = new Pohoda\AddressBook(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
         $lib->addActionType('delete', [
             'company' => 'COMPANY'
         ]);
@@ -55,7 +55,8 @@ class AddressBookTest extends CommonTestClass
 
     public function testWithSpecialCharsIntact(): void
     {
-        $lib = new Pohoda\AddressBook(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [
+        $lib = new Pohoda\AddressBook(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
+        $lib->setData([
             'identity' => [
                 'address' => [
                     'name' => 'Călărași ñüé¿s',
@@ -64,7 +65,7 @@ class AddressBookTest extends CommonTestClass
             ],
             'phone' => '123',
             'centre' => ['id' => 1]
-        ], '123');
+        ]);
 
         $this->assertEquals('<adb:addressbook version="2.0"><adb:addressbookHeader><adb:identity><typ:address><typ:name>Călărași ñüé¿s</typ:name><typ:city>Dâmbovița</typ:city></typ:address></adb:identity><adb:phone>123</adb:phone><adb:centre><typ:id>1</typ:id></adb:centre></adb:addressbookHeader></adb:addressbook>', $lib->getXML()->asXML());
     }
@@ -76,7 +77,8 @@ class AddressBookTest extends CommonTestClass
 
     protected function getLib(): Pohoda\AddressBook
     {
-        return new Pohoda\AddressBook(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [
+        $lib = new Pohoda\AddressBook(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
+        return $lib->setData([
             'identity' => [
                 'address' => [
                     'name' => 'NAME',
@@ -85,6 +87,6 @@ class AddressBookTest extends CommonTestClass
             ],
             'phone' => '123',
             'centre' => ['id' => 1]
-        ], '123');
+        ]);
     }
 }

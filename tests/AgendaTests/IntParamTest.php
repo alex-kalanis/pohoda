@@ -23,20 +23,22 @@ class IntParamTest extends CommonTestClass
 
     public function testCreateList(): void
     {
-        $lib = new Pohoda\IntParam(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [
+        $lib = new Pohoda\IntParam(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
+        $lib->setData([
             'name' => 'NAME',
             'parameterType' => 'listValue',
-        ], '123');
+        ]);
 
         $this->assertEquals('<ipm:intParamDetail version="2.0"><ipm:intParam><ipm:name>NAME</ipm:name><ipm:parameterType>textValue</ipm:parameterType><ipm:parameterSettings><ipm:length>40</ipm:length></ipm:parameterSettings></ipm:intParam></ipm:intParamDetail>', $this->getLib()->getXML()->asXML());
     }
 
     protected function getLib(): Pohoda\IntParam
     {
-        return new Pohoda\IntParam(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [
+        $lib = new Pohoda\IntParam(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
+        return $lib->setData([
             'name' => 'NAME',
             'parameterType' => 'textValue',
             'parameterSettings' => ['length' => 40]
-        ], '123');
+        ]);
     }
 }

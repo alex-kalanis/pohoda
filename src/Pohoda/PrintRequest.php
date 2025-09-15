@@ -13,7 +13,6 @@ namespace Riesenia\Pohoda;
 
 use Riesenia\Pohoda\PrintRequest\PrinterSettings;
 use Riesenia\Pohoda\PrintRequest\Record;
-use Riesenia\Pohoda\ValueTransformer\SanitizeEncoding;
 
 
 class PrintRequest extends AbstractAgenda
@@ -21,21 +20,17 @@ class PrintRequest extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    public function __construct(
-        Common\NamespacesPaths $namespacesPaths,
-        SanitizeEncoding $sanitizeEncoding,
-        array $data,
-        string $companyRegistrationNumber,
-        bool $resolveOptions = true,
-    )
+    public function setData(array $data): parent
     {
         // process record
-        $data['record'] = new Record($namespacesPaths, $sanitizeEncoding, $data['record'], $companyRegistrationNumber, $resolveOptions);
+        $record = new Record($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->resolveOptions, $this->normalizerFactory);
+        $data['record'] = $record->setData($data['record']);
 
         // process printer settings
-        $data['printerSettings'] = new PrinterSettings($namespacesPaths, $sanitizeEncoding, $data['printerSettings'], $companyRegistrationNumber, $resolveOptions);
+        $printerSettings = new PrinterSettings($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->resolveOptions, $this->normalizerFactory);
+        $data['printerSettings'] = $printerSettings->setData($data['printerSettings']);
 
-        parent::__construct($namespacesPaths, $sanitizeEncoding, $data, $companyRegistrationNumber, $resolveOptions);
+        return parent::setData($data);
     }
 
     /**

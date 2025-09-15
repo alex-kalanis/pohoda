@@ -24,19 +24,21 @@ class StorageTest extends CommonTestClass
     public function testAddSubStorages(): void
     {
         $lib = $this->getLib();
-        $sub = new Pohoda\Storage(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [
+        $sub = new Pohoda\Storage(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
+        $sub->setData([
             'code' => 'Sub',
             'name' => 'Sub'
-        ], '123');
+        ]);
 
         $lib->addSubstorage($sub);
 
         $this->assertEquals('<str:storage version="2.0"><str:itemStorage code="MAIN"><str:subStorages><str:itemStorage code="Sub" name="Sub"/></str:subStorages></str:itemStorage></str:storage>', $lib->getXML()->asXML());
 
-        $subsub = new Pohoda\Storage(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [
+        $subsub = new Pohoda\Storage(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
+        $subsub->setData([
             'code' => 'SubSub',
             'name' => 'SubSub'
-        ], '123');
+        ]);
 
         $sub->addSubstorage($subsub);
 
@@ -45,8 +47,9 @@ class StorageTest extends CommonTestClass
 
     protected function getLib(): Pohoda\Storage
     {
-        return new Pohoda\Storage(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [
+        $lib = new Pohoda\Storage(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
+        return $lib->setData([
             'code' => 'MAIN'
-        ], '123');
+        ]);
     }
 }

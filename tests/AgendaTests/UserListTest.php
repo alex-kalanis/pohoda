@@ -28,14 +28,15 @@ class UserListTest extends CommonTestClass
 
     public function testCreateSecondaryXml(): void
     {
-        $lib = new Pohoda\UserList(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [
+        $lib = new Pohoda\UserList(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
+        $lib->setData([
             'code' => 'CODE',
             'name' => 'NAME',
             'dateTimeStamp' => new \DateTime('2015-04-17 22:41:07'),
             'dateValidFrom' => new \DateTime('2015-04-17 22:41:07'),
             'submenu' => 'false',
             'constants' => 'true',
-        ], '123');
+        ]);
         $lib->addItemUserCode([
             'code' => 'CODE 2',
             'name' => 'NAME 2',
@@ -46,9 +47,10 @@ class UserListTest extends CommonTestClass
 
     protected function getLib(): Pohoda\UserList
     {
-        return new Pohoda\UserList(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [
+        $lib = new Pohoda\UserList(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
+        return $lib->setData([
             'code' => 'CODE',
             'name' => 'NAME',
-        ], '123');
+        ]);
     }
 }

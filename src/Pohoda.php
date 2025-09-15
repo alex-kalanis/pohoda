@@ -73,7 +73,6 @@ class Pohoda
     protected \XMLReader $xmlReader;
 
     protected Pohoda\AgendaFactory $agendaFactory;
-    protected Pohoda\Common\NamespacesPaths $namespacesPaths;
 
     protected string $elementName;
 
@@ -81,10 +80,10 @@ class Pohoda
 
     public function __construct(
         protected readonly string $companyRegistrationNumber,
-        protected Pohoda\ValueTransformer\SanitizeEncoding $sanitizeEncoding = new Pohoda\ValueTransformer\SanitizeEncoding(new Pohoda\ValueTransformer\Listing())
+        protected Pohoda\ValueTransformer\SanitizeEncoding $sanitizeEncoding = new Pohoda\ValueTransformer\SanitizeEncoding(new Pohoda\ValueTransformer\Listing()),
+        protected readonly Pohoda\Common\NamespacesPaths $namespacesPaths = new Pohoda\Common\NamespacesPaths(),
     )
     {
-        $this->namespacesPaths = new Pohoda\Common\NamespacesPaths();
         $this->agendaFactory = new Pohoda\AgendaFactory($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber);
     }
 
@@ -120,7 +119,7 @@ class Pohoda
      */
     public function create(string $name, array $data = []): AbstractAgenda
     {
-        return $this->agendaFactory->getAgenda($name, $data);
+        return $this->agendaFactory->getAgenda($name)->setData($data);
     }
 
     /**
@@ -172,16 +171,17 @@ class Pohoda
      *
      * @param string $id
      * @param AbstractAgenda $agenda
+     * @param array<string, mixed> $data
      *
      * @return void
      */
-    public function addItem(string $id, AbstractAgenda $agenda): void
+    public function addItem(string $id, AbstractAgenda $agenda, array $data): void
     {
         $this->xmlWriter->startElementNs('dat', 'dataPackItem', null);
 
         $this->xmlWriter->writeAttribute('id', $id);
         $this->xmlWriter->writeAttribute('version', '2.0');
-        $this->xmlWriter->writeRaw((string) $agenda->getXML()->asXML());
+        $this->xmlWriter->writeRaw((string) $agenda->setData($data)->getXML()->asXML());
         $this->xmlWriter->endElement();
 
         if (!$this->isInMemory) {
@@ -226,7 +226,7 @@ class Pohoda
             }
         }
 
-        $class = $this->agendaFactory->getAgenda($name, [], false);
+        $class = $this->agendaFactory->getAgenda($name, false);
         $this->elementName = $class->getImportRoot() ?? throw new \DomainException('Not allowed entity: ' . $name);
         $this->importRecursive = $class->canImportRecursive();
 

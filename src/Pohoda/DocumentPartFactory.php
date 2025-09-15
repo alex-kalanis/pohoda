@@ -6,16 +6,16 @@ namespace Riesenia\Pohoda;
 use DomainException;
 use ReflectionClass;
 use ReflectionException;
-use Riesenia\Pohoda\Common\NamespacesPaths;
 use Riesenia\Pohoda\ValueTransformer\SanitizeEncoding;
 
 
 class DocumentPartFactory
 {
     public function __construct(
-        protected readonly NamespacesPaths $namespacesPaths,
+        protected readonly Common\NamespacesPaths $namespacesPaths,
         protected readonly SanitizeEncoding $sanitizeEncoding,
         protected readonly string $companyNumber,
+        protected readonly Common\OptionsResolver\Normalizers\NormalizerFactory $normalizerFactory = new Common\OptionsResolver\Normalizers\NormalizerFactory(),
     )
     {
     }
@@ -23,12 +23,11 @@ class DocumentPartFactory
     /**
      * @param string $parentClass
      * @param string $name
-     * @param array<string,mixed> $data
      * @param bool $resolveOptions
      * @throws DomainException
      * @return Document\AbstractPart
      */
-    public function getPart(string $parentClass, string $name, array $data, bool $resolveOptions = true): Document\AbstractPart
+    public function getPart(string $parentClass, string $name, bool $resolveOptions = true): Document\AbstractPart
     {
         /** @var class-string<Document\AbstractPart> $className */
         $className = $parentClass . '\\' . $name;
@@ -46,9 +45,9 @@ class DocumentPartFactory
             $instance = $reflection->newInstance(
                 $this->namespacesPaths,
                 $this->sanitizeEncoding,
-                $data,
                 $this->companyNumber,
                 $resolveOptions,
+                $this->normalizerFactory,
             );
             // @codeCoverageIgnoreStart
         } catch (ReflectionException) {

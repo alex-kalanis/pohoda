@@ -13,7 +13,6 @@ namespace Riesenia\Pohoda\PrintRequest;
 
 use Riesenia\Pohoda\AbstractAgenda;
 use Riesenia\Pohoda\Common;
-use Riesenia\Pohoda\ValueTransformer\SanitizeEncoding;
 
 
 class Record extends AbstractAgenda
@@ -21,18 +20,13 @@ class Record extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    public function __construct(
-        Common\NamespacesPaths $namespacesPaths,
-        SanitizeEncoding $sanitizeEncoding,
-        array $data,
-        string $companyRegistrationNumber,
-        bool $resolveOptions = true,
-    )
+    public function setData(array $data): parent
     {
         // process filter
-        $data['filter'] = new Filter($namespacesPaths, $sanitizeEncoding, $data['filter'], $companyRegistrationNumber, $resolveOptions);
+        $filter = new Filter($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->resolveOptions, $this->normalizerFactory);
+        $data['filter'] = $filter->setData($data['filter']);
 
-        parent::__construct($namespacesPaths, $sanitizeEncoding, $data, $companyRegistrationNumber, $resolveOptions);
+        return parent::setData($data);
     }
 
     /**

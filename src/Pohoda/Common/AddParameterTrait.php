@@ -39,12 +39,19 @@ trait AddParameterTrait
             $this->data['parameters'] = [];
         }
 
-        $this->data['parameters'][] = new Parameter($this->namespacesPaths, $this->sanitizeEncoding, [
+        $parameter = new Parameter(
+            $this->namespacesPaths,
+            $this->sanitizeEncoding,
+            $this->companyRegistrationNumber,
+            $this->resolveOptions,
+            $this->normalizerFactory,
+        );
+        $this->data['parameters'][] = $parameter->setData([
             'name' => $name,
             'type' => $type,
             'value' => $value,
             'list' => $list
-        ], $this->companyRegistrationNumber);
+        ]);
 
         return $this;
     }

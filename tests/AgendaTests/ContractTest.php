@@ -31,7 +31,8 @@ class ContractTest extends CommonTestClass
 
     public function testDiffPartner(): void
     {
-        $lib = new Pohoda\Contract(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [
+        $lib = new Pohoda\Contract(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
+        $lib->setData([
             'text' => 'zakazka1337',
             'responsiblePerson' => ['ids' => 'Z0005'],
             'partnerIdentity' => [
@@ -45,7 +46,7 @@ class ContractTest extends CommonTestClass
                     'email' => 'fooz@example.com',
                 ],
             ],
-        ], '123');
+        ]);
         $lib->addParameter('VPrNum', 'number', 10.43);
 
         $this->assertEquals('<con:contract version="2.0"><con:contractDesc><con:text>zakazka1337</con:text><con:partnerIdentity><typ:address><typ:company>Access</typ:company><typ:name>Someone</typ:name><typ:city>Capital</typ:city><typ:street>King\'s</typ:street><typ:country><typ:ids>Tonga</typ:ids></typ:country><typ:phone>+9999123456789</typ:phone><typ:email>fooz@example.com</typ:email></typ:address></con:partnerIdentity><con:responsiblePerson><typ:ids>Z0005</typ:ids></con:responsiblePerson><con:parameters><typ:parameter><typ:name>VPrNum</typ:name><typ:numberValue>10.43</typ:numberValue></typ:parameter></con:parameters></con:contractDesc></con:contract>', $lib->getXML()->asXML());
@@ -58,13 +59,14 @@ class ContractTest extends CommonTestClass
 
     protected function getLib(): Pohoda\Contract
     {
-        return new Pohoda\Contract(
+        $lib = new Pohoda\Contract(
             new Pohoda\Common\NamespacesPaths(),
             new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()),
-            [
-                'text' => 'zakazka15',
-                'responsiblePerson' => ['ids' => 'Z0005']
-            ], '123'
+            '123'
         );
+        return $lib->setData([
+            'text' => 'zakazka15',
+            'responsiblePerson' => ['ids' => 'Z0005']
+        ]);
     }
 }
