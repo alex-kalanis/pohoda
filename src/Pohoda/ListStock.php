@@ -14,6 +14,11 @@ namespace Riesenia\Pohoda;
 use Riesenia\Pohoda\Common\OptionsResolver;
 use Symfony\Component\OptionsResolver\Options;
 
+/**
+ * @deprecated since 2025-09-15 v3.0.1
+ * Bad naming, bad context
+ * @see ListResponse
+ */
 class ListStock extends AbstractAgenda
 {
     /**
