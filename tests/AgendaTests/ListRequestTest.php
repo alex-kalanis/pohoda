@@ -70,6 +70,11 @@ class ListRequestTest extends CommonTestClass
         $lib = new Pohoda\ListRequest(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
         $lib->setData(['type' => 'Addressbook']);
         $this->assertEquals('<lAdb:listAddressBookRequest version="2.0" addressBookVersion="2.0"><lAdb:requestAddressBook/></lAdb:listAddressBookRequest>', $lib->getXML()->asXML());
+        $lib->addLimit([
+            'idFrom' => 123456,
+            'count' => 333,
+        ]);
+        $this->assertEquals('<lAdb:listAddressBookRequest version="2.0" addressBookVersion="2.0"><lAdb:requestAddressBook><ftr:limit><ftr:idFrom>123456</ftr:idFrom><ftr:count>333</ftr:count></ftr:limit></lAdb:requestAddressBook></lAdb:listAddressBookRequest>', $lib->getXML()->asXML());
         //        $this->assertEquals(, $lib->getXML()->asXML());
     }
 

@@ -13,12 +13,28 @@ namespace Riesenia\Pohoda;
 
 use Riesenia\Pohoda\Common\OptionsResolver;
 use Riesenia\Pohoda\ListRequest\Filter;
+use Riesenia\Pohoda\ListRequest\Limit;
 use Riesenia\Pohoda\ListRequest\RestrictionData;
 use Riesenia\Pohoda\ListRequest\UserFilterName;
 use Symfony\Component\OptionsResolver\Options;
 
 class ListRequest extends AbstractAgenda
 {
+    /**
+     * Add limit.
+     *
+     * @param array<string,mixed> $data
+     *
+     * @return $this
+     */
+    public function addLimit(array $data): self
+    {
+        $limit = new Limit($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->resolveOptions, $this->normalizerFactory);
+        $this->data['limit'] = $limit->setDirectionalVariable($this->useOneDirectionalVariables)->setData($data);
+
+        return $this;
+    }
+
     /**
      * Add filter.
      *
@@ -89,7 +105,7 @@ class ListRequest extends AbstractAgenda
 
             $request = $xml->addChild($this->data['namespace'] . ':request' . $this->data['type']);
 
-            $this->addElements($request, ['filter', 'userFilterName'], 'ftr');
+            $this->addElements($request, ['limit', 'filter', 'userFilterName'], 'ftr');
 
             if (isset($this->data['restrictionData'])) {
                 $this->addElements($xml, ['restrictionData'], 'lst');
