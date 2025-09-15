@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of riesenia/pohoda package.
  *
@@ -14,7 +15,6 @@ use PhpSpec\ObjectBehavior;
 use Riesenia\Pohoda\Common\NamespacesPaths;
 use Riesenia\Pohoda\ValueTransformer;
 
-
 class InvoiceSpec extends ObjectBehavior
 {
     public function let(): void
@@ -22,16 +22,16 @@ class InvoiceSpec extends ObjectBehavior
         $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
         $this->setData([
             'partnerIdentity' => [
-                'id' => 25
+                'id' => 25,
             ],
             'myIdentity' => [
                 'address' => [
                     'name' => 'NAME',
-                    'ico' => '123'
-                ]
+                    'ico' => '123',
+                ],
             ],
             'date' => '2015-01-10',
-            'intNote' => 'Note'
+            'intNote' => 'Note',
         ]);
     }
 
@@ -53,8 +53,8 @@ class InvoiceSpec extends ObjectBehavior
             'quantity' => 1,
             'rateVAT' => 'high',
             'homeCurrency' => [
-                'unitPrice' => 200
-            ]
+                'unitPrice' => 200,
+            ],
         ]);
 
         $this->addItem([
@@ -62,13 +62,13 @@ class InvoiceSpec extends ObjectBehavior
             'payVAT' => 1,
             'rateVAT' => 'high',
             'homeCurrency' => [
-                'unitPrice' => 198
+                'unitPrice' => 198,
             ],
             'stockItem' => [
                 'stockItem' => [
-                    'ids' => 'STM'
-                ]
-            ]
+                    'ids' => 'STM',
+                ],
+            ],
         ]);
 
         $this->getXML()->asXML()->shouldReturn('<inv:invoice version="2.0"><inv:invoiceHeader>' . $this->defaultHeader() . '</inv:invoiceHeader><inv:invoiceDetail><inv:invoiceItem><inv:text>NAME 1</inv:text><inv:quantity>1</inv:quantity><inv:rateVAT>high</inv:rateVAT><inv:homeCurrency><typ:unitPrice>200</typ:unitPrice></inv:homeCurrency></inv:invoiceItem><inv:invoiceItem><inv:quantity>1</inv:quantity><inv:payVAT>true</inv:payVAT><inv:rateVAT>high</inv:rateVAT><inv:homeCurrency><typ:unitPrice>198</typ:unitPrice></inv:homeCurrency><inv:stockItem><typ:stockItem><typ:ids>STM</typ:ids></typ:stockItem></inv:stockItem></inv:invoiceItem></inv:invoiceDetail></inv:invoice>');
@@ -78,7 +78,7 @@ class InvoiceSpec extends ObjectBehavior
     {
         $this->addAdvancePaymentItem([
             'sourceDocument' => [
-                'number' => '150800001'
+                'number' => '150800001',
             ],
             'quantity' => 1,
             'payVAT' => false,
@@ -87,8 +87,8 @@ class InvoiceSpec extends ObjectBehavior
                 'unitPrice' => -3000,
                 'price' => -3000,
                 'priceVAT' => 0,
-                'priceSum' => -3000
-            ]
+                'priceSum' => -3000,
+            ],
         ]);
 
         $this->getXML()->asXML()->shouldReturn('<inv:invoice version="2.0"><inv:invoiceHeader>' . $this->defaultHeader() . '</inv:invoiceHeader><inv:invoiceDetail><inv:invoiceAdvancePaymentItem><inv:sourceDocument><typ:number>150800001</typ:number></inv:sourceDocument><inv:quantity>1</inv:quantity><inv:payVAT>false</inv:payVAT><inv:rateVAT>none</inv:rateVAT><inv:homeCurrency><typ:unitPrice>-3000</typ:unitPrice><typ:price>-3000</typ:price><typ:priceVAT>0</typ:priceVAT><typ:priceSum>-3000</typ:priceSum></inv:homeCurrency></inv:invoiceAdvancePaymentItem></inv:invoiceDetail></inv:invoice>');
@@ -102,8 +102,8 @@ class InvoiceSpec extends ObjectBehavior
                 'currency' => 'EUR',
                 'rate' => '20.232',
                 'amount' => 1,
-                'priceSum' => 580
-            ]
+                'priceSum' => 580,
+            ],
         ]);
 
         $this->getXML()->asXML()->shouldReturn('<inv:invoice version="2.0"><inv:invoiceHeader>' . $this->defaultHeader() . '</inv:invoiceHeader><inv:invoiceSummary><inv:roundingDocument>math2one</inv:roundingDocument><inv:foreignCurrency><typ:currency><typ:ids>EUR</typ:ids></typ:currency><typ:rate>20.232</typ:rate><typ:amount>1</typ:amount><typ:priceSum>580</typ:priceSum></inv:foreignCurrency></inv:invoiceSummary></inv:invoice>');
@@ -124,8 +124,8 @@ class InvoiceSpec extends ObjectBehavior
         $this->addLink([
             'sourceAgenda' => 'receivedOrder',
             'sourceDocument' => [
-                'number' => '142100003'
-            ]
+                'number' => '142100003',
+            ],
         ]);
 
         $this->getXML()->asXML()->shouldReturn('<inv:invoice version="2.0"><inv:invoiceHeader>' . $this->defaultHeader() . '</inv:invoiceHeader><inv:links><typ:link><typ:sourceAgenda>receivedOrder</typ:sourceAgenda><typ:sourceDocument><typ:number>142100003</typ:number></typ:sourceDocument></typ:link></inv:links></inv:invoice>');

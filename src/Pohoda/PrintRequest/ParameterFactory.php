@@ -2,13 +2,11 @@
 
 namespace Riesenia\Pohoda\PrintRequest;
 
-
 use DomainException;
 use ReflectionClass;
 use ReflectionException;
 use Riesenia\Pohoda\ValueTransformer\SanitizeEncoding;
 use Riesenia\Pohoda\Common;
-
 
 class ParameterFactory
 {
@@ -46,10 +44,8 @@ class ParameterFactory
         protected readonly Common\NamespacesPaths $namespacesPaths,
         protected readonly SanitizeEncoding $sanitizeEncoding,
         protected readonly string $companyRegistrationNumber,
-        protected readonly Common\OptionsResolver\Normalizers\NormalizerFactory $normalizerFactory = new Common\OptionsResolver\Normalizers\NormalizerFactory()
-    )
-    {
-    }
+        protected readonly Common\OptionsResolver\Normalizers\NormalizerFactory $normalizerFactory = new Common\OptionsResolver\Normalizers\NormalizerFactory(),
+    ) {}
 
     /**
      * @param string $key

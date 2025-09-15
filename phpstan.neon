@@ -13,7 +13,7 @@ parameters:
             message: '#Dead catch \- ReflectionException is never thrown in the try block\.#'
             path: 'src/Pohoda/AgendaFactory.php'
         # pass data class
-        - '#Parameter \#3 \$data of class [a-zA-Z0-9_\\]+ constructor expects array\<string\, mixed\>\, mixed given.#'
-        - '#Parameter \#2 \$data of method Riesenia\\Pohoda\\PrintRequest\\ParameterFactory\:\:getByKey\(\) expects#'
+        - '#Parameter \#1 \$data of method [a-zA-Z0-9_\\]+\:\:setData\(\) expects array\<string\, mixed\>\, mixed given.#'
+        - '#Method Riesenia\\Pohoda\\AbstractDocument\:\:addItem\(\) should return Riesenia\\Pohoda\\Document\\AbstractPart#'
         # strval, intval, floatval, boolval functions
         - '#Parameter \#1 \$va[rl]u?e? of function [sibf][tnol][rtoo][la]?t?val expects#'

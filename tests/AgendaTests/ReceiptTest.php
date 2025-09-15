@@ -30,8 +30,8 @@ class ReceiptTest extends CommonTestClass
                 'currency' => 'EUR',
                 'rate' => '20.232',
                 'amount' => 1,
-                'priceSum' => 580
-            ]
+                'priceSum' => 580,
+            ],
         ]);
 
         $this->assertEquals('<pri:prijemka version="2.0"><pri:prijemkaHeader>' . $this->defaultHeader() . '</pri:prijemkaHeader><pri:prijemkaSummary><pri:roundingDocument>math2one</pri:roundingDocument><pri:foreignCurrency><typ:currency><typ:ids>EUR</typ:ids></typ:currency><typ:rate>20.232</typ:rate><typ:amount>1</typ:amount><typ:priceSum>580</typ:priceSum></pri:foreignCurrency></pri:prijemkaSummary></pri:prijemka>', $lib->getXML()->asXML());
@@ -45,19 +45,19 @@ class ReceiptTest extends CommonTestClass
             'stockItem' => [
                 'stockItem' => [
                     'ids' => 'model',
-                    'store' => 'X'
-                ]
-            ]
+                    'store' => 'X',
+                ],
+            ],
         ]);
 
         $lib->addItem([
             'quantity' => 1,
             'stockItem' => [
                 'stockItem' => [
-                    'ids' => 'STM'
-                ]
+                    'ids' => 'STM',
+                ],
             ],
-            'note' => 'STM'
+            'note' => 'STM',
         ]);
 
         $this->assertEquals('<pri:prijemka version="2.0"><pri:prijemkaHeader>' . $this->defaultHeader() . '</pri:prijemkaHeader><pri:prijemkaDetail><pri:prijemkaItem><pri:quantity>2</pri:quantity><pri:stockItem><typ:stockItem><typ:ids>model</typ:ids><typ:store>X</typ:store></typ:stockItem></pri:stockItem></pri:prijemkaItem><pri:prijemkaItem><pri:quantity>1</pri:quantity><pri:stockItem><typ:stockItem><typ:ids>STM</typ:ids></typ:stockItem></pri:stockItem><pri:note>STM</pri:note></pri:prijemkaItem></pri:prijemkaDetail></pri:prijemka>', $lib->getXML()->asXML());
@@ -87,12 +87,12 @@ class ReceiptTest extends CommonTestClass
             'dateOfReceipt' => '',
             'text' => 'Prijemka',
             'partnerIdentity' => [
-                'id' => 20
+                'id' => 20,
             ],
             'activity' => [
                 'id' => 1,
             ],
-            'intNote' => 'Note'
+            'intNote' => 'Note',
         ]);
     }
 }

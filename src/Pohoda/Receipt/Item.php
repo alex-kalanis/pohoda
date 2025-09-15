@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of riesenia/pohoda package.
  *
@@ -10,10 +11,8 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\Receipt;
 
-
 use Riesenia\Pohoda\Common\OptionsResolver;
 use Riesenia\Pohoda\Document\AbstractItem;
-
 
 class Item extends AbstractItem
 {

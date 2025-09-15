@@ -46,7 +46,7 @@ class PohodaTest extends CommonTestClass
             'code' => 'CODE',
             'name' => 'NAME',
             'storage' => 'STORAGE',
-            'typePrice' => ['id' => 1]
+            'typePrice' => ['id' => 1],
         ]);
         $this->assertInstanceOf(Pohoda\Stock::class, $result);
     }
@@ -58,7 +58,7 @@ class PohodaTest extends CommonTestClass
             'code' => 'CODE',
             'name' => 'NAME',
             'storage' => 'STORAGE',
-            'typePrice' => ['id' => 1]
+            'typePrice' => ['id' => 1],
         ]);
         $this->assertInstanceOf(Pohoda\Stock::class, $result);
     }
@@ -85,7 +85,7 @@ class PohodaTest extends CommonTestClass
             'code' => 'CODE',
             'name' => 'NAME',
             'storage' => 'STORAGE',
-            'typePrice' => ['id' => 1]
+            'typePrice' => ['id' => 1],
         ];
         $stock = new Stock(new NamespacesPaths(), $this->sanitization, '123');
         $stock->setData($data);
@@ -112,13 +112,13 @@ class PohodaTest extends CommonTestClass
         $this->assertFalse($lib->load('ABC', 'file://this_file_does_not_exists'));
     }
 
-/*
-    public function testNoString(): void
-    {
-        $lib = $this->getLib();
-        $this->assertFalse($lib->load('Category', 'this is not valid <?xml string!'));
-    }
-*/
+    /*
+        public function testNoString(): void
+        {
+            $lib = $this->getLib();
+            $this->assertFalse($lib->load('Category', 'this is not valid <?xml string!'));
+        }
+    */
 
     public function testCanWriteToMemory(): void
     {
@@ -126,7 +126,7 @@ class PohodaTest extends CommonTestClass
             'code' => 'CODE',
             'name' => 'NAME',
             'storage' => 'STORAGE',
-            'typePrice' => ['id' => 1]
+            'typePrice' => ['id' => 1],
         ];
         $stock = new Stock(new NamespacesPaths(), $this->sanitization, '123');
         $stock->setData($data);
@@ -296,7 +296,7 @@ class PohodaTest extends CommonTestClass
             'code' => 'code1',
             'name' => 'name2',
             'storage' => 'storage3',
-            'typePrice' => ['id' => 4]
+            'typePrice' => ['id' => 4],
         ];
         $stock = new Stock(new NamespacesPaths(), $this->sanitization, '123');
         $stock->setData($data);
@@ -325,7 +325,7 @@ class PohodaTest extends CommonTestClass
             'code' => 'code1',
             'name' => 'name2',
             'storage' => 'storage3',
-            'typePrice' => ['id' => 4]
+            'typePrice' => ['id' => 4],
         ];
         $stock = new Stock(new NamespacesPaths(), $this->sanitization, '123');
         $stock->setData($data);
@@ -342,7 +342,8 @@ class PohodaTest extends CommonTestClass
     public function getLib(): Pohoda
     {
         return new Pohoda(
-            '123', $this->sanitization,
+            '123',
+            $this->sanitization,
         );
     }
 }

@@ -2,9 +2,7 @@
 
 namespace Riesenia\Pohoda\Voucher;
 
-
 use Riesenia\Pohoda\Document\AbstractSummary;
-
 
 class Summary extends AbstractSummary
 {

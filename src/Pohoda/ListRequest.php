@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of riesenia/pohoda package.
  *
@@ -10,13 +11,11 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda;
 
-
 use Riesenia\Pohoda\Common\OptionsResolver;
 use Riesenia\Pohoda\ListRequest\Filter;
 use Riesenia\Pohoda\ListRequest\RestrictionData;
 use Riesenia\Pohoda\ListRequest\UserFilterName;
 use Symfony\Component\OptionsResolver\Options;
-
 
 class ListRequest extends AbstractAgenda
 {

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of riesenia/pohoda package.
  *
@@ -10,13 +11,10 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda;
 
-
 use Riesenia\Pohoda\Common\OptionsResolver;
-
 
 class Category extends AbstractAgenda
 {
-
     /** @var string[] */
     protected array $elements = ['name', 'description', 'sequence', 'displayed', 'picture', 'note'];
 

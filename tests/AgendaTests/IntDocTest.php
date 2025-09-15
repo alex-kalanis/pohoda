@@ -29,8 +29,8 @@ class IntDocTest extends CommonTestClass
             'quantity' => 1,
             'rateVAT' => 'high',
             'homeCurrency' => [
-                'unitPrice' => 200
-            ]
+                'unitPrice' => 200,
+            ],
         ]);
 
         $this->assertEquals('<int:intDoc version="2.0"><int:intDocHeader>' . $this->defaultHeader() . '</int:intDocHeader><int:intDocDetail><int:intDocItem><int:text>NAME 1</int:text><int:quantity>1</int:quantity><int:rateVAT>high</int:rateVAT><int:homeCurrency><typ:unitPrice>200</typ:unitPrice></int:homeCurrency></int:intDocItem></int:intDocDetail></int:intDoc>', $lib->getXML()->asXML());
@@ -45,8 +45,8 @@ class IntDocTest extends CommonTestClass
                 'currency' => 'EUR',
                 'rate' => '20.232',
                 'amount' => 1,
-                'priceSum' => 580
-            ]
+                'priceSum' => 580,
+            ],
         ]);
 
         $this->assertEquals('<int:intDoc version="2.0"><int:intDocHeader>' . $this->defaultHeader() . '</int:intDocHeader><int:intDocSummary><int:roundingDocument>math2one</int:roundingDocument><int:foreignCurrency><typ:currency><typ:ids>EUR</typ:ids></typ:currency><typ:rate>20.232</typ:rate><typ:amount>1</typ:amount><typ:priceSum>580</typ:priceSum></int:foreignCurrency></int:intDocSummary></int:intDoc>', $lib->getXML()->asXML());
@@ -58,7 +58,7 @@ class IntDocTest extends CommonTestClass
         $lib->addTaxDocument([
             'sourceLiquidation' => [
                 'sourceItemId' => '0123456879',
-            ]
+            ],
         ]);
 
         $this->assertEquals('<int:intDoc version="2.0"><int:taxDocument><int:sourceLiquidation><typ:sourceItemId>123456879</typ:sourceItemId></int:sourceLiquidation></int:taxDocument><int:intDocHeader>' . $this->defaultHeader() . '</int:intDocHeader></int:intDoc>', $lib->getXML()->asXML());
@@ -85,16 +85,16 @@ class IntDocTest extends CommonTestClass
         $lib = new Pohoda\IntDoc(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
         return $lib->setData([
             'partnerIdentity' => [
-                'id' => 25
+                'id' => 25,
             ],
             'myIdentity' => [
                 'address' => [
                     'name' => 'NAME',
-                    'ico' => '123'
-                ]
+                    'ico' => '123',
+                ],
             ],
             'date' => '2015-01-10',
-            'intNote' => 'Note'
+            'intNote' => 'Note',
         ]);
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of riesenia/pohoda package.
  *
@@ -10,12 +11,10 @@ declare(strict_types=1);
 
 namespace spec\Riesenia\Pohoda;
 
-
 use PhpSpec\ObjectBehavior;
 use Riesenia\Pohoda\Category;
 use Riesenia\Pohoda\Common\NamespacesPaths;
 use Riesenia\Pohoda\ValueTransformer;
-
 
 class CategorySpec extends ObjectBehavior
 {
@@ -25,7 +24,7 @@ class CategorySpec extends ObjectBehavior
         $this->setData([
             'name' => 'Main',
             'sequence' => 1,
-            'displayed' => true
+            'displayed' => true,
         ]);
     }
 
@@ -46,14 +45,14 @@ class CategorySpec extends ObjectBehavior
         $sub->setData([
             'name' => 'Sub',
             'sequence' => 1,
-            'displayed' => true
+            'displayed' => true,
         ]);
 
         $subsub = new Category(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
         $subsub->setData([
             'name' => 'SubSub',
             'sequence' => 1,
-            'displayed' => false
+            'displayed' => false,
         ]);
 
         $sub->addSubcategory($subsub);
@@ -62,7 +61,7 @@ class CategorySpec extends ObjectBehavior
         $sub2->setData([
             'name' => 'Sub2',
             'sequence' => '2',
-            'displayed' => true
+            'displayed' => true,
         ]);
 
         $this->addSubcategory($sub);

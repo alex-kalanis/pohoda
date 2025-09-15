@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of riesenia/pohoda package.
  *
@@ -8,9 +9,7 @@
 
 declare(strict_types=1);
 
-
 namespace Riesenia\Pohoda\ValueTransformer;
-
 
 /**
  * A transformer that converts the encoding of a string.
@@ -23,9 +22,7 @@ class EncodingTransformer implements ValueTransformerInterface
     public function __construct(
         protected readonly string $fromEncoding,
         protected readonly string $toEncoding,
-    )
-    {
-    }
+    ) {}
 
     /**
      * {@inheritdoc}

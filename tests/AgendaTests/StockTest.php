@@ -26,7 +26,7 @@ class StockTest extends CommonTestClass
         $lib = $this->getLib();
         $lib->addActionType('update', [
             'code' => 'CODE',
-            'store' => ['ids' => 'STORAGE']
+            'store' => ['ids' => 'STORAGE'],
         ]);
 
         $this->assertEquals('<stk:stock version="2.0"><stk:actionType><stk:update><ftr:filter><ftr:code>CODE</ftr:code><ftr:store><typ:ids>STORAGE</typ:ids></ftr:store></ftr:filter></stk:update></stk:actionType><stk:stockHeader>' . $this->defaultHeader() . '</stk:stockHeader></stk:stock>', $lib->getXML()->asXML());
@@ -43,12 +43,12 @@ class StockTest extends CommonTestClass
             'quantity' => 1,
             'stockPriceItem' => [
                 [
-                    'stockPrice' => ['ids' => 'Cena 1', 'price' => 294]
+                    'stockPrice' => ['ids' => 'Cena 1', 'price' => 294],
                 ],
                 [
-                    'stockPrice' => ['ids' => 'MOC', 'price' => 393.3]
-                ]
-            ]
+                    'stockPrice' => ['ids' => 'MOC', 'price' => 393.3],
+                ],
+            ],
         ]);
 
         $this->assertEquals('<stk:stock version="2.0"><stk:stockHeader>' . $this->defaultHeader() . '</stk:stockHeader><stk:stockDetail><stk:stockItem><stk:storage><typ:ids>MATERIÁL</typ:ids></stk:storage><stk:code>B03</stk:code><stk:name>Spojovacia doska</stk:name><stk:count>88</stk:count><stk:quantity>1</stk:quantity><stk:stockPriceItem><stk:stockPrice><typ:ids>Cena 1</typ:ids><typ:price>294</typ:price></stk:stockPrice><stk:stockPrice><typ:ids>MOC</typ:ids><typ:price>393.3</typ:price></stk:stockPrice></stk:stockPriceItem></stk:stockItem></stk:stockDetail></stk:stock>', $lib->getXML()->asXML());
@@ -109,7 +109,7 @@ class StockTest extends CommonTestClass
         $lib = new Pohoda\Stock(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
         $lib->addActionType('delete', [
             'code' => 'CODE',
-            'store' => ['ids' => 'STORAGE']
+            'store' => ['ids' => 'STORAGE'],
         ]);
 
         $this->assertEquals('<stk:stock version="2.0"><stk:actionType><stk:delete><ftr:filter><ftr:code>CODE</ftr:code><ftr:store><typ:ids>STORAGE</typ:ids></ftr:store></ftr:filter></stk:delete></stk:actionType></stk:stock>', $lib->getXML()->asXML());
@@ -135,12 +135,12 @@ class StockTest extends CommonTestClass
                 'goodsCode' => '123',
                 'unit' => 'ZZZ',
                 'coefficient' => 0,
-                'country' => 'CN'
+                'country' => 'CN',
             ],
             'recyclingContrib' => [
                 'recyclingContribType' => 'X',
-                'coefficientOfRecyclingContrib' => 1
-            ]
+                'coefficientOfRecyclingContrib' => 1,
+            ],
         ]);
 
         $this->assertEquals('<stk:stock version="2.0"><stk:stockHeader>' . $this->defaultHeader() . '<stk:count>22</stk:count><stk:reservation>3</stk:reservation></stk:stockHeader></stk:stock>', $lib->getXML()->asXML());
@@ -168,12 +168,12 @@ class StockTest extends CommonTestClass
                 'goodsCode' => '123',
                 'unit' => 'ZZZ',
                 'coefficient' => 0,
-                'country' => 'CN'
+                'country' => 'CN',
             ],
             'recyclingContrib' => [
                 'recyclingContribType' => 'X',
-                'coefficientOfRecyclingContrib' => 1
-            ]
+                'coefficientOfRecyclingContrib' => 1,
+            ],
         ]);
     }
 }

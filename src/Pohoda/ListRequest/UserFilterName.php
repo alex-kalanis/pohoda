@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of riesenia/pohoda package.
  *
@@ -10,10 +11,8 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\ListRequest;
 
-
 use Riesenia\Pohoda\AbstractAgenda;
 use Riesenia\Pohoda\Common\OptionsResolver;
-
 
 class UserFilterName extends AbstractAgenda
 {
@@ -26,7 +25,7 @@ class UserFilterName extends AbstractAgenda
         return $this->createXML()->addChild(
             'ftr:userFilterName',
             is_null($filterName) ? null : strval($filterName),
-            $this->namespace('ftr')
+            $this->namespace('ftr'),
         );
     }
 

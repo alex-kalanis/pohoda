@@ -9,9 +9,7 @@
 
 declare(strict_types=1);
 
-
 namespace Riesenia\Pohoda\ValueTransformer;
-
 
 /**
  * A transformer that rewrites Cyrillic script to its Latin alphabet equivalent.

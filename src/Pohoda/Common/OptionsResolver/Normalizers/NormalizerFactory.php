@@ -2,10 +2,8 @@
 
 namespace Riesenia\Pohoda\Common\OptionsResolver\Normalizers;
 
-
 use Closure;
 use DomainException;
-
 
 class NormalizerFactory
 {

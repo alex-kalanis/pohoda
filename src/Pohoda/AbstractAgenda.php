@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of riesenia/pohoda package.
  *
@@ -10,11 +11,9 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda;
 
-
 use Riesenia\Pohoda;
 use Riesenia\Pohoda\ValueTransformer\ValueTransformerInterface;
 use SimpleXMLElement;
-
 
 /**
  * Base class for Pohoda objects.
@@ -55,10 +54,8 @@ abstract class AbstractAgenda
         protected Pohoda\ValueTransformer\SanitizeEncoding $sanitizeEncoding,
         protected readonly string $companyRegistrationNumber,
         protected bool $resolveOptions = true,
-        protected Common\OptionsResolver\Normalizers\NormalizerFactory $normalizerFactory = new Common\OptionsResolver\Normalizers\NormalizerFactory()
-    )
-    {
-    }
+        protected Common\OptionsResolver\Normalizers\NormalizerFactory $normalizerFactory = new Common\OptionsResolver\Normalizers\NormalizerFactory(),
+    ) {}
 
     /**
      * Import root
@@ -175,9 +172,9 @@ abstract class AbstractAgenda
                 $sanitized = $this->sanitize($this->data[$element]);
                 $attrs->attrNamespace ? $attrElement->addAttribute(
                     $attrs->attrNamespace . ':' . $attrs->attrName,
-                        $sanitized,
-                        $this->namespace($attrs->attrNamespace)
-                    )
+                    $sanitized,
+                    $this->namespace($attrs->attrNamespace),
+                )
                     : $attrElement->addAttribute($attrs->attrName, $sanitized);
 
                 continue;
@@ -272,8 +269,8 @@ abstract class AbstractAgenda
                 function (string $value, ValueTransformerInterface $transformer): string {
                     return $transformer->transform($value);
                 },
-                strval($value)
-            )
+                strval($value),
+            ),
         );
     }
 

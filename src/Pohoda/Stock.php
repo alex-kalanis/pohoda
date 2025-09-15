@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of riesenia/pohoda package.
  *
@@ -10,11 +11,9 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda;
 
-
 use Riesenia\Pohoda\Stock\Header;
 use Riesenia\Pohoda\Stock\Price;
 use Riesenia\Pohoda\Stock\StockItem;
-
 
 class Stock extends AbstractAgenda
 {
@@ -86,7 +85,7 @@ class Stock extends AbstractAgenda
         $price = new Price($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->resolveOptions, $this->normalizerFactory);
         $this->data['stockPriceItem'][] = $price->setDirectionalVariable($this->useOneDirectionalVariables)->setData([
             'ids' => $code,
-            'price' => $value
+            'price' => $value,
         ]);
 
         return $this;

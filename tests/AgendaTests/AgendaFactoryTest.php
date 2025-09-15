@@ -1,6 +1,7 @@
 <?php
 
 // intentionally another namespace here - I need to mock few classes for testing
+
 namespace Riesenia\Pohoda;
 
 class XAgendaNotInit extends AbstractAgenda
@@ -11,9 +12,7 @@ class XAgendaNotInit extends AbstractAgenda
         parent::__construct(new Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), 'num');
     }
 
-    public function configureOptions(Common\OptionsResolver $resolver): void
-    {
-    }
+    public function configureOptions(Common\OptionsResolver $resolver): void {}
 
     public function getXML(): \SimpleXMLElement
     {
@@ -24,21 +23,18 @@ class XAgendaNotInit extends AbstractAgenda
 
 class XAgendaNotInstance
 {
-    public function __construct(object $obj1, object $obj2, string $number, bool $opts = false)
-    {
-    }
+    public function __construct(object $obj1, object $obj2, string $number, bool $opts = false) {}
 }
 
 
 // now test part
-namespace tests\AgendaTests;
 
+namespace tests\AgendaTests;
 
 use tests\CommonTestClass;
 use DomainException;
 use Riesenia\Pohoda;
 use Riesenia\Pohoda\ValueTransformer;
-
 
 class AgendaFactoryTest extends CommonTestClass
 {

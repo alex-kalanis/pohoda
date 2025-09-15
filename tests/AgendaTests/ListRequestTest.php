@@ -8,13 +8,12 @@ use Riesenia\Pohoda\ValueTransformer;
 
 class ListRequestTest extends CommonTestClass
 {
-
     public function testCategory(): void
     {
         $lib = new Pohoda\ListRequest(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
         $lib->setData(['type' => 'Category']);
         $this->assertEquals('<lst:listCategoryRequest version="2.0" categoryVersion="2.0"><lst:requestCategory/></lst:listCategoryRequest>', $lib->getXML()->asXML());
-//        $this->assertEquals(, $lib->getXML()->asXML());
+        //        $this->assertEquals(, $lib->getXML()->asXML());
     }
 
     public function testActionPrice(): void
@@ -71,7 +70,7 @@ class ListRequestTest extends CommonTestClass
         $lib = new Pohoda\ListRequest(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
         $lib->setData(['type' => 'Addressbook']);
         $this->assertEquals('<lAdb:listAddressBookRequest version="2.0" addressBookVersion="2.0"><lAdb:requestAddressBook/></lAdb:listAddressBookRequest>', $lib->getXML()->asXML());
-//        $this->assertEquals(, $lib->getXML()->asXML());
+        //        $this->assertEquals(, $lib->getXML()->asXML());
     }
 
     public function testInitParams(): void

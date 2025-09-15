@@ -26,8 +26,8 @@ class VoucherTest extends CommonTestClass
         $lib = $this->getLib();
         $lib->addSummary([
             'homeCurrency' => [
-                'priceNone' => 500
-            ]
+                'priceNone' => 500,
+            ],
         ]);
 
         $this->assertEquals('<vch:voucher version="2.0"><vch:voucherHeader>' . $this->defaultHeader() . '</vch:voucherHeader><vch:voucherSummary><vch:homeCurrency><typ:priceNone>500</typ:priceNone></vch:homeCurrency></vch:voucherSummary></vch:voucher>', $lib->getXML()->asXML());

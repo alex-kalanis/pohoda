@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of riesenia/pohoda package.
  *
@@ -10,11 +11,9 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\Type;
 
-
 use Riesenia\Pohoda\AbstractAgenda;
 use Riesenia\Pohoda\Common;
 use Riesenia\Pohoda\ValueTransformer\SanitizeEncoding;
-
 
 class StockItem extends AbstractAgenda
 {
@@ -32,8 +31,7 @@ class StockItem extends AbstractAgenda
         string $companyRegistrationNumber,
         bool $resolveOptions = true,
         Common\OptionsResolver\Normalizers\NormalizerFactory $normalizerFactory = new Common\OptionsResolver\Normalizers\NormalizerFactory(),
-    )
-    {
+    ) {
         // init attributes
         $this->elementsAttributesMapper = [
             'insertAttachStock' => new Common\ElementAttributes('stockItem', 'insertAttachStock'),

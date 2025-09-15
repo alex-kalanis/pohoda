@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of riesenia/pohoda package.
  *
@@ -10,9 +11,7 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\Common;
 
-
 use Riesenia\Pohoda\Type\ActionType;
-
 
 /**
  * @property array<string, mixed> $data
@@ -44,7 +43,7 @@ trait AddActionTypeTrait
         $this->data['actionType'] = $actionType->setDirectionalVariable($this->useOneDirectionalVariables)->setData([
             'type' => $type,
             'filter' => $filter,
-            'agenda' => $agenda
+            'agenda' => $agenda,
         ]);
 
         return $this;

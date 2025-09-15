@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of riesenia/pohoda package.
  *
@@ -10,11 +11,9 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda;
 
-
 use Riesenia\Pohoda\Common\AddParameterToHeaderTrait;
 use Riesenia\Pohoda\Common\OptionsResolver;
 use Riesenia\Pohoda\ValueTransformer\SanitizeEncoding;
-
 
 abstract class AbstractDocument extends AbstractAgenda
 {
@@ -31,8 +30,7 @@ abstract class AbstractDocument extends AbstractAgenda
         string $companyRegistrationNumber,
         bool $resolveOptions = true,
         OptionsResolver\Normalizers\NormalizerFactory $normalizerFactory = new OptionsResolver\Normalizers\NormalizerFactory(),
-    )
-    {
+    ) {
         $this->documentPartFactory = new DocumentPartFactory($namespacesPaths, $sanitizeEncoding, $companyRegistrationNumber, $normalizerFactory);
 
         parent::__construct($namespacesPaths, $sanitizeEncoding, $companyRegistrationNumber, $resolveOptions, $normalizerFactory);

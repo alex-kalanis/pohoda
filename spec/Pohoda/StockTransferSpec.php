@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of riesenia/pohoda package.
  *
@@ -10,11 +11,9 @@ declare(strict_types=1);
 
 namespace spec\Riesenia\Pohoda;
 
-
 use PhpSpec\ObjectBehavior;
 use Riesenia\Pohoda\Common\NamespacesPaths;
 use Riesenia\Pohoda\ValueTransformer;
-
 
 class StockTransferSpec extends ObjectBehavior
 {
@@ -30,13 +29,13 @@ class StockTransferSpec extends ObjectBehavior
             'partnerIdentity' => [
                 'address' => [
                     'name' => 'NAME',
-                    'ico' => '123'
-                ]
+                    'ico' => '123',
+                ],
             ],
             'activity' => [
                 'id' => 1,
             ],
-            'intNote' => 'Note'
+            'intNote' => 'Note',
         ]);
     }
 
@@ -58,19 +57,19 @@ class StockTransferSpec extends ObjectBehavior
             'stockItem' => [
                 'stockItem' => [
                     'ids' => 'model',
-                    'store' => 'X'
-                ]
-            ]
+                    'store' => 'X',
+                ],
+            ],
         ]);
 
         $this->addItem([
             'quantity' => 1,
             'stockItem' => [
                 'stockItem' => [
-                    'ids' => 'STM'
-                ]
+                    'ids' => 'STM',
+                ],
             ],
-            'note' => 'STM'
+            'note' => 'STM',
         ]);
 
         $this->getXML()->asXML()->shouldReturn('<pre:prevodka version="2.0"><pre:prevodkaHeader>' . $this->defaultHeader() . '</pre:prevodkaHeader><pre:prevodkaDetail><pre:prevodkaItem><pre:quantity>2</pre:quantity><pre:stockItem><typ:stockItem><typ:ids>model</typ:ids><typ:store>X</typ:store></typ:stockItem></pre:stockItem></pre:prevodkaItem><pre:prevodkaItem><pre:quantity>1</pre:quantity><pre:stockItem><typ:stockItem><typ:ids>STM</typ:ids></typ:stockItem></pre:stockItem><pre:note>STM</pre:note></pre:prevodkaItem></pre:prevodkaDetail></pre:prevodka>');

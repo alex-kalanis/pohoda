@@ -2,7 +2,6 @@
 
 namespace Riesenia\Pohoda\ValueTransformer;
 
-
 class Listing
 {
     /**

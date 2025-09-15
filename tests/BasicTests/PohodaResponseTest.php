@@ -33,7 +33,7 @@ class PohodaResponseTest extends CommonTestClass
             'code' => 'CODE',
             'name' => 'NAME',
             'storage' => 'STORAGE',
-            'typePrice' => ['id' => 1]
+            'typePrice' => ['id' => 1],
         ];
         $stock = new Stock(new NamespacesPaths(), $this->sanitization, '123');
         $stock->setData($data);
@@ -60,7 +60,7 @@ class PohodaResponseTest extends CommonTestClass
             'code' => 'CODE',
             'name' => 'NAME',
             'storage' => 'STORAGE',
-            'typePrice' => ['id' => 1]
+            'typePrice' => ['id' => 1],
         ];
         $stock = new Stock(new NamespacesPaths(), $this->sanitization, '123');
         $stock->setData($data);
@@ -86,7 +86,7 @@ class PohodaResponseTest extends CommonTestClass
             'code' => 'code1',
             'name' => 'name2',
             'storage' => 'storage3',
-            'typePrice' => ['id' => 4]
+            'typePrice' => ['id' => 4],
         ];
         $stock = new Stock(new NamespacesPaths(), $this->sanitization, '123');
         $stock->setData($data);
@@ -115,7 +115,7 @@ class PohodaResponseTest extends CommonTestClass
             'code' => 'code1',
             'name' => 'name2',
             'storage' => 'storage3',
-            'typePrice' => ['id' => 4]
+            'typePrice' => ['id' => 4],
         ];
         $stock = new Stock(new NamespacesPaths(), $this->sanitization, '123');
         $stock->setData($data);
@@ -132,7 +132,8 @@ class PohodaResponseTest extends CommonTestClass
     public function getLib(): PohodaResponse
     {
         return new PohodaResponse(
-            '123', $this->sanitization,
+            '123',
+            $this->sanitization,
         );
     }
 }

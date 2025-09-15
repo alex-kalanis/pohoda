@@ -26,7 +26,7 @@ class AddressBookTest extends CommonTestClass
     {
         $lib = $this->getLib();
         $lib->addActionType('update', [
-            'company' => 'COMPANY'
+            'company' => 'COMPANY',
         ]);
 
         $this->assertEquals('<adb:addressbook version="2.0"><adb:actionType><adb:update><ftr:filter><ftr:company>COMPANY</ftr:company></ftr:filter></adb:update></adb:actionType><adb:addressbookHeader>' . $this->defaultHeader() . '</adb:addressbookHeader></adb:addressbook>', $lib->getXML()->asXML());
@@ -47,7 +47,7 @@ class AddressBookTest extends CommonTestClass
     {
         $lib = new Pohoda\AddressBook(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
         $lib->addActionType('delete', [
-            'company' => 'COMPANY'
+            'company' => 'COMPANY',
         ]);
 
         $this->assertEquals('<adb:addressbook version="2.0"><adb:actionType><adb:delete><ftr:filter><ftr:company>COMPANY</ftr:company></ftr:filter></adb:delete></adb:actionType></adb:addressbook>', $lib->getXML()->asXML());
@@ -60,11 +60,11 @@ class AddressBookTest extends CommonTestClass
             'identity' => [
                 'address' => [
                     'name' => 'Călărași ñüé¿s',
-                    'city' => 'Dâmbovița'
-                ]
+                    'city' => 'Dâmbovița',
+                ],
             ],
             'phone' => '123',
-            'centre' => ['id' => 1]
+            'centre' => ['id' => 1],
         ]);
 
         $this->assertEquals('<adb:addressbook version="2.0"><adb:addressbookHeader><adb:identity><typ:address><typ:name>Călărași ñüé¿s</typ:name><typ:city>Dâmbovița</typ:city></typ:address></adb:identity><adb:phone>123</adb:phone><adb:centre><typ:id>1</typ:id></adb:centre></adb:addressbookHeader></adb:addressbook>', $lib->getXML()->asXML());
@@ -82,11 +82,11 @@ class AddressBookTest extends CommonTestClass
             'identity' => [
                 'address' => [
                     'name' => 'NAME',
-                    'ico' => '123'
-                ]
+                    'ico' => '123',
+                ],
             ],
             'phone' => '123',
-            'centre' => ['id' => 1]
+            'centre' => ['id' => 1],
         ]);
     }
 }

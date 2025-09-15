@@ -62,11 +62,11 @@ class ContractTest extends CommonTestClass
         $lib = new Pohoda\Contract(
             new Pohoda\Common\NamespacesPaths(),
             new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()),
-            '123'
+            '123',
         );
         return $lib->setData([
             'text' => 'zakazka15',
-            'responsiblePerson' => ['ids' => 'Z0005']
+            'responsiblePerson' => ['ids' => 'Z0005'],
         ]);
     }
 }

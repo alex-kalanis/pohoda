@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of riesenia/pohoda package.
  *
@@ -10,11 +11,9 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\Type;
 
-
 use Riesenia\Pohoda\AbstractAgenda;
 use Riesenia\Pohoda\Common\OptionsResolver;
 use Riesenia\Pohoda\Common\SetNamespaceTrait;
-
 
 class RecyclingContrib extends AbstractAgenda
 {

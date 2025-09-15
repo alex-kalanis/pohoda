@@ -2,12 +2,10 @@
 
 namespace Riesenia\Pohoda;
 
-
 use DomainException;
 use ReflectionClass;
 use ReflectionException;
 use Riesenia\Pohoda\ValueTransformer\SanitizeEncoding;
-
 
 class DocumentPartFactory
 {
@@ -16,9 +14,7 @@ class DocumentPartFactory
         protected readonly SanitizeEncoding $sanitizeEncoding,
         protected readonly string $companyNumber,
         protected readonly Common\OptionsResolver\Normalizers\NormalizerFactory $normalizerFactory = new Common\OptionsResolver\Normalizers\NormalizerFactory(),
-    )
-    {
-    }
+    ) {}
 
     /**
      * @param string $parentClass

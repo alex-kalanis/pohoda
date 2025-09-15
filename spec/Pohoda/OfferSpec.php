@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of riesenia/pohoda package.
  *
@@ -10,11 +11,9 @@ declare(strict_types=1);
 
 namespace spec\Riesenia\Pohoda;
 
-
 use PhpSpec\ObjectBehavior;
 use Riesenia\Pohoda\Common\NamespacesPaths;
 use Riesenia\Pohoda\ValueTransformer;
-
 
 class OfferSpec extends ObjectBehavior
 {
@@ -23,16 +22,16 @@ class OfferSpec extends ObjectBehavior
         $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
         $this->setData([
             'partnerIdentity' => [
-                'id' => 25
+                'id' => 25,
             ],
             'myIdentity' => [
                 'address' => [
                     'name' => 'NAME',
-                    'ico' => '123'
-                ]
+                    'ico' => '123',
+                ],
             ],
             'date' => '2015-01-10',
-            'intNote' => 'Note'
+            'intNote' => 'Note',
         ]);
     }
 
@@ -54,8 +53,8 @@ class OfferSpec extends ObjectBehavior
             'quantity' => 1,
             'rateVAT' => 'high',
             'homeCurrency' => [
-                'unitPrice' => 200
-            ]
+                'unitPrice' => 200,
+            ],
         ]);
 
         $this->addItem([
@@ -63,13 +62,13 @@ class OfferSpec extends ObjectBehavior
             'payVAT' => 1,
             'rateVAT' => 'high',
             'homeCurrency' => [
-                'unitPrice' => 198
+                'unitPrice' => 198,
             ],
             'stockItem' => [
                 'stockItem' => [
-                    'ids' => 'STM'
-                ]
-            ]
+                    'ids' => 'STM',
+                ],
+            ],
         ]);
 
         $this->getXML()->asXML()->shouldReturn('<ofr:offer version="2.0"><ofr:offerHeader>' . $this->defaultHeader() . '</ofr:offerHeader><ofr:offerDetail><ofr:offerItem><ofr:text>NAME 1</ofr:text><ofr:quantity>1</ofr:quantity><ofr:rateVAT>high</ofr:rateVAT><ofr:homeCurrency><typ:unitPrice>200</typ:unitPrice></ofr:homeCurrency></ofr:offerItem><ofr:offerItem><ofr:quantity>1</ofr:quantity><ofr:payVAT>true</ofr:payVAT><ofr:rateVAT>high</ofr:rateVAT><ofr:homeCurrency><typ:unitPrice>198</typ:unitPrice></ofr:homeCurrency><ofr:stockItem><typ:stockItem><typ:ids>STM</typ:ids></typ:stockItem></ofr:stockItem></ofr:offerItem></ofr:offerDetail></ofr:offer>');
@@ -83,8 +82,8 @@ class OfferSpec extends ObjectBehavior
                 'currency' => 'EUR',
                 'rate' => '20.232',
                 'amount' => 1,
-                'priceSum' => 580
-            ]
+                'priceSum' => 580,
+            ],
         ]);
 
         $this->getXML()->asXML()->shouldReturn('<ofr:offer version="2.0"><ofr:offerHeader>' . $this->defaultHeader() . '</ofr:offerHeader><ofr:offerSummary><ofr:roundingDocument>math2one</ofr:roundingDocument><ofr:foreignCurrency><typ:currency><typ:ids>EUR</typ:ids></typ:currency><typ:rate>20.232</typ:rate><typ:amount>1</typ:amount><typ:priceSum>580</typ:priceSum></ofr:foreignCurrency></ofr:offerSummary></ofr:offer>');

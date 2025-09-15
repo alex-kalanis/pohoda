@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of riesenia/pohoda package.
  *
@@ -10,13 +11,10 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda;
 
-
 use Riesenia\Pohoda\Type\TaxDocument;
-
 
 class IntDoc extends AbstractDocument
 {
-
     public function getImportRoot(): string
     {
         return 'lst:intDoc';

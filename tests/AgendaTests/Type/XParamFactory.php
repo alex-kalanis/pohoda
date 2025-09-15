@@ -11,4 +11,3 @@ class XParamFactory extends PrintRequest\ParameterFactory
         'not_instance' => XFailClass::class,
     ];
 }
-

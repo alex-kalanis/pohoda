@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of riesenia/pohoda package.
  *
@@ -10,11 +11,9 @@ declare(strict_types=1);
 
 namespace spec\Riesenia\Pohoda;
 
-
 use PhpSpec\ObjectBehavior;
 use Riesenia\Pohoda\Common\NamespacesPaths;
 use Riesenia\Pohoda\ValueTransformer;
-
 
 class BankSpec extends ObjectBehavior
 {
@@ -26,7 +25,7 @@ class BankSpec extends ObjectBehavior
             'account' => 'KB',
             'statementNumber' => [
                 'statementNumber' => '004',
-                'numberMovement' => '0002'
+                'numberMovement' => '0002',
             ],
             'symVar' => '456',
             'symConst' => '555',
@@ -36,8 +35,8 @@ class BankSpec extends ObjectBehavior
             'text' => 'STORMWARE s.r.o.',
             'paymentAccount' => [
                 'accountNo' => '4660550217',
-                'bankCode' => '5500'
-            ]
+                'bankCode' => '5500',
+            ],
         ]);
     }
 
@@ -56,8 +55,8 @@ class BankSpec extends ObjectBehavior
     {
         $this->addSummary([
             'homeCurrency' => [
-                'priceNone' => 500
-            ]
+                'priceNone' => 500,
+            ],
         ]);
 
         $this->getXML()->asXML()->shouldReturn('<bnk:bank version="2.0"><bnk:bankHeader>' . $this->defaultHeader() . '</bnk:bankHeader><bnk:bankSummary><bnk:homeCurrency><typ:priceNone>500</typ:priceNone></bnk:homeCurrency></bnk:bankSummary></bnk:bank>');

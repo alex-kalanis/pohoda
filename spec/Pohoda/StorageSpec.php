@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of riesenia/pohoda package.
  *
@@ -10,12 +11,10 @@ declare(strict_types=1);
 
 namespace spec\Riesenia\Pohoda;
 
-
 use PhpSpec\ObjectBehavior;
 use Riesenia\Pohoda\Common\NamespacesPaths;
 use Riesenia\Pohoda\Storage;
 use Riesenia\Pohoda\ValueTransformer;
-
 
 class StorageSpec extends ObjectBehavior
 {
@@ -23,7 +22,7 @@ class StorageSpec extends ObjectBehavior
     {
         $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
         $this->setData([
-            'code' => 'MAIN'
+            'code' => 'MAIN',
         ]);
     }
 
@@ -43,7 +42,7 @@ class StorageSpec extends ObjectBehavior
         $sub = new Storage(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
         $sub->setData([
             'code' => 'Sub',
-            'name' => 'Sub'
+            'name' => 'Sub',
         ]);
 
         $this->addSubstorage($sub);
@@ -53,7 +52,7 @@ class StorageSpec extends ObjectBehavior
         $subsub = new Storage(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
         $subsub->setData([
             'code' => 'SubSub',
-            'name' => 'SubSub'
+            'name' => 'SubSub',
         ]);
 
         $sub->addSubstorage($subsub);

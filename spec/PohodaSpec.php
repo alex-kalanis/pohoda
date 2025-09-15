@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of riesenia/pohoda package.
  *
@@ -10,14 +11,12 @@ declare(strict_types=1);
 
 namespace spec\Riesenia;
 
-
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Riesenia\Pohoda;
 use Riesenia\Pohoda\Common\NamespacesPaths;
 use Riesenia\Pohoda\Stock;
 use Riesenia\Pohoda\ValueTransformer;
-
 
 class PohodaSpec extends ObjectBehavior
 {
@@ -45,7 +44,7 @@ class PohodaSpec extends ObjectBehavior
             'code' => 'CODE',
             'name' => 'NAME',
             'storage' => 'STORAGE',
-            'typePrice' => ['id' => 1]
+            'typePrice' => ['id' => 1],
         ])->shouldBeAnInstanceOf('Riesenia\Pohoda\Stock');
     }
 
@@ -57,7 +56,7 @@ class PohodaSpec extends ObjectBehavior
             'code' => 'CODE',
             'name' => 'NAME',
             'storage' => 'STORAGE',
-            'typePrice' => ['id' => 1]
+            'typePrice' => ['id' => 1],
         ];
         $stock = new Stock(new NamespacesPaths(), $this->sanitization, '123');
         $stock->setData($data);
@@ -85,7 +84,7 @@ class PohodaSpec extends ObjectBehavior
             'code' => 'CODE',
             'name' => 'NAME',
             'storage' => 'STORAGE',
-            'typePrice' => ['id' => 1]
+            'typePrice' => ['id' => 1],
         ];
         $stock = new Stock(new NamespacesPaths(), $this->sanitization, '123');
         $stock->setData($data);
@@ -185,7 +184,7 @@ class PohodaSpec extends ObjectBehavior
             'code' => 'code1',
             'name' => 'name2',
             'storage' => 'storage3',
-            'typePrice' => ['id' => 4]
+            'typePrice' => ['id' => 4],
         ];
         $stock = new Stock(new NamespacesPaths(), $this->sanitization, '123');
         $stock->setData($data);
@@ -213,7 +212,7 @@ class PohodaSpec extends ObjectBehavior
             'code' => 'code1',
             'name' => 'name2',
             'storage' => 'storage3',
-            'typePrice' => ['id' => 4]
+            'typePrice' => ['id' => 4],
         ];
         $stock = new Stock(new NamespacesPaths(), $this->sanitization, '123');
         $stock->setData($data);
@@ -227,8 +226,8 @@ class PohodaSpec extends ObjectBehavior
 
         // Don't sanitize in any other test
         // for class version it's passable when it will process test and other tests does not been affected
-//        $this->sanitization->willBeSanitized(false);
-//        expect(\count($this->sanitization->getListing()->clear()->getTransformers()))->toBe(0);
+        //        $this->sanitization->willBeSanitized(false);
+        //        expect(\count($this->sanitization->getListing()->clear()->getTransformers()))->toBe(0);
     }
 }
 

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of riesenia/pohoda package.
  *
@@ -10,11 +11,9 @@ declare(strict_types=1);
 
 namespace spec\Riesenia\Pohoda;
 
-
 use PhpSpec\ObjectBehavior;
 use Riesenia\Pohoda\Common\NamespacesPaths;
 use Riesenia\Pohoda\ValueTransformer;
-
 
 class SupplierSpec extends ObjectBehavior
 {
@@ -24,15 +23,15 @@ class SupplierSpec extends ObjectBehavior
         $this->setData([
             'stockItem' => [
                 'stockItem' => [
-                    'ids' => 'B04'
-                ]
+                    'ids' => 'B04',
+                ],
             ],
             'suppliers' => [
                 [
                     'supplierItem' => [
                         'default' => true,
                         'refAd' => [
-                            'id' => 2
+                            'id' => 2,
                         ],
                         'orderCode' => 'A1',
                         'orderName' => 'A-zasoba',
@@ -45,14 +44,14 @@ class SupplierSpec extends ObjectBehavior
                         'unitCoefEAN' => 1,
                         'deliveryTime' => 12,
                         'minQuantity' => 2,
-                        'note' => 'fdf'
-                    ]
+                        'note' => 'fdf',
+                    ],
                 ],
                 [
                     'supplierItem' => [
                         'default' => false,
                         'refAd' => [
-                            'ids' => 'INTEAK spol. s r. o.'
+                            'ids' => 'INTEAK spol. s r. o.',
                         ],
                         'orderCode' => 'I1',
                         'orderName' => 'I-zasoba',
@@ -65,10 +64,10 @@ class SupplierSpec extends ObjectBehavior
                         'unitCoefEAN' => 1,
                         'deliveryTime' => 12,
                         'minQuantity' => 2,
-                        'note' => 'aasn'
-                    ]
-                ]
-            ]
+                        'note' => 'aasn',
+                    ],
+                ],
+            ],
         ]);
     }
 

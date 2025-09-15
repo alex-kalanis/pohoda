@@ -20,6 +20,5 @@ class XNamespace
         return $short;
     }
 
-    protected function addElements(\SimpleXMLElement $xml, array $elements, ?string $namespace = null): void
-    {}
+    protected function addElements(\SimpleXMLElement $xml, array $elements, ?string $namespace = null): void {}
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of riesenia/pohoda package.
  *
@@ -10,11 +11,9 @@ declare(strict_types=1);
 
 namespace spec\Riesenia\Pohoda;
 
-
 use PhpSpec\ObjectBehavior;
 use Riesenia\Pohoda\Common\NamespacesPaths;
 use Riesenia\Pohoda\ValueTransformer;
-
 
 class ContractSpec extends ObjectBehavior
 {
@@ -23,7 +22,7 @@ class ContractSpec extends ObjectBehavior
         $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
         $this->setData([
             'text' => 'zakazka15',
-            'responsiblePerson' => ['ids' => 'Z0005']
+            'responsiblePerson' => ['ids' => 'Z0005'],
         ]);
     }
 

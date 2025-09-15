@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of riesenia/pohoda package.
  *
@@ -10,13 +11,10 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda;
 
-
 use Riesenia\Pohoda\Common\OptionsResolver;
-
 
 class ActionPrice extends AbstractAgenda
 {
-
     public function getImportRoot(): string
     {
         return 'lst:actionPrice';
@@ -33,7 +31,5 @@ class ActionPrice extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    protected function configureOptions(OptionsResolver $resolver): void
-    {
-    }
+    protected function configureOptions(OptionsResolver $resolver): void {}
 }

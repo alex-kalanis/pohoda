@@ -29,19 +29,19 @@ class StockTransferTest extends CommonTestClass
             'stockItem' => [
                 'stockItem' => [
                     'ids' => 'model',
-                    'store' => 'X'
-                ]
-            ]
+                    'store' => 'X',
+                ],
+            ],
         ]);
 
         $lib->addItem([
             'quantity' => 1,
             'stockItem' => [
                 'stockItem' => [
-                    'ids' => 'STM'
-                ]
+                    'ids' => 'STM',
+                ],
             ],
-            'note' => 'STM'
+            'note' => 'STM',
         ]);
 
         $this->assertEquals('<pre:prevodka version="2.0"><pre:prevodkaHeader>' . $this->defaultHeader() . '</pre:prevodkaHeader><pre:prevodkaDetail><pre:prevodkaItem><pre:quantity>2</pre:quantity><pre:stockItem><typ:stockItem><typ:ids>model</typ:ids><typ:store>X</typ:store></typ:stockItem></pre:stockItem></pre:prevodkaItem><pre:prevodkaItem><pre:quantity>1</pre:quantity><pre:stockItem><typ:stockItem><typ:ids>STM</typ:ids></typ:stockItem></pre:stockItem><pre:note>STM</pre:note></pre:prevodkaItem></pre:prevodkaDetail></pre:prevodka>', $lib->getXML()->asXML());
@@ -75,13 +75,13 @@ class StockTransferTest extends CommonTestClass
             'partnerIdentity' => [
                 'address' => [
                     'name' => 'NAME',
-                    'ico' => '123'
-                ]
+                    'ico' => '123',
+                ],
             ],
             'activity' => [
                 'id' => 1,
             ],
-            'intNote' => 'Note'
+            'intNote' => 'Note',
         ]);
     }
 }

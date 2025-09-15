@@ -2,7 +2,6 @@
 
 namespace Riesenia\Pohoda\Common;
 
-
 /**
  * DTO for element attributes
  */
@@ -12,7 +11,5 @@ class ElementAttributes
         public readonly string $attrElement = '',
         public readonly string $attrName = '',
         public readonly ?string $attrNamespace = null,
-    )
-    {
-    }
+    ) {}
 }

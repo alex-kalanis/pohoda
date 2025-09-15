@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of riesenia/pohoda package.
  *
@@ -10,16 +11,13 @@ declare(strict_types=1);
 
 namespace Riesenia;
 
-
 use Riesenia\Pohoda\AbstractAgenda;
-
 
 /**
  * Factory for Pohoda objects.
  */
 class PohodaResponse extends Pohoda
 {
-
     /**
      * Open new XML file for writing.
      *

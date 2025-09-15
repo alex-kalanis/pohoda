@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of riesenia/pohoda package.
  *
@@ -10,11 +11,9 @@ declare(strict_types=1);
 
 namespace spec\Riesenia\Pohoda;
 
-
 use PhpSpec\ObjectBehavior;
 use Riesenia\Pohoda\Common\NamespacesPaths;
 use Riesenia\Pohoda\ValueTransformer;
-
 
 class IntDocSpec extends ObjectBehavior
 {
@@ -23,16 +22,16 @@ class IntDocSpec extends ObjectBehavior
         $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
         $this->setData([
             'partnerIdentity' => [
-                'id' => 25
+                'id' => 25,
             ],
             'myIdentity' => [
                 'address' => [
                     'name' => 'NAME',
-                    'ico' => '123'
-                ]
+                    'ico' => '123',
+                ],
             ],
             'date' => '2015-01-10',
-            'intNote' => 'Note'
+            'intNote' => 'Note',
         ]);
     }
 
@@ -54,8 +53,8 @@ class IntDocSpec extends ObjectBehavior
             'quantity' => 1,
             'rateVAT' => 'high',
             'homeCurrency' => [
-                'unitPrice' => 200
-            ]
+                'unitPrice' => 200,
+            ],
         ]);
 
         $this->getXML()->asXML()->shouldReturn('<int:intDoc version="2.0"><int:intDocHeader>' . $this->defaultHeader() . '</int:intDocHeader><int:intDocDetail><int:intDocItem><int:text>NAME 1</int:text><int:quantity>1</int:quantity><int:rateVAT>high</int:rateVAT><int:homeCurrency><typ:unitPrice>200</typ:unitPrice></int:homeCurrency></int:intDocItem></int:intDocDetail></int:intDoc>');
@@ -69,8 +68,8 @@ class IntDocSpec extends ObjectBehavior
                 'currency' => 'EUR',
                 'rate' => '20.232',
                 'amount' => 1,
-                'priceSum' => 580
-            ]
+                'priceSum' => 580,
+            ],
         ]);
 
         $this->getXML()->asXML()->shouldReturn('<int:intDoc version="2.0"><int:intDocHeader>' . $this->defaultHeader() . '</int:intDocHeader><int:intDocSummary><int:roundingDocument>math2one</int:roundingDocument><int:foreignCurrency><typ:currency><typ:ids>EUR</typ:ids></typ:currency><typ:rate>20.232</typ:rate><typ:amount>1</typ:amount><typ:priceSum>580</typ:priceSum></int:foreignCurrency></int:intDocSummary></int:intDoc>');

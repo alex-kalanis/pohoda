@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of riesenia/pohoda package.
  *
@@ -10,11 +11,9 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\Stock;
 
-
 use Riesenia\Pohoda\AbstractAgenda;
 use Riesenia\Pohoda\Common;
 use Riesenia\Pohoda\ValueTransformer\SanitizeEncoding;
-
 
 class Header extends AbstractAgenda
 {
@@ -40,9 +39,8 @@ class Header extends AbstractAgenda
         SanitizeEncoding $sanitizeEncoding,
         string $companyRegistrationNumber,
         bool $resolveOptions = true,
-        Common\OptionsResolver\Normalizers\NormalizerFactory $normalizerFactory = new Common\OptionsResolver\Normalizers\NormalizerFactory()
-    )
-    {
+        Common\OptionsResolver\Normalizers\NormalizerFactory $normalizerFactory = new Common\OptionsResolver\Normalizers\NormalizerFactory(),
+    ) {
         // init attributes
         $this->elementsAttributesMapper = [
             'purchasingPricePayVAT' => new Common\ElementAttributes('purchasingPrice', 'payVAT'),
@@ -98,7 +96,7 @@ class Header extends AbstractAgenda
             'filepath' => $filepath,
             'description' => $description,
             'order' => null === $order ? ++$this->imagesCounter : $order,
-            'default' => $default
+            'default' => $default,
         ]);
     }
 
@@ -122,7 +120,7 @@ class Header extends AbstractAgenda
 
         $category = new Category($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->resolveOptions, $this->normalizerFactory);
         $this->data['categories'][] = $category->setDirectionalVariable($this->useOneDirectionalVariables)->setData([
-            'idCategory' => $categoryId
+            'idCategory' => $categoryId,
         ]);
     }
 

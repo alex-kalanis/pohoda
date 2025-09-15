@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of riesenia/pohoda package.
  *
@@ -10,11 +11,9 @@ declare(strict_types=1);
 
 namespace spec\Riesenia\Pohoda;
 
-
 use PhpSpec\ObjectBehavior;
 use Riesenia\Pohoda\Common\NamespacesPaths;
 use Riesenia\Pohoda\ValueTransformer;
-
 
 class ListRequestSpec extends ObjectBehavior
 {
@@ -22,7 +21,7 @@ class ListRequestSpec extends ObjectBehavior
     {
         $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
         $this->setData([
-            'type' => 'Category'
+            'type' => 'Category',
         ]);
 
         $this->getXML()->asXML()->shouldReturn('<lst:listCategoryRequest version="2.0" categoryVersion="2.0"><lst:requestCategory/></lst:listCategoryRequest>');
@@ -32,7 +31,7 @@ class ListRequestSpec extends ObjectBehavior
     {
         $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
         $this->setData([
-            'type' => 'ActionPrice'
+            'type' => 'ActionPrice',
         ]);
 
         $this->getXML()->asXML()->shouldReturn('<lst:listActionPriceRequest version="2.0" actionPricesVersion="2.0"><lst:requestActionPrice/></lst:listActionPriceRequest>');
@@ -42,7 +41,7 @@ class ListRequestSpec extends ObjectBehavior
     {
         $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
         $this->setData([
-            'type' => 'Order'
+            'type' => 'Order',
         ]);
 
         $this->getXML()->asXML()->shouldReturn('<lst:listOrderRequest version="2.0" orderVersion="2.0" orderType="receivedOrder"><lst:requestOrder/></lst:listOrderRequest>');
@@ -53,7 +52,7 @@ class ListRequestSpec extends ObjectBehavior
         $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
         $this->setData([
             'type' => 'Invoice',
-            'invoiceType' => 'issuedAdvanceInvoice'
+            'invoiceType' => 'issuedAdvanceInvoice',
         ]);
 
         $this->getXML()->asXML()->shouldReturn('<lst:listInvoiceRequest version="2.0" invoiceVersion="2.0" invoiceType="issuedAdvanceInvoice"><lst:requestInvoice/></lst:listInvoiceRequest>');
@@ -63,7 +62,7 @@ class ListRequestSpec extends ObjectBehavior
     {
         $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
         $this->setData([
-            'type' => 'Vydejka'
+            'type' => 'Vydejka',
         ]);
 
         $this->getXML()->asXML()->shouldReturn('<lst:listVydejkaRequest version="2.0" vydejkaVersion="2.0"><lst:requestVydejka/></lst:listVydejkaRequest>');
@@ -73,7 +72,7 @@ class ListRequestSpec extends ObjectBehavior
     {
         $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
         $this->setData([
-            'type' => 'IssueSlip'
+            'type' => 'IssueSlip',
         ]);
 
         $this->getXML()->asXML()->shouldReturn('<lst:listVydejkaRequest version="2.0" vydejkaVersion="2.0"><lst:requestVydejka/></lst:listVydejkaRequest>');
@@ -83,7 +82,7 @@ class ListRequestSpec extends ObjectBehavior
     {
         $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
         $this->setData([
-            'type' => 'Prodejka'
+            'type' => 'Prodejka',
         ]);
 
         $this->getXML()->asXML()->shouldReturn('<lst:listProdejkaRequest version="2.0" prodejkaVersion="2.0"><lst:requestProdejka/></lst:listProdejkaRequest>');
@@ -93,7 +92,7 @@ class ListRequestSpec extends ObjectBehavior
     {
         $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
         $this->setData([
-            'type' => 'CashSlip'
+            'type' => 'CashSlip',
         ]);
 
         $this->getXML()->asXML()->shouldReturn('<lst:listProdejkaRequest version="2.0" prodejkaVersion="2.0"><lst:requestProdejka/></lst:listProdejkaRequest>');
@@ -103,7 +102,7 @@ class ListRequestSpec extends ObjectBehavior
     {
         $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
         $this->setData([
-            'type' => 'Addressbook'
+            'type' => 'Addressbook',
         ]);
 
         $this->getXML()->asXML()->shouldReturn('<lAdb:listAddressBookRequest version="2.0" addressBookVersion="2.0"><lAdb:requestAddressBook/></lAdb:listAddressBookRequest>');
@@ -113,7 +112,7 @@ class ListRequestSpec extends ObjectBehavior
     {
         $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
         $this->setData([
-            'type' => 'IntParam'
+            'type' => 'IntParam',
         ]);
 
         $this->getXML()->asXML()->shouldReturn('<lst:listIntParamRequest version="2.0"><lst:requestIntParam/></lst:listIntParamRequest>');
@@ -123,7 +122,7 @@ class ListRequestSpec extends ObjectBehavior
     {
         $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
         $this->setData([
-            'type' => 'UserList'
+            'type' => 'UserList',
         ]);
 
         $this->getXML()->asXML()->shouldReturn('<lst:listUserCodeRequest version="1.1" listVersion="1.1"/>');
@@ -133,7 +132,7 @@ class ListRequestSpec extends ObjectBehavior
     {
         $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
         $this->setData([
-            'type' => 'Invoice'
+            'type' => 'Invoice',
         ]);
 
         $this->addUserFilterName('CustomFilter')->getXML()->asXML()->shouldReturn('<lst:listInvoiceRequest version="2.0" invoiceVersion="2.0" invoiceType="issuedInvoice"><lst:requestInvoice><ftr:userFilterName>CustomFilter</ftr:userFilterName></lst:requestInvoice></lst:listInvoiceRequest>');
@@ -143,7 +142,7 @@ class ListRequestSpec extends ObjectBehavior
     {
         $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
         $this->setData([
-            'type' => 'Stock'
+            'type' => 'Stock',
         ]);
 
         $this->addFilter(['storage' => ['ids' => 'MAIN'], 'lastChanges' => '2018-04-29 14:30'])->getXML()->asXML()->shouldReturn('<lStk:listStockRequest version="2.0" stockVersion="2.0"><lStk:requestStock><ftr:filter><ftr:storage><typ:ids>MAIN</typ:ids></ftr:storage><ftr:lastChanges>2018-04-29T14:30:00</ftr:lastChanges></ftr:filter></lStk:requestStock></lStk:listStockRequest>');

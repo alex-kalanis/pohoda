@@ -2,7 +2,6 @@
 
 namespace Riesenia\Pohoda\Common\OptionsResolver\Normalizers;
 
-
 /**
  * Abstract class for normalization of dates
  *

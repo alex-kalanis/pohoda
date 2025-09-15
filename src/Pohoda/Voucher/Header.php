@@ -2,10 +2,8 @@
 
 namespace Riesenia\Pohoda\Voucher;
 
-
 use Riesenia\Pohoda\Common\OptionsResolver;
 use Riesenia\Pohoda\Document\AbstractHeader;
-
 
 class Header extends AbstractHeader
 {
@@ -47,7 +45,7 @@ class Header extends AbstractHeader
         'markRecord',
         'labels',
         'parameters',
-        'validate'
+        'validate',
     ];
 
     /**

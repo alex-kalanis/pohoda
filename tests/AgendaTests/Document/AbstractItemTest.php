@@ -29,7 +29,7 @@ class AbstractItemTest extends CommonTestClass
     {
         $data = [
             'homeCurrency' => [
-                'unitPrice' => 198
+                'unitPrice' => 198,
             ],
             'foreignCurrency' => [
                 'unitPrice' => 7591,

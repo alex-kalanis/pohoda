@@ -13,7 +13,5 @@ class XDocPartNotInit extends Pohoda\Document\AbstractPart
         parent::__construct(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), 'num');
     }
 
-    public function configureOptions(Pohoda\Common\OptionsResolver $resolver): void
-    {
-    }
+    public function configureOptions(Pohoda\Common\OptionsResolver $resolver): void {}
 }

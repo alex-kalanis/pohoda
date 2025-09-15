@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of riesenia/pohoda package.
  *
@@ -12,7 +13,6 @@ namespace Riesenia\Pohoda\Common;
 
 trait OneDirectionalVariablesTrait
 {
-
     protected bool $useOneDirectionalVariables = false;
 
     public function setDirectionalVariable(bool $value): self

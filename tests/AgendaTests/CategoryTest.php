@@ -27,14 +27,14 @@ class CategoryTest extends CommonTestClass
         $sub->setData([
             'name' => 'Sub',
             'sequence' => 1,
-            'displayed' => true
+            'displayed' => true,
         ]);
 
         $subSub = new Pohoda\Category(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
         $subSub->setData([
             'name' => 'SubSub',
             'sequence' => 1,
-            'displayed' => false
+            'displayed' => false,
         ]);
 
         $sub->addSubcategory($subSub);
@@ -43,7 +43,7 @@ class CategoryTest extends CommonTestClass
         $sub2->setData([
             'name' => 'Sub2',
             'sequence' => '2',
-            'displayed' => true
+            'displayed' => true,
         ]);
 
         $lib = $this->getLib();
@@ -59,7 +59,7 @@ class CategoryTest extends CommonTestClass
         return $lib->setData([
             'name' => 'Main',
             'sequence' => 1,
-            'displayed' => true
+            'displayed' => true,
         ]);
     }
 }

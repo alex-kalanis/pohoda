@@ -2,7 +2,6 @@
 
 namespace Riesenia\Pohoda\Common;
 
-
 class NamespacesPaths
 {
     /** @var array<string,string> */

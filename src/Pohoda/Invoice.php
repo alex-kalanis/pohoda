@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of riesenia/pohoda package.
  *
@@ -10,14 +11,11 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda;
 
-
 use Riesenia\Pohoda\Invoice\AdvancePaymentItem;
 use Riesenia\Pohoda\Type\Link;
 
-
 class Invoice extends AbstractDocument
 {
-
     public function getImportRoot(): string
     {
         return 'lst:invoice';

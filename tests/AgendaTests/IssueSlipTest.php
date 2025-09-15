@@ -29,8 +29,8 @@ class IssueSlipTest extends CommonTestClass
             'quantity' => 1,
             'rateVAT' => 'high',
             'homeCurrency' => [
-                'unitPrice' => 200
-            ]
+                'unitPrice' => 200,
+            ],
         ]);
 
         $lib->addItem([
@@ -38,13 +38,13 @@ class IssueSlipTest extends CommonTestClass
             'payVAT' => 1,
             'rateVAT' => 'high',
             'homeCurrency' => [
-                'unitPrice' => 198
+                'unitPrice' => 198,
             ],
             'stockItem' => [
                 'stockItem' => [
-                    'ids' => 'STM'
-                ]
-            ]
+                    'ids' => 'STM',
+                ],
+            ],
         ]);
 
         $this->assertEquals('<vyd:vydejka version="2.0"><vyd:vydejkaHeader>' . $this->defaultHeader() . '</vyd:vydejkaHeader><vyd:vydejkaDetail><vyd:vydejkaItem><vyd:text>NAME 1</vyd:text><vyd:quantity>1</vyd:quantity><vyd:rateVAT>high</vyd:rateVAT><vyd:homeCurrency><typ:unitPrice>200</typ:unitPrice></vyd:homeCurrency></vyd:vydejkaItem><vyd:vydejkaItem><vyd:quantity>1</vyd:quantity><vyd:payVAT>true</vyd:payVAT><vyd:rateVAT>high</vyd:rateVAT><vyd:homeCurrency><typ:unitPrice>198</typ:unitPrice></vyd:homeCurrency><vyd:stockItem><typ:stockItem><typ:ids>STM</typ:ids></typ:stockItem></vyd:stockItem></vyd:vydejkaItem></vyd:vydejkaDetail></vyd:vydejka>', $lib->getXML()->asXML());
@@ -59,8 +59,8 @@ class IssueSlipTest extends CommonTestClass
                 'currency' => 'EUR',
                 'rate' => '20.232',
                 'amount' => 1,
-                'priceSum' => 580
-            ]
+                'priceSum' => 580,
+            ],
         ]);
 
         $this->assertEquals('<vyd:vydejka version="2.0"><vyd:vydejkaHeader>' . $this->defaultHeader() . '</vyd:vydejkaHeader><vyd:vydejkaSummary><vyd:roundingDocument>math2one</vyd:roundingDocument><vyd:foreignCurrency><typ:currency><typ:ids>EUR</typ:ids></typ:currency><typ:rate>20.232</typ:rate><typ:amount>1</typ:amount><typ:priceSum>580</typ:priceSum></vyd:foreignCurrency></vyd:vydejkaSummary></vyd:vydejka>', $lib->getXML()->asXML());
@@ -83,8 +83,8 @@ class IssueSlipTest extends CommonTestClass
         $lib->addLink([
             'sourceAgenda' => 'receivedOrder',
             'sourceDocument' => [
-                'number' => '142100003'
-            ]
+                'number' => '142100003',
+            ],
         ]);
 
         $this->assertEquals('<vyd:vydejka version="2.0"><vyd:vydejkaHeader>' . $this->defaultHeader() . '</vyd:vydejkaHeader><vyd:links><typ:link><typ:sourceAgenda>receivedOrder</typ:sourceAgenda><typ:sourceDocument><typ:number>142100003</typ:number></typ:sourceDocument></typ:link></vyd:links></vyd:vydejka>', $lib->getXML()->asXML());
@@ -105,10 +105,10 @@ class IssueSlipTest extends CommonTestClass
             'partnerIdentity' => [
                 'address' => [
                     'name' => 'NAME',
-                    'ico' => '123'
-                ]
+                    'ico' => '123',
+                ],
             ],
-            'intNote' => 'Note'
+            'intNote' => 'Note',
         ]);
     }
 }

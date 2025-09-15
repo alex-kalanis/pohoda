@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of riesenia/pohoda package.
  *
@@ -10,10 +11,8 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\Stock;
 
-
 use Riesenia\Pohoda\AbstractAgenda;
 use Riesenia\Pohoda\Common\OptionsResolver;
-
 
 class Category extends AbstractAgenda
 {
@@ -26,7 +25,7 @@ class Category extends AbstractAgenda
         return $this->createXML()->addChild(
             'stk:idCategory',
             is_null($category) ? null : strval($category),
-            $this->namespace('stk')
+            $this->namespace('stk'),
         );
     }
 

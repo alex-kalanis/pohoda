@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of riesenia/pohoda package.
  *
@@ -14,7 +15,6 @@ use PhpSpec\ObjectBehavior;
 use Riesenia\Pohoda\Common\NamespacesPaths;
 use Riesenia\Pohoda\ValueTransformer;
 
-
 class PrintRequestSpec extends ObjectBehavior
 {
     public function let(): void
@@ -24,17 +24,17 @@ class PrintRequestSpec extends ObjectBehavior
             'record' => [
                 'agenda' => 'vydane_faktury',
                 'filter' => [
-                    'id' => '1234'
-                ]
+                    'id' => '1234',
+                ],
             ],
             'printerSettings' => [
                 'report' => [
-                    'id' => 5678
+                    'id' => 5678,
                 ],
                 'pdf' => [
-                    'fileName' => 'C:\Test\1234.pdf'
-                ]
-            ]
+                    'fileName' => 'C:\Test\1234.pdf',
+                ],
+            ],
         ]);
     }
 

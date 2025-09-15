@@ -25,7 +25,7 @@ class ParameterTest extends CommonTestClass
                 'name' => 'VPr_testing',
                 'type' => 'text',
                 'value' => 'foo_bar_baz',
-            ]
+            ],
         )->getXML()->asXML());
     }
 
@@ -40,7 +40,7 @@ class ParameterTest extends CommonTestClass
                     'statementNumber',
                     'numberMovement',
                 ],
-            ]
+            ],
         )->getXML()->asXML());
     }
 

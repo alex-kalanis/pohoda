@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of riesenia/pohoda package.
  *
@@ -14,7 +15,6 @@ use PhpSpec\ObjectBehavior;
 use Riesenia\Pohoda\Common\NamespacesPaths;
 use Riesenia\Pohoda\ValueTransformer;
 
-
 class ReceiptSpec extends ObjectBehavior
 {
     public function let(): void
@@ -25,12 +25,12 @@ class ReceiptSpec extends ObjectBehavior
             'dateOfReceipt' => '',
             'text' => 'Prijemka',
             'partnerIdentity' => [
-                'id' => 20
+                'id' => 20,
             ],
             'activity' => [
                 'id' => 1,
             ],
-            'intNote' => 'Note'
+            'intNote' => 'Note',
         ]);
     }
 
@@ -52,19 +52,19 @@ class ReceiptSpec extends ObjectBehavior
             'stockItem' => [
                 'stockItem' => [
                     'ids' => 'model',
-                    'store' => 'X'
-                ]
-            ]
+                    'store' => 'X',
+                ],
+            ],
         ]);
 
         $this->addItem([
             'quantity' => 1,
             'stockItem' => [
                 'stockItem' => [
-                    'ids' => 'STM'
-                ]
+                    'ids' => 'STM',
+                ],
             ],
-            'note' => 'STM'
+            'note' => 'STM',
         ]);
 
         $this->getXML()->asXML()->shouldReturn('<pri:prijemka version="2.0"><pri:prijemkaHeader>' . $this->defaultHeader() . '</pri:prijemkaHeader><pri:prijemkaDetail><pri:prijemkaItem><pri:quantity>2</pri:quantity><pri:stockItem><typ:stockItem><typ:ids>model</typ:ids><typ:store>X</typ:store></typ:stockItem></pri:stockItem></pri:prijemkaItem><pri:prijemkaItem><pri:quantity>1</pri:quantity><pri:stockItem><typ:stockItem><typ:ids>STM</typ:ids></typ:stockItem></pri:stockItem><pri:note>STM</pri:note></pri:prijemkaItem></pri:prijemkaDetail></pri:prijemka>');

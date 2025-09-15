@@ -38,7 +38,7 @@ class IntParamTest extends CommonTestClass
         return $lib->setData([
             'name' => 'NAME',
             'parameterType' => 'textValue',
-            'parameterSettings' => ['length' => 40]
+            'parameterSettings' => ['length' => 40],
         ]);
     }
 }

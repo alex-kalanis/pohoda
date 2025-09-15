@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of riesenia/pohoda package.
  *
@@ -10,10 +11,8 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\Stock;
 
-
 use Riesenia\Pohoda\AbstractAgenda;
 use Riesenia\Pohoda\Common\OptionsResolver;
-
 
 class IntParameter extends AbstractAgenda
 {
@@ -30,8 +29,9 @@ class IntParameter extends AbstractAgenda
         $value = $this->data['value'] ?? null;
         $xml->addChild('stk:intParameterValues')
             ->addChild('stk:intParameterValue')
-            ->addChild('stk:parameterValue',
-                is_null($value) ? null : strval($value)
+            ->addChild(
+                'stk:parameterValue',
+                is_null($value) ? null : strval($value),
             );
 
         return $xml;

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of riesenia/pohoda package.
  *
@@ -10,11 +11,9 @@ declare(strict_types=1);
 
 namespace spec\Riesenia\Pohoda;
 
-
 use PhpSpec\ObjectBehavior;
 use Riesenia\Pohoda\Common\NamespacesPaths;
 use Riesenia\Pohoda\ValueTransformer;
-
 
 class OrderSpec extends ObjectBehavior
 {
@@ -23,16 +22,16 @@ class OrderSpec extends ObjectBehavior
         $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
         $this->setData([
             'partnerIdentity' => [
-                'id' => 25
+                'id' => 25,
             ],
             'myIdentity' => [
                 'address' => [
                     'name' => 'NAME',
-                    'ico' => '123'
-                ]
+                    'ico' => '123',
+                ],
             ],
             'date' => '2015-01-10',
-            'intNote' => 'Note'
+            'intNote' => 'Note',
         ]);
     }
 
@@ -53,7 +52,7 @@ class OrderSpec extends ObjectBehavior
     {
         $this->constructSelf();
         $this->addActionType('update', [
-            'numberOrder' => '222'
+            'numberOrder' => '222',
         ]);
 
         $this->getXML()->asXML()->shouldReturn('<ord:order version="2.0"><ord:orderHeader>' . $this->defaultHeader() . '</ord:orderHeader><ord:actionType><ord:update><ftr:filter><ftr:numberOrder>222</ftr:numberOrder></ftr:filter></ord:update></ord:actionType></ord:order>');
@@ -68,8 +67,8 @@ class OrderSpec extends ObjectBehavior
             'delivered' => 0,
             'rateVAT' => 'high',
             'homeCurrency' => [
-                'unitPrice' => 200
-            ]
+                'unitPrice' => 200,
+            ],
         ]);
 
         $this->addItem([
@@ -77,15 +76,15 @@ class OrderSpec extends ObjectBehavior
             'payVAT' => 1,
             'rateVAT' => 'high',
             'homeCurrency' => [
-                'unitPrice' => 198
+                'unitPrice' => 198,
             ],
             'stockItem' => [
                 'stockItem' => [
-                    'ids' => 'STM'
+                    'ids' => 'STM',
                 ],
                 'insertAttachStock' => 0,
-                'applyUserSettingsFilterOnTheStore' => false
-            ]
+                'applyUserSettingsFilterOnTheStore' => false,
+            ],
         ]);
 
         $this->getXML()->asXML()->shouldReturn('<ord:order version="2.0"><ord:orderHeader>' . $this->defaultHeader() . '</ord:orderHeader><ord:orderDetail><ord:orderItem><ord:text>NAME 1</ord:text><ord:quantity>1</ord:quantity><ord:delivered>0</ord:delivered><ord:rateVAT>high</ord:rateVAT><ord:homeCurrency><typ:unitPrice>200</typ:unitPrice></ord:homeCurrency></ord:orderItem><ord:orderItem><ord:quantity>1</ord:quantity><ord:payVAT>true</ord:payVAT><ord:rateVAT>high</ord:rateVAT><ord:homeCurrency><typ:unitPrice>198</typ:unitPrice></ord:homeCurrency><ord:stockItem><typ:stockItem insertAttachStock="false" applyUserSettingsFilterOnTheStore="false"><typ:ids>STM</typ:ids></typ:stockItem></ord:stockItem></ord:orderItem></ord:orderDetail></ord:order>');
@@ -100,8 +99,8 @@ class OrderSpec extends ObjectBehavior
                 'currency' => 'EUR',
                 'rate' => '20.232',
                 'amount' => 1,
-                'priceSum' => 580
-            ]
+                'priceSum' => 580,
+            ],
         ]);
 
         $this->getXML()->asXML()->shouldReturn('<ord:order version="2.0"><ord:orderHeader>' . $this->defaultHeader() . '</ord:orderHeader><ord:orderSummary><ord:roundingDocument>math2one</ord:roundingDocument><ord:foreignCurrency><typ:currency><typ:ids>EUR</typ:ids></typ:currency><typ:rate>20.232</typ:rate><typ:amount>1</typ:amount><typ:priceSum>580</typ:priceSum></ord:foreignCurrency></ord:orderSummary></ord:order>');
@@ -123,7 +122,7 @@ class OrderSpec extends ObjectBehavior
         $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
 
         $this->addActionType('delete', [
-            'number' => '222'
+            'number' => '222',
         ], 'prijate_objednavky');
 
         $this->getXML()->asXML()->shouldReturn('<ord:order version="2.0"><ord:actionType><ord:delete><ftr:filter agenda="prijate_objednavky"><ftr:number>222</ftr:number></ftr:filter></ord:delete></ord:actionType></ord:order>');

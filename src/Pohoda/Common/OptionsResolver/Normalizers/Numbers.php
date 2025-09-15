@@ -2,7 +2,6 @@
 
 namespace Riesenia\Pohoda\Common\OptionsResolver\Normalizers;
 
-
 class Numbers extends AbstractNormalizer
 {
     public function normalize(mixed $options, mixed $value): string
@@ -11,8 +10,8 @@ class Numbers extends AbstractNormalizer
             \preg_replace(
                 '/[^0-9,.-]/',
                 '',
-                \strval($value)
-            )
+                \strval($value),
+            ),
         );
         if ($this->nullable && empty(\strlen($preform))) {
             return '';
@@ -25,10 +24,10 @@ class Numbers extends AbstractNormalizer
                     \str_replace(
                         ',',
                         '.',
-                        $preform
-                    )
-                )
-            )
+                        $preform,
+                    ),
+                ),
+            ),
         );
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of riesenia/pohoda package.
  *
@@ -10,11 +11,9 @@ declare(strict_types=1);
 
 namespace spec\Riesenia\Pohoda;
 
-
 use PhpSpec\ObjectBehavior;
 use Riesenia\Pohoda\Common\NamespacesPaths;
 use Riesenia\Pohoda\ValueTransformer;
-
 
 class IntParamSpec extends ObjectBehavior
 {
@@ -24,7 +23,7 @@ class IntParamSpec extends ObjectBehavior
         $this->setData([
             'name' => 'NAME',
             'parameterType' => 'textValue',
-            'parameterSettings' => ['length' => 40]
+            'parameterSettings' => ['length' => 40],
         ]);
     }
 

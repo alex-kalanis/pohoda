@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of riesenia/pohoda package.
  *
@@ -10,11 +11,9 @@ declare(strict_types=1);
 
 namespace spec\Riesenia\Pohoda;
 
-
 use PhpSpec\ObjectBehavior;
 use Riesenia\Pohoda\Common\NamespacesPaths;
 use Riesenia\Pohoda\ValueTransformer;
-
 
 class AddressBookSpec extends ObjectBehavior
 {
@@ -25,11 +24,11 @@ class AddressBookSpec extends ObjectBehavior
             'identity' => [
                 'address' => [
                     'name' => 'NAME',
-                    'ico' => '123'
-                ]
+                    'ico' => '123',
+                ],
             ],
             'phone' => '123',
-            'centre' => ['id' => 1]
+            'centre' => ['id' => 1],
         ]);
     }
 
@@ -50,7 +49,7 @@ class AddressBookSpec extends ObjectBehavior
     {
         $this->constructSelf();
         $this->addActionType('update', [
-            'company' => 'COMPANY'
+            'company' => 'COMPANY',
         ]);
 
         $this->getXML()->asXML()->shouldReturn('<adb:addressbook version="2.0"><adb:actionType><adb:update><ftr:filter><ftr:company>COMPANY</ftr:company></ftr:filter></adb:update></adb:actionType><adb:addressbookHeader>' . $this->defaultHeader() . '</adb:addressbookHeader></adb:addressbook>');
@@ -72,7 +71,7 @@ class AddressBookSpec extends ObjectBehavior
         $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
 
         $this->addActionType('delete', [
-            'company' => 'COMPANY'
+            'company' => 'COMPANY',
         ]);
 
         $this->getXML()->asXML()->shouldReturn('<adb:addressbook version="2.0"><adb:actionType><adb:delete><ftr:filter><ftr:company>COMPANY</ftr:company></ftr:filter></adb:delete></adb:actionType></adb:addressbook>');
@@ -85,11 +84,11 @@ class AddressBookSpec extends ObjectBehavior
             'identity' => [
                 'address' => [
                     'name' => 'Călărași ñüé¿s',
-                    'city' => 'Dâmbovița'
-                ]
+                    'city' => 'Dâmbovița',
+                ],
             ],
             'phone' => '123',
-            'centre' => ['id' => 1]
+            'centre' => ['id' => 1],
         ]);
 
         $this->getXML()->asXML()->shouldReturn('<adb:addressbook version="2.0"><adb:addressbookHeader><adb:identity><typ:address><typ:name>Călărași ñüé¿s</typ:name><typ:city>Dâmbovița</typ:city></typ:address></adb:identity><adb:phone>123</adb:phone><adb:centre><typ:id>1</typ:id></adb:centre></adb:addressbookHeader></adb:addressbook>');

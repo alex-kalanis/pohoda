@@ -26,7 +26,7 @@ class OrderTest extends CommonTestClass
     {
         $lib = $this->getLib();
         $lib->addActionType('update', [
-            'numberOrder' => '222'
+            'numberOrder' => '222',
         ]);
 
         $this->assertEquals('<ord:order version="2.0"><ord:orderHeader>' . $this->defaultHeader() . '</ord:orderHeader><ord:actionType><ord:update><ftr:filter><ftr:numberOrder>222</ftr:numberOrder></ftr:filter></ord:update></ord:actionType></ord:order>', $lib->getXML()->asXML());
@@ -41,8 +41,8 @@ class OrderTest extends CommonTestClass
             'delivered' => 0,
             'rateVAT' => 'high',
             'homeCurrency' => [
-                'unitPrice' => 200
-            ]
+                'unitPrice' => 200,
+            ],
         ]);
 
         $lib->addItem([
@@ -50,15 +50,15 @@ class OrderTest extends CommonTestClass
             'payVAT' => 1,
             'rateVAT' => 'high',
             'homeCurrency' => [
-                'unitPrice' => 198
+                'unitPrice' => 198,
             ],
             'stockItem' => [
                 'stockItem' => [
-                    'ids' => 'STM'
+                    'ids' => 'STM',
                 ],
                 'insertAttachStock' => 0,
-                'applyUserSettingsFilterOnTheStore' => false
-            ]
+                'applyUserSettingsFilterOnTheStore' => false,
+            ],
         ]);
 
         $this->assertEquals('<ord:order version="2.0"><ord:orderHeader>' . $this->defaultHeader() . '</ord:orderHeader><ord:orderDetail><ord:orderItem><ord:text>NAME 1</ord:text><ord:quantity>1</ord:quantity><ord:delivered>0</ord:delivered><ord:rateVAT>high</ord:rateVAT><ord:homeCurrency><typ:unitPrice>200</typ:unitPrice></ord:homeCurrency></ord:orderItem><ord:orderItem><ord:quantity>1</ord:quantity><ord:payVAT>true</ord:payVAT><ord:rateVAT>high</ord:rateVAT><ord:homeCurrency><typ:unitPrice>198</typ:unitPrice></ord:homeCurrency><ord:stockItem><typ:stockItem insertAttachStock="false" applyUserSettingsFilterOnTheStore="false"><typ:ids>STM</typ:ids></typ:stockItem></ord:stockItem></ord:orderItem></ord:orderDetail></ord:order>', $lib->getXML()->asXML());
@@ -73,8 +73,8 @@ class OrderTest extends CommonTestClass
                 'currency' => 'EUR',
                 'rate' => '20.232',
                 'amount' => 1,
-                'priceSum' => 580
-            ]
+                'priceSum' => 580,
+            ],
         ]);
 
         $this->assertEquals('<ord:order version="2.0"><ord:orderHeader>' . $this->defaultHeader() . '</ord:orderHeader><ord:orderSummary><ord:roundingDocument>math2one</ord:roundingDocument><ord:foreignCurrency><typ:currency><typ:ids>EUR</typ:ids></typ:currency><typ:rate>20.232</typ:rate><typ:amount>1</typ:amount><typ:priceSum>580</typ:priceSum></ord:foreignCurrency></ord:orderSummary></ord:order>', $lib->getXML()->asXML());
@@ -95,7 +95,7 @@ class OrderTest extends CommonTestClass
     {
         $lib = new Pohoda\Order(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
         $lib->addActionType('delete', [
-            'number' => '222'
+            'number' => '222',
         ], 'prijate_objednavky');
 
         $this->assertEquals('<ord:order version="2.0"><ord:actionType><ord:delete><ftr:filter agenda="prijate_objednavky"><ftr:number>222</ftr:number></ftr:filter></ord:delete></ord:actionType></ord:order>', $lib->getXML()->asXML());
@@ -108,11 +108,11 @@ class OrderTest extends CommonTestClass
             'identity' => [
                 'address' => [
                     'name' => 'Călărași ñüé¿s',
-                    'city' => 'Dâmbovița'
-                ]
+                    'city' => 'Dâmbovița',
+                ],
             ],
             'phone' => '123',
-            'centre' => ['id' => 1]
+            'centre' => ['id' => 1],
         ]);
 
         $this->assertEquals('<adb:addressbook version="2.0"><adb:addressbookHeader><adb:identity><typ:address><typ:name>Călărași ñüé¿s</typ:name><typ:city>Dâmbovița</typ:city></typ:address></adb:identity><adb:phone>123</adb:phone><adb:centre><typ:id>1</typ:id></adb:centre></adb:addressbookHeader></adb:addressbook>', $lib->getXML()->asXML());
@@ -128,16 +128,16 @@ class OrderTest extends CommonTestClass
         $lib = new Pohoda\Order(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
         return $lib->setData([
             'partnerIdentity' => [
-                'id' => 25
+                'id' => 25,
             ],
             'myIdentity' => [
                 'address' => [
                     'name' => 'NAME',
-                    'ico' => '123'
-                ]
+                    'ico' => '123',
+                ],
             ],
             'date' => '2015-01-10',
-            'intNote' => 'Note'
+            'intNote' => 'Note',
         ]);
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of riesenia/pohoda package.
  *
@@ -14,15 +15,14 @@ use PhpSpec\ObjectBehavior;
 use Riesenia\Pohoda\Common\NamespacesPaths;
 use Riesenia\Pohoda\ValueTransformer;
 
-
 class UserListSpec extends ObjectBehavior
 {
     public function let(): void
     {
         $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
-        $this->setData( [
+        $this->setData([
             'code' => 'CODE',
-            'name' => 'NAME'
+            'name' => 'NAME',
         ]);
     }
 
@@ -36,7 +36,7 @@ class UserListSpec extends ObjectBehavior
     {
         $this->addItemUserCode([
             'code' => 'CODE 2',
-            'name' => 'NAME 2'
+            'name' => 'NAME 2',
         ]);
 
         $this->getXML()->asXML()->shouldReturn('<lst:listUserCode version="1.1" code="CODE" name="NAME"><lst:itemUserCode code="CODE 2" name="NAME 2"/></lst:listUserCode>');

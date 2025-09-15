@@ -27,7 +27,7 @@ class StorageTest extends CommonTestClass
         $sub = new Pohoda\Storage(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
         $sub->setData([
             'code' => 'Sub',
-            'name' => 'Sub'
+            'name' => 'Sub',
         ]);
 
         $lib->addSubstorage($sub);
@@ -37,7 +37,7 @@ class StorageTest extends CommonTestClass
         $subsub = new Pohoda\Storage(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
         $subsub->setData([
             'code' => 'SubSub',
-            'name' => 'SubSub'
+            'name' => 'SubSub',
         ]);
 
         $sub->addSubstorage($subsub);
@@ -49,7 +49,7 @@ class StorageTest extends CommonTestClass
     {
         $lib = new Pohoda\Storage(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
         return $lib->setData([
-            'code' => 'MAIN'
+            'code' => 'MAIN',
         ]);
     }
 }

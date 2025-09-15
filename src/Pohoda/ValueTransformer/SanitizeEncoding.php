@@ -2,7 +2,6 @@
 
 namespace Riesenia\Pohoda\ValueTransformer;
 
-
 class SanitizeEncoding
 {
     protected string $encoding = 'windows-1250';
@@ -10,9 +9,7 @@ class SanitizeEncoding
 
     public function __construct(
         protected readonly Listing $listing,
-    )
-    {
-    }
+    ) {}
 
     public function listingWithEncoding(): void
     {

@@ -2,10 +2,8 @@
 
 namespace Riesenia\Pohoda;
 
-
 class Voucher extends AbstractDocument
 {
-
     public function getImportRoot(): string
     {
         return 'vch:voucher';

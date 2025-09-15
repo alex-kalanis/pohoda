@@ -2,11 +2,9 @@
 
 namespace Riesenia\Pohoda;
 
-
 use DomainException;
 use ReflectionClass;
 use ReflectionException;
-
 
 class AgendaFactory
 {
@@ -15,9 +13,7 @@ class AgendaFactory
         protected readonly ValueTransformer\SanitizeEncoding $sanitizeEncoding,
         protected readonly string $companyNumber,
         protected Common\OptionsResolver\Normalizers\NormalizerFactory $normalizerFactory = new Common\OptionsResolver\Normalizers\NormalizerFactory(),
-    )
-    {
-    }
+    ) {}
 
     /**
      * @param string $name

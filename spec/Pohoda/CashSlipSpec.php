@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of riesenia/pohoda package.
  *
@@ -10,11 +11,9 @@ declare(strict_types=1);
 
 namespace spec\Riesenia\Pohoda;
 
-
 use PhpSpec\ObjectBehavior;
 use Riesenia\Pohoda\Common\NamespacesPaths;
 use Riesenia\Pohoda\ValueTransformer;
-
 
 class CashSlipSpec extends ObjectBehavior
 {
@@ -27,10 +26,10 @@ class CashSlipSpec extends ObjectBehavior
             'partnerIdentity' => [
                 'address' => [
                     'name' => 'NAME',
-                    'ico' => '123'
-                ]
+                    'ico' => '123',
+                ],
             ],
-            'intNote' => 'Note'
+            'intNote' => 'Note',
         ]);
     }
 
@@ -52,8 +51,8 @@ class CashSlipSpec extends ObjectBehavior
             'quantity' => 1,
             'rateVAT' => 'high',
             'homeCurrency' => [
-                'unitPrice' => 200
-            ]
+                'unitPrice' => 200,
+            ],
         ]);
 
         $this->addItem([
@@ -61,13 +60,13 @@ class CashSlipSpec extends ObjectBehavior
             'payVAT' => 1,
             'rateVAT' => 'high',
             'homeCurrency' => [
-                'unitPrice' => 198
+                'unitPrice' => 198,
             ],
             'stockItem' => [
                 'stockItem' => [
-                    'ids' => 'STM'
-                ]
-            ]
+                    'ids' => 'STM',
+                ],
+            ],
         ]);
 
         $this->getXML()->asXML()->shouldReturn('<pro:prodejka version="2.0"><pro:prodejkaHeader>' . $this->defaultHeader() . '</pro:prodejkaHeader><pro:prodejkaDetail><pro:prodejkaItem><pro:text>NAME 1</pro:text><pro:quantity>1</pro:quantity><pro:rateVAT>high</pro:rateVAT><pro:homeCurrency><typ:unitPrice>200</typ:unitPrice></pro:homeCurrency></pro:prodejkaItem><pro:prodejkaItem><pro:quantity>1</pro:quantity><pro:payVAT>true</pro:payVAT><pro:rateVAT>high</pro:rateVAT><pro:homeCurrency><typ:unitPrice>198</typ:unitPrice></pro:homeCurrency><pro:stockItem><typ:stockItem><typ:ids>STM</typ:ids></typ:stockItem></pro:stockItem></pro:prodejkaItem></pro:prodejkaDetail></pro:prodejka>');
@@ -86,9 +85,9 @@ class CashSlipSpec extends ObjectBehavior
                 'price3' => '0.0000',
                 'price3VAT' => '0.0000',
                 'round' => [
-                    'priceRound' => '0.0000'
-                ]
-            ]
+                    'priceRound' => '0.0000',
+                ],
+            ],
         ]);
 
         $this->getXML()->asXML()->shouldReturn('<pro:prodejka version="2.0"><pro:prodejkaHeader>' . $this->defaultHeader() . '</pro:prodejkaHeader><pro:prodejkaSummary><pro:roundingDocument>math2one</pro:roundingDocument><pro:homeCurrency><typ:priceNone>0</typ:priceNone><typ:price3>0</typ:price3><typ:price3VAT>0</typ:price3VAT><typ:priceLow>0</typ:priceLow><typ:priceLowVAT>0</typ:priceLowVAT><typ:priceHigh>156</typ:priceHigh><typ:priceHighVAT>31.2</typ:priceHighVAT><typ:round><typ:priceRound>0.0000</typ:priceRound></typ:round></pro:homeCurrency></pro:prodejkaSummary></pro:prodejka>');

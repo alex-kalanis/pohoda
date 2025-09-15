@@ -26,8 +26,8 @@ class BankTest extends CommonTestClass
         $lib = $this->getLib();
         $lib->addSummary([
             'homeCurrency' => [
-                'priceNone' => 500
-            ]
+                'priceNone' => 500,
+            ],
         ]);
 
         $this->assertEquals('<bnk:bank version="2.0"><bnk:bankHeader>' . $this->defaultHeader() . '</bnk:bankHeader><bnk:bankSummary><bnk:homeCurrency><typ:priceNone>500</typ:priceNone></bnk:homeCurrency></bnk:bankSummary></bnk:bank>', $lib->getXML()->asXML());
@@ -79,13 +79,14 @@ class BankTest extends CommonTestClass
         $lib = new Pohoda\Bank(
             new Pohoda\Common\NamespacesPaths(),
             new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()),
-            '123');
+            '123',
+        );
         return $lib->setData([
             'bankType' => 'receipt',
             'account' => 'KB',
             'statementNumber' => [
                 'statementNumber' => '004',
-                'numberMovement' => '0002'
+                'numberMovement' => '0002',
             ],
             'symVar' => '456',
             'symConst' => '555',
@@ -95,8 +96,8 @@ class BankTest extends CommonTestClass
             'text' => 'STORMWARE s.r.o.',
             'paymentAccount' => [
                 'accountNo' => '4660550217',
-                'bankCode' => '5500'
-            ]
+                'bankCode' => '5500',
+            ],
         ]);
     }
 
@@ -114,7 +115,7 @@ class BankTest extends CommonTestClass
                     '123',
                     '456',
                     '789',
-                ]
+                ],
             ],
         ]);
         $lib->setNamespace('lst');
@@ -135,7 +136,7 @@ class BankTest extends CommonTestClass
                     'foo' => '123',
                     'bar' => '456',
                     'baz' => '789',
-                ]
+                ],
             ],
         ]);
         $lib->setNamespace('lst');

@@ -12,16 +12,11 @@ $config = new PhpCsFixer\Config();
 $config
     ->setRiskyAllowed(true)
     ->setRules([
-        '@Symfony' => false,
+        '@PER-CS2.0' => true,
         'concat_space' => false,
         'phpdoc_order' => true,
         'cast_spaces' => true,
         'declare_strict_types' => false,
-        'yoda_style' => [
-            'equal' => true,
-            'identical' => true,
-            'less_and_greater' => true,
-        ],
     ])
     ->setFinder($finder);
 

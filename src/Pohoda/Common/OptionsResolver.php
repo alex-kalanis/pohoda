@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of riesenia/pohoda package.
  *
@@ -10,10 +11,6 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\Common;
 
-
 use Symfony\Component\OptionsResolver\OptionsResolver as SymfonyOptionsResolver;
 
-
-class OptionsResolver extends SymfonyOptionsResolver
-{
-}
+class OptionsResolver extends SymfonyOptionsResolver {}

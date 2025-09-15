@@ -9,7 +9,5 @@ class XFailClass
         object $obj2,
         string $str,
         bool $bool,
-    )
-    {
-    }
+    ) {}
 }
