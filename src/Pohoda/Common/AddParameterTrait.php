@@ -46,7 +46,7 @@ trait AddParameterTrait
             $this->resolveOptions,
             $this->normalizerFactory,
         );
-        $this->data['parameters'][] = $parameter->setData([
+        $this->data['parameters'][] = $parameter->setDirectionalVariable($this->useOneDirectionalVariables)->setData([
             'name' => $name,
             'type' => $type,
             'value' => $value,

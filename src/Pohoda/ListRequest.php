@@ -30,7 +30,7 @@ class ListRequest extends AbstractAgenda
     public function addFilter(array $data): self
     {
         $filter = new Filter($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->resolveOptions, $this->normalizerFactory);
-        $this->data['filter'] = $filter->setData($data);
+        $this->data['filter'] = $filter->setDirectionalVariable($this->useOneDirectionalVariables)->setData($data);
 
         return $this;
     }
@@ -45,7 +45,7 @@ class ListRequest extends AbstractAgenda
     public function addRestrictionData(array $data): self
     {
         $restrictionData = new RestrictionData($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->resolveOptions, $this->normalizerFactory);
-        $this->data['restrictionData'] = $restrictionData->setData($data);
+        $this->data['restrictionData'] = $restrictionData->setDirectionalVariable($this->useOneDirectionalVariables)->setData($data);
 
         return $this;
     }
@@ -60,7 +60,7 @@ class ListRequest extends AbstractAgenda
     public function addUserFilterName(string $name): self
     {
         $userFilterName = new UserFilterName($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->resolveOptions, $this->normalizerFactory);
-        $this->data['userFilterName'] = $userFilterName->setData(['userFilterName' => $name]);
+        $this->data['userFilterName'] = $userFilterName->setDirectionalVariable($this->useOneDirectionalVariables)->setData(['userFilterName' => $name]);
 
         return $this;
     }

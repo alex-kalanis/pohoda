@@ -4,12 +4,14 @@ namespace tests\BasicTests;
 
 use Riesenia\Pohoda\Common\AddParameterTrait;
 use Riesenia\Pohoda\Common\NamespacesPaths;
+use Riesenia\Pohoda\Common\OneDirectionalVariablesTrait;
 use Riesenia\Pohoda\Common\OptionsResolver;
 use Riesenia\Pohoda\ValueTransformer;
 
 class XParameter
 {
     use AddParameterTrait;
+    use OneDirectionalVariablesTrait;
 
     public array $data = [];
     protected string $companyRegistrationNumber = 'dummy';

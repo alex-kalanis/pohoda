@@ -32,7 +32,7 @@ class StockItem extends AbstractAgenda
         if (isset($data['stockPriceItem']) && is_array($data['stockPriceItem'])) {
             $data['stockPriceItem'] = \array_map(function ($stockPriceItem) {
                 $price = new Price($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->resolveOptions, $this->normalizerFactory);
-                return $price->setData($stockPriceItem['stockPrice']);
+                return $price->setDirectionalVariable($this->useOneDirectionalVariables)->setData($stockPriceItem['stockPrice']);
             }, $data['stockPriceItem']);
         }
 

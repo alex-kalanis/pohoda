@@ -24,12 +24,16 @@ use SimpleXMLElement;
  */
 abstract class AbstractAgenda
 {
+    use Pohoda\Common\OneDirectionalVariablesTrait;
 
     /** @var array<string, mixed> */
     protected array $data = [];
 
     /** @var string[] */
     protected array $refElements = [];
+
+    /** @var string[] */
+    protected array $directionalRefElements = [];
 
     /** @var array<string, Common\ElementAttributes> */
     protected array $elementsAttributesMapper = [];
@@ -154,7 +158,10 @@ abstract class AbstractAgenda
             // ref element
             if (\in_array($element, $this->refElements)) {
                 $this->addRefElement($xml, ($namespace ? $namespace . ':' : '') . $element, $this->data[$element], $namespace);
-
+                continue;
+            }
+            if ($this->useOneDirectionalVariables && \in_array($element, $this->directionalRefElements)) {
+                $this->addRefElement($xml, ($namespace ? $namespace . ':' : '') . $element, $this->data[$element], $namespace);
                 continue;
             }
 
@@ -302,12 +309,13 @@ abstract class AbstractAgenda
     protected function resolveOptions(array $data): array
     {
         $class = \get_class($this);
+        $opt = '_' . intval($this->useOneDirectionalVariables);
 
-        if (!isset(self::$resolvers[$class])) {
-            self::$resolvers[$class] = new Common\OptionsResolver();
-            $this->configureOptions(self::$resolvers[$class]);
+        if (!isset(self::$resolvers[$class . $opt])) {
+            self::$resolvers[$class . $opt] = new Common\OptionsResolver();
+            $this->configureOptions(self::$resolvers[$class . $opt]);
         }
 
-        return self::$resolvers[$class]->resolve($data);
+        return self::$resolvers[$class . $opt]->resolve($data);
     }
 }

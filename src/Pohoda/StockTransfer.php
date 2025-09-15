@@ -25,7 +25,7 @@ class StockTransfer extends AbstractAgenda
     {
         // pass to header
         $header = new StockTransfer\Header($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->resolveOptions, $this->normalizerFactory);
-        $data = ['header' => $header->setData($data)];
+        $data = ['header' => $header->setDirectionalVariable($this->useOneDirectionalVariables)->setData($data)];
 
         return parent::setData($data);
     }
@@ -54,7 +54,7 @@ class StockTransfer extends AbstractAgenda
         }
 
         $prevodkaDetail = new StockTransfer\Item($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->resolveOptions, $this->normalizerFactory);
-        $this->data['prevodkaDetail'][] = $prevodkaDetail->setData($data);
+        $this->data['prevodkaDetail'][] = $prevodkaDetail->setDirectionalVariable($this->useOneDirectionalVariables)->setData($data);
 
         return $this;
     }

@@ -12,6 +12,7 @@ namespace Riesenia;
 
 
 use Riesenia\Pohoda\AbstractAgenda;
+use Riesenia\Pohoda\Common\OneDirectionalVariablesTrait;
 
 
 /**
@@ -64,6 +65,8 @@ use Riesenia\Pohoda\AbstractAgenda;
  */
 class Pohoda
 {
+    use OneDirectionalVariablesTrait;
+
     protected string $application = 'Pohoda connector';
 
     protected bool $isInMemory;
@@ -119,7 +122,7 @@ class Pohoda
      */
     public function create(string $name, array $data = []): AbstractAgenda
     {
-        return $this->agendaFactory->getAgenda($name)->setData($data);
+        return $this->agendaFactory->getAgenda($name)->setDirectionalVariable($this->useOneDirectionalVariables)->setData($data);
     }
 
     /**
@@ -181,7 +184,7 @@ class Pohoda
 
         $this->xmlWriter->writeAttribute('id', $id);
         $this->xmlWriter->writeAttribute('version', '2.0');
-        $this->xmlWriter->writeRaw((string) $agenda->setData($data)->getXML()->asXML());
+        $this->xmlWriter->writeRaw((string) $agenda->setDirectionalVariable($this->useOneDirectionalVariables)->setData($data)->getXML()->asXML());
         $this->xmlWriter->endElement();
 
         if (!$this->isInMemory) {

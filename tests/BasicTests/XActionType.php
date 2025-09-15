@@ -4,6 +4,7 @@ namespace tests\BasicTests;
 
 use Riesenia\Pohoda\Common\AddActionTypeTrait;
 use Riesenia\Pohoda\Common\NamespacesPaths;
+use Riesenia\Pohoda\Common\OneDirectionalVariablesTrait;
 use Riesenia\Pohoda\Common\OptionsResolver;
 use Riesenia\Pohoda\ValueTransformer\Listing;
 use Riesenia\Pohoda\ValueTransformer\SanitizeEncoding;
@@ -11,6 +12,7 @@ use Riesenia\Pohoda\ValueTransformer\SanitizeEncoding;
 class XActionType
 {
     use AddActionTypeTrait;
+    use OneDirectionalVariablesTrait;
 
     public array $data = [];
     protected string $companyRegistrationNumber = 'dummy';

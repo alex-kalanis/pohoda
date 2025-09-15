@@ -58,7 +58,7 @@ abstract class AbstractDocument extends AbstractAgenda
             $this->data[$key] = [];
         }
 
-        $part = $this->getDocumentPart('Item')->setData($data);
+        $part = $this->getDocumentPart('Item')->setDirectionalVariable($this->useOneDirectionalVariables)->setData($data);
         $this->data[$key][] = $part;
 
         return $part;
@@ -73,7 +73,7 @@ abstract class AbstractDocument extends AbstractAgenda
      */
     public function addSummary(array $data): self
     {
-        $this->data['summary'] = $this->getDocumentPart('Summary')->setData($data);
+        $this->data['summary'] = $this->getDocumentPart('Summary')->setDirectionalVariable($this->useOneDirectionalVariables)->setData($data);
 
         return $this;
     }
@@ -85,7 +85,7 @@ abstract class AbstractDocument extends AbstractAgenda
     {
         // pass to header
         if (!empty($data)) {
-            $data = ['header' => $this->getDocumentPart('Header', $this->resolveOptions)->setData($data)];
+            $data = ['header' => $this->getDocumentPart('Header', $this->resolveOptions)->setDirectionalVariable($this->useOneDirectionalVariables)->setData($data)];
         }
         return parent::setData($data);
     }

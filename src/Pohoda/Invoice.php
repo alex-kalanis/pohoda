@@ -42,7 +42,7 @@ class Invoice extends AbstractDocument
         }
 
         $link = new Link($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->resolveOptions, $this->normalizerFactory);
-        $this->data['links'][] = $link->setData($data);
+        $this->data['links'][] = $link->setDirectionalVariable($this->useOneDirectionalVariables)->setData($data);
 
         return $this;
     }
@@ -66,7 +66,7 @@ class Invoice extends AbstractDocument
         }
 
         $invoiceDetail = new AdvancePaymentItem($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->resolveOptions, $this->normalizerFactory);
-        $this->data['invoiceDetail'][] = $invoiceDetail->setData($data);
+        $this->data['invoiceDetail'][] = $invoiceDetail->setDirectionalVariable($this->useOneDirectionalVariables)->setData($data);
 
         return $this;
     }

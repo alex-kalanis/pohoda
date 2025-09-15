@@ -104,7 +104,7 @@ class StockTest extends CommonTestClass
         $this->assertEquals('<stk:stock version="2.0"><stk:stockHeader>' . $this->defaultHeader() . '<stk:parameters><typ:parameter><typ:name>VPrIsOn</typ:name><typ:booleanValue>true</typ:booleanValue></typ:parameter><typ:parameter><typ:name>VPrNum</typ:name><typ:numberValue>10.43</typ:numberValue></typ:parameter><typ:parameter><typ:name>RefVPrCountry</typ:name><typ:listValueRef><typ:ids>SK</typ:ids></typ:listValueRef><typ:list><typ:ids>Country</typ:ids></typ:list></typ:parameter><typ:parameter><typ:name>RefVPrCustomList</typ:name><typ:listValueRef><typ:id>5</typ:id></typ:listValueRef><typ:list><typ:id>6</typ:id></typ:list></typ:parameter></stk:parameters></stk:stockHeader></stk:stock>', $lib->getXML()->asXML());
     }
 
-    protected function testDeleteStock(): void
+    public function testDeleteStock(): void
     {
         $lib = new Pohoda\Stock(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
         $lib->addActionType('delete', [
@@ -113,6 +113,37 @@ class StockTest extends CommonTestClass
         ]);
 
         $this->assertEquals('<stk:stock version="2.0"><stk:actionType><stk:delete><ftr:filter><ftr:code>CODE</ftr:code><ftr:store><typ:ids>STORAGE</typ:ids></ftr:store></ftr:filter></stk:delete></stk:actionType></stk:stock>', $lib->getXML()->asXML());
+    }
+
+    public function testExtendedStock(): void
+    {
+        $lib = new Pohoda\Stock(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
+        $lib->setDirectionalVariable(true);
+        $lib->setData([
+            'code' => 'CODE',
+            'name' => 'NAME',
+            'isSales' => '0',
+            'isSerialNumber' => 'false',
+            'isInternet' => true,
+            'storage' => 'STORAGE',
+            'typePrice' => ['id' => 1],
+            'sellingPrice' => 12.7,
+            'count' => 22, // NEED
+            'reservation' => 3, // WANT
+            'sellingPricePayVAT' => true,
+            'intrastat' => [
+                'goodsCode' => '123',
+                'unit' => 'ZZZ',
+                'coefficient' => 0,
+                'country' => 'CN'
+            ],
+            'recyclingContrib' => [
+                'recyclingContribType' => 'X',
+                'coefficientOfRecyclingContrib' => 1
+            ]
+        ]);
+
+        $this->assertEquals('<stk:stock version="2.0"><stk:stockHeader>' . $this->defaultHeader() . '<stk:count>22</stk:count><stk:reservation>3</stk:reservation></stk:stockHeader></stk:stock>', $lib->getXML()->asXML());
     }
 
     protected function defaultHeader(): string

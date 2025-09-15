@@ -25,13 +25,13 @@ abstract class AbstractSummary extends AbstractPart
         // process home currency
         if (isset($data['homeCurrency'])) {
             $homeCurrency = new Type\CurrencyHome($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->resolveOptions, $this->normalizerFactory);
-            $data['homeCurrency'] = $homeCurrency->setData($data['homeCurrency']);
+            $data['homeCurrency'] = $homeCurrency->setDirectionalVariable($this->useOneDirectionalVariables)->setData($data['homeCurrency']);
         }
 
         // process foreign currency
         if (isset($data['foreignCurrency'])) {
             $foreignCurrency = new Type\CurrencyForeign($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->resolveOptions, $this->normalizerFactory);
-            $data['foreignCurrency'] = $foreignCurrency->setData($data['foreignCurrency']);
+            $data['foreignCurrency'] = $foreignCurrency->setDirectionalVariable($this->useOneDirectionalVariables)->setData($data['foreignCurrency']);
         }
 
         return parent::setData($data);

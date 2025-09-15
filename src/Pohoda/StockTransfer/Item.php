@@ -29,7 +29,7 @@ class Item extends AbstractAgenda
         // process stock item
         if (isset($data['stockItem'])) {
             $stockItem = new StockItem($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->resolveOptions, $this->normalizerFactory);
-            $data['stockItem'] = $stockItem->setData($data['stockItem']);
+            $data['stockItem'] = $stockItem->setDirectionalVariable($this->useOneDirectionalVariables)->setData($data['stockItem']);
         }
 
         return parent::setData($data);

@@ -90,7 +90,7 @@ class PohodaResponse extends Pohoda
         $this->xmlWriter->writeAttribute('id', $id);
         $this->xmlWriter->writeAttribute('version', '2.0');
         $this->xmlWriter->writeAttribute('state', $state);
-        $this->xmlWriter->writeRaw((string) $agenda->setData($data)->getXML()->asXML());
+        $this->xmlWriter->writeRaw((string) $agenda->setDirectionalVariable($this->useOneDirectionalVariables)->setData($data)->getXML()->asXML());
         $this->xmlWriter->endElement();
 
         if (!$this->isInMemory) {

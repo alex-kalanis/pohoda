@@ -26,6 +26,9 @@ class Header extends AbstractAgenda
     /** @var string[] */
     protected array $elements = ['stockType', 'code', 'EAN', 'PLU', 'isSales', 'isSerialNumber', 'isInternet', 'isBatch', 'purchasingRateVAT', 'sellingRateVAT', 'name', 'nameComplement', 'unit', 'unit2', 'unit3', 'coefficient2', 'coefficient3', 'storage', 'typePrice', 'purchasingPrice', 'purchasingPricePayVAT', 'sellingPrice', 'sellingPricePayVAT', 'limitMin', 'limitMax', 'mass', 'volume', 'supplier', 'orderName', 'orderQuantity', 'shortName', 'typeRP', 'guaranteeType', 'guarantee', 'producer', 'typeServiceMOSS', 'description', 'description2', 'note', 'intrastat', 'recyclingContrib'];
 
+    /** @var string[] */
+    protected array $additionalElements = ['weightedPurchasePrice', 'count', 'countIssue', 'countReceivedOrders', 'reservation', 'countIssuedOrders', 'reclamation', 'service'];
+
     /** @var int */
     protected int $imagesCounter = 0;
 
@@ -57,13 +60,13 @@ class Header extends AbstractAgenda
         // process intrastat
         if (isset($data['intrastat'])) {
             $intrastat = new Intrastat($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->resolveOptions, $this->normalizerFactory);
-            $data['intrastat'] = $intrastat->setData($data['intrastat']);
+            $data['intrastat'] = $intrastat->setDirectionalVariable($this->useOneDirectionalVariables)->setData($data['intrastat']);
         }
 
         // process recyclingContrib
         if (isset($data['recyclingContrib'])) {
             $recyclingContrib = new RecyclingContrib($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->resolveOptions, $this->normalizerFactory);
-            $data['recyclingContrib'] = $recyclingContrib->setData($data['recyclingContrib']);
+            $data['recyclingContrib'] = $recyclingContrib->setDirectionalVariable($this->useOneDirectionalVariables)->setData($data['recyclingContrib']);
         }
 
         return parent::setData($data);
@@ -91,7 +94,7 @@ class Header extends AbstractAgenda
         }
 
         $picture = new Picture($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->resolveOptions, $this->normalizerFactory);
-        $this->data['pictures'][] = $picture->setData([
+        $this->data['pictures'][] = $picture->setDirectionalVariable($this->useOneDirectionalVariables)->setData([
             'filepath' => $filepath,
             'description' => $description,
             'order' => null === $order ? ++$this->imagesCounter : $order,
@@ -118,7 +121,7 @@ class Header extends AbstractAgenda
         }
 
         $category = new Category($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->resolveOptions, $this->normalizerFactory);
-        $this->data['categories'][] = $category->setData([
+        $this->data['categories'][] = $category->setDirectionalVariable($this->useOneDirectionalVariables)->setData([
             'idCategory' => $categoryId
         ]);
     }
@@ -142,7 +145,7 @@ class Header extends AbstractAgenda
         }
 
         $intParameters = new IntParameter($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->resolveOptions, $this->normalizerFactory);
-        $this->data['intParameters'][] = $intParameters->setData($data);
+        $this->data['intParameters'][] = $intParameters->setDirectionalVariable($this->useOneDirectionalVariables)->setData($data);
     }
 
     /**
@@ -152,7 +155,7 @@ class Header extends AbstractAgenda
     {
         $xml = $this->createXML()->addChild('stk:stockHeader', '', $this->namespace('stk'));
 
-        $this->addElements($xml, \array_merge($this->elements, ['categories', 'pictures', 'parameters', 'intParameters']), 'stk');
+        $this->addElements($xml, \array_merge(array_merge($this->elements, ($this->useOneDirectionalVariables ? $this->additionalElements : [])), ['categories', 'pictures', 'parameters', 'intParameters']), 'stk');
 
         return $xml;
     }
@@ -163,7 +166,7 @@ class Header extends AbstractAgenda
     protected function configureOptions(Common\OptionsResolver $resolver): void
     {
         // available options
-        $resolver->setDefined($this->elements);
+        $resolver->setDefined(array_merge($this->elements, ($this->useOneDirectionalVariables ? $this->additionalElements : [])));
 
         // validate / format options
         $resolver->setDefault('stockType', 'card');
@@ -196,5 +199,16 @@ class Header extends AbstractAgenda
         $resolver->setNormalizer('guarantee', $this->normalizerFactory->getClosure('int'));
         $resolver->setNormalizer('producer', $this->normalizerFactory->getClosure('string90'));
         $resolver->setNormalizer('description', $this->normalizerFactory->getClosure('string240'));
+
+        if ($this->useOneDirectionalVariables) {
+            $resolver->setNormalizer('weightedPurchasePrice', $this->normalizerFactory->getClosure('float'));
+            $resolver->setNormalizer('count', $this->normalizerFactory->getClosure('float'));
+            $resolver->setNormalizer('countIssue', $this->normalizerFactory->getClosure('float'));
+            $resolver->setNormalizer('countReceivedOrders', $this->normalizerFactory->getClosure('float'));
+            $resolver->setNormalizer('reservation', $this->normalizerFactory->getClosure('float'));
+            $resolver->setNormalizer('countIssuedOrders', $this->normalizerFactory->getClosure('float'));
+            $resolver->setNormalizer('reclamation', $this->normalizerFactory->getClosure('float'));
+            $resolver->setNormalizer('service', $this->normalizerFactory->getClosure('float'));
+        }
     }
 }

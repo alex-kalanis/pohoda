@@ -28,14 +28,14 @@ class Supplier extends AbstractAgenda
         // process stockItem
         if (isset($data['stockItem'])) {
             $stockItem = new Supplier\StockItem($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->resolveOptions, $this->normalizerFactory);
-            $data['stockItem'] = $stockItem->setData($data['stockItem']);
+            $data['stockItem'] = $stockItem->setDirectionalVariable($this->useOneDirectionalVariables)->setData($data['stockItem']);
         }
 
         // process suppliers
         if (isset($data['suppliers']) && is_array($data['suppliers'])) {
             $data['suppliers'] = \array_map(function ($supplier) {
                 $SupplierItem = new Supplier\SupplierItem($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->resolveOptions, $this->normalizerFactory);
-                return $SupplierItem->setData($supplier['supplierItem']);
+                return $SupplierItem->setDirectionalVariable($this->useOneDirectionalVariables)->setData($supplier['supplierItem']);
             }, $data['suppliers']);
         }
 

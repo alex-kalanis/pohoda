@@ -13,6 +13,7 @@ class ActionPriceTest extends CommonTestClass
         $this->assertInstanceOf(Pohoda\ActionPrice::class, $lib);
         $this->assertInstanceOf(Pohoda\AbstractAgenda::class, $lib);
         $this->assertEquals('lst:actionPrice', $lib->getImportRoot());
+        $lib->setData([]);
     }
 
     public function testCreateCorrectXml(): void

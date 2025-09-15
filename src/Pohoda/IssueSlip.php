@@ -41,7 +41,7 @@ class IssueSlip extends AbstractDocument
         }
 
         $link = new Link($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->resolveOptions, $this->normalizerFactory);
-        $this->data['links'][] = $link->setData($data);
+        $this->data['links'][] = $link->setDirectionalVariable($this->useOneDirectionalVariables)->setData($data);
 
         return $this;
     }

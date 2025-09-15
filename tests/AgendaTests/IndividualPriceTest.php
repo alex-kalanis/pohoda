@@ -14,6 +14,7 @@ class IndividualPriceTest extends CommonTestClass
         $this->assertInstanceOf(Pohoda\IndividualPrice::class, $lib);
         $this->assertInstanceOf(Pohoda\AbstractAgenda::class, $lib);
         $this->assertEquals('lst:individualPrice', $lib->getImportRoot());
+        $lib->setData([]);
     }
 
     public function testCreateCorrectXml(): void

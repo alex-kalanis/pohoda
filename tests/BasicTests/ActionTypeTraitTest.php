@@ -3,7 +3,7 @@
 namespace tests\BasicTests;
 
 use tests\CommonTestClass;
-use OutOfRangeException;
+use LogicException;
 
 class ActionTypeTraitTest extends CommonTestClass
 {
@@ -18,7 +18,7 @@ class ActionTypeTraitTest extends CommonTestClass
     {
         $lib = new XActionType();
         $this->assertNotEmpty($lib->addActionType('add'));
-        $this->expectException(OutOfRangeException::class);
+        $this->expectException(LogicException::class);
         $lib->addActionType('delete');
     }
 }

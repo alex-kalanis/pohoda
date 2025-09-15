@@ -24,7 +24,7 @@ class Record extends AbstractAgenda
     {
         // process filter
         $filter = new Filter($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->resolveOptions, $this->normalizerFactory);
-        $data['filter'] = $filter->setData($data['filter']);
+        $data['filter'] = $filter->setDirectionalVariable($this->useOneDirectionalVariables)->setData($data['filter']);
 
         return parent::setData($data);
     }

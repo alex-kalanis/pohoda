@@ -24,11 +24,11 @@ class PrintRequest extends AbstractAgenda
     {
         // process record
         $record = new Record($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->resolveOptions, $this->normalizerFactory);
-        $data['record'] = $record->setData($data['record']);
+        $data['record'] = $record->setDirectionalVariable($this->useOneDirectionalVariables)->setData($data['record']);
 
         // process printer settings
         $printerSettings = new PrinterSettings($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->resolveOptions, $this->normalizerFactory);
-        $data['printerSettings'] = $printerSettings->setData($data['printerSettings']);
+        $data['printerSettings'] = $printerSettings->setDirectionalVariable($this->useOneDirectionalVariables)->setData($data['printerSettings']);
 
         return parent::setData($data);
     }

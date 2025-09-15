@@ -31,7 +31,7 @@ trait AddActionTypeTrait
     public function addActionType(string $type, mixed $filter = null, ?string $agenda = null): self
     {
         if (isset($this->data['actionType'])) {
-            throw new \OutOfRangeException('Duplicate action type.');
+            throw new \LogicException('Duplicate action type.');
         }
 
         $actionType = new ActionType(
@@ -41,7 +41,7 @@ trait AddActionTypeTrait
             $this->resolveOptions,
             $this->normalizerFactory,
         );
-        $this->data['actionType'] = $actionType->setData([
+        $this->data['actionType'] = $actionType->setDirectionalVariable($this->useOneDirectionalVariables)->setData([
             'type' => $type,
             'filter' => $filter,
             'agenda' => $agenda
