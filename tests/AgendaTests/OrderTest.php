@@ -64,6 +64,23 @@ class OrderTest extends CommonTestClass
         $this->assertEquals('<ord:order version="2.0"><ord:orderHeader>' . $this->defaultHeader() . '</ord:orderHeader><ord:orderDetail><ord:orderItem><ord:text>NAME 1</ord:text><ord:quantity>1</ord:quantity><ord:delivered>0</ord:delivered><ord:rateVAT>high</ord:rateVAT><ord:homeCurrency><typ:unitPrice>200</typ:unitPrice></ord:homeCurrency></ord:orderItem><ord:orderItem><ord:quantity>1</ord:quantity><ord:payVAT>true</ord:payVAT><ord:rateVAT>high</ord:rateVAT><ord:homeCurrency><typ:unitPrice>198</typ:unitPrice></ord:homeCurrency><ord:stockItem><typ:stockItem insertAttachStock="false" applyUserSettingsFilterOnTheStore="false"><typ:ids>STM</typ:ids></typ:stockItem></ord:stockItem></ord:orderItem></ord:orderDetail></ord:order>', $lib->getXML()->asXML());
     }
 
+    public function testAddItems2(): void
+    {
+        $lib = $this->getLib();
+        $lib->setDirectionalVariable(true);
+        $lib->addItem([
+            'text' => 'NAME 1',
+            'quantity' => 1,
+            'delivered' => 0,
+            'rateVAT' => 'high',
+            'homeCurrency' => [
+                'unitPrice' => 200,
+            ],
+        ]);
+
+        $this->assertEquals('<ord:order version="2.0"><ord:orderHeader>' . $this->defaultHeader() . '</ord:orderHeader><ord:orderDetail><ord:orderItem><ord:text>NAME 1</ord:text><ord:quantity>1</ord:quantity><ord:delivered>0</ord:delivered><ord:rateVAT>high</ord:rateVAT><ord:homeCurrency><typ:unitPrice>200</typ:unitPrice></ord:homeCurrency></ord:orderItem></ord:orderDetail></ord:order>', $lib->getXML()->asXML());
+    }
+
     public function testSetSummary(): void
     {
         $lib = $this->getLib();
@@ -78,6 +95,17 @@ class OrderTest extends CommonTestClass
         ]);
 
         $this->assertEquals('<ord:order version="2.0"><ord:orderHeader>' . $this->defaultHeader() . '</ord:orderHeader><ord:orderSummary><ord:roundingDocument>math2one</ord:roundingDocument><ord:foreignCurrency><typ:currency><typ:ids>EUR</typ:ids></typ:currency><typ:rate>20.232</typ:rate><typ:amount>1</typ:amount><typ:priceSum>580</typ:priceSum></ord:foreignCurrency></ord:orderSummary></ord:order>', $lib->getXML()->asXML());
+    }
+
+    public function testSetSummary2(): void
+    {
+        $lib = $this->getLib();
+        $lib->setDirectionalVariable(true);
+        $lib->addSummary([
+            'roundingDocument' => 'math2one',
+        ]);
+
+        $this->assertEquals('<ord:order version="2.0"><ord:orderHeader>' . $this->defaultHeader() . '</ord:orderHeader><ord:orderSummary><ord:roundingDocument>math2one</ord:roundingDocument></ord:orderSummary></ord:order>', $lib->getXML()->asXML());
     }
 
     public function testSetParams(): void

@@ -22,12 +22,35 @@ class Item extends AbstractItem
     /** @var string[] */
     protected array $elements = ['text', 'quantity', 'delivered', 'unit', 'coefficient', 'payVAT', 'rateVAT', 'percentVAT', 'discountPercentage', 'homeCurrency', 'foreignCurrency', 'typeServiceMOSS', 'note', 'code', 'stockItem', 'centre', 'activity', 'contract', 'PDP'];
 
+    /** @var string[] */
+    protected array $additionalElements = ['id'];
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getXML(): \SimpleXMLElement
+    {
+        if (is_null($this->namespace)) {
+            throw new \LogicException('Namespace not set.');
+        }
+
+        if (is_null($this->nodePrefix)) {
+            throw new \LogicException('Node name prefix not set.');
+        }
+
+        $xml = $this->createXML()->addChild($this->namespace . ':' . $this->nodePrefix . 'Item', '', $this->namespace($this->namespace));
+
+        $this->addElements($xml, \array_merge($this->elements, ($this->useOneDirectionalVariables ? $this->additionalElements : []), ['parameters']), $this->namespace);
+
+        return $xml;
+    }
+
     /**
      * {@inheritdoc}
      */
     protected function configureOptions(OptionsResolver $resolver): void
     {
-        parent::configureOptions($resolver);
+        $resolver->setDefined(array_merge($this->elements, ($this->useOneDirectionalVariables ? $this->additionalElements : [])));
 
         // validate / format options
         $resolver->setNormalizer('text', $this->normalizerFactory->getClosure('string90'));
@@ -42,5 +65,9 @@ class Item extends AbstractItem
         $resolver->setNormalizer('note', $this->normalizerFactory->getClosure('string90'));
         $resolver->setNormalizer('code', $this->normalizerFactory->getClosure('string64'));
         $resolver->setNormalizer('PDP', $this->normalizerFactory->getClosure('bool'));
+
+        if ($this->useOneDirectionalVariables) {
+            $resolver->setNormalizer('id', $this->normalizerFactory->getClosure('int'));
+        }
     }
 }

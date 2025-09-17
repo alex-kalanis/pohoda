@@ -153,7 +153,7 @@ class Header extends AbstractAgenda
     {
         $xml = $this->createXML()->addChild('stk:stockHeader', '', $this->namespace('stk'));
 
-        $this->addElements($xml, \array_merge(array_merge($this->elements, ($this->useOneDirectionalVariables ? $this->additionalElements : [])), ['categories', 'pictures', 'parameters', 'intParameters']), 'stk');
+        $this->addElements($xml, \array_merge($this->elements, ($this->useOneDirectionalVariables ? $this->additionalElements : []), ['categories', 'pictures', 'parameters', 'intParameters']), 'stk');
 
         return $xml;
     }
