@@ -92,7 +92,7 @@ class PohodaTest extends CommonTestClass
 
         $lib = $this->getLib();
         $this->assertTrue($lib->open($this->tempFile, 'ABC'));
-        $lib->addItem('ITEM_ID', $stock, $data);
+        $lib->addItem('ITEM_ID', $stock);
         $lib->close();
 
         $xml = \simplexml_load_file($this->tempFile);
@@ -133,7 +133,7 @@ class PohodaTest extends CommonTestClass
 
         $lib = $this->getLib();
         $this->assertTrue($lib->open(null, 'ABC'));
-        $lib->addItem('ITEM_ID', $stock, $data);
+        $lib->addItem('ITEM_ID', $stock);
 
         $xml = \simplexml_load_string($lib->close());
 
@@ -307,7 +307,7 @@ class PohodaTest extends CommonTestClass
         $lib->getTransformerListing()->addTransformer(new XCapitalize());
 
         $this->assertTrue($lib->open(null, 'ABC'));
-        $lib->addItem('item_id', $stock, $data);
+        $lib->addItem('item_id', $stock);
 
         $xml = \simplexml_load_string($lib->close());
 
@@ -334,7 +334,7 @@ class PohodaTest extends CommonTestClass
 
         $lib = $this->getLib();
         $this->assertTrue($lib->open(null, 'ABC'));
-        $lib->addItem('item_id', $stock, $data);
+        $lib->addItem('item_id', $stock);
         $this->assertEquals(0, \count($this->sanitization->getListing()->clear()->getTransformers()));
         $lib->close();
     }

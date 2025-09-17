@@ -62,7 +62,7 @@ class PohodaSpec extends ObjectBehavior
         $stock->setData($data);
 
         $this->open($tmpFile, 'ABC')->shouldReturn(true);
-        $this->addItem('ITEM_ID', $stock, $data);
+        $this->addItem('ITEM_ID', $stock);
         $this->close();
 
         $xml = \simplexml_load_file($tmpFile);
@@ -90,7 +90,7 @@ class PohodaSpec extends ObjectBehavior
         $stock->setData($data);
 
         $this->open(null, 'ABC')->shouldReturn(true);
-        $this->addItem('ITEM_ID', $stock, $data);
+        $this->addItem('ITEM_ID', $stock);
 
         $xml = \simplexml_load_string($this->close()->getWrappedObject());
 
@@ -194,7 +194,7 @@ class PohodaSpec extends ObjectBehavior
         $this->getTransformerListing()->addTransformer(new Capitalize());
 
         $this->open(null, 'ABC')->shouldReturn(true);
-        $this->addItem('item_id', $stock, $data);
+        $this->addItem('item_id', $stock);
 
         $xml = \simplexml_load_string($this->close()->getWrappedObject());
 
@@ -220,7 +220,7 @@ class PohodaSpec extends ObjectBehavior
         $this->sanitization->willBeSanitized(true);
 
         $this->open(null, 'ABC')->shouldReturn(true);
-        $this->addItem('item_id', $stock, $data);
+        $this->addItem('item_id', $stock);
         expect(\count($this->sanitization->getListing()->clear()->getTransformers()))->toBe(0);
         $this->close();
 

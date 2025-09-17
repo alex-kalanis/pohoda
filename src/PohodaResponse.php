@@ -76,19 +76,19 @@ class PohodaResponse extends Pohoda
      *
      * @param string $id
      * @param AbstractAgenda $agenda
-     * @param array<string, mixed> $data
+     * @param array<string, mixed> $data deprecated
      * @param string $state
      *
      * @return void
      */
-    public function addItem(string $id, AbstractAgenda $agenda, array $data, string $state = 'ok'): void
+    public function addItem(string $id, AbstractAgenda $agenda, array $data = [], string $state = 'ok'): void
     {
         $this->xmlWriter->startElementNs('rsp', 'responsePackItem', null);
 
         $this->xmlWriter->writeAttribute('id', $id);
         $this->xmlWriter->writeAttribute('version', '2.0');
         $this->xmlWriter->writeAttribute('state', $state);
-        $this->xmlWriter->writeRaw((string) $agenda->setDirectionalVariable($this->useOneDirectionalVariables)->setData($data)->getXML()->asXML());
+        $this->xmlWriter->writeRaw((string) $agenda->getXML()->asXML());
         $this->xmlWriter->endElement();
 
         if (!$this->isInMemory) {
