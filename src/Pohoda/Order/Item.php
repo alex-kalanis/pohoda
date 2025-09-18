@@ -11,8 +11,9 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\Order;
 
-use Riesenia\Pohoda\Common\OptionsResolver;
+use Riesenia\Pohoda\Common;
 use Riesenia\Pohoda\Document\AbstractItem;
+use Riesenia\Pohoda\ValueTransformer\SanitizeEncoding;
 
 class Item extends AbstractItem
 {
@@ -20,10 +21,25 @@ class Item extends AbstractItem
     protected array $refElements = ['typeServiceMOSS', 'centre', 'activity', 'contract'];
 
     /** @var string[] */
-    protected array $elements = ['text', 'quantity', 'delivered', 'unit', 'coefficient', 'payVAT', 'rateVAT', 'percentVAT', 'discountPercentage', 'homeCurrency', 'foreignCurrency', 'typeServiceMOSS', 'note', 'code', 'stockItem', 'centre', 'activity', 'contract', 'PDP'];
+    protected array $elements = ['text', 'quantity', 'delivered', 'unit', 'coefficient', 'payVAT', 'rateVAT', 'rateVatValue', 'percentVAT', 'discountPercentage', 'homeCurrency', 'foreignCurrency', 'typeServiceMOSS', 'note', 'code', 'stockItem', 'centre', 'activity', 'contract', 'PDP'];
 
     /** @var string[] */
     protected array $additionalElements = ['id'];
+
+    public function __construct(
+        Common\NamespacesPaths $namespacesPaths,
+        SanitizeEncoding $sanitizeEncoding,
+        string $companyRegistrationNumber,
+        bool $resolveOptions = true,
+        Common\OptionsResolver\Normalizers\NormalizerFactory $normalizerFactory = new Common\OptionsResolver\Normalizers\NormalizerFactory(),
+    ) {
+        // init attributes
+        $this->elementsAttributesMapper = [
+            'rateVatValue' => new Common\ElementAttributes('rateVAT', 'value'),
+        ];
+
+        parent::__construct($namespacesPaths, $sanitizeEncoding, $companyRegistrationNumber, $resolveOptions, $normalizerFactory);
+    }
 
     /**
      * {@inheritdoc}
@@ -48,7 +64,7 @@ class Item extends AbstractItem
     /**
      * {@inheritdoc}
      */
-    protected function configureOptions(OptionsResolver $resolver): void
+    protected function configureOptions(Common\OptionsResolver $resolver): void
     {
         $resolver->setDefined(array_merge($this->elements, ($this->useOneDirectionalVariables ? $this->additionalElements : [])));
 
@@ -60,6 +76,7 @@ class Item extends AbstractItem
         $resolver->setNormalizer('coefficient', $this->normalizerFactory->getClosure('float'));
         $resolver->setNormalizer('payVAT', $this->normalizerFactory->getClosure('bool'));
         $resolver->setAllowedValues('rateVAT', ['none', 'high', 'low', 'third', 'historyHigh', 'historyLow', 'historyThird']);
+        $resolver->setNormalizer('rateVatValue', $this->normalizerFactory->getClosure('float'));
         $resolver->setNormalizer('percentVAT', $this->normalizerFactory->getClosure('float'));
         $resolver->setNormalizer('discountPercentage', $this->normalizerFactory->getClosure('float'));
         $resolver->setNormalizer('note', $this->normalizerFactory->getClosure('string90'));

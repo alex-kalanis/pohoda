@@ -81,6 +81,63 @@ class OrderTest extends CommonTestClass
         $this->assertEquals('<ord:order version="2.0"><ord:orderHeader>' . $this->defaultHeader() . '</ord:orderHeader><ord:orderDetail><ord:orderItem><ord:text>NAME 1</ord:text><ord:quantity>1</ord:quantity><ord:delivered>0</ord:delivered><ord:rateVAT>high</ord:rateVAT><ord:homeCurrency><typ:unitPrice>200</typ:unitPrice></ord:homeCurrency></ord:orderItem></ord:orderDetail></ord:order>', $lib->getXML()->asXML());
     }
 
+    public function testCustomHeader(): void
+    {
+        $lib = new Pohoda\Order(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
+        $lib->setDirectionalVariable(true);
+        $lib->setData([
+            'numberOrder' => '1234567890',
+            'isDelivered' => true,
+        ]);
+
+        $this->assertEquals('<ord:order version="2.0"><ord:orderHeader><ord:orderType>receivedOrder</ord:orderType><ord:numberOrder>1234567890</ord:numberOrder><ord:isDelivered>true</ord:isDelivered></ord:orderHeader></ord:order>', $lib->getXML()->asXML());
+    }
+
+    public function testHeaderKillNamespace(): void
+    {
+        $lib = new Pohoda\Order\Header(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
+        $this->expectException(\LogicException::class);
+        $lib->getXML();
+    }
+
+    public function testHeaderKillNodePrefix(): void
+    {
+        $lib = new Pohoda\Order\Header(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
+        $lib->setNamespace('test');
+        $this->expectException(\LogicException::class);
+        $lib->getXML();
+    }
+
+    public function testItemKillNamespace(): void
+    {
+        $lib = new Pohoda\Order\Item(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
+        $this->expectException(\LogicException::class);
+        $lib->getXML();
+    }
+
+    public function testItemKillNodePrefix(): void
+    {
+        $lib = new Pohoda\Order\Item(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
+        $lib->setNamespace('test');
+        $this->expectException(\LogicException::class);
+        $lib->getXML();
+    }
+
+    public function testSummaryKillNamespace(): void
+    {
+        $lib = new Pohoda\Order\Summary(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
+        $this->expectException(\LogicException::class);
+        $lib->getXML();
+    }
+
+    public function testSummaryKillNodePrefix(): void
+    {
+        $lib = new Pohoda\Order\Summary(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
+        $lib->setNamespace('test');
+        $this->expectException(\LogicException::class);
+        $lib->getXML();
+    }
+
     public function testSetSummary(): void
     {
         $lib = $this->getLib();

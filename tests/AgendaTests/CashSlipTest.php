@@ -59,6 +59,7 @@ class CashSlipTest extends CommonTestClass
                 'priceNone' => '0.0000',
                 'priceLow' => '0.0000',
                 'priceLowVAT' => '0.0000',
+                'priceLowVatRate' => '12',
                 'priceHigh' => '156.0000',
                 'priceHighVAT' => '31.2000',
                 'price3' => '0.0000',
@@ -69,7 +70,7 @@ class CashSlipTest extends CommonTestClass
             ],
         ]);
 
-        $this->assertEquals('<pro:prodejka version="2.0"><pro:prodejkaHeader>' . $this->defaultHeader() . '</pro:prodejkaHeader><pro:prodejkaSummary><pro:roundingDocument>math2one</pro:roundingDocument><pro:homeCurrency><typ:priceNone>0</typ:priceNone><typ:price3>0</typ:price3><typ:price3VAT>0</typ:price3VAT><typ:priceLow>0</typ:priceLow><typ:priceLowVAT>0</typ:priceLowVAT><typ:priceHigh>156</typ:priceHigh><typ:priceHighVAT>31.2</typ:priceHighVAT><typ:round><typ:priceRound>0.0000</typ:priceRound></typ:round></pro:homeCurrency></pro:prodejkaSummary></pro:prodejka>', $lib->getXML()->asXML());
+        $this->assertEquals('<pro:prodejka version="2.0"><pro:prodejkaHeader>' . $this->defaultHeader() . '</pro:prodejkaHeader><pro:prodejkaSummary><pro:roundingDocument>math2one</pro:roundingDocument><pro:homeCurrency><typ:priceNone>0</typ:priceNone><typ:price3>0</typ:price3><typ:price3VAT>0</typ:price3VAT><typ:priceLow>0</typ:priceLow><typ:priceLowVAT rate="12">0</typ:priceLowVAT><typ:priceHigh>156</typ:priceHigh><typ:priceHighVAT>31.2</typ:priceHighVAT><typ:round><typ:priceRound>0.0000</typ:priceRound></typ:round></pro:homeCurrency></pro:prodejkaSummary></pro:prodejka>', $lib->getXML()->asXML());
     }
 
     public function testSetParams(): void
