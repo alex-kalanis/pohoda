@@ -81,7 +81,7 @@ class ReceiptTest extends CommonTestClass
 
     protected function getLib(): Pohoda\Receipt
     {
-        $lib = new Pohoda\Receipt(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
+        $lib = new Pohoda\Receipt(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), Pohoda\Common\CompanyRegistrationNumber::init('123'));
         return $lib->setData([
             'date' => new \DateTimeImmutable('2015-01-10'),
             'dateOfReceipt' => '',

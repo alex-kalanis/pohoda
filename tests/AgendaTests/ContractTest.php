@@ -31,7 +31,7 @@ class ContractTest extends CommonTestClass
 
     public function testDiffPartner(): void
     {
-        $lib = new Pohoda\Contract(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
+        $lib = new Pohoda\Contract(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), Pohoda\Common\CompanyRegistrationNumber::init('123'));
         $lib->setData([
             'text' => 'zakazka1337',
             'responsiblePerson' => ['ids' => 'Z0005'],
@@ -62,7 +62,7 @@ class ContractTest extends CommonTestClass
         $lib = new Pohoda\Contract(
             new Pohoda\Common\NamespacesPaths(),
             new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()),
-            '123',
+            Pohoda\Common\CompanyRegistrationNumber::init('123'),
         );
         return $lib->setData([
             'text' => 'zakazka15',

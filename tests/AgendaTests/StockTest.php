@@ -106,7 +106,7 @@ class StockTest extends CommonTestClass
 
     public function testDeleteStock(): void
     {
-        $lib = new Pohoda\Stock(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
+        $lib = new Pohoda\Stock(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), Pohoda\Common\CompanyRegistrationNumber::init('123'));
         $lib->addActionType('delete', [
             'code' => 'CODE',
             'store' => ['ids' => 'STORAGE'],
@@ -117,7 +117,7 @@ class StockTest extends CommonTestClass
 
     public function testExtendedStock(): void
     {
-        $lib = new Pohoda\Stock(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
+        $lib = new Pohoda\Stock(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), Pohoda\Common\CompanyRegistrationNumber::init('123'));
         $lib->setDirectionalVariable(true);
         $lib->setData([
             'code' => 'CODE',
@@ -153,7 +153,7 @@ class StockTest extends CommonTestClass
 
     protected function getLib(): Pohoda\Stock
     {
-        $lib = new Pohoda\Stock(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
+        $lib = new Pohoda\Stock(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), Pohoda\Common\CompanyRegistrationNumber::init('123'));
         return $lib->setData([
             'code' => 'CODE',
             'name' => 'NAME',

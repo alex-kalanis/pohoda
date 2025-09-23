@@ -4,5 +4,5 @@ namespace tests\AgendaTests;
 
 class XDocPartNotInstance
 {
-    public function __construct(object $obj1, object $obj2, string $number, bool $opts = false) {}
+    public function __construct(object $obj1, object $obj2, object $obj3, bool $opts = false) {}
 }

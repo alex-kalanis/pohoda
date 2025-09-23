@@ -87,7 +87,7 @@ class PohodaTest extends CommonTestClass
             'storage' => 'STORAGE',
             'typePrice' => ['id' => 1],
         ];
-        $stock = new Stock(new NamespacesPaths(), $this->sanitization, '123');
+        $stock = new Stock(new NamespacesPaths(), $this->sanitization, Pohoda\Common\CompanyRegistrationNumber::init('123'));
         $stock->setData($data);
 
         $lib = $this->getLib();
@@ -128,7 +128,7 @@ class PohodaTest extends CommonTestClass
             'storage' => 'STORAGE',
             'typePrice' => ['id' => 1],
         ];
-        $stock = new Stock(new NamespacesPaths(), $this->sanitization, '123');
+        $stock = new Stock(new NamespacesPaths(), $this->sanitization, Pohoda\Common\CompanyRegistrationNumber::init('123'));
         $stock->setData($data);
 
         $lib = $this->getLib();
@@ -298,7 +298,7 @@ class PohodaTest extends CommonTestClass
             'storage' => 'storage3',
             'typePrice' => ['id' => 4],
         ];
-        $stock = new Stock(new NamespacesPaths(), $this->sanitization, '123');
+        $stock = new Stock(new NamespacesPaths(), $this->sanitization, Pohoda\Common\CompanyRegistrationNumber::init('123'));
         $stock->setData($data);
 
         $lib = $this->getLib();
@@ -327,7 +327,7 @@ class PohodaTest extends CommonTestClass
             'storage' => 'storage3',
             'typePrice' => ['id' => 4],
         ];
-        $stock = new Stock(new NamespacesPaths(), $this->sanitization, '123');
+        $stock = new Stock(new NamespacesPaths(), $this->sanitization, Pohoda\Common\CompanyRegistrationNumber::init('123'));
         $stock->setData($data);
 
         $this->sanitization->willBeSanitized(true);

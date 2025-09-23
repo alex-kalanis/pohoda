@@ -9,7 +9,7 @@ class XAgendaNotInit extends AbstractAgenda
     protected function __construct()
     {
         // this one will kill the init - cannot initialize protected
-        parent::__construct(new Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), 'num');
+        parent::__construct(new Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), Common\CompanyRegistrationNumber::init('num'));
     }
 
     public function configureOptions(Common\OptionsResolver $resolver): void {}
@@ -23,7 +23,7 @@ class XAgendaNotInit extends AbstractAgenda
 
 class XAgendaNotInstance
 {
-    public function __construct(object $obj1, object $obj2, string $number, bool $opts = false) {}
+    public function __construct(object $obj1, object $obj2, object $obj3, bool $opts = false) {}
 }
 
 
@@ -40,7 +40,7 @@ class AgendaFactoryTest extends CommonTestClass
 {
     public function testSuccess(): void
     {
-        $lib = new Pohoda\AgendaFactory(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), 'some no');
+        $lib = new Pohoda\AgendaFactory(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), Pohoda\Common\CompanyRegistrationNumber::init('some no'));
         $agenda = $lib->getAgenda('Bank');
         $this->assertInstanceOf(Pohoda\AbstractAgenda::class, $agenda);
         $this->assertFalse($agenda->canImportRecursive());
@@ -49,7 +49,7 @@ class AgendaFactoryTest extends CommonTestClass
     public function testNonExistingEntity(): void
     {
         // this thing is ignored by phpstan, but called here
-        $lib = new Pohoda\AgendaFactory(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), 'some no');
+        $lib = new Pohoda\AgendaFactory(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), Pohoda\Common\CompanyRegistrationNumber::init('some no'));
         $this->expectExceptionMessage('Agenda class does not exists: ');
         $this->expectException(DomainException::class);
         $lib->getAgenda('this_class_does_not_exists');
@@ -57,7 +57,7 @@ class AgendaFactoryTest extends CommonTestClass
 
     public function testAbstractEntity(): void
     {
-        $lib = new Pohoda\AgendaFactory(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), 'some no');
+        $lib = new Pohoda\AgendaFactory(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), Pohoda\Common\CompanyRegistrationNumber::init('some no'));
         $this->expectExceptionMessage('Agenda class cannot be initialized: ');
         $this->expectException(DomainException::class);
         $lib->getAgenda('AbstractDocument');
@@ -65,7 +65,7 @@ class AgendaFactoryTest extends CommonTestClass
 
     public function testBadConstructEntity(): void
     {
-        $lib = new Pohoda\AgendaFactory(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), 'some no');
+        $lib = new Pohoda\AgendaFactory(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), Pohoda\Common\CompanyRegistrationNumber::init('some no'));
         $this->expectExceptionMessage('Agenda class cannot be initialized: XAgendaNotInit');
         $this->expectException(DomainException::class);
         $lib->getAgenda('XAgendaNotInit');
@@ -73,7 +73,7 @@ class AgendaFactoryTest extends CommonTestClass
 
     public function testEntityNotInstance(): void
     {
-        $lib = new Pohoda\AgendaFactory(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), 'some no');
+        $lib = new Pohoda\AgendaFactory(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), Pohoda\Common\CompanyRegistrationNumber::init('some no'));
         $this->expectExceptionMessage('Agenda class is not an instance of AbstractAgenda: ');
         $this->expectException(DomainException::class);
         $lib->getAgenda('XAgendaNotInstance');

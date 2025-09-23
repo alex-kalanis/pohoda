@@ -65,7 +65,7 @@ class VoucherTest extends CommonTestClass
 
     protected function getLib(): Pohoda\Voucher
     {
-        $lib = new Pohoda\Voucher(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
+        $lib = new Pohoda\Voucher(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), Pohoda\Common\CompanyRegistrationNumber::init('123'));
         return $lib->setData([
             'id' => '123456',
         ]);

@@ -10,7 +10,7 @@ class ListStockTest extends CommonTestClass
 {
     public function testSimple(): void
     {
-        $lib = new Pohoda\ListStock(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
+        $lib = new Pohoda\ListStock(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), Pohoda\Common\CompanyRegistrationNumber::init('123'));
         $lib->setData([
             'type' => 'Stock',
             'timestamp' => date_create_immutable('2025-07-01T01:00:00'),
@@ -23,7 +23,7 @@ class ListStockTest extends CommonTestClass
 
     public function testAddressBook(): void
     {
-        $lib = new Pohoda\ListStock(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
+        $lib = new Pohoda\ListStock(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), Pohoda\Common\CompanyRegistrationNumber::init('123'));
         $lib->setData([
             'type' => 'AddressBook',
             'timestamp' => date_create_immutable('2025-07-01T01:00:00'),
@@ -35,7 +35,7 @@ class ListStockTest extends CommonTestClass
 
     public function testStock(): void
     {
-        $lib = new Pohoda\ListStock(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
+        $lib = new Pohoda\ListStock(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), Pohoda\Common\CompanyRegistrationNumber::init('123'));
         $lib->setData([
             'type' => 'Other',
             'timestamp' => date_create_immutable('2025-07-01T01:00:00'),

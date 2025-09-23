@@ -3,6 +3,7 @@
 namespace tests\BasicTests;
 
 use Riesenia\Pohoda\Common\AddParameterTrait;
+use Riesenia\Pohoda\Common\CompanyRegistrationNumber;
 use Riesenia\Pohoda\Common\NamespacesPaths;
 use Riesenia\Pohoda\Common\OneDirectionalVariablesTrait;
 use Riesenia\Pohoda\Common\OptionsResolver;
@@ -14,7 +15,7 @@ class XParameter
     use OneDirectionalVariablesTrait;
 
     public array $data = [];
-    protected string $companyRegistrationNumber = 'dummy';
+    protected readonly CompanyRegistrationNumber $companyRegistrationNumber;
     protected readonly NamespacesPaths $namespacesPaths;
     protected readonly ValueTransformer\SanitizeEncoding $sanitizeEncoding;
     protected bool $resolveOptions = false;
@@ -22,6 +23,7 @@ class XParameter
 
     public function __construct()
     {
+        $this->companyRegistrationNumber = CompanyRegistrationNumber::init('dummy');
         $this->namespacesPaths = new NamespacesPaths();
         $this->sanitizeEncoding = new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing());
         $this->normalizerFactory = new OptionsResolver\Normalizers\NormalizerFactory();

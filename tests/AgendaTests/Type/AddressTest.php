@@ -3,6 +3,7 @@
 namespace tests\AgendaTests\Type;
 
 use tests\CommonTestClass;
+use Riesenia\Pohoda\Common\CompanyRegistrationNumber;
 use Riesenia\Pohoda\Common\NamespacesPaths;
 use Riesenia\Pohoda\Type\Address;
 use Riesenia\Pohoda\ValueTransformer\Listing;
@@ -12,7 +13,7 @@ class AddressTest extends CommonTestClass
 {
     public function testUpdateParams(): void
     {
-        $lib = new Address(new NamespacesPaths(), new SanitizeEncoding(new Listing()), 'foo');
+        $lib = new Address(new NamespacesPaths(), new SanitizeEncoding(new Listing()), CompanyRegistrationNumber::init('foo'));
         $lib->setData([
             'shipToAddress' => [
                 'name' => 'example',

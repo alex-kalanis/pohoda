@@ -52,7 +52,7 @@ class PohodaResponse extends Pohoda
         $this->xmlWriter->startElementNs('rsp', 'responsePack', null);
 
         $this->xmlWriter->writeAttribute('id', $id);
-        $this->xmlWriter->writeAttribute('ico', $this->companyRegistrationNumber);
+        $this->xmlWriter->writeAttribute('ico', $this->companyRegistrationNumber->getCompanyNumber());
         $this->xmlWriter->writeAttribute('version', '2.0');
         $this->xmlWriter->writeAttribute('note', $note);
         $this->xmlWriter->writeAttribute('state', $state);

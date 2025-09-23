@@ -3,6 +3,7 @@
 namespace tests\BasicTests;
 
 use Riesenia\Pohoda\Common\AddActionTypeTrait;
+use Riesenia\Pohoda\Common\CompanyRegistrationNumber;
 use Riesenia\Pohoda\Common\NamespacesPaths;
 use Riesenia\Pohoda\Common\OneDirectionalVariablesTrait;
 use Riesenia\Pohoda\Common\OptionsResolver;
@@ -15,7 +16,7 @@ class XActionType
     use OneDirectionalVariablesTrait;
 
     public array $data = [];
-    protected string $companyRegistrationNumber = 'dummy';
+    protected readonly CompanyRegistrationNumber $companyRegistrationNumber;
     protected readonly NamespacesPaths $namespacesPaths;
     protected readonly SanitizeEncoding $sanitizeEncoding;
     protected bool $resolveOptions = false;
@@ -23,6 +24,7 @@ class XActionType
 
     public function __construct()
     {
+        $this->companyRegistrationNumber = CompanyRegistrationNumber::init('dummy');
         $this->namespacesPaths = new NamespacesPaths();
         $this->sanitizeEncoding = new SanitizeEncoding(new Listing());
         $this->normalizerFactory = new OptionsResolver\Normalizers\NormalizerFactory();

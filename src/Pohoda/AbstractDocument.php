@@ -27,7 +27,7 @@ abstract class AbstractDocument extends AbstractAgenda
     public function __construct(
         Common\NamespacesPaths $namespacesPaths,
         SanitizeEncoding $sanitizeEncoding,
-        string $companyRegistrationNumber,
+        Common\CompanyRegistrationNumberInterface $companyRegistrationNumber,
         bool $resolveOptions = true,
         OptionsResolver\Normalizers\NormalizerFactory $normalizerFactory = new OptionsResolver\Normalizers\NormalizerFactory(),
     ) {

@@ -12,7 +12,7 @@ class DocumentPartFactory
     public function __construct(
         protected readonly Common\NamespacesPaths $namespacesPaths,
         protected readonly SanitizeEncoding $sanitizeEncoding,
-        protected readonly string $companyNumber,
+        protected readonly Common\CompanyRegistrationNumberInterface $companyNumber,
         protected readonly Common\OptionsResolver\Normalizers\NormalizerFactory $normalizerFactory = new Common\OptionsResolver\Normalizers\NormalizerFactory(),
     ) {}
 
