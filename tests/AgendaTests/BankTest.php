@@ -79,7 +79,6 @@ class BankTest extends CommonTestClass
         $lib = new Pohoda\Bank(
             new Pohoda\Common\NamespacesPaths(),
             new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()),
-            Pohoda\Common\CompanyRegistrationNumber::init('123'),
         );
         return $lib->setData([
             'bankType' => 'receipt',
@@ -107,7 +106,6 @@ class BankTest extends CommonTestClass
         $lib = new Pohoda\Bank\Item(
             new Pohoda\Common\NamespacesPaths(),
             new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()),
-            Pohoda\Common\CompanyRegistrationNumber::init('123'),
         );
         $lib->setData([
             'accounting' => [
@@ -128,7 +126,6 @@ class BankTest extends CommonTestClass
         $lib = new Pohoda\Bank\Item(
             new Pohoda\Common\NamespacesPaths(),
             new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()),
-            Pohoda\Common\CompanyRegistrationNumber::init('123'),
         );
         $lib->setData([
             'accounting' => [

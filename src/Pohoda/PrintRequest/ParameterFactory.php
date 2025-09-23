@@ -43,7 +43,6 @@ class ParameterFactory
     public function __construct(
         protected readonly Common\NamespacesPaths $namespacesPaths,
         protected readonly SanitizeEncoding $sanitizeEncoding,
-        protected readonly Common\CompanyRegistrationNumberInterface $companyRegistrationNumber,
         protected readonly Common\OptionsResolver\Normalizers\NormalizerFactory $normalizerFactory = new Common\OptionsResolver\Normalizers\NormalizerFactory(),
     ) {}
 
@@ -61,7 +60,6 @@ class ParameterFactory
             $class = $reflection->newInstance(
                 $this->namespacesPaths,
                 $this->sanitizeEncoding,
-                $this->companyRegistrationNumber,
                 $this->normalizerFactory,
             );
         } catch (ReflectionException $e) {

@@ -36,17 +36,16 @@ trait AddActionTypeTrait
         $actionType = new ActionType(
             $this->namespacesPaths,
             $this->sanitizeEncoding,
-            $this->companyRegistrationNumber,
             $this->normalizerFactory,
         );
         $this->data['actionType'] = $actionType
             ->setDirectionalVariable($this->useOneDirectionalVariables)
             ->setResolveOptions($this->resolveOptions)
             ->setData([
-            'type' => $type,
-            'filter' => $filter,
-            'agenda' => $agenda,
-        ]);
+                'type' => $type,
+                'filter' => $filter,
+                'agenda' => $agenda,
+            ]);
 
         return $this;
     }

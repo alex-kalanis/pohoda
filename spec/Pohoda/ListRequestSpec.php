@@ -12,7 +12,6 @@ declare(strict_types=1);
 namespace spec\Riesenia\Pohoda;
 
 use PhpSpec\ObjectBehavior;
-use Riesenia\Pohoda\Common\CompanyRegistrationNumber;
 use Riesenia\Pohoda\Common\NamespacesPaths;
 use Riesenia\Pohoda\ValueTransformer;
 
@@ -20,7 +19,7 @@ class ListRequestSpec extends ObjectBehavior
 {
     public function it_creates_correct_xml_for_category(): void
     {
-        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), CompanyRegistrationNumber::init('123'));
+        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
         $this->setData([
             'type' => 'Category',
         ]);
@@ -30,7 +29,7 @@ class ListRequestSpec extends ObjectBehavior
 
     public function it_creates_correct_xml_for_action_prices(): void
     {
-        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), CompanyRegistrationNumber::init('123'));
+        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
         $this->setData([
             'type' => 'ActionPrice',
         ]);
@@ -40,7 +39,7 @@ class ListRequestSpec extends ObjectBehavior
 
     public function it_creates_correct_xml_for_order(): void
     {
-        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), CompanyRegistrationNumber::init('123'));
+        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
         $this->setData([
             'type' => 'Order',
         ]);
@@ -50,7 +49,7 @@ class ListRequestSpec extends ObjectBehavior
 
     public function it_creates_correct_xml_for_advance_invoice(): void
     {
-        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), CompanyRegistrationNumber::init('123'));
+        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
         $this->setData([
             'type' => 'Invoice',
             'invoiceType' => 'issuedAdvanceInvoice',
@@ -61,7 +60,7 @@ class ListRequestSpec extends ObjectBehavior
 
     public function it_creates_correct_xml_for_vydejka(): void
     {
-        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), CompanyRegistrationNumber::init('123'));
+        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
         $this->setData([
             'type' => 'Vydejka',
         ]);
@@ -71,7 +70,7 @@ class ListRequestSpec extends ObjectBehavior
 
     public function it_creates_correct_xml_for_issue_slip(): void
     {
-        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), CompanyRegistrationNumber::init('123'));
+        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
         $this->setData([
             'type' => 'IssueSlip',
         ]);
@@ -81,7 +80,7 @@ class ListRequestSpec extends ObjectBehavior
 
     public function it_creates_correct_xml_for_prodejka(): void
     {
-        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), CompanyRegistrationNumber::init('123'));
+        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
         $this->setData([
             'type' => 'Prodejka',
         ]);
@@ -91,7 +90,7 @@ class ListRequestSpec extends ObjectBehavior
 
     public function it_creates_correct_xml_for_cash_slip(): void
     {
-        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), CompanyRegistrationNumber::init('123'));
+        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
         $this->setData([
             'type' => 'CashSlip',
         ]);
@@ -101,7 +100,7 @@ class ListRequestSpec extends ObjectBehavior
 
     public function it_creates_correct_xml_for_address_book(): void
     {
-        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), CompanyRegistrationNumber::init('123'));
+        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
         $this->setData([
             'type' => 'Addressbook',
         ]);
@@ -111,7 +110,7 @@ class ListRequestSpec extends ObjectBehavior
 
     public function it_creates_correct_xml_for_int_params(): void
     {
-        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), CompanyRegistrationNumber::init('123'));
+        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
         $this->setData([
             'type' => 'IntParam',
         ]);
@@ -121,7 +120,7 @@ class ListRequestSpec extends ObjectBehavior
 
     public function it_creates_correct_xml_for_user_lists(): void
     {
-        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), CompanyRegistrationNumber::init('123'));
+        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
         $this->setData([
             'type' => 'UserList',
         ]);
@@ -131,7 +130,7 @@ class ListRequestSpec extends ObjectBehavior
 
     public function it_creates_correct_xml_for_invoice_with_user_filter_name(): void
     {
-        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), CompanyRegistrationNumber::init('123'));
+        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
         $this->setData([
             'type' => 'Invoice',
         ]);
@@ -141,7 +140,7 @@ class ListRequestSpec extends ObjectBehavior
 
     public function it_creates_correct_xml_for_stock_with_complex_filter(): void
     {
-        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), CompanyRegistrationNumber::init('123'));
+        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
         $this->setData([
             'type' => 'Stock',
         ]);
@@ -155,7 +154,7 @@ class ListRequestSpec extends ObjectBehavior
      */
     public function it_creates_proper_restriction_data(): void
     {
-        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), CompanyRegistrationNumber::init('123'));
+        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
         $this->setData(['type' => 'Invoice']);
 
         $this->addRestrictionData(['liquidations' => true]);

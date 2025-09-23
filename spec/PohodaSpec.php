@@ -58,7 +58,7 @@ class PohodaSpec extends ObjectBehavior
             'storage' => 'STORAGE',
             'typePrice' => ['id' => 1],
         ];
-        $stock = new Stock(new NamespacesPaths(), $this->sanitization, Pohoda\Common\CompanyRegistrationNumber::init('123'));
+        $stock = new Stock(new NamespacesPaths(), $this->sanitization);
         $stock->setData($data);
 
         $this->open($tmpFile, 'ABC')->shouldReturn(true);
@@ -86,7 +86,7 @@ class PohodaSpec extends ObjectBehavior
             'storage' => 'STORAGE',
             'typePrice' => ['id' => 1],
         ];
-        $stock = new Stock(new NamespacesPaths(), $this->sanitization, Pohoda\Common\CompanyRegistrationNumber::init('123'));
+        $stock = new Stock(new NamespacesPaths(), $this->sanitization);
         $stock->setData($data);
 
         $this->open(null, 'ABC')->shouldReturn(true);
@@ -186,7 +186,7 @@ class PohodaSpec extends ObjectBehavior
             'storage' => 'storage3',
             'typePrice' => ['id' => 4],
         ];
-        $stock = new Stock(new NamespacesPaths(), $this->sanitization, Pohoda\Common\CompanyRegistrationNumber::init('123'));
+        $stock = new Stock(new NamespacesPaths(), $this->sanitization);
         $stock->setData($data);
 
         // set for each run
@@ -214,7 +214,7 @@ class PohodaSpec extends ObjectBehavior
             'storage' => 'storage3',
             'typePrice' => ['id' => 4],
         ];
-        $stock = new Stock(new NamespacesPaths(), $this->sanitization, Pohoda\Common\CompanyRegistrationNumber::init('123'));
+        $stock = new Stock(new NamespacesPaths(), $this->sanitization);
         $stock->setData($data);
 
         $this->sanitization->willBeSanitized(true);

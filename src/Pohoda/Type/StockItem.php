@@ -28,7 +28,6 @@ class StockItem extends AbstractAgenda
     public function __construct(
         Common\NamespacesPaths $namespacesPaths,
         SanitizeEncoding $sanitizeEncoding,
-        Common\CompanyRegistrationNumberInterface $companyRegistrationNumber,
         Common\OptionsResolver\Normalizers\NormalizerFactory $normalizerFactory = new Common\OptionsResolver\Normalizers\NormalizerFactory(),
     ) {
         // init attributes
@@ -37,7 +36,7 @@ class StockItem extends AbstractAgenda
             'applyUserSettingsFilterOnTheStore' => new Common\ElementAttributes('stockItem', 'applyUserSettingsFilterOnTheStore'),
         ];
 
-        parent::__construct($namespacesPaths, $sanitizeEncoding, $companyRegistrationNumber, $normalizerFactory);
+        parent::__construct($namespacesPaths, $sanitizeEncoding, $normalizerFactory);
     }
 
     /**

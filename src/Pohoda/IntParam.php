@@ -30,7 +30,7 @@ class IntParam extends AbstractAgenda
 
         // process settings
         if (isset($data['parameterSettings'])) {
-            $parameterSettings = new Settings($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->normalizerFactory);
+            $parameterSettings = new Settings($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
             $data['parameterSettings'] = $parameterSettings->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['parameterSettings']);
         }
 

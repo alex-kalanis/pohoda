@@ -46,13 +46,11 @@ abstract class AbstractAgenda
      *
      * @param Common\NamespacesPaths $namespacesPaths
      * @param ValueTransformer\SanitizeEncoding $sanitizeEncoding
-     * @param Common\CompanyRegistrationNumberInterface $companyRegistrationNumber
      * @param Common\OptionsResolver\Normalizers\NormalizerFactory $normalizerFactory
      */
     public function __construct(
         protected readonly Common\NamespacesPaths $namespacesPaths,
         protected Pohoda\ValueTransformer\SanitizeEncoding $sanitizeEncoding,
-        protected readonly Common\CompanyRegistrationNumberInterface $companyRegistrationNumber,
         protected Common\OptionsResolver\Normalizers\NormalizerFactory $normalizerFactory = new Common\OptionsResolver\Normalizers\NormalizerFactory(),
     ) {}
 

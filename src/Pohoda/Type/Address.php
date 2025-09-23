@@ -31,7 +31,6 @@ class Address extends AbstractAgenda
     public function __construct(
         Common\NamespacesPaths $namespacesPaths,
         SanitizeEncoding $sanitizeEncoding,
-        Common\CompanyRegistrationNumberInterface $companyRegistrationNumber,
         Common\OptionsResolver\Normalizers\NormalizerFactory $normalizerFactory = new Common\OptionsResolver\Normalizers\NormalizerFactory(),
     ) {
         // init attributes
@@ -39,7 +38,7 @@ class Address extends AbstractAgenda
             'addressLinkToAddress' => new Common\ElementAttributes('address', 'linkToAddress'),
         ];
 
-        parent::__construct($namespacesPaths, $sanitizeEncoding, $companyRegistrationNumber, $normalizerFactory);
+        parent::__construct($namespacesPaths, $sanitizeEncoding, $normalizerFactory);
     }
 
     /**
@@ -49,13 +48,13 @@ class Address extends AbstractAgenda
     {
         // process address
         if (isset($data['address'])) {
-            $address = new AddressType($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->normalizerFactory);
+            $address = new AddressType($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
             $data['address'] = $address->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['address']);
         }
 
         // process shipping address
         if (isset($data['shipToAddress'])) {
-            $shipTo = new ShipToAddressType($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->normalizerFactory);
+            $shipTo = new ShipToAddressType($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
             $data['shipToAddress'] = $shipTo->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['shipToAddress']);
         }
 

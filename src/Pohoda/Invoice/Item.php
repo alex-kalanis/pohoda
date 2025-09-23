@@ -29,7 +29,7 @@ class Item extends AbstractItem
     public function setData(array $data): parent
     {
         if (isset($data['recyclingContrib'])) {
-            $recyclingContrib = new RecyclingContrib($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->normalizerFactory);
+            $recyclingContrib = new RecyclingContrib($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
             $data['recyclingContrib'] = $recyclingContrib->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['recyclingContrib']);
         }
 

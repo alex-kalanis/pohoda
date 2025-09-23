@@ -29,7 +29,6 @@ class IndividualPriceTest extends CommonTestClass
         return new Pohoda\IndividualPrice(
             new Pohoda\Common\NamespacesPaths(),
             new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()),
-            Pohoda\Common\CompanyRegistrationNumber::init('123'),
         );
     }
 }

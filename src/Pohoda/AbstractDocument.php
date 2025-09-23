@@ -27,12 +27,11 @@ abstract class AbstractDocument extends AbstractAgenda
     public function __construct(
         Common\NamespacesPaths $namespacesPaths,
         SanitizeEncoding $sanitizeEncoding,
-        Common\CompanyRegistrationNumberInterface $companyRegistrationNumber,
         OptionsResolver\Normalizers\NormalizerFactory $normalizerFactory = new OptionsResolver\Normalizers\NormalizerFactory(),
     ) {
-        $this->documentPartFactory = new DocumentPartFactory($namespacesPaths, $sanitizeEncoding, $companyRegistrationNumber, $normalizerFactory);
+        $this->documentPartFactory = new DocumentPartFactory($namespacesPaths, $sanitizeEncoding, $normalizerFactory);
 
-        parent::__construct($namespacesPaths, $sanitizeEncoding, $companyRegistrationNumber, $normalizerFactory);
+        parent::__construct($namespacesPaths, $sanitizeEncoding, $normalizerFactory);
     }
 
     /**

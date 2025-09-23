@@ -29,7 +29,7 @@ class Contract extends AbstractAgenda
     public function setData(array $data): parent
     {
         // pass to header
-        $desc = new Desc($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->normalizerFactory);
+        $desc = new Desc($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
         $data = ['header' => $desc->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data)];
 
         return parent::setData($data);

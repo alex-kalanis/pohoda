@@ -88,7 +88,7 @@ class Pohoda
         protected readonly Pohoda\Common\NamespacesPaths $namespacesPaths = new Pohoda\Common\NamespacesPaths(),
     ) {
         $this->companyRegistrationNumber = is_object($companyRegistrationNumber) ? $companyRegistrationNumber : Pohoda\Common\CompanyRegistrationNumber::init($companyRegistrationNumber);
-        $this->agendaFactory = new Pohoda\AgendaFactory($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber);
+        $this->agendaFactory = new Pohoda\AgendaFactory($this->namespacesPaths, $this->sanitizeEncoding);
     }
 
     /**

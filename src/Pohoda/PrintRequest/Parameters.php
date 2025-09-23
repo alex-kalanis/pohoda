@@ -24,7 +24,7 @@ class Parameters extends AbstractAgenda
      */
     public function setData(array $data): parent
     {
-        $factory = new ParameterFactory($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->normalizerFactory);
+        $factory = new ParameterFactory($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
 
         foreach ($factory->getKeys() as $key) {
             // fill elements from factory

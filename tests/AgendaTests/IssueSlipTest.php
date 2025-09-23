@@ -97,7 +97,7 @@ class IssueSlipTest extends CommonTestClass
 
     protected function getLib(): Pohoda\IssueSlip
     {
-        $lib = new Pohoda\IssueSlip(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), Pohoda\Common\CompanyRegistrationNumber::init('123'));
+        $lib = new Pohoda\IssueSlip(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
         return $lib->setData([
             'date' => '2015-01-10',
             'dateOrder' => '2015-01-04',

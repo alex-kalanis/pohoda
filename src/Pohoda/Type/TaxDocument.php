@@ -29,7 +29,7 @@ class TaxDocument extends AbstractAgenda
     {
         // process source liquidation
         if (isset($data['sourceLiquidation'])) {
-            $sourceLiquidation = new SourceLiquidation($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->normalizerFactory);
+            $sourceLiquidation = new SourceLiquidation($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
             $data['sourceLiquidation'] = $sourceLiquidation->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['sourceLiquidation']);
         }
 

@@ -27,7 +27,7 @@ class Stock extends AbstractAgenda
     {
         // pass to header
         if (!empty($data)) {
-            $header = new Header($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->normalizerFactory);
+            $header = new Header($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
             $data = ['header' => $header->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data)];
         }
 
@@ -57,7 +57,7 @@ class Stock extends AbstractAgenda
             $this->data['stockDetail'] = [];
         }
 
-        $stockDetail = new StockItem($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->normalizerFactory);
+        $stockDetail = new StockItem($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
         $this->data['stockDetail'][] = $stockDetail->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data);
 
         return $this;
@@ -82,7 +82,7 @@ class Stock extends AbstractAgenda
             $this->data['stockPriceItem'] = [];
         }
 
-        $price = new Price($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->normalizerFactory);
+        $price = new Price($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
         $this->data['stockPriceItem'][] = $price->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData([
             'ids' => $code,
             'price' => $value,

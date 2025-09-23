@@ -83,7 +83,7 @@ class OrderTest extends CommonTestClass
 
     public function testCustomHeader(): void
     {
-        $lib = new Pohoda\Order(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), Pohoda\Common\CompanyRegistrationNumber::init('123'));
+        $lib = new Pohoda\Order(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
         $lib->setDirectionalVariable(true);
         $lib->setData([
             'numberOrder' => '1234567890',
@@ -95,14 +95,14 @@ class OrderTest extends CommonTestClass
 
     public function testHeaderKillNamespace(): void
     {
-        $lib = new Pohoda\Order\Header(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), Pohoda\Common\CompanyRegistrationNumber::init('123'));
+        $lib = new Pohoda\Order\Header(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
         $this->expectException(\LogicException::class);
         $lib->getXML();
     }
 
     public function testHeaderKillNodePrefix(): void
     {
-        $lib = new Pohoda\Order\Header(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), Pohoda\Common\CompanyRegistrationNumber::init('123'));
+        $lib = new Pohoda\Order\Header(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
         $lib->setNamespace('test');
         $this->expectException(\LogicException::class);
         $lib->getXML();
@@ -110,14 +110,14 @@ class OrderTest extends CommonTestClass
 
     public function testItemKillNamespace(): void
     {
-        $lib = new Pohoda\Order\Item(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), Pohoda\Common\CompanyRegistrationNumber::init('123'));
+        $lib = new Pohoda\Order\Item(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
         $this->expectException(\LogicException::class);
         $lib->getXML();
     }
 
     public function testItemKillNodePrefix(): void
     {
-        $lib = new Pohoda\Order\Item(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), Pohoda\Common\CompanyRegistrationNumber::init('123'));
+        $lib = new Pohoda\Order\Item(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
         $lib->setNamespace('test');
         $this->expectException(\LogicException::class);
         $lib->getXML();
@@ -125,14 +125,14 @@ class OrderTest extends CommonTestClass
 
     public function testSummaryKillNamespace(): void
     {
-        $lib = new Pohoda\Order\Summary(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), Pohoda\Common\CompanyRegistrationNumber::init('123'));
+        $lib = new Pohoda\Order\Summary(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
         $this->expectException(\LogicException::class);
         $lib->getXML();
     }
 
     public function testSummaryKillNodePrefix(): void
     {
-        $lib = new Pohoda\Order\Summary(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), Pohoda\Common\CompanyRegistrationNumber::init('123'));
+        $lib = new Pohoda\Order\Summary(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
         $lib->setNamespace('test');
         $this->expectException(\LogicException::class);
         $lib->getXML();
@@ -178,7 +178,7 @@ class OrderTest extends CommonTestClass
 
     public function testDeleteOrder(): void
     {
-        $lib = new Pohoda\Order(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), Pohoda\Common\CompanyRegistrationNumber::init('123'));
+        $lib = new Pohoda\Order(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
         $lib->addActionType('delete', [
             'number' => '222',
         ], 'prijate_objednavky');
@@ -188,7 +188,7 @@ class OrderTest extends CommonTestClass
 
     public function testWithSpecialCharsIntact(): void
     {
-        $lib = new Pohoda\AddressBook(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), Pohoda\Common\CompanyRegistrationNumber::init('123'));
+        $lib = new Pohoda\AddressBook(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
         $lib->setData([
             'identity' => [
                 'address' => [
@@ -210,7 +210,7 @@ class OrderTest extends CommonTestClass
 
     protected function getLib(): Pohoda\Order
     {
-        $lib = new Pohoda\Order(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), Pohoda\Common\CompanyRegistrationNumber::init('123'));
+        $lib = new Pohoda\Order(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
         return $lib->setData([
             'partnerIdentity' => [
                 'id' => 25,

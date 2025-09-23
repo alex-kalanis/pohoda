@@ -28,7 +28,6 @@ class CurrencyHome extends AbstractAgenda
     public function __construct(
         Common\NamespacesPaths $namespacesPaths,
         SanitizeEncoding $sanitizeEncoding,
-        Common\CompanyRegistrationNumberInterface $companyRegistrationNumber,
         Common\OptionsResolver\Normalizers\NormalizerFactory $normalizerFactory = new Common\OptionsResolver\Normalizers\NormalizerFactory(),
     ) {
         // init attributes
@@ -37,7 +36,7 @@ class CurrencyHome extends AbstractAgenda
             'priceHighVatRate' => new Common\ElementAttributes('priceHighVAT', 'rate'),
         ];
 
-        parent::__construct($namespacesPaths, $sanitizeEncoding, $companyRegistrationNumber, $normalizerFactory);
+        parent::__construct($namespacesPaths, $sanitizeEncoding, $normalizerFactory);
     }
 
     /**

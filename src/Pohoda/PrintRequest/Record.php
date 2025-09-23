@@ -22,7 +22,7 @@ class Record extends AbstractAgenda
     public function setData(array $data): parent
     {
         // process filter
-        $filter = new Filter($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->normalizerFactory);
+        $filter = new Filter($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
         $data['filter'] = $filter->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['filter']);
 
         return parent::setData($data);

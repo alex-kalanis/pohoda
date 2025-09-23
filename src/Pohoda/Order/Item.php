@@ -29,7 +29,6 @@ class Item extends AbstractItem
     public function __construct(
         Common\NamespacesPaths $namespacesPaths,
         SanitizeEncoding $sanitizeEncoding,
-        Common\CompanyRegistrationNumberInterface $companyRegistrationNumber,
         Common\OptionsResolver\Normalizers\NormalizerFactory $normalizerFactory = new Common\OptionsResolver\Normalizers\NormalizerFactory(),
     ) {
         // init attributes
@@ -37,7 +36,7 @@ class Item extends AbstractItem
             'rateVatValue' => new Common\ElementAttributes('rateVAT', 'value'),
         ];
 
-        parent::__construct($namespacesPaths, $sanitizeEncoding, $companyRegistrationNumber, $normalizerFactory);
+        parent::__construct($namespacesPaths, $sanitizeEncoding, $normalizerFactory);
     }
 
     /**

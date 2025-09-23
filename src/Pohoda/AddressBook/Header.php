@@ -33,7 +33,7 @@ class Header extends AbstractAgenda
     {
         // process identity
         if (isset($data['identity'])) {
-            $identity = new Address($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->normalizerFactory);
+            $identity = new Address($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
             $data['identity'] = $identity->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['identity']);
         }
 

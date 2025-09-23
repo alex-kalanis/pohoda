@@ -28,7 +28,6 @@ class ActionPriceTest extends CommonTestClass
         return new Pohoda\ActionPrice(
             new Pohoda\Common\NamespacesPaths(),
             new Pohoda\ValueTransformer\SanitizeEncoding(new Pohoda\ValueTransformer\Listing()),
-            Pohoda\Common\CompanyRegistrationNumber::init('123'),
         );
     }
 }

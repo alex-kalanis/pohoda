@@ -29,7 +29,7 @@ class IntDoc extends AbstractDocument
      */
     public function addTaxDocument(array $data): self
     {
-        $taxDocument = new TaxDocument($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->normalizerFactory);
+        $taxDocument = new TaxDocument($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
         $this->data['taxDocument'] = $taxDocument->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data);
 
         return $this;

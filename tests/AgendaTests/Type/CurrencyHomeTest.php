@@ -24,7 +24,6 @@ class CurrencyHomeTest extends CommonTestClass
         return new CurrencyHome(
             new Pohoda\Common\NamespacesPaths(),
             new SanitizeEncoding(new Listing()),
-            Pohoda\Common\CompanyRegistrationNumber::init('123'),
         );
     }
 }

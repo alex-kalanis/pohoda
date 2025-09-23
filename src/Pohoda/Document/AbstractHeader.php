@@ -25,13 +25,13 @@ abstract class AbstractHeader extends AbstractPart
     {
         // process partner identity
         if (isset($data['partnerIdentity'])) {
-            $parentIdentity = new Type\Address($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->normalizerFactory);
+            $parentIdentity = new Type\Address($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
             $data['partnerIdentity'] = $parentIdentity->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['partnerIdentity']);
         }
 
         // process my identity
         if (isset($data['myIdentity'])) {
-            $myIdentity = new Type\MyAddress($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->normalizerFactory);
+            $myIdentity = new Type\MyAddress($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
             $data['myIdentity'] = $myIdentity->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['myIdentity']);
         }
 

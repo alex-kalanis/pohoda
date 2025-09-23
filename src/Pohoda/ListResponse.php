@@ -29,7 +29,7 @@ class ListResponse extends AbstractAgenda
      */
     public function addLimit(array $data): self
     {
-        $limit = new Limit($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->normalizerFactory);
+        $limit = new Limit($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
         $this->data['limit'] = $limit->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data);
 
         return $this;
@@ -44,7 +44,7 @@ class ListResponse extends AbstractAgenda
      */
     public function addFilter(array $data): self
     {
-        $filter = new Filter($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->normalizerFactory);
+        $filter = new Filter($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
         $this->data['filter'] = $filter->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data);
 
         return $this;
@@ -59,7 +59,7 @@ class ListResponse extends AbstractAgenda
      */
     public function addRestrictionData(array $data): self
     {
-        $restrictionData = new RestrictionData($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->normalizerFactory);
+        $restrictionData = new RestrictionData($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
         $this->data['restrictionData'] = $restrictionData->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data);
 
         return $this;
@@ -74,7 +74,7 @@ class ListResponse extends AbstractAgenda
      */
     public function addUserFilterName(string $name): self
     {
-        $userFilterName = new UserFilterName($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->normalizerFactory);
+        $userFilterName = new UserFilterName($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
         $this->data['userFilterName'] = $userFilterName->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData(['userFilterName' => $name]);
 
         return $this;

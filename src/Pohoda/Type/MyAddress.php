@@ -29,12 +29,12 @@ class MyAddress extends AbstractAgenda
     {
         // process address
         if (isset($data['address'])) {
-            $address = new AddressInternetType($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->normalizerFactory);
+            $address = new AddressInternetType($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
             $data['address'] = $address->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['address']);
         }
         // process establishment
         if (isset($data['establishment'])) {
-            $establishment = new EstablishmentType($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->normalizerFactory);
+            $establishment = new EstablishmentType($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
             $data['establishment'] = $establishment->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['establishment']);
         }
 

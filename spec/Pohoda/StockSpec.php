@@ -12,7 +12,6 @@ declare(strict_types=1);
 namespace spec\Riesenia\Pohoda;
 
 use PhpSpec\ObjectBehavior;
-use Riesenia\Pohoda\Common\CompanyRegistrationNumber;
 use Riesenia\Pohoda\Common\NamespacesPaths;
 use Riesenia\Pohoda\ValueTransformer;
 
@@ -20,7 +19,7 @@ class StockSpec extends ObjectBehavior
 {
     public function let(): void
     {
-        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), CompanyRegistrationNumber::init('123'));
+        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
         $this->setData([
             'code' => 'CODE',
             'name' => 'NAME',
@@ -133,7 +132,7 @@ class StockSpec extends ObjectBehavior
 
     protected function it_can_delete_stock(): void
     {
-        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), [], CompanyRegistrationNumber::init('123'));
+        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
 
         $this->addActionType('delete', [
             'code' => 'CODE',

@@ -12,7 +12,6 @@ declare(strict_types=1);
 namespace spec\Riesenia\Pohoda;
 
 use PhpSpec\ObjectBehavior;
-use Riesenia\Pohoda\Common\CompanyRegistrationNumber;
 use Riesenia\Pohoda\Common\NamespacesPaths;
 use Riesenia\Pohoda\ValueTransformer;
 
@@ -20,7 +19,7 @@ class CashSlipSpec extends ObjectBehavior
 {
     public function let()
     {
-        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), CompanyRegistrationNumber::init('123'));
+        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
         $this->setData([
             'date' => '2015-01-10',
             'text' => 'Prod',

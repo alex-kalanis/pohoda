@@ -3,7 +3,6 @@
 namespace tests\BasicTests;
 
 use tests\CommonTestClass;
-use Riesenia\Pohoda\Common\CompanyRegistrationNumber;
 use Riesenia\Pohoda\Common\NamespacesPaths;
 use Riesenia\Pohoda\Stock;
 use Riesenia\Pohoda\ValueTransformer;
@@ -36,7 +35,7 @@ class PohodaResponseTest extends CommonTestClass
             'storage' => 'STORAGE',
             'typePrice' => ['id' => 1],
         ];
-        $stock = new Stock(new NamespacesPaths(), $this->sanitization, CompanyRegistrationNumber::init('123'));
+        $stock = new Stock(new NamespacesPaths(), $this->sanitization);
         $stock->setData($data);
 
         $lib = $this->getLib();
@@ -63,7 +62,7 @@ class PohodaResponseTest extends CommonTestClass
             'storage' => 'STORAGE',
             'typePrice' => ['id' => 1],
         ];
-        $stock = new Stock(new NamespacesPaths(), $this->sanitization, CompanyRegistrationNumber::init('123'));
+        $stock = new Stock(new NamespacesPaths(), $this->sanitization);
         $stock->setData($data);
 
         $lib = $this->getLib();
@@ -89,7 +88,7 @@ class PohodaResponseTest extends CommonTestClass
             'storage' => 'storage3',
             'typePrice' => ['id' => 4],
         ];
-        $stock = new Stock(new NamespacesPaths(), $this->sanitization, CompanyRegistrationNumber::init('123'));
+        $stock = new Stock(new NamespacesPaths(), $this->sanitization);
         $stock->setData($data);
 
         $lib = $this->getLib();
@@ -118,7 +117,7 @@ class PohodaResponseTest extends CommonTestClass
             'storage' => 'storage3',
             'typePrice' => ['id' => 4],
         ];
-        $stock = new Stock(new NamespacesPaths(), $this->sanitization, CompanyRegistrationNumber::init('123'));
+        $stock = new Stock(new NamespacesPaths(), $this->sanitization);
         $stock->setData($data);
 
         $this->sanitization->willBeSanitized(true);

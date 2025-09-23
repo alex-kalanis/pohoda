@@ -45,7 +45,7 @@ class AddressBookTest extends CommonTestClass
 
     public function testDeleteAddress(): void
     {
-        $lib = new Pohoda\AddressBook(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), Pohoda\Common\CompanyRegistrationNumber::init('123'));
+        $lib = new Pohoda\AddressBook(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
         $lib->addActionType('delete', [
             'company' => 'COMPANY',
         ]);
@@ -55,7 +55,7 @@ class AddressBookTest extends CommonTestClass
 
     public function testWithSpecialCharsIntact(): void
     {
-        $lib = new Pohoda\AddressBook(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), Pohoda\Common\CompanyRegistrationNumber::init('123'));
+        $lib = new Pohoda\AddressBook(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
         $lib->setData([
             'identity' => [
                 'address' => [
@@ -77,7 +77,7 @@ class AddressBookTest extends CommonTestClass
 
     protected function getLib(): Pohoda\AddressBook
     {
-        $lib = new Pohoda\AddressBook(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), Pohoda\Common\CompanyRegistrationNumber::init('123'));
+        $lib = new Pohoda\AddressBook(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
         return $lib->setData([
             'identity' => [
                 'address' => [
