@@ -28,12 +28,11 @@ abstract class AbstractDocument extends AbstractAgenda
         Common\NamespacesPaths $namespacesPaths,
         SanitizeEncoding $sanitizeEncoding,
         string $companyRegistrationNumber,
-        bool $resolveOptions = true,
         OptionsResolver\Normalizers\NormalizerFactory $normalizerFactory = new OptionsResolver\Normalizers\NormalizerFactory(),
     ) {
         $this->documentPartFactory = new DocumentPartFactory($namespacesPaths, $sanitizeEncoding, $companyRegistrationNumber, $normalizerFactory);
 
-        parent::__construct($namespacesPaths, $sanitizeEncoding, $companyRegistrationNumber, $resolveOptions, $normalizerFactory);
+        parent::__construct($namespacesPaths, $sanitizeEncoding, $companyRegistrationNumber, $normalizerFactory);
     }
 
     /**
@@ -121,9 +120,10 @@ abstract class AbstractDocument extends AbstractAgenda
      */
     protected function getDocumentPart(string $partName, bool $resolveOptions = true): Document\AbstractPart
     {
-        $part = $this->documentPartFactory->getPart(\get_class($this), $partName, $resolveOptions);
+        $part = $this->documentPartFactory->getPart(\get_class($this), $partName);
         $part->setNamespace($this->getDocumentNamespace());
         $part->setNodePrefix($this->getDocumentName());
+        $part->setResolveOptions($resolveOptions);
         return $part;
     }
 

@@ -31,7 +31,7 @@ class Parameters extends AbstractAgenda
             $this->elements[] = $key;
             // add instance to data
             if (isset($data[$key])) {
-                $data[$key] = $factory->getByKey($key, $this->resolveOptions)->setDirectionalVariable($this->useOneDirectionalVariables)->setData($data[$key]);
+                $data[$key] = $factory->getByKey($key)->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data[$key]);
             }
         }
 

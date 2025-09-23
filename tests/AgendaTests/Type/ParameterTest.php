@@ -12,7 +12,8 @@ class ParameterTest extends CommonTestClass
 {
     public function testInit(): void
     {
-        $lib = $this->getLib(false);
+        $lib = $this->getLib();
+        $lib->setResolveOptions(false);
         $this->assertInstanceOf(Parameter::class, $lib);
         $this->assertInstanceOf(Pohoda\AbstractAgenda::class, $lib);
         $this->assertNull($lib->getImportRoot());
@@ -76,13 +77,12 @@ class ParameterTest extends CommonTestClass
         $this->assertEquals('', $lib->getXML());
     }
 
-    protected function getLib(bool $resolve = true): Parameter
+    protected function getLib(): Parameter
     {
         return new Parameter(
             new Pohoda\Common\NamespacesPaths(),
             new SanitizeEncoding(new Listing()),
             '123',
-            $resolve,
         );
     }
 }

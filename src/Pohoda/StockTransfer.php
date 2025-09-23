@@ -11,8 +11,6 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda;
 
-use Riesenia\Pohoda\ValueTransformer\SanitizeEncoding;
-
 class StockTransfer extends AbstractAgenda
 {
     use Common\AddParameterToHeaderTrait;
@@ -23,8 +21,8 @@ class StockTransfer extends AbstractAgenda
     public function setData(array $data): parent
     {
         // pass to header
-        $header = new StockTransfer\Header($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->resolveOptions, $this->normalizerFactory);
-        $data = ['header' => $header->setDirectionalVariable($this->useOneDirectionalVariables)->setData($data)];
+        $header = new StockTransfer\Header($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->normalizerFactory);
+        $data = ['header' => $header->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data)];
 
         return parent::setData($data);
     }
@@ -52,8 +50,8 @@ class StockTransfer extends AbstractAgenda
             $this->data['prevodkaDetail'] = [];
         }
 
-        $prevodkaDetail = new StockTransfer\Item($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->resolveOptions, $this->normalizerFactory);
-        $this->data['prevodkaDetail'][] = $prevodkaDetail->setDirectionalVariable($this->useOneDirectionalVariables)->setData($data);
+        $prevodkaDetail = new StockTransfer\Item($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->normalizerFactory);
+        $this->data['prevodkaDetail'][] = $prevodkaDetail->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data);
 
         return $this;
     }

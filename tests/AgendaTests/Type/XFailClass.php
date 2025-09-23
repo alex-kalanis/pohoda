@@ -8,6 +8,5 @@ class XFailClass
         object $obj1,
         object $obj2,
         string $str,
-        bool $bool,
     ) {}
 }

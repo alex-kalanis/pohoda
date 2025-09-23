@@ -23,7 +23,7 @@ class XAgendaNotInit extends AbstractAgenda
 
 class XAgendaNotInstance
 {
-    public function __construct(object $obj1, object $obj2, string $number, bool $opts = false) {}
+    public function __construct(object $obj1, object $obj2, string $number) {}
 }
 
 

@@ -32,7 +32,6 @@ class Address extends AbstractAgenda
         Common\NamespacesPaths $namespacesPaths,
         SanitizeEncoding $sanitizeEncoding,
         string $companyRegistrationNumber,
-        bool $resolveOptions = true,
         Common\OptionsResolver\Normalizers\NormalizerFactory $normalizerFactory = new Common\OptionsResolver\Normalizers\NormalizerFactory(),
     ) {
         // init attributes
@@ -40,7 +39,7 @@ class Address extends AbstractAgenda
             'addressLinkToAddress' => new Common\ElementAttributes('address', 'linkToAddress'),
         ];
 
-        parent::__construct($namespacesPaths, $sanitizeEncoding, $companyRegistrationNumber, $resolveOptions, $normalizerFactory);
+        parent::__construct($namespacesPaths, $sanitizeEncoding, $companyRegistrationNumber, $normalizerFactory);
     }
 
     /**
@@ -50,14 +49,14 @@ class Address extends AbstractAgenda
     {
         // process address
         if (isset($data['address'])) {
-            $address = new AddressType($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->resolveOptions, $this->normalizerFactory);
-            $data['address'] = $address->setDirectionalVariable($this->useOneDirectionalVariables)->setData($data['address']);
+            $address = new AddressType($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->normalizerFactory);
+            $data['address'] = $address->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['address']);
         }
 
         // process shipping address
         if (isset($data['shipToAddress'])) {
-            $shipTo = new ShipToAddressType($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->resolveOptions, $this->normalizerFactory);
-            $data['shipToAddress'] = $shipTo->setDirectionalVariable($this->useOneDirectionalVariables)->setData($data['shipToAddress']);
+            $shipTo = new ShipToAddressType($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->normalizerFactory);
+            $data['shipToAddress'] = $shipTo->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['shipToAddress']);
         }
 
         return parent::setData($data);

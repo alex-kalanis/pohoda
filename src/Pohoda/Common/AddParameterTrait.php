@@ -42,10 +42,12 @@ trait AddParameterTrait
             $this->namespacesPaths,
             $this->sanitizeEncoding,
             $this->companyRegistrationNumber,
-            $this->resolveOptions,
             $this->normalizerFactory,
         );
-        $this->data['parameters'][] = $parameter->setDirectionalVariable($this->useOneDirectionalVariables)->setData([
+        $this->data['parameters'][] = $parameter
+            ->setDirectionalVariable($this->useOneDirectionalVariables)
+            ->setResolveOptions($this->resolveOptions)
+            ->setData([
             'name' => $name,
             'type' => $type,
             'value' => $value,

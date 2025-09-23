@@ -17,11 +17,10 @@ class AgendaFactory
 
     /**
      * @param string $name
-     * @param bool $resolveOptions
      * @throws DomainException
      * @return AbstractAgenda
      */
-    public function getAgenda(string $name, bool $resolveOptions = true): AbstractAgenda
+    public function getAgenda(string $name): AbstractAgenda
     {
         /** @var class-string<AbstractAgenda> $className */
         $className = __NAMESPACE__ . '\\' . $name;
@@ -40,7 +39,6 @@ class AgendaFactory
                 $this->namespacesPaths,
                 $this->sanitizeEncoding,
                 $this->companyNumber,
-                $resolveOptions,
                 $this->normalizerFactory,
             );
             // @codeCoverageIgnoreStart

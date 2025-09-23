@@ -120,7 +120,7 @@ class Pohoda
      */
     public function create(string $name, array $data = []): AbstractAgenda
     {
-        return $this->agendaFactory->getAgenda($name)->setDirectionalVariable($this->useOneDirectionalVariables)->setData($data);
+        return $this->agendaFactory->getAgenda($name)->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions(true)->setData($data);
     }
 
     /**
@@ -226,7 +226,8 @@ class Pohoda
             }
         }
 
-        $class = $this->agendaFactory->getAgenda($name, false);
+        $class = $this->agendaFactory->getAgenda($name);
+        $class->setResolveOptions(false);
         $this->elementName = $class->getImportRoot() ?? throw new \DomainException('Not allowed entity: ' . $name);
         $this->importRecursive = $class->canImportRecursive();
 

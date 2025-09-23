@@ -25,15 +25,15 @@ class Supplier extends AbstractAgenda
     {
         // process stockItem
         if (isset($data['stockItem'])) {
-            $stockItem = new Supplier\StockItem($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->resolveOptions, $this->normalizerFactory);
-            $data['stockItem'] = $stockItem->setDirectionalVariable($this->useOneDirectionalVariables)->setData($data['stockItem']);
+            $stockItem = new Supplier\StockItem($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->normalizerFactory);
+            $data['stockItem'] = $stockItem->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['stockItem']);
         }
 
         // process suppliers
         if (isset($data['suppliers']) && is_array($data['suppliers'])) {
             $data['suppliers'] = \array_map(function ($supplier) {
-                $SupplierItem = new Supplier\SupplierItem($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->resolveOptions, $this->normalizerFactory);
-                return $SupplierItem->setDirectionalVariable($this->useOneDirectionalVariables)->setData($supplier['supplierItem']);
+                $SupplierItem = new Supplier\SupplierItem($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->normalizerFactory);
+                return $SupplierItem->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($supplier['supplierItem']);
             }, $data['suppliers']);
         }
 

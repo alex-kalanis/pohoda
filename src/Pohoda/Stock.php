@@ -27,8 +27,8 @@ class Stock extends AbstractAgenda
     {
         // pass to header
         if (!empty($data)) {
-            $header = new Header($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->resolveOptions, $this->normalizerFactory);
-            $data = ['header' => $header->setDirectionalVariable($this->useOneDirectionalVariables)->setData($data)];
+            $header = new Header($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->normalizerFactory);
+            $data = ['header' => $header->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data)];
         }
 
         return parent::setData($data);
@@ -57,8 +57,8 @@ class Stock extends AbstractAgenda
             $this->data['stockDetail'] = [];
         }
 
-        $stockDetail = new StockItem($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->resolveOptions, $this->normalizerFactory);
-        $this->data['stockDetail'][] = $stockDetail->setDirectionalVariable($this->useOneDirectionalVariables)->setData($data);
+        $stockDetail = new StockItem($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->normalizerFactory);
+        $this->data['stockDetail'][] = $stockDetail->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data);
 
         return $this;
     }
@@ -82,8 +82,8 @@ class Stock extends AbstractAgenda
             $this->data['stockPriceItem'] = [];
         }
 
-        $price = new Price($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->resolveOptions, $this->normalizerFactory);
-        $this->data['stockPriceItem'][] = $price->setDirectionalVariable($this->useOneDirectionalVariables)->setData([
+        $price = new Price($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->normalizerFactory);
+        $this->data['stockPriceItem'][] = $price->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData([
             'ids' => $code,
             'price' => $value,
         ]);

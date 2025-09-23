@@ -32,8 +32,8 @@ class Header extends AbstractAgenda
     {
         // process partner identity
         if (isset($data['partnerIdentity'])) {
-            $partnerIdentity = new Type\Address($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->resolveOptions, $this->normalizerFactory);
-            $data['partnerIdentity'] = $partnerIdentity->setDirectionalVariable($this->useOneDirectionalVariables)->setData($data['partnerIdentity']);
+            $partnerIdentity = new Type\Address($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->normalizerFactory);
+            $data['partnerIdentity'] = $partnerIdentity->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['partnerIdentity']);
         }
 
         return parent::setData($data);

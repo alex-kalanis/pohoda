@@ -31,8 +31,8 @@ class AddressBook extends AbstractAgenda
     {
         // pass to header
         if (!empty($data)) {
-            $header = new Header($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->resolveOptions);
-            $data = ['header' => $header->setDirectionalVariable($this->useOneDirectionalVariables)->setData($data)];
+            $header = new Header($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber);
+            $data = ['header' => $header->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data)];
         }
 
         return parent::setData($data);

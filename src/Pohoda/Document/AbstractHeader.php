@@ -25,14 +25,14 @@ abstract class AbstractHeader extends AbstractPart
     {
         // process partner identity
         if (isset($data['partnerIdentity'])) {
-            $parentIdentity = new Type\Address($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->resolveOptions, $this->normalizerFactory);
-            $data['partnerIdentity'] = $parentIdentity->setDirectionalVariable($this->useOneDirectionalVariables)->setData($data['partnerIdentity']);
+            $parentIdentity = new Type\Address($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->normalizerFactory);
+            $data['partnerIdentity'] = $parentIdentity->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['partnerIdentity']);
         }
 
         // process my identity
         if (isset($data['myIdentity'])) {
-            $myIdentity = new Type\MyAddress($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->resolveOptions, $this->normalizerFactory);
-            $data['myIdentity'] = $myIdentity->setDirectionalVariable($this->useOneDirectionalVariables)->setData($data['myIdentity']);
+            $myIdentity = new Type\MyAddress($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->normalizerFactory);
+            $data['myIdentity'] = $myIdentity->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['myIdentity']);
         }
 
         return parent::setData($data);

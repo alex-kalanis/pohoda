@@ -20,7 +20,8 @@ class ActionTypeTest extends CommonTestClass
 
     public function testUpdateParams(): void
     {
-        $lib = new ActionType(new NamespacesPaths(), new SanitizeEncoding(new Listing()), 'foo', false);
+        $lib = new ActionType(new NamespacesPaths(), new SanitizeEncoding(new Listing()), 'foo');
+        $lib->setResolveOptions(false);
         $lib->setNamespace('lst');
         $this->assertEquals('', $lib->setData([
             'type' => 'add/update',

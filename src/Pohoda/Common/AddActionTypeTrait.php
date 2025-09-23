@@ -37,10 +37,12 @@ trait AddActionTypeTrait
             $this->namespacesPaths,
             $this->sanitizeEncoding,
             $this->companyRegistrationNumber,
-            $this->resolveOptions,
             $this->normalizerFactory,
         );
-        $this->data['actionType'] = $actionType->setDirectionalVariable($this->useOneDirectionalVariables)->setData([
+        $this->data['actionType'] = $actionType
+            ->setDirectionalVariable($this->useOneDirectionalVariables)
+            ->setResolveOptions($this->resolveOptions)
+            ->setData([
             'type' => $type,
             'filter' => $filter,
             'agenda' => $agenda,

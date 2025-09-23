@@ -19,11 +19,10 @@ class DocumentPartFactory
     /**
      * @param string $parentClass
      * @param string $name
-     * @param bool $resolveOptions
      * @throws DomainException
      * @return Document\AbstractPart
      */
-    public function getPart(string $parentClass, string $name, bool $resolveOptions = true): Document\AbstractPart
+    public function getPart(string $parentClass, string $name): Document\AbstractPart
     {
         /** @var class-string<Document\AbstractPart> $className */
         $className = $parentClass . '\\' . $name;
@@ -42,7 +41,6 @@ class DocumentPartFactory
                 $this->namespacesPaths,
                 $this->sanitizeEncoding,
                 $this->companyNumber,
-                $resolveOptions,
                 $this->normalizerFactory,
             );
             // @codeCoverageIgnoreStart

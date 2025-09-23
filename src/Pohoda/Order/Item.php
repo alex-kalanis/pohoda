@@ -30,7 +30,6 @@ class Item extends AbstractItem
         Common\NamespacesPaths $namespacesPaths,
         SanitizeEncoding $sanitizeEncoding,
         string $companyRegistrationNumber,
-        bool $resolveOptions = true,
         Common\OptionsResolver\Normalizers\NormalizerFactory $normalizerFactory = new Common\OptionsResolver\Normalizers\NormalizerFactory(),
     ) {
         // init attributes
@@ -38,7 +37,7 @@ class Item extends AbstractItem
             'rateVatValue' => new Common\ElementAttributes('rateVAT', 'value'),
         ];
 
-        parent::__construct($namespacesPaths, $sanitizeEncoding, $companyRegistrationNumber, $resolveOptions, $normalizerFactory);
+        parent::__construct($namespacesPaths, $sanitizeEncoding, $companyRegistrationNumber, $normalizerFactory);
     }
 
     /**

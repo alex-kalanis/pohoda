@@ -25,20 +25,20 @@ abstract class AbstractItem extends AbstractPart
     {
         // process home currency
         if (isset($data['homeCurrency'])) {
-            $homeCurrency = new Type\CurrencyItem($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->resolveOptions, $this->normalizerFactory);
-            $data['homeCurrency'] = $homeCurrency->setDirectionalVariable($this->useOneDirectionalVariables)->setData($data['homeCurrency']);
+            $homeCurrency = new Type\CurrencyItem($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->normalizerFactory);
+            $data['homeCurrency'] = $homeCurrency->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['homeCurrency']);
         }
 
         // process foreign currency
         if (isset($data['foreignCurrency'])) {
-            $foreignCurrency = new Type\CurrencyItem($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->resolveOptions, $this->normalizerFactory);
-            $data['foreignCurrency'] = $foreignCurrency->setDirectionalVariable($this->useOneDirectionalVariables)->setData($data['foreignCurrency']);
+            $foreignCurrency = new Type\CurrencyItem($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->normalizerFactory);
+            $data['foreignCurrency'] = $foreignCurrency->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['foreignCurrency']);
         }
 
         // process stock item
         if (isset($data['stockItem'])) {
-            $stockItem = new Type\StockItem($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->resolveOptions, $this->normalizerFactory);
-            $data['stockItem'] = $stockItem->setDirectionalVariable($this->useOneDirectionalVariables)->setData($data['stockItem']);
+            $stockItem = new Type\StockItem($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber, $this->normalizerFactory);
+            $data['stockItem'] = $stockItem->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['stockItem']);
         }
 
         return parent::setData($data);

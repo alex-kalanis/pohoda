@@ -49,10 +49,9 @@ class ParameterFactory
 
     /**
      * @param string $key
-     * @param bool $resolveOptions
      * @return Parameter
      */
-    public function getByKey(string $key, bool $resolveOptions): Parameter
+    public function getByKey(string $key): Parameter
     {
         if (!isset($this->instances[$key])) {
             throw new DomainException(sprintf('The key *%s* is not known.', $key));
@@ -63,7 +62,6 @@ class ParameterFactory
                 $this->namespacesPaths,
                 $this->sanitizeEncoding,
                 $this->companyRegistrationNumber,
-                $resolveOptions,
                 $this->normalizerFactory,
             );
         } catch (ReflectionException $e) {
