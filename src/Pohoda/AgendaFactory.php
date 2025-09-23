@@ -11,7 +11,7 @@ class AgendaFactory
     public function __construct(
         protected readonly Common\NamespacesPaths $namespacesPaths,
         protected readonly ValueTransformer\SanitizeEncoding $sanitizeEncoding,
-        protected readonly string $companyNumber,
+        protected readonly Common\CompanyRegistrationNumberInterface $companyNumber,
         protected Common\OptionsResolver\Normalizers\NormalizerFactory $normalizerFactory = new Common\OptionsResolver\Normalizers\NormalizerFactory(),
     ) {}
 

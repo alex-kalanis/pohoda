@@ -43,7 +43,7 @@ class ParameterFactory
     public function __construct(
         protected readonly Common\NamespacesPaths $namespacesPaths,
         protected readonly SanitizeEncoding $sanitizeEncoding,
-        protected readonly string $companyRegistrationNumber,
+        protected readonly Common\CompanyRegistrationNumberInterface $companyRegistrationNumber,
         protected readonly Common\OptionsResolver\Normalizers\NormalizerFactory $normalizerFactory = new Common\OptionsResolver\Normalizers\NormalizerFactory(),
     ) {}
 

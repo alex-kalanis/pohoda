@@ -13,6 +13,7 @@ namespace spec\Riesenia\Pohoda;
 
 use PhpSpec\ObjectBehavior;
 use Riesenia\Pohoda\Category;
+use Riesenia\Pohoda\Common\CompanyRegistrationNumber;
 use Riesenia\Pohoda\Common\NamespacesPaths;
 use Riesenia\Pohoda\ValueTransformer;
 
@@ -20,7 +21,7 @@ class CategorySpec extends ObjectBehavior
 {
     public function let(): void
     {
-        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
+        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), CompanyRegistrationNumber::init('123'));
         $this->setData([
             'name' => 'Main',
             'sequence' => 1,
@@ -41,14 +42,14 @@ class CategorySpec extends ObjectBehavior
 
     public function it_can_add_subcategories(): void
     {
-        $sub = new Category(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
+        $sub = new Category(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), CompanyRegistrationNumber::init('123'));
         $sub->setData([
             'name' => 'Sub',
             'sequence' => 1,
             'displayed' => true,
         ]);
 
-        $subsub = new Category(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
+        $subsub = new Category(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), CompanyRegistrationNumber::init('123'));
         $subsub->setData([
             'name' => 'SubSub',
             'sequence' => 1,
@@ -57,7 +58,7 @@ class CategorySpec extends ObjectBehavior
 
         $sub->addSubcategory($subsub);
 
-        $sub2 = new Category(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
+        $sub2 = new Category(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), CompanyRegistrationNumber::init('123'));
         $sub2->setData([
             'name' => 'Sub2',
             'sequence' => '2',

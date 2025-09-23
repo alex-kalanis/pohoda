@@ -27,7 +27,7 @@ abstract class AbstractDocument extends AbstractAgenda
     public function __construct(
         Common\NamespacesPaths $namespacesPaths,
         SanitizeEncoding $sanitizeEncoding,
-        string $companyRegistrationNumber,
+        Common\CompanyRegistrationNumberInterface $companyRegistrationNumber,
         OptionsResolver\Normalizers\NormalizerFactory $normalizerFactory = new OptionsResolver\Normalizers\NormalizerFactory(),
     ) {
         $this->documentPartFactory = new DocumentPartFactory($namespacesPaths, $sanitizeEncoding, $companyRegistrationNumber, $normalizerFactory);

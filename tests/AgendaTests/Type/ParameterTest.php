@@ -52,7 +52,7 @@ class ParameterTest extends CommonTestClass
         $lib = new Parameter(
             new Pohoda\Common\NamespacesPaths(),
             $sanitize,
-            '123',
+            Pohoda\Common\CompanyRegistrationNumber::init('123'),
         );
         $lib->setData([
             'name' => 'testing',
@@ -82,7 +82,7 @@ class ParameterTest extends CommonTestClass
         return new Parameter(
             new Pohoda\Common\NamespacesPaths(),
             new SanitizeEncoding(new Listing()),
-            '123',
+            Pohoda\Common\CompanyRegistrationNumber::init('123'),
         );
     }
 }

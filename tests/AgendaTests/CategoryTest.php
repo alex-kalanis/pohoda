@@ -23,14 +23,14 @@ class CategoryTest extends CommonTestClass
 
     public function testAddSubCategories(): void
     {
-        $sub = new Pohoda\Category(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
+        $sub = new Pohoda\Category(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), Pohoda\Common\CompanyRegistrationNumber::init('123'));
         $sub->setData([
             'name' => 'Sub',
             'sequence' => 1,
             'displayed' => true,
         ]);
 
-        $subSub = new Pohoda\Category(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
+        $subSub = new Pohoda\Category(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), Pohoda\Common\CompanyRegistrationNumber::init('123'));
         $subSub->setData([
             'name' => 'SubSub',
             'sequence' => 1,
@@ -39,7 +39,7 @@ class CategoryTest extends CommonTestClass
 
         $sub->addSubcategory($subSub);
 
-        $sub2 = new Pohoda\Category(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
+        $sub2 = new Pohoda\Category(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), Pohoda\Common\CompanyRegistrationNumber::init('123'));
         $sub2->setData([
             'name' => 'Sub2',
             'sequence' => '2',
@@ -55,7 +55,7 @@ class CategoryTest extends CommonTestClass
 
     protected function getLib(): Pohoda\Category
     {
-        $lib = new Pohoda\Category(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), '123');
+        $lib = new Pohoda\Category(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()), Pohoda\Common\CompanyRegistrationNumber::init('123'));
         return $lib->setData([
             'name' => 'Main',
             'sequence' => 1,

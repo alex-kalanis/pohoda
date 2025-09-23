@@ -80,11 +80,14 @@ class Pohoda
 
     protected bool $importRecursive = false;
 
+    protected readonly Pohoda\Common\CompanyRegistrationNumberInterface $companyRegistrationNumber;
+
     public function __construct(
-        protected readonly string $companyRegistrationNumber,
+        string|Pohoda\Common\CompanyRegistrationNumberInterface $companyRegistrationNumber,
         protected Pohoda\ValueTransformer\SanitizeEncoding $sanitizeEncoding = new Pohoda\ValueTransformer\SanitizeEncoding(new Pohoda\ValueTransformer\Listing()),
         protected readonly Pohoda\Common\NamespacesPaths $namespacesPaths = new Pohoda\Common\NamespacesPaths(),
     ) {
+        $this->companyRegistrationNumber = is_object($companyRegistrationNumber) ? $companyRegistrationNumber : Pohoda\Common\CompanyRegistrationNumber::init($companyRegistrationNumber);
         $this->agendaFactory = new Pohoda\AgendaFactory($this->namespacesPaths, $this->sanitizeEncoding, $this->companyRegistrationNumber);
     }
 
@@ -154,7 +157,7 @@ class Pohoda
         $this->xmlWriter->startElementNs('dat', 'dataPack', null);
 
         $this->xmlWriter->writeAttribute('id', $id);
-        $this->xmlWriter->writeAttribute('ico', $this->companyRegistrationNumber);
+        $this->xmlWriter->writeAttribute('ico', $this->companyRegistrationNumber->getCompanyNumber());
         $this->xmlWriter->writeAttribute('application', $this->application);
         $this->xmlWriter->writeAttribute('version', '2.0');
         $this->xmlWriter->writeAttribute('note', $note);
