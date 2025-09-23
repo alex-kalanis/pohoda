@@ -40,7 +40,7 @@ class PohodaResponseTest extends CommonTestClass
 
         $lib = $this->getLib();
         $this->assertTrue($lib->open($this->tempFile, 'ABC'));
-        $lib->addItem('ITEM_ID', $stock, [], 'test');
+        $lib->addItem('ITEM_ID', $stock, 'test');
         $lib->close();
 
         $xml = \simplexml_load_file($this->tempFile);
@@ -67,7 +67,7 @@ class PohodaResponseTest extends CommonTestClass
 
         $lib = $this->getLib();
         $this->assertTrue($lib->open(null, 'ABC'));
-        $lib->addItem('ITEM_ID', $stock, [], 'test');
+        $lib->addItem('ITEM_ID', $stock, 'test');
 
         $xml = \simplexml_load_string($lib->close());
 
@@ -97,7 +97,7 @@ class PohodaResponseTest extends CommonTestClass
         $lib->getTransformerListing()->addTransformer(new XCapitalize());
 
         $this->assertTrue($lib->open(null, 'ABC'));
-        $lib->addItem('item_id', $stock, [], 'test');
+        $lib->addItem('item_id', $stock, 'test');
 
         $xml = \simplexml_load_string($lib->close());
 
@@ -124,7 +124,7 @@ class PohodaResponseTest extends CommonTestClass
 
         $lib = $this->getLib();
         $this->assertTrue($lib->open(null, 'ABC', '', 'ok', 'test-123', '999-888-777-666-555-444-333-222-111'));
-        $lib->addItem('item_id', $stock, [], 'test');
+        $lib->addItem('item_id', $stock, 'test');
         $this->assertEquals(0, \count($this->sanitization->getListing()->clear()->getTransformers()));
         $lib->close();
     }

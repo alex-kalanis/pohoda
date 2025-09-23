@@ -172,11 +172,10 @@ class Pohoda
      *
      * @param string $id
      * @param AbstractAgenda $agenda
-     * @param array<string, mixed> $data deprecated
      *
      * @return void
      */
-    public function addItem(string $id, AbstractAgenda $agenda, array $data = []): void
+    public function addItem(string $id, AbstractAgenda $agenda): void
     {
         $this->xmlWriter->startElementNs('dat', 'dataPackItem', null);
 

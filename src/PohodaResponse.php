@@ -76,12 +76,11 @@ class PohodaResponse extends Pohoda
      *
      * @param string $id
      * @param AbstractAgenda $agenda
-     * @param array<string, mixed> $data deprecated
      * @param string $state
      *
      * @return void
      */
-    public function addItem(string $id, AbstractAgenda $agenda, array $data = [], string $state = 'ok'): void
+    public function addItem(string $id, AbstractAgenda $agenda, string $state = 'ok'): void
     {
         $this->xmlWriter->startElementNs('rsp', 'responsePackItem', null);
 
