@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace Riesenia\Pohoda;
 
 use Riesenia\Pohoda\Common\AddParameterToHeaderTrait;
+use Riesenia\Pohoda\Common\DirectionAsResponseTrait;
 use Riesenia\Pohoda\Common\OptionsResolver;
 use Riesenia\Pohoda\ValueTransformer\SanitizeEncoding;
 
@@ -93,7 +94,11 @@ abstract class AbstractDocument extends AbstractAgenda
      */
     public function getXML(): \SimpleXMLElement
     {
-        $xml = $this->createXML()->addChild($this->getDocumentNamespace() . ':' . $this->getDocumentName(), '', $this->namespace($this->getDocumentNamespace()));
+        $xml = $this->createXML()->addChild(
+            $this->getChildKey($this->getDocumentNamespace() . ':' . $this->getDocumentName()),
+            '',
+            $this->namespace($this->getChildNamespacePrefix($this->getDocumentNamespace())),
+        );
         $xml->addAttribute('version', '2.0');
 
         $this->addElements($xml, $this->getDocumentElements(), $this->getDocumentNamespace());
