@@ -25,6 +25,7 @@ abstract class AbstractAgenda
 {
     use Pohoda\Common\OneDirectionalVariablesTrait;
     use Pohoda\Common\ResolveOptionsTrait;
+    use Pohoda\Common\DirectionAsResponseTrait;
 
     /** @var array<string, mixed> */
     protected array $data = [];
@@ -312,4 +313,36 @@ abstract class AbstractAgenda
 
         return self::$resolvers[$class . $opt]->resolve($data);
     }
+
+    /**
+     * Change key in entry to different one in accordance with import root config
+     *
+     * @param string $defaultKey
+     *
+     * @return string
+     */
+    protected function getChildKey(string $defaultKey): string
+    {
+        if (!empty($this->getImportRoot()) && $this->directionAsResponse) {
+            return $this->getImportRoot();
+        }
+        return $defaultKey;
+    }
+
+    /**
+     * Change namespace prefix to different one in accordance with import root config
+     *
+     * @param string $defaultPrefix
+     *
+     * @return string
+     */
+    protected function getChildNamespacePrefix(string $defaultPrefix): string
+    {
+        if (!empty($this->getImportRoot()) && $this->directionAsResponse) {
+            list($prefix, ) = explode(':', $this->getImportRoot());
+            return $prefix;
+        }
+        return $defaultPrefix;
+    }
+
 }

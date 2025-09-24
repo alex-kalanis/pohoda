@@ -38,7 +38,46 @@ class ListResponseTest extends CommonTestClass
             'timestamp' => date_create_immutable('2025-07-01T01:00:00'),
             'state' => 'ok',
         ]);
-        $this->assertEquals('<lst:listOrder version="2.0" orderVersion="2.0" orderType="receivedOrder" dateTimeStamp="2025-07-01T01:00:00" state="ok"><lst:requestOrder/></lst:listOrder>', $lib->getXML()->asXML());
+        $this->assertEquals('<lst:listOrder version="2.0" orderType="receivedOrder" dateTimeStamp="2025-07-01T01:00:00" state="ok"><lst:requestOrder/></lst:listOrder>', $lib->getXML()->asXML());
+    }
+
+    public function testOrder2(): void
+    {
+        $lib = new Pohoda\ListResponse(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
+        $lib->setDirectionAsResponse(true);
+        $lib->setDirectionalVariable(true);
+        $lib->setData([
+            'type' => 'Order',
+            'timestamp' => date_create_immutable('2025-07-01T01:00:00'),
+            'state' => 'ok',
+        ]);
+        $order = $lib->addOrder([
+            'id' => 0,
+            'orderType' => 'receivedOrder',
+            'number' => [
+                'id' => '1234567890',
+            ],
+            'numberOrder' => '1234567890',
+            'date' => date_create_immutable('2025-07-01T01:00:00'),
+            'isExecuted' => 'false',
+        ], [
+            [
+                'id' => '1',
+                'text' => 'foo bar',
+                'code' => 'baz',
+                'quantity' => sprintf('%01.2f', 2.0),
+                'delivered' => '0.0',
+                'unit' => 'pcs',
+                'coefficient' => '1.0',
+                'payVAT' => 'true',
+                'PDP' => 'false',
+            ],
+        ], [
+            'roundingDocument' => 'none',
+            'roundingVAT' => 'none',
+        ]);
+        $order->setDirectionAsResponse(true);
+        $this->assertEquals('<lst:listOrder version="2.0" orderType="receivedOrder" dateTimeStamp="2025-07-01T01:00:00" state="ok"><lst:order version="2.0"><ord:orderHeader><ord:orderType>receivedOrder</ord:orderType><ord:number><typ:id>1234567890</typ:id></ord:number><ord:numberOrder>1234567890</ord:numberOrder><ord:date>2025-07-01</ord:date><ord:isExecuted>false</ord:isExecuted><ord:id>0</ord:id></ord:orderHeader><ord:orderDetail><ord:orderItem><ord:text>foo bar</ord:text><ord:quantity>2</ord:quantity><ord:delivered>0</ord:delivered><ord:unit>pcs</ord:unit><ord:coefficient>1</ord:coefficient><ord:payVAT>true</ord:payVAT><ord:code>baz</ord:code><ord:PDP>false</ord:PDP><ord:id>1</ord:id></ord:orderItem></ord:orderDetail><ord:orderSummary><ord:roundingDocument>none</ord:roundingDocument><ord:roundingVAT>none</ord:roundingVAT></ord:orderSummary></lst:order></lst:listOrder>', $lib->getXML()->asXML());
     }
 
     public function testAdvanceInvoice(): void

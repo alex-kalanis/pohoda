@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda;
 
+use Riesenia\Pohoda\Common\DirectionAsResponseTrait;
 use Riesenia\Pohoda\Common\OptionsResolver;
 use Riesenia\Pohoda\ListRequest\Filter;
 use Riesenia\Pohoda\ListRequest\Limit;
@@ -20,6 +21,8 @@ use Symfony\Component\OptionsResolver\Options;
 
 class ListResponse extends AbstractAgenda
 {
+    use DirectionAsResponseTrait;
+
     /**
      * Add limit.
      *
@@ -81,6 +84,42 @@ class ListResponse extends AbstractAgenda
     }
 
     /**
+     * Add Order as content
+     *
+     * @param array<string, mixed> $header
+     * @param array<array<string, mixed>> $items
+     * @param array<string, mixed> $summary
+     *
+     * @return Order
+     *
+     * @todo: more orders in one query
+     */
+    public function addOrder(array $header, array $items = [], array $summary = []): Order
+    {
+        /*
+        if (!isset($this->data['order'])
+            || !(
+                is_array($this->data['order'])
+                || (is_object($this->data['order']) && is_a($this->data['order'], \ArrayAccess::class))
+            )
+        ) {
+            $this->data['order'] = [];
+        }
+        */
+        $order = new Order($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
+        // $this->data['order'][] = $order->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($header);
+        $this->data['order'] = $order->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($header);
+        foreach ($items as $item) {
+            $order->addItem($item);
+        }
+        if (!empty($summary)) {
+            $order->addSummary($summary);
+        }
+
+        return $order;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function getXML(): \SimpleXMLElement
@@ -94,8 +133,8 @@ class ListResponse extends AbstractAgenda
             $xml = $this->createXML()->addChild($this->data['namespace'] . ':list' . $this->data['type'], '', $this->namespace(strval($this->data['namespace'])));
             $xml->addAttribute('version', '2.0');
 
-            // IntParam doesn't have the version attribute
-            if ('IntParam' != $this->data['type']) {
+            // IntParam and Order doesn't have the version attribute
+            if (!in_array($this->data['type'], ['IntParam', 'Order'])) {
                 $xml->addAttribute($this->getLcFirstType() . 'Version', '2.0');
             }
 
@@ -103,9 +142,14 @@ class ListResponse extends AbstractAgenda
                 $xml->addAttribute($this->getLcFirstType() . 'Type', strval($this->data[$this->getLcFirstType() . 'Type']));
             }
 
-            $request = $xml->addChild($this->data['namespace'] . ':request' . $this->data['type']);
+            if ('Order' == $this->data['type'] && (isset($this->data['order']))) {
+                $this->addElements($xml, ['order'], strval($this->data['namespace']));
 
-            $this->addElements($request, ['limit', 'filter', 'userFilterName'], 'ftr');
+            } else {
+                $request = $xml->addChild($this->data['namespace'] . ':' . $this->whichDirection($this->directionAsResponse) . $this->data['type']);
+
+                $this->addElements($request, ['limit', 'filter', 'userFilterName'], 'ftr');
+            }
 
             if (isset($this->data['restrictionData'])) {
                 $this->addElements($xml, ['restrictionData'], 'lst');
@@ -136,13 +180,18 @@ class ListResponse extends AbstractAgenda
         return $xml;
     }
 
+    protected function whichDirection(bool $asResponse): string
+    {
+        return $asResponse ? 'response' : 'request';
+    }
+
     /**
      * {@inheritdoc}
      */
     protected function configureOptions(OptionsResolver $resolver): void
     {
         // available options
-        $resolver->setDefined(['type', 'namespace', 'orderType', 'invoiceType', 'timestamp', 'validFrom', 'state']);
+        $resolver->setDefined(['type', 'namespace', 'order', 'orderType', 'invoiceType', 'timestamp', 'validFrom', 'state']);
 
         // validate / format options
         $resolver->setRequired('type');
