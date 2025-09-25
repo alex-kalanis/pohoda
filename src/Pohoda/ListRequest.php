@@ -12,10 +12,6 @@ declare(strict_types=1);
 namespace Riesenia\Pohoda;
 
 use Riesenia\Pohoda\Common\OptionsResolver;
-use Riesenia\Pohoda\ListRequest\Filter;
-use Riesenia\Pohoda\ListRequest\Limit;
-use Riesenia\Pohoda\ListRequest\RestrictionData;
-use Riesenia\Pohoda\ListRequest\UserFilterName;
 use Symfony\Component\OptionsResolver\Options;
 
 class ListRequest extends AbstractAgenda
@@ -29,7 +25,7 @@ class ListRequest extends AbstractAgenda
      */
     public function addLimit(array $data): self
     {
-        $limit = new Limit($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
+        $limit = new ListRequest\Limit($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
         $this->data['limit'] = $limit->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data);
 
         return $this;
@@ -44,8 +40,24 @@ class ListRequest extends AbstractAgenda
      */
     public function addFilter(array $data): self
     {
-        $filter = new Filter($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
+        $filter = new ListRequest\Filter($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
         $this->data['filter'] = $filter->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data);
+
+        return $this;
+    }
+
+    /**
+     * Add query filter.
+     * Beware! This one is direct SQL!
+     *
+     * @param array<string,mixed> $data
+     *
+     * @return $this
+     */
+    public function addQueryFilter(array $data): self
+    {
+        $filter = new ListRequest\QueryFilter($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
+        $this->data['queryFilter'] = $filter->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data);
 
         return $this;
     }
@@ -59,7 +71,7 @@ class ListRequest extends AbstractAgenda
      */
     public function addRestrictionData(array $data): self
     {
-        $restrictionData = new RestrictionData($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
+        $restrictionData = new ListRequest\RestrictionData($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
         $this->data['restrictionData'] = $restrictionData->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data);
 
         return $this;
@@ -74,7 +86,7 @@ class ListRequest extends AbstractAgenda
      */
     public function addUserFilterName(string $name): self
     {
-        $userFilterName = new UserFilterName($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
+        $userFilterName = new ListRequest\UserFilterName($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
         $this->data['userFilterName'] = $userFilterName->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData(['userFilterName' => $name]);
 
         return $this;
@@ -105,7 +117,7 @@ class ListRequest extends AbstractAgenda
 
             $request = $xml->addChild($this->data['namespace'] . ':request' . $this->data['type']);
 
-            $this->addElements($request, ['limit', 'filter', 'userFilterName'], 'ftr');
+            $this->addElements($request, ['limit', 'filter', 'queryFilter', 'userFilterName'], 'ftr');
 
             if (isset($this->data['restrictionData'])) {
                 $this->addElements($xml, ['restrictionData'], 'lst');

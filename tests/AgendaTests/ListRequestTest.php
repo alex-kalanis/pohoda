@@ -30,6 +30,14 @@ class ListRequestTest extends CommonTestClass
         $this->assertEquals('<lst:listOrderRequest version="2.0" orderVersion="2.0" orderType="receivedOrder"><lst:requestOrder/></lst:listOrderRequest>', $lib->getXML()->asXML());
     }
 
+    public function testOrderQuery(): void
+    {
+        $lib = new Pohoda\ListRequest(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
+        $lib->setData(['type' => 'Order']);
+        $lib->addQueryFilter(['filter' => '(direct SQL to DB in Pohoda)', 'textName' => 'Text desc of the call']);
+        $this->assertEquals('<lst:listOrderRequest version="2.0" orderVersion="2.0" orderType="receivedOrder"><lst:requestOrder><ftr:queryFilter><ftr:filter>(direct SQL to DB in Pohoda)</ftr:filter><ftr:textName>Text desc of the call</ftr:textName></ftr:queryFilter></lst:requestOrder></lst:listOrderRequest>', $lib->getXML()->asXML());
+    }
+
     public function testAdvanceInvoice(): void
     {
         $lib = new Pohoda\ListRequest(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
