@@ -27,7 +27,7 @@ class Item extends AbstractAgenda
     {
         // process stock item
         if (isset($data['stockItem'])) {
-            $stockItem = new StockItem($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
+            $stockItem = new StockItem($this->dependenciesFactory);
             $data['stockItem'] = $stockItem->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['stockItem']);
         }
 
@@ -55,7 +55,7 @@ class Item extends AbstractAgenda
         $resolver->setDefined($this->elements);
 
         // validate / format options
-        $resolver->setNormalizer('quantity', $this->normalizerFactory->getClosure('float'));
-        $resolver->setNormalizer('note', $this->normalizerFactory->getClosure('string90'));
+        $resolver->setNormalizer('quantity', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
+        $resolver->setNormalizer('note', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string90'));
     }
 }

@@ -32,10 +32,10 @@ class Header extends AbstractHeader
         // validate / format options
         $resolver->setDefault('offerType', 'receivedOffer');
         $resolver->setAllowedValues('offerType', ['receivedOffer', 'issuedOffer']);
-        $resolver->setNormalizer('date', $this->normalizerFactory->getClosure('date'));
-        $resolver->setNormalizer('validTill', $this->normalizerFactory->getClosure('date'));
-        $resolver->setNormalizer('text', $this->normalizerFactory->getClosure('string240'));
-        $resolver->setNormalizer('isExecuted', $this->normalizerFactory->getClosure('bool'));
-        $resolver->setNormalizer('markRecord', $this->normalizerFactory->getClosure('bool'));
+        $resolver->setNormalizer('date', $this->dependenciesFactory->getNormalizerFactory()->getClosure('date'));
+        $resolver->setNormalizer('validTill', $this->dependenciesFactory->getNormalizerFactory()->getClosure('date'));
+        $resolver->setNormalizer('text', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string240'));
+        $resolver->setNormalizer('isExecuted', $this->dependenciesFactory->getNormalizerFactory()->getClosure('bool'));
+        $resolver->setNormalizer('markRecord', $this->dependenciesFactory->getNormalizerFactory()->getClosure('bool'));
     }
 }

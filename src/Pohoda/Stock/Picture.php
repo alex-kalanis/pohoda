@@ -39,8 +39,8 @@ class Picture extends AbstractAgenda
 
         // validate / format options
         $resolver->setRequired('filepath');
-        $resolver->setNormalizer('order', $this->normalizerFactory->getClosure('int'));
+        $resolver->setNormalizer('order', $this->dependenciesFactory->getNormalizerFactory()->getClosure('int'));
         $resolver->setDefault('default', 'false');
-        $resolver->setNormalizer('default', $this->normalizerFactory->getClosure('bool'));
+        $resolver->setNormalizer('default', $this->dependenciesFactory->getNormalizerFactory()->getClosure('bool'));
     }
 }

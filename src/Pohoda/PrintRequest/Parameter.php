@@ -45,6 +45,6 @@ class Parameter extends AbstractAgenda
         $resolver->setDefined($this->elements);
 
         // validate / format options
-        $resolver->setNormalizer('value', $this->normalizerFactory->getClosure($this->valueType));
+        $resolver->setNormalizer('value', $this->dependenciesFactory->getNormalizerFactory()->getClosure($this->valueType));
     }
 }

@@ -29,7 +29,7 @@ class Header extends AbstractHeader
     {
         // process report
         if (isset($data['statementNumber'])) {
-            $statementNumber = new StatementNumber($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
+            $statementNumber = new StatementNumber($this->dependenciesFactory);
             $data['statementNumber'] = $statementNumber->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['statementNumber']);
         }
 
@@ -45,13 +45,13 @@ class Header extends AbstractHeader
 
         // validate / format options
         $resolver->setAllowedValues('bankType', ['receipt', 'expense']);
-        $resolver->setNormalizer('symVar', $this->normalizerFactory->getClosure('string20'));
-        $resolver->setNormalizer('dateStatement', $this->normalizerFactory->getClosure('date'));
-        $resolver->setNormalizer('datePayment', $this->normalizerFactory->getClosure('date'));
-        $resolver->setNormalizer('text', $this->normalizerFactory->getClosure('string96'));
-        $resolver->setNormalizer('symConst', $this->normalizerFactory->getClosure('string4'));
-        $resolver->setNormalizer('symSpec', $this->normalizerFactory->getClosure('string16'));
-        $resolver->setNormalizer('symPar', $this->normalizerFactory->getClosure('string20'));
-        $resolver->setNormalizer('accountingPeriodMOSS', $this->normalizerFactory->getClosure('string7'));
+        $resolver->setNormalizer('symVar', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string20'));
+        $resolver->setNormalizer('dateStatement', $this->dependenciesFactory->getNormalizerFactory()->getClosure('date'));
+        $resolver->setNormalizer('datePayment', $this->dependenciesFactory->getNormalizerFactory()->getClosure('date'));
+        $resolver->setNormalizer('text', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string96'));
+        $resolver->setNormalizer('symConst', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string4'));
+        $resolver->setNormalizer('symSpec', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string16'));
+        $resolver->setNormalizer('symPar', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string20'));
+        $resolver->setNormalizer('accountingPeriodMOSS', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string7'));
     }
 }

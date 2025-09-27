@@ -13,7 +13,7 @@ namespace Riesenia\Pohoda\Type;
 
 use Riesenia\Pohoda\AbstractAgenda;
 use Riesenia\Pohoda\Common;
-use Riesenia\Pohoda\ValueTransformer\SanitizeEncoding;
+use Riesenia\Pohoda\DI\DependenciesFactory;
 
 class StockItem extends AbstractAgenda
 {
@@ -26,9 +26,7 @@ class StockItem extends AbstractAgenda
     protected array $elements = ['store', 'stockItem', 'insertAttachStock', 'applyUserSettingsFilterOnTheStore', 'serialNumber'];
 
     public function __construct(
-        Common\NamespacesPaths $namespacesPaths,
-        SanitizeEncoding $sanitizeEncoding,
-        Common\OptionsResolver\Normalizers\NormalizerFactory $normalizerFactory = new Common\OptionsResolver\Normalizers\NormalizerFactory(),
+        DependenciesFactory $dependenciesFactory,
     ) {
         // init attributes
         $this->elementsAttributesMapper = [
@@ -36,7 +34,7 @@ class StockItem extends AbstractAgenda
             'applyUserSettingsFilterOnTheStore' => new Common\ElementAttributes('stockItem', 'applyUserSettingsFilterOnTheStore'),
         ];
 
-        parent::__construct($namespacesPaths, $sanitizeEncoding, $normalizerFactory);
+        parent::__construct($dependenciesFactory);
     }
 
     /**
@@ -48,8 +46,8 @@ class StockItem extends AbstractAgenda
         $resolver->setDefined($this->elements);
 
         // validate / format options
-        $resolver->setNormalizer('insertAttachStock', $this->normalizerFactory->getClosure('bool'));
-        $resolver->setNormalizer('applyUserSettingsFilterOnTheStore', $this->normalizerFactory->getClosure('bool'));
-        $resolver->setNormalizer('serialNumber', $this->normalizerFactory->getClosure('string40'));
+        $resolver->setNormalizer('insertAttachStock', $this->dependenciesFactory->getNormalizerFactory()->getClosure('bool'));
+        $resolver->setNormalizer('applyUserSettingsFilterOnTheStore', $this->dependenciesFactory->getNormalizerFactory()->getClosure('bool'));
+        $resolver->setNormalizer('serialNumber', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string40'));
     }
 }

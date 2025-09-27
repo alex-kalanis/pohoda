@@ -75,7 +75,7 @@ class Parameter extends AbstractAgenda
             }
 
             try {
-                return \call_user_func($this->normalizerFactory->getClosure($normalizer), [], $value);
+                return \call_user_func($this->dependenciesFactory->getNormalizerFactory()->getClosure($normalizer), [], $value);
             } catch (\Exception) {
                 return \is_array($value) ? $value : \strval($value);
             }

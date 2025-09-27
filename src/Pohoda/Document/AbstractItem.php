@@ -25,19 +25,19 @@ abstract class AbstractItem extends AbstractPart
     {
         // process home currency
         if (isset($data['homeCurrency'])) {
-            $homeCurrency = new Type\CurrencyItem($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
+            $homeCurrency = new Type\CurrencyItem($this->dependenciesFactory);
             $data['homeCurrency'] = $homeCurrency->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['homeCurrency']);
         }
 
         // process foreign currency
         if (isset($data['foreignCurrency'])) {
-            $foreignCurrency = new Type\CurrencyItem($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
+            $foreignCurrency = new Type\CurrencyItem($this->dependenciesFactory);
             $data['foreignCurrency'] = $foreignCurrency->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['foreignCurrency']);
         }
 
         // process stock item
         if (isset($data['stockItem'])) {
-            $stockItem = new Type\StockItem($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
+            $stockItem = new Type\StockItem($this->dependenciesFactory);
             $data['stockItem'] = $stockItem->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['stockItem']);
         }
 

@@ -3,11 +3,8 @@
 namespace tests\BasicTests;
 
 use Riesenia\Pohoda\Common\AddActionTypeTrait;
-use Riesenia\Pohoda\Common\NamespacesPaths;
 use Riesenia\Pohoda\Common\OneDirectionalVariablesTrait;
-use Riesenia\Pohoda\Common\OptionsResolver;
-use Riesenia\Pohoda\ValueTransformer\Listing;
-use Riesenia\Pohoda\ValueTransformer\SanitizeEncoding;
+use Riesenia\Pohoda\DI\DependenciesFactory;
 
 class XActionType
 {
@@ -15,15 +12,11 @@ class XActionType
     use OneDirectionalVariablesTrait;
 
     public array $data = [];
-    protected readonly NamespacesPaths $namespacesPaths;
-    protected readonly SanitizeEncoding $sanitizeEncoding;
     protected bool $resolveOptions = false;
-    protected readonly OptionsResolver\Normalizers\NormalizerFactory $normalizerFactory;
+    protected readonly DependenciesFactory $dependenciesFactory;
 
     public function __construct()
     {
-        $this->namespacesPaths = new NamespacesPaths();
-        $this->sanitizeEncoding = new SanitizeEncoding(new Listing());
-        $this->normalizerFactory = new OptionsResolver\Normalizers\NormalizerFactory();
+        $this->dependenciesFactory = new DependenciesFactory();
     }
 }

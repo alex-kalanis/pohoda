@@ -1,25 +1,22 @@
 <?php
 
-namespace Riesenia\Pohoda;
+namespace Riesenia\Pohoda\DI;
 
 use DomainException;
 use ReflectionClass;
 use ReflectionException;
+use Riesenia\Pohoda\Common;
+use Riesenia\Pohoda\Document;
 use Riesenia\Pohoda\ValueTransformer\SanitizeEncoding;
 
-class DocumentPartFactory
+class DocumentPartReflectFactory implements DocumentPartFactoryInterface
 {
     public function __construct(
-        protected readonly Common\NamespacesPaths $namespacesPaths,
-        protected readonly SanitizeEncoding $sanitizeEncoding,
-        protected readonly Common\OptionsResolver\Normalizers\NormalizerFactory $normalizerFactory = new Common\OptionsResolver\Normalizers\NormalizerFactory(),
+        protected readonly DependenciesFactory $dependenciesFactory,
     ) {}
 
     /**
-     * @param string $parentClass
-     * @param string $name
-     * @throws DomainException
-     * @return Document\AbstractPart
+     * {@inheritDoc}
      */
     public function getPart(string $parentClass, string $name): Document\AbstractPart
     {
@@ -37,9 +34,7 @@ class DocumentPartFactory
 
         try {
             $instance = $reflection->newInstance(
-                $this->namespacesPaths,
-                $this->sanitizeEncoding,
-                $this->normalizerFactory,
+                $this->dependenciesFactory,
             );
             // @codeCoverageIgnoreStart
         } catch (ReflectionException) {

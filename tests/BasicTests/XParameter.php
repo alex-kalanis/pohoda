@@ -3,10 +3,8 @@
 namespace tests\BasicTests;
 
 use Riesenia\Pohoda\Common\AddParameterTrait;
-use Riesenia\Pohoda\Common\NamespacesPaths;
 use Riesenia\Pohoda\Common\OneDirectionalVariablesTrait;
-use Riesenia\Pohoda\Common\OptionsResolver;
-use Riesenia\Pohoda\ValueTransformer;
+use Riesenia\Pohoda\DI\DependenciesFactory;
 
 class XParameter
 {
@@ -14,15 +12,11 @@ class XParameter
     use OneDirectionalVariablesTrait;
 
     public array $data = [];
-    protected readonly NamespacesPaths $namespacesPaths;
-    protected readonly ValueTransformer\SanitizeEncoding $sanitizeEncoding;
     protected bool $resolveOptions = false;
-    protected readonly OptionsResolver\Normalizers\NormalizerFactory $normalizerFactory;
+    protected readonly DependenciesFactory $dependenciesFactory;
 
     public function __construct()
     {
-        $this->namespacesPaths = new NamespacesPaths();
-        $this->sanitizeEncoding = new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing());
-        $this->normalizerFactory = new OptionsResolver\Normalizers\NormalizerFactory();
+        $this->dependenciesFactory = new DependenciesFactory();
     }
 }

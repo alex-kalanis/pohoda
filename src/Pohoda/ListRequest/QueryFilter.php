@@ -40,7 +40,7 @@ class QueryFilter extends AbstractAgenda
         $resolver->setDefined($this->elements);
 
         // validate / format options
-        $resolver->setNormalizer('filter', $this->normalizerFactory->getClosure('string'));
-        $resolver->setNormalizer('textName', $this->normalizerFactory->getClosure('string200'));
+        $resolver->setNormalizer('filter', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string'));
+        $resolver->setNormalizer('textName', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string200'));
     }
 }

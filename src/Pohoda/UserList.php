@@ -42,7 +42,7 @@ class UserList extends AbstractAgenda
             $this->data['itemUserCodes'] = [];
         }
 
-        $itemUserCodes = new ItemUserCode($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
+        $itemUserCodes = new ItemUserCode($this->dependenciesFactory);
         $this->data['itemUserCodes'][] = $itemUserCodes->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data);
 
         return $this;
@@ -95,9 +95,9 @@ class UserList extends AbstractAgenda
         // validate / format options
         $resolver->setRequired('code');
         $resolver->setRequired('name');
-        $resolver->setNormalizer('constants', $this->normalizerFactory->getClosure('bool'));
-        $resolver->setNormalizer('dateTimeStamp', $this->normalizerFactory->getClosure('datetime'));
-        $resolver->setNormalizer('dateValidFrom', $this->normalizerFactory->getClosure('date'));
-        $resolver->setNormalizer('submenu', $this->normalizerFactory->getClosure('boolean'));
+        $resolver->setNormalizer('constants', $this->dependenciesFactory->getNormalizerFactory()->getClosure('bool'));
+        $resolver->setNormalizer('dateTimeStamp', $this->dependenciesFactory->getNormalizerFactory()->getClosure('datetime'));
+        $resolver->setNormalizer('dateValidFrom', $this->dependenciesFactory->getNormalizerFactory()->getClosure('date'));
+        $resolver->setNormalizer('submenu', $this->dependenciesFactory->getNormalizerFactory()->getClosure('boolean'));
     }
 }

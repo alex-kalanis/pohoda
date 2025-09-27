@@ -32,7 +32,7 @@ class Desc extends AbstractAgenda
     {
         // process partner identity
         if (isset($data['partnerIdentity'])) {
-            $partnerIdentity = new Address($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
+            $partnerIdentity = new Address($this->dependenciesFactory);
             $data['partnerIdentity'] = $partnerIdentity->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['partnerIdentity']);
         }
 
@@ -59,12 +59,12 @@ class Desc extends AbstractAgenda
         // available options
         $resolver->setDefined($this->elements);
 
-        $resolver->setNormalizer('datePlanStart', $this->normalizerFactory->getClosure('date'));
-        $resolver->setNormalizer('datePlanDelivery', $this->normalizerFactory->getClosure('date'));
-        $resolver->setNormalizer('dateStart', $this->normalizerFactory->getClosure('date'));
-        $resolver->setNormalizer('dateDelivery', $this->normalizerFactory->getClosure('date'));
-        $resolver->setNormalizer('dateWarranty', $this->normalizerFactory->getClosure('date'));
+        $resolver->setNormalizer('datePlanStart', $this->dependenciesFactory->getNormalizerFactory()->getClosure('date'));
+        $resolver->setNormalizer('datePlanDelivery', $this->dependenciesFactory->getNormalizerFactory()->getClosure('date'));
+        $resolver->setNormalizer('dateStart', $this->dependenciesFactory->getNormalizerFactory()->getClosure('date'));
+        $resolver->setNormalizer('dateDelivery', $this->dependenciesFactory->getNormalizerFactory()->getClosure('date'));
+        $resolver->setNormalizer('dateWarranty', $this->dependenciesFactory->getNormalizerFactory()->getClosure('date'));
         $resolver->setRequired('text');
-        $resolver->setNormalizer('text', $this->normalizerFactory->getClosure('string90'));
+        $resolver->setNormalizer('text', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string90'));
     }
 }

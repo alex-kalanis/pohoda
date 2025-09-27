@@ -13,7 +13,7 @@ namespace Riesenia\Pohoda\Type;
 
 use Riesenia\Pohoda\AbstractAgenda;
 use Riesenia\Pohoda\Common;
-use Riesenia\Pohoda\ValueTransformer\SanitizeEncoding;
+use Riesenia\Pohoda\DI\DependenciesFactory;
 
 class Address extends AbstractAgenda
 {
@@ -29,16 +29,14 @@ class Address extends AbstractAgenda
      * {@inheritdoc}
      */
     public function __construct(
-        Common\NamespacesPaths $namespacesPaths,
-        SanitizeEncoding $sanitizeEncoding,
-        Common\OptionsResolver\Normalizers\NormalizerFactory $normalizerFactory = new Common\OptionsResolver\Normalizers\NormalizerFactory(),
+        DependenciesFactory $dependenciesFactory,
     ) {
         // init attributes
         $this->elementsAttributesMapper = [
             'addressLinkToAddress' => new Common\ElementAttributes('address', 'linkToAddress'),
         ];
 
-        parent::__construct($namespacesPaths, $sanitizeEncoding, $normalizerFactory);
+        parent::__construct($dependenciesFactory);
     }
 
     /**
@@ -48,13 +46,13 @@ class Address extends AbstractAgenda
     {
         // process address
         if (isset($data['address'])) {
-            $address = new AddressType($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
+            $address = new AddressType($this->dependenciesFactory);
             $data['address'] = $address->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['address']);
         }
 
         // process shipping address
         if (isset($data['shipToAddress'])) {
-            $shipTo = new ShipToAddressType($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
+            $shipTo = new ShipToAddressType($this->dependenciesFactory);
             $data['shipToAddress'] = $shipTo->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['shipToAddress']);
         }
 
@@ -70,7 +68,7 @@ class Address extends AbstractAgenda
         $resolver->setDefined($this->elements);
 
         // validate / format options
-        $resolver->setNormalizer('id', $this->normalizerFactory->getClosure('int'));
-        $resolver->setNormalizer('addressLinkToAddress', $this->normalizerFactory->getClosure('bool'));
+        $resolver->setNormalizer('id', $this->dependenciesFactory->getNormalizerFactory()->getClosure('int'));
+        $resolver->setNormalizer('addressLinkToAddress', $this->dependenciesFactory->getNormalizerFactory()->getClosure('bool'));
     }
 }

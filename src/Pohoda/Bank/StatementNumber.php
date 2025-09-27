@@ -40,7 +40,7 @@ class StatementNumber extends AbstractAgenda
         $resolver->setDefined($this->elements);
 
         // validate / format options
-        $resolver->setNormalizer('statementNumber', $this->normalizerFactory->getClosure('string10'));
-        $resolver->setNormalizer('numberMovement', $this->normalizerFactory->getClosure('string6'));
+        $resolver->setNormalizer('statementNumber', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string10'));
+        $resolver->setNormalizer('numberMovement', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string6'));
     }
 }

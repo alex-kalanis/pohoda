@@ -34,8 +34,8 @@ class CurrencyForeign extends AbstractAgenda
         $resolver->setDefined($this->elements);
 
         // validate / format options
-        $resolver->setNormalizer('rate', $this->normalizerFactory->getClosure('float'));
-        $resolver->setNormalizer('amount', $this->normalizerFactory->getClosure('int'));
-        $resolver->setNormalizer('priceSum', $this->normalizerFactory->getClosure('float'));
+        $resolver->setNormalizer('rate', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
+        $resolver->setNormalizer('amount', $this->dependenciesFactory->getNormalizerFactory()->getClosure('int'));
+        $resolver->setNormalizer('priceSum', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
     }
 }

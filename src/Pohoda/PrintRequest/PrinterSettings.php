@@ -27,17 +27,17 @@ class PrinterSettings extends AbstractAgenda
     {
         // process report
         if (isset($data['report'])) {
-            $report = new Report($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
+            $report = new Report($this->dependenciesFactory);
             $data['report'] = $report->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['report']);
         }
         // process pdf
         if (isset($data['pdf'])) {
-            $pdf = new Pdf($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
+            $pdf = new Pdf($this->dependenciesFactory);
             $data['pdf'] = $pdf->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['pdf']);
         }
         // process parameters
         if (isset($data['parameters'])) {
-            $parameters = new Parameters($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
+            $parameters = new Parameters($this->dependenciesFactory);
             $data['parameters'] = $parameters->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['parameters']);
         }
 

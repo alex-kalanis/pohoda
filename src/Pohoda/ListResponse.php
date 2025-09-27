@@ -32,7 +32,7 @@ class ListResponse extends AbstractAgenda
      */
     public function addLimit(array $data): self
     {
-        $limit = new Limit($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
+        $limit = new Limit($this->dependenciesFactory);
         $this->data['limit'] = $limit->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data);
 
         return $this;
@@ -47,7 +47,7 @@ class ListResponse extends AbstractAgenda
      */
     public function addFilter(array $data): self
     {
-        $filter = new Filter($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
+        $filter = new Filter($this->dependenciesFactory);
         $this->data['filter'] = $filter->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data);
 
         return $this;
@@ -62,7 +62,7 @@ class ListResponse extends AbstractAgenda
      */
     public function addRestrictionData(array $data): self
     {
-        $restrictionData = new RestrictionData($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
+        $restrictionData = new RestrictionData($this->dependenciesFactory);
         $this->data['restrictionData'] = $restrictionData->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data);
 
         return $this;
@@ -77,7 +77,7 @@ class ListResponse extends AbstractAgenda
      */
     public function addUserFilterName(string $name): self
     {
-        $userFilterName = new UserFilterName($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
+        $userFilterName = new UserFilterName($this->dependenciesFactory);
         $this->data['userFilterName'] = $userFilterName->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData(['userFilterName' => $name]);
 
         return $this;
@@ -106,7 +106,7 @@ class ListResponse extends AbstractAgenda
             $this->data['order'] = [];
         }
         */
-        $order = new Order($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
+        $order = new Order($this->dependenciesFactory);
         // $this->data['order'][] = $order->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($header);
         $this->data['order'] = $order->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($header);
         foreach ($items as $item) {
@@ -195,7 +195,7 @@ class ListResponse extends AbstractAgenda
 
         // validate / format options
         $resolver->setRequired('type');
-        $resolver->setNormalizer('type', $this->normalizerFactory->getClosure('list_request_type'));
+        $resolver->setNormalizer('type', $this->dependenciesFactory->getNormalizerFactory()->getClosure('list_request_type'));
         $resolver->setDefault('namespace', function (Options $options) {
             if ('Stock' == $options['type']) {
                 return 'lStk';

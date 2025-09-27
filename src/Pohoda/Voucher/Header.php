@@ -57,8 +57,8 @@ class Header extends AbstractHeader
 
         // validate / format options
         $resolver->setAllowedValues('voucherType', ['expense', 'receipt']);
-        $resolver->setNormalizer('date', $this->normalizerFactory->getClosure('date'));
-        $resolver->setNormalizer('symPar', $this->normalizerFactory->getClosure('string20'));
-        $resolver->setNormalizer('text', $this->normalizerFactory->getClosure('string240'));
+        $resolver->setNormalizer('date', $this->dependenciesFactory->getNormalizerFactory()->getClosure('date'));
+        $resolver->setNormalizer('symPar', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string20'));
+        $resolver->setNormalizer('text', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string240'));
     }
 }

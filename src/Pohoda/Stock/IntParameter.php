@@ -47,7 +47,7 @@ class IntParameter extends AbstractAgenda
 
         // validate / format options
         $resolver->setRequired('intParameterID');
-        $resolver->setNormalizer('intParameterID', $this->normalizerFactory->getClosure('int'));
+        $resolver->setNormalizer('intParameterID', $this->dependenciesFactory->getNormalizerFactory()->getClosure('int'));
         $resolver->setRequired('intParameterType');
         $resolver->setAllowedValues('intParameterType', ['textValue', 'currencyValue', 'booleanValue', 'numberValue', 'integerValue', 'datetimeValue', 'unit', 'listValue']);
         $resolver->setRequired('value');

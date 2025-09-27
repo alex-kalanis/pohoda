@@ -48,18 +48,18 @@ class SupplierItem extends AbstractAgenda
         // available options
         $resolver->setDefined($this->elements);
 
-        $resolver->setNormalizer('default', $this->normalizerFactory->getClosure('bool'));
-        $resolver->setNormalizer('orderCode', $this->normalizerFactory->getClosure('string64'));
-        $resolver->setNormalizer('orderName', $this->normalizerFactory->getClosure('string90'));
-        $resolver->setNormalizer('purchasingPrice', $this->normalizerFactory->getClosure('number'));
-        $resolver->setNormalizer('rate', $this->normalizerFactory->getClosure('float'));
-        $resolver->setNormalizer('payVAT', $this->normalizerFactory->getClosure('bool'));
-        $resolver->setNormalizer('ean', $this->normalizerFactory->getClosure('string20'));
-        $resolver->setNormalizer('printEAN', $this->normalizerFactory->getClosure('bool'));
-        $resolver->setNormalizer('unitEAN', $this->normalizerFactory->getClosure('string10'));
-        $resolver->setNormalizer('unitCoefEAN', $this->normalizerFactory->getClosure('float'));
-        $resolver->setNormalizer('deliveryTime', $this->normalizerFactory->getClosure('int'));
-        $resolver->setNormalizer('minQuantity', $this->normalizerFactory->getClosure('float'));
-        $resolver->setNormalizer('unit', $this->normalizerFactory->getClosure('string10'));
+        $resolver->setNormalizer('default', $this->dependenciesFactory->getNormalizerFactory()->getClosure('bool'));
+        $resolver->setNormalizer('orderCode', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string64'));
+        $resolver->setNormalizer('orderName', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string90'));
+        $resolver->setNormalizer('purchasingPrice', $this->dependenciesFactory->getNormalizerFactory()->getClosure('number'));
+        $resolver->setNormalizer('rate', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
+        $resolver->setNormalizer('payVAT', $this->dependenciesFactory->getNormalizerFactory()->getClosure('bool'));
+        $resolver->setNormalizer('ean', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string20'));
+        $resolver->setNormalizer('printEAN', $this->dependenciesFactory->getNormalizerFactory()->getClosure('bool'));
+        $resolver->setNormalizer('unitEAN', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string10'));
+        $resolver->setNormalizer('unitCoefEAN', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
+        $resolver->setNormalizer('deliveryTime', $this->dependenciesFactory->getNormalizerFactory()->getClosure('int'));
+        $resolver->setNormalizer('minQuantity', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
+        $resolver->setNormalizer('unit', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string10'));
     }
 }

@@ -4,14 +4,14 @@ parameters:
         - src
     ignoreErrors:
         # known one
-        # Pohoda/DocumentPartFactory.php - just pass idiotic values as proved in tests
+        # Pohoda/DI/DocumentPartReflectFactory.php - just pass idiotic values as proved in tests
         -
             message: '#Dead catch \- ReflectionException is never thrown in the try block\.#'
-            path: 'src/Pohoda/DocumentPartFactory.php'
-        # Pohoda/AgendaFactory.php - just pass idiotic values as proved in tests
+            path: 'src/Pohoda/DI/DocumentPartReflectFactory.php'
+        # Pohoda/DI/AgendaReflectFactory.php - just pass idiotic values as proved in tests
         -
             message: '#Dead catch \- ReflectionException is never thrown in the try block\.#'
-            path: 'src/Pohoda/AgendaFactory.php'
+            path: 'src/Pohoda/DI/AgendaReflectFactory.php'
         # pass data class
         - '#Parameter \#1 \$data of method [a-zA-Z0-9_\\]+\:\:setData\(\) expects array\<string\, mixed\>\, mixed given.#'
         - '#Method Riesenia\\Pohoda\\AbstractDocument\:\:addItem\(\) should return Riesenia\\Pohoda\\Document\\AbstractPart#'

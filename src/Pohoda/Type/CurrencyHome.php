@@ -13,7 +13,7 @@ namespace Riesenia\Pohoda\Type;
 
 use Riesenia\Pohoda\AbstractAgenda;
 use Riesenia\Pohoda\Common;
-use Riesenia\Pohoda\ValueTransformer\SanitizeEncoding;
+use Riesenia\Pohoda\DI\DependenciesFactory;
 
 class CurrencyHome extends AbstractAgenda
 {
@@ -26,9 +26,7 @@ class CurrencyHome extends AbstractAgenda
     protected array $elements = ['priceNone', 'price3', 'price3VAT', 'price3Sum', 'priceLow', 'priceLowVAT', 'priceLowVatRate', 'priceLowSum', 'priceHigh', 'priceHighVAT', 'priceHighVatRate', 'priceHighSum', 'round'];
 
     public function __construct(
-        Common\NamespacesPaths $namespacesPaths,
-        SanitizeEncoding $sanitizeEncoding,
-        Common\OptionsResolver\Normalizers\NormalizerFactory $normalizerFactory = new Common\OptionsResolver\Normalizers\NormalizerFactory(),
+        DependenciesFactory $dependenciesFactory,
     ) {
         // init attributes
         $this->elementsAttributesMapper = [
@@ -36,7 +34,7 @@ class CurrencyHome extends AbstractAgenda
             'priceHighVatRate' => new Common\ElementAttributes('priceHighVAT', 'rate'),
         ];
 
-        parent::__construct($namespacesPaths, $sanitizeEncoding, $normalizerFactory);
+        parent::__construct($dependenciesFactory);
     }
 
     /**
@@ -48,17 +46,17 @@ class CurrencyHome extends AbstractAgenda
         $resolver->setDefined($this->elements);
 
         // validate / format options
-        $resolver->setNormalizer('priceNone', $this->normalizerFactory->getClosure('float'));
-        $resolver->setNormalizer('price3', $this->normalizerFactory->getClosure('float'));
-        $resolver->setNormalizer('price3VAT', $this->normalizerFactory->getClosure('float'));
-        $resolver->setNormalizer('price3Sum', $this->normalizerFactory->getClosure('float'));
-        $resolver->setNormalizer('priceLow', $this->normalizerFactory->getClosure('float'));
-        $resolver->setNormalizer('priceLowVAT', $this->normalizerFactory->getClosure('float'));
-        $resolver->setNormalizer('priceLowVatRate', $this->normalizerFactory->getClosure('float'));
-        $resolver->setNormalizer('priceLowSum', $this->normalizerFactory->getClosure('float'));
-        $resolver->setNormalizer('priceHigh', $this->normalizerFactory->getClosure('float'));
-        $resolver->setNormalizer('priceHighVAT', $this->normalizerFactory->getClosure('float'));
-        $resolver->setNormalizer('priceHighVatRate', $this->normalizerFactory->getClosure('float'));
-        $resolver->setNormalizer('priceHighSum', $this->normalizerFactory->getClosure('float'));
+        $resolver->setNormalizer('priceNone', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
+        $resolver->setNormalizer('price3', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
+        $resolver->setNormalizer('price3VAT', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
+        $resolver->setNormalizer('price3Sum', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
+        $resolver->setNormalizer('priceLow', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
+        $resolver->setNormalizer('priceLowVAT', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
+        $resolver->setNormalizer('priceLowVatRate', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
+        $resolver->setNormalizer('priceLowSum', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
+        $resolver->setNormalizer('priceHigh', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
+        $resolver->setNormalizer('priceHighVAT', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
+        $resolver->setNormalizer('priceHighVatRate', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
+        $resolver->setNormalizer('priceHighSum', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
     }
 }

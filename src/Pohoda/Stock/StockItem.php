@@ -30,7 +30,7 @@ class StockItem extends AbstractAgenda
         // process stockPriceItem
         if (isset($data['stockPriceItem']) && is_array($data['stockPriceItem'])) {
             $data['stockPriceItem'] = \array_map(function ($stockPriceItem) {
-                $price = new Price($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
+                $price = new Price($this->dependenciesFactory);
                 return $price->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($stockPriceItem['stockPrice']);
             }, $data['stockPriceItem']);
         }
@@ -58,8 +58,8 @@ class StockItem extends AbstractAgenda
         // available options
         $resolver->setDefined($this->elements);
 
-        $resolver->setNormalizer('id', $this->normalizerFactory->getClosure('int'));
-        $resolver->setNormalizer('count', $this->normalizerFactory->getClosure('float'));
-        $resolver->setNormalizer('quantity', $this->normalizerFactory->getClosure('float'));
+        $resolver->setNormalizer('id', $this->dependenciesFactory->getNormalizerFactory()->getClosure('int'));
+        $resolver->setNormalizer('count', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
+        $resolver->setNormalizer('quantity', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
     }
 }

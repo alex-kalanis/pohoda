@@ -31,9 +31,9 @@ class CurrencyItem extends AbstractAgenda
         $resolver->setDefined($this->elements);
 
         // validate / format options
-        $resolver->setNormalizer('unitPrice', $this->normalizerFactory->getClosure('float'));
-        $resolver->setNormalizer('price', $this->normalizerFactory->getClosure('float'));
-        $resolver->setNormalizer('priceVAT', $this->normalizerFactory->getClosure('float'));
-        $resolver->setNormalizer('priceSum', $this->normalizerFactory->getClosure('float'));
+        $resolver->setNormalizer('unitPrice', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
+        $resolver->setNormalizer('price', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
+        $resolver->setNormalizer('priceVAT', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
+        $resolver->setNormalizer('priceSum', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
     }
 }

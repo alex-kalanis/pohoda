@@ -12,28 +12,11 @@ declare(strict_types=1);
 namespace Riesenia\Pohoda;
 
 use Riesenia\Pohoda\Common\AddParameterToHeaderTrait;
-use Riesenia\Pohoda\Common\DirectionAsResponseTrait;
 use Riesenia\Pohoda\Common\OptionsResolver;
-use Riesenia\Pohoda\ValueTransformer\SanitizeEncoding;
 
 abstract class AbstractDocument extends AbstractAgenda
 {
     use AddParameterToHeaderTrait;
-
-    protected DocumentPartFactory $documentPartFactory;
-
-    /**
-     * {@inheritdoc}
-     */
-    public function __construct(
-        Common\NamespacesPaths $namespacesPaths,
-        SanitizeEncoding $sanitizeEncoding,
-        OptionsResolver\Normalizers\NormalizerFactory $normalizerFactory = new OptionsResolver\Normalizers\NormalizerFactory(),
-    ) {
-        $this->documentPartFactory = new DocumentPartFactory($namespacesPaths, $sanitizeEncoding, $normalizerFactory);
-
-        parent::__construct($namespacesPaths, $sanitizeEncoding, $normalizerFactory);
-    }
 
     /**
      * Add document item.
@@ -124,7 +107,7 @@ abstract class AbstractDocument extends AbstractAgenda
      */
     protected function getDocumentPart(string $partName, bool $resolveOptions = true): Document\AbstractPart
     {
-        $part = $this->documentPartFactory->getPart(\get_class($this), $partName);
+        $part = $this->dependenciesFactory->getDocumentPartFactory()->getPart(\get_class($this), $partName);
         $part->setNamespace($this->getDocumentNamespace());
         $part->setNodePrefix($this->getDocumentName());
         $part->setResolveOptions($resolveOptions);

@@ -24,14 +24,19 @@ class Parameters extends AbstractAgenda
      */
     public function setData(array $data): parent
     {
-        $factory = new ParameterFactory($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
+        $parameterFactory = $this->dependenciesFactory->getParametersFactory();
+        $parameterInstances = $this->dependenciesFactory->getParameterInstances();
 
-        foreach ($factory->getKeys() as $key) {
+        foreach ($parameterInstances->getKeys() as $key) {
             // fill elements from factory
             $this->elements[] = $key;
             // add instance to data
             if (isset($data[$key])) {
-                $data[$key] = $factory->getByKey($key)->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data[$key]);
+                $data[$key] = $parameterFactory
+                    ->getByClassName($parameterInstances->getByKey($key))
+                    ->setDirectionalVariable($this->useOneDirectionalVariables)
+                    ->setResolveOptions($this->resolveOptions)
+                    ->setData($data[$key]);
             }
         }
 
@@ -58,7 +63,7 @@ class Parameters extends AbstractAgenda
         // available options
         $resolver->setDefined($this->elements);
 
-        $resolver->setNormalizer('copy', $this->normalizerFactory->getClosure('int'));
-        $resolver->setNormalizer('datePrint', $this->normalizerFactory->getClosure('string'));
+        $resolver->setNormalizer('copy', $this->dependenciesFactory->getNormalizerFactory()->getClosure('int'));
+        $resolver->setNormalizer('datePrint', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string'));
     }
 }

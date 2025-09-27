@@ -1,23 +1,22 @@
 <?php
 
-namespace Riesenia\Pohoda;
+namespace Riesenia\Pohoda\DI;
 
 use DomainException;
 use ReflectionClass;
 use ReflectionException;
+use Riesenia\Pohoda\AbstractAgenda;
+use Riesenia\Pohoda\Common;
+use Riesenia\Pohoda\ValueTransformer;
 
-class AgendaFactory
+class AgendaReflectFactory implements AgendaFactoryInterface
 {
     public function __construct(
-        protected readonly Common\NamespacesPaths $namespacesPaths,
-        protected readonly ValueTransformer\SanitizeEncoding $sanitizeEncoding,
-        protected Common\OptionsResolver\Normalizers\NormalizerFactory $normalizerFactory = new Common\OptionsResolver\Normalizers\NormalizerFactory(),
+        protected readonly DependenciesFactory $dependenciesFactory,
     ) {}
 
     /**
-     * @param string $name
-     * @throws DomainException
-     * @return AbstractAgenda
+     * {@inheritDoc}
      */
     public function getAgenda(string $name): AbstractAgenda
     {
@@ -35,9 +34,7 @@ class AgendaFactory
 
         try {
             $instance = $reflection->newInstance(
-                $this->namespacesPaths,
-                $this->sanitizeEncoding,
-                $this->normalizerFactory,
+                $this->dependenciesFactory,
             );
             // @codeCoverageIgnoreStart
         } catch (ReflectionException) {

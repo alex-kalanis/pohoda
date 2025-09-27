@@ -13,6 +13,7 @@ namespace Riesenia\Pohoda\Stock;
 
 use Riesenia\Pohoda\AbstractAgenda;
 use Riesenia\Pohoda\Common;
+use Riesenia\Pohoda\DI\DependenciesFactory;
 use Riesenia\Pohoda\ValueTransformer\SanitizeEncoding;
 
 class Header extends AbstractAgenda
@@ -35,9 +36,7 @@ class Header extends AbstractAgenda
      * {@inheritdoc}
      */
     public function __construct(
-        Common\NamespacesPaths $namespacesPaths,
-        SanitizeEncoding $sanitizeEncoding,
-        Common\OptionsResolver\Normalizers\NormalizerFactory $normalizerFactory = new Common\OptionsResolver\Normalizers\NormalizerFactory(),
+        DependenciesFactory $dependenciesFactory,
     ) {
         // init attributes
         $this->elementsAttributesMapper = [
@@ -45,7 +44,7 @@ class Header extends AbstractAgenda
             'sellingPricePayVAT' => new Common\ElementAttributes('sellingPrice', 'payVAT'),
         ];
 
-        parent::__construct($namespacesPaths, $sanitizeEncoding, $normalizerFactory);
+        parent::__construct($dependenciesFactory);
     }
 
     /**
@@ -55,13 +54,13 @@ class Header extends AbstractAgenda
     {
         // process intrastat
         if (isset($data['intrastat'])) {
-            $intrastat = new Intrastat($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
+            $intrastat = new Intrastat($this->dependenciesFactory);
             $data['intrastat'] = $intrastat->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['intrastat']);
         }
 
         // process recyclingContrib
         if (isset($data['recyclingContrib'])) {
-            $recyclingContrib = new RecyclingContrib($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
+            $recyclingContrib = new RecyclingContrib($this->dependenciesFactory);
             $data['recyclingContrib'] = $recyclingContrib->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['recyclingContrib']);
         }
 
@@ -89,7 +88,7 @@ class Header extends AbstractAgenda
             $this->data['pictures'] = [];
         }
 
-        $picture = new Picture($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
+        $picture = new Picture($this->dependenciesFactory);
         $this->data['pictures'][] = $picture->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData([
             'filepath' => $filepath,
             'description' => $description,
@@ -116,7 +115,7 @@ class Header extends AbstractAgenda
             $this->data['categories'] = [];
         }
 
-        $category = new Category($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
+        $category = new Category($this->dependenciesFactory);
         $this->data['categories'][] = $category->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData([
             'idCategory' => $categoryId,
         ]);
@@ -140,7 +139,7 @@ class Header extends AbstractAgenda
             $this->data['intParameters'] = [];
         }
 
-        $intParameters = new IntParameter($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
+        $intParameters = new IntParameter($this->dependenciesFactory);
         $this->data['intParameters'][] = $intParameters->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data);
     }
 
@@ -167,44 +166,44 @@ class Header extends AbstractAgenda
         // validate / format options
         $resolver->setDefault('stockType', 'card');
         $resolver->setAllowedValues('stockType', ['card', 'text', 'service', 'package', 'set', 'product']);
-        $resolver->setNormalizer('isSales', $this->normalizerFactory->getClosure('bool'));
-        $resolver->setNormalizer('isSerialNumber', $this->normalizerFactory->getClosure('bool'));
-        $resolver->setNormalizer('isInternet', $this->normalizerFactory->getClosure('bool'));
-        $resolver->setNormalizer('isBatch', $this->normalizerFactory->getClosure('bool'));
+        $resolver->setNormalizer('isSales', $this->dependenciesFactory->getNormalizerFactory()->getClosure('bool'));
+        $resolver->setNormalizer('isSerialNumber', $this->dependenciesFactory->getNormalizerFactory()->getClosure('bool'));
+        $resolver->setNormalizer('isInternet', $this->dependenciesFactory->getNormalizerFactory()->getClosure('bool'));
+        $resolver->setNormalizer('isBatch', $this->dependenciesFactory->getNormalizerFactory()->getClosure('bool'));
         $resolver->setAllowedValues('purchasingRateVAT', ['none', 'third', 'low', 'high']);
         $resolver->setAllowedValues('sellingRateVAT', ['none', 'third', 'low', 'high']);
-        $resolver->setNormalizer('name', $this->normalizerFactory->getClosure('string90'));
-        $resolver->setNormalizer('nameComplement', $this->normalizerFactory->getClosure('string90'));
-        $resolver->setNormalizer('unit', $this->normalizerFactory->getClosure('string10'));
-        $resolver->setNormalizer('unit2', $this->normalizerFactory->getClosure('string10'));
-        $resolver->setNormalizer('unit3', $this->normalizerFactory->getClosure('string10'));
-        $resolver->setNormalizer('coefficient2', $this->normalizerFactory->getClosure('float'));
-        $resolver->setNormalizer('coefficient3', $this->normalizerFactory->getClosure('float'));
-        $resolver->setNormalizer('purchasingPrice', $this->normalizerFactory->getClosure('float'));
-        $resolver->setNormalizer('purchasingPricePayVAT', $this->normalizerFactory->getClosure('bool'));
-        $resolver->setNormalizer('sellingPrice', $this->normalizerFactory->getClosure('float'));
-        $resolver->setNormalizer('sellingPricePayVAT', $this->normalizerFactory->getClosure('bool'));
-        $resolver->setNormalizer('limitMin', $this->normalizerFactory->getClosure('float'));
-        $resolver->setNormalizer('limitMax', $this->normalizerFactory->getClosure('float'));
-        $resolver->setNormalizer('mass', $this->normalizerFactory->getClosure('float'));
-        $resolver->setNormalizer('volume', $this->normalizerFactory->getClosure('float'));
-        $resolver->setNormalizer('orderName', $this->normalizerFactory->getClosure('string90'));
-        $resolver->setNormalizer('orderQuantity', $this->normalizerFactory->getClosure('float'));
-        $resolver->setNormalizer('shortName', $this->normalizerFactory->getClosure('string24'));
+        $resolver->setNormalizer('name', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string90'));
+        $resolver->setNormalizer('nameComplement', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string90'));
+        $resolver->setNormalizer('unit', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string10'));
+        $resolver->setNormalizer('unit2', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string10'));
+        $resolver->setNormalizer('unit3', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string10'));
+        $resolver->setNormalizer('coefficient2', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
+        $resolver->setNormalizer('coefficient3', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
+        $resolver->setNormalizer('purchasingPrice', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
+        $resolver->setNormalizer('purchasingPricePayVAT', $this->dependenciesFactory->getNormalizerFactory()->getClosure('bool'));
+        $resolver->setNormalizer('sellingPrice', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
+        $resolver->setNormalizer('sellingPricePayVAT', $this->dependenciesFactory->getNormalizerFactory()->getClosure('bool'));
+        $resolver->setNormalizer('limitMin', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
+        $resolver->setNormalizer('limitMax', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
+        $resolver->setNormalizer('mass', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
+        $resolver->setNormalizer('volume', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
+        $resolver->setNormalizer('orderName', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string90'));
+        $resolver->setNormalizer('orderQuantity', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
+        $resolver->setNormalizer('shortName', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string24'));
         $resolver->setAllowedValues('guaranteeType', ['none', 'hour', 'day', 'month', 'year', 'life']);
-        $resolver->setNormalizer('guarantee', $this->normalizerFactory->getClosure('int'));
-        $resolver->setNormalizer('producer', $this->normalizerFactory->getClosure('string90'));
-        $resolver->setNormalizer('description', $this->normalizerFactory->getClosure('string240'));
+        $resolver->setNormalizer('guarantee', $this->dependenciesFactory->getNormalizerFactory()->getClosure('int'));
+        $resolver->setNormalizer('producer', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string90'));
+        $resolver->setNormalizer('description', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string240'));
 
         if ($this->useOneDirectionalVariables) {
-            $resolver->setNormalizer('weightedPurchasePrice', $this->normalizerFactory->getClosure('float'));
-            $resolver->setNormalizer('count', $this->normalizerFactory->getClosure('float'));
-            $resolver->setNormalizer('countIssue', $this->normalizerFactory->getClosure('float'));
-            $resolver->setNormalizer('countReceivedOrders', $this->normalizerFactory->getClosure('float'));
-            $resolver->setNormalizer('reservation', $this->normalizerFactory->getClosure('float'));
-            $resolver->setNormalizer('countIssuedOrders', $this->normalizerFactory->getClosure('float'));
-            $resolver->setNormalizer('reclamation', $this->normalizerFactory->getClosure('float'));
-            $resolver->setNormalizer('service', $this->normalizerFactory->getClosure('float'));
+            $resolver->setNormalizer('weightedPurchasePrice', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
+            $resolver->setNormalizer('count', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
+            $resolver->setNormalizer('countIssue', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
+            $resolver->setNormalizer('countReceivedOrders', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
+            $resolver->setNormalizer('reservation', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
+            $resolver->setNormalizer('countIssuedOrders', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
+            $resolver->setNormalizer('reclamation', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
+            $resolver->setNormalizer('service', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
         }
     }
 }

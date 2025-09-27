@@ -43,14 +43,14 @@ class ShipToAddressType extends AbstractAgenda
         $resolver->setDefined($this->elements);
 
         // validate / format options
-        $resolver->setNormalizer('company', $this->normalizerFactory->getClosure('string255'));
-        $resolver->setNormalizer('division', $this->normalizerFactory->getClosure('string32'));
-        $resolver->setNormalizer('name', $this->normalizerFactory->getClosure('string32'));
-        $resolver->setNormalizer('city', $this->normalizerFactory->getClosure('string45'));
-        $resolver->setNormalizer('street', $this->normalizerFactory->getClosure('string45'));
-        $resolver->setNormalizer('zip', $this->normalizerFactory->getClosure('string15'));
-        $resolver->setNormalizer('phone', $this->normalizerFactory->getClosure('string40'));
-        $resolver->setNormalizer('email', $this->normalizerFactory->getClosure('string98'));
-        $resolver->setNormalizer('defaultShipAddress', $this->normalizerFactory->getClosure('bool'));
+        $resolver->setNormalizer('company', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string255'));
+        $resolver->setNormalizer('division', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string32'));
+        $resolver->setNormalizer('name', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string32'));
+        $resolver->setNormalizer('city', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string45'));
+        $resolver->setNormalizer('street', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string45'));
+        $resolver->setNormalizer('zip', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string15'));
+        $resolver->setNormalizer('phone', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string40'));
+        $resolver->setNormalizer('email', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string98'));
+        $resolver->setNormalizer('defaultShipAddress', $this->dependenciesFactory->getNormalizerFactory()->getClosure('bool'));
     }
 }

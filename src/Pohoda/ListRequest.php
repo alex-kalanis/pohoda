@@ -25,7 +25,7 @@ class ListRequest extends AbstractAgenda
      */
     public function addLimit(array $data): self
     {
-        $limit = new ListRequest\Limit($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
+        $limit = new ListRequest\Limit($this->dependenciesFactory);
         $this->data['limit'] = $limit->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data);
 
         return $this;
@@ -40,7 +40,7 @@ class ListRequest extends AbstractAgenda
      */
     public function addFilter(array $data): self
     {
-        $filter = new ListRequest\Filter($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
+        $filter = new ListRequest\Filter($this->dependenciesFactory);
         $this->data['filter'] = $filter->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data);
 
         return $this;
@@ -56,7 +56,7 @@ class ListRequest extends AbstractAgenda
      */
     public function addQueryFilter(array $data): self
     {
-        $filter = new ListRequest\QueryFilter($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
+        $filter = new ListRequest\QueryFilter($this->dependenciesFactory);
         $this->data['queryFilter'] = $filter->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data);
 
         return $this;
@@ -71,7 +71,7 @@ class ListRequest extends AbstractAgenda
      */
     public function addRestrictionData(array $data): self
     {
-        $restrictionData = new ListRequest\RestrictionData($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
+        $restrictionData = new ListRequest\RestrictionData($this->dependenciesFactory);
         $this->data['restrictionData'] = $restrictionData->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data);
 
         return $this;
@@ -86,7 +86,7 @@ class ListRequest extends AbstractAgenda
      */
     public function addUserFilterName(string $name): self
     {
-        $userFilterName = new ListRequest\UserFilterName($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
+        $userFilterName = new ListRequest\UserFilterName($this->dependenciesFactory);
         $this->data['userFilterName'] = $userFilterName->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData(['userFilterName' => $name]);
 
         return $this;
@@ -137,7 +137,7 @@ class ListRequest extends AbstractAgenda
 
         // validate / format options
         $resolver->setRequired('type');
-        $resolver->setNormalizer('type', $this->normalizerFactory->getClosure('list_request_type'));
+        $resolver->setNormalizer('type', $this->dependenciesFactory->getNormalizerFactory()->getClosure('list_request_type'));
         $resolver->setDefault('namespace', function (Options $options) {
             if ('Stock' == $options['type']) {
                 return 'lStk';

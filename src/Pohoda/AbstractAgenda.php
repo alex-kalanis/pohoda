@@ -45,14 +45,10 @@ abstract class AbstractAgenda
     /**
      * Construct agenda using provided data.
      *
-     * @param Common\NamespacesPaths $namespacesPaths
-     * @param ValueTransformer\SanitizeEncoding $sanitizeEncoding
-     * @param Common\OptionsResolver\Normalizers\NormalizerFactory $normalizerFactory
+     * @param Pohoda\DI\DependenciesFactory $dependenciesFactory
      */
     public function __construct(
-        protected readonly Common\NamespacesPaths $namespacesPaths,
-        protected Pohoda\ValueTransformer\SanitizeEncoding $sanitizeEncoding,
-        protected Common\OptionsResolver\Normalizers\NormalizerFactory $normalizerFactory = new Common\OptionsResolver\Normalizers\NormalizerFactory(),
+        protected readonly Pohoda\DI\DependenciesFactory $dependenciesFactory,
     ) {}
 
     /**
@@ -116,8 +112,8 @@ abstract class AbstractAgenda
      */
     protected function createXML(): SimpleXMLElement
     {
-        $np = $this->namespacesPaths->allNamespaces();
-        return new SimpleXMLElement('<?xml version="1.0" encoding="' . $this->sanitizeEncoding->getEncoding() . '"?><root ' . \implode(' ', \array_map(function ($k, $v) {
+        $np = $this->dependenciesFactory->getNamespacePaths()->allNamespaces();
+        return new SimpleXMLElement('<?xml version="1.0" encoding="' . $this->dependenciesFactory->getSanitizeEncoding()->getEncoding() . '"?><root ' . \implode(' ', \array_map(function ($k, $v) {
             return 'xmlns:' . $k . '="' . $v . '"';
         }, \array_keys($np), \array_values($np))) . '></root>');
     }
@@ -131,7 +127,7 @@ abstract class AbstractAgenda
      */
     protected function namespace(string $short): string
     {
-        return $this->namespacesPaths->namespace($short);
+        return $this->dependenciesFactory->getNamespacePaths()->namespace($short);
     }
 
     /**
@@ -259,11 +255,12 @@ abstract class AbstractAgenda
      */
     protected function sanitize(mixed $value): string
     {
-        $this->sanitizeEncoding->listingWithEncoding();
+        $sanitizeEncoding = $this->dependenciesFactory->getSanitizeEncoding();
+        $sanitizeEncoding->listingWithEncoding();
 
         return \htmlspecialchars(
             \array_reduce(
-                $this->sanitizeEncoding->getListing()->getTransformers(),
+                $sanitizeEncoding->getListing()->getTransformers(),
                 function (string $value, ValueTransformerInterface $transformer): string {
                     return $transformer->transform($value);
                 },

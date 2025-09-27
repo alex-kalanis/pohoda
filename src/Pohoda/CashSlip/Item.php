@@ -30,14 +30,14 @@ class Item extends AbstractItem
         parent::configureOptions($resolver);
 
         // validate / format options
-        $resolver->setNormalizer('text', $this->normalizerFactory->getClosure('string255'));
-        $resolver->setNormalizer('quantity', $this->normalizerFactory->getClosure('float'));
-        $resolver->setNormalizer('unit', $this->normalizerFactory->getClosure('string10'));
-        $resolver->setNormalizer('coefficient', $this->normalizerFactory->getClosure('float'));
-        $resolver->setNormalizer('payVAT', $this->normalizerFactory->getClosure('bool'));
+        $resolver->setNormalizer('text', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string255'));
+        $resolver->setNormalizer('quantity', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
+        $resolver->setNormalizer('unit', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string10'));
+        $resolver->setNormalizer('coefficient', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
+        $resolver->setNormalizer('payVAT', $this->dependenciesFactory->getNormalizerFactory()->getClosure('bool'));
         $resolver->setAllowedValues('rateVAT', ['none', 'third', 'low', 'high']);
-        $resolver->setNormalizer('discountPercentage', $this->normalizerFactory->getClosure('float'));
-        $resolver->setNormalizer('note', $this->normalizerFactory->getClosure('string90'));
-        $resolver->setNormalizer('code', $this->normalizerFactory->getClosure('string64'));
+        $resolver->setNormalizer('discountPercentage', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
+        $resolver->setNormalizer('note', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string90'));
+        $resolver->setNormalizer('code', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string64'));
     }
 }

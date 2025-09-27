@@ -43,10 +43,10 @@ class Filter extends AbstractAgenda
         $resolver->setDefined($this->elements);
 
         // validate / format options
-        $resolver->setNormalizer('id', $this->normalizerFactory->getClosure('int'));
-        $resolver->setNormalizer('internet', $this->normalizerFactory->getClosure('bool'));
-        $resolver->setNormalizer('lastChanges', $this->normalizerFactory->getClosure('datetime'));
-        $resolver->setNormalizer('dateFrom', $this->normalizerFactory->getClosure('date'));
-        $resolver->setNormalizer('dateTill', $this->normalizerFactory->getClosure('date'));
+        $resolver->setNormalizer('id', $this->dependenciesFactory->getNormalizerFactory()->getClosure('int'));
+        $resolver->setNormalizer('internet', $this->dependenciesFactory->getNormalizerFactory()->getClosure('bool'));
+        $resolver->setNormalizer('lastChanges', $this->dependenciesFactory->getNormalizerFactory()->getClosure('datetime'));
+        $resolver->setNormalizer('dateFrom', $this->dependenciesFactory->getNormalizerFactory()->getClosure('date'));
+        $resolver->setNormalizer('dateTill', $this->dependenciesFactory->getNormalizerFactory()->getClosure('date'));
     }
 }

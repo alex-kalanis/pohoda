@@ -43,6 +43,6 @@ class RestrictionData extends AbstractAgenda
         $resolver->setDefined($this->elements);
 
         // validate / format options
-        $resolver->setNormalizer('liquidations', $this->normalizerFactory->getClosure('bool'));
+        $resolver->setNormalizer('liquidations', $this->dependenciesFactory->getNormalizerFactory()->getClosure('bool'));
     }
 }

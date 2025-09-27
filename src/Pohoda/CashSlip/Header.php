@@ -32,7 +32,7 @@ class Header extends AbstractHeader
         // validate / format options
         $resolver->setDefault('prodejkaType', 'saleVoucher');
         $resolver->setAllowedValues('prodejkaType', ['saleVoucher', 'deposit', 'withdrawal']);
-        $resolver->setNormalizer('date', $this->normalizerFactory->getClosure('date'));
-        $resolver->setNormalizer('text', $this->normalizerFactory->getClosure('string240'));
+        $resolver->setNormalizer('date', $this->dependenciesFactory->getNormalizerFactory()->getClosure('date'));
+        $resolver->setNormalizer('text', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string240'));
     }
 }

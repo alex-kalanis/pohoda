@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace Riesenia;
 
+use Psr\Container\ContainerInterface;
 use Riesenia\Pohoda\AbstractAgenda;
 use Riesenia\Pohoda\Common\OneDirectionalVariablesTrait;
 
@@ -74,7 +75,7 @@ class Pohoda
 
     protected \XMLReader $xmlReader;
 
-    protected Pohoda\AgendaFactory $agendaFactory;
+    protected Pohoda\DI\DependenciesFactory $dependenciesFactory;
 
     protected string $elementName;
 
@@ -84,11 +85,14 @@ class Pohoda
 
     public function __construct(
         string|Pohoda\Common\CompanyRegistrationNumberInterface $companyRegistrationNumber,
-        protected Pohoda\ValueTransformer\SanitizeEncoding $sanitizeEncoding = new Pohoda\ValueTransformer\SanitizeEncoding(new Pohoda\ValueTransformer\Listing()),
-        protected readonly Pohoda\Common\NamespacesPaths $namespacesPaths = new Pohoda\Common\NamespacesPaths(),
+        ?Pohoda\DI\DependenciesFactory $dependenciesFactory = null,
+        ?Pohoda\ValueTransformer\SanitizeEncoding $sanitizeEncoding = new Pohoda\ValueTransformer\SanitizeEncoding(new Pohoda\ValueTransformer\Listing()),
+        ?Pohoda\Common\NamespacesPaths $namespacesPaths = new Pohoda\Common\NamespacesPaths(),
+        ?Pohoda\Common\OptionsResolver\Normalizers\NormalizerFactory $normalizerFactory = new Pohoda\Common\OptionsResolver\Normalizers\NormalizerFactory(),
+        ?ContainerInterface $container = null,
     ) {
         $this->companyRegistrationNumber = is_object($companyRegistrationNumber) ? $companyRegistrationNumber : Pohoda\Common\CompanyRegistrationNumber::init($companyRegistrationNumber);
-        $this->agendaFactory = new Pohoda\AgendaFactory($this->namespacesPaths, $this->sanitizeEncoding);
+        $this->dependenciesFactory = (is_object($dependenciesFactory)) ? $dependenciesFactory : new Pohoda\DI\DependenciesFactory($namespacesPaths, $sanitizeEncoding, $normalizerFactory, $container);
     }
 
     /**
@@ -110,7 +114,7 @@ class Pohoda
      */
     public function getTransformerListing(): Pohoda\ValueTransformer\Listing
     {
-        return $this->sanitizeEncoding->getListing();
+        return $this->dependenciesFactory->getSanitizeEncoding()->getListing();
     }
 
     /**
@@ -123,7 +127,7 @@ class Pohoda
      */
     public function create(string $name, array $data = []): AbstractAgenda
     {
-        return $this->agendaFactory->getAgenda($name)->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions(true)->setData($data);
+        return $this->dependenciesFactory->getAgendaFactory()->getAgenda($name)->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions(true)->setData($data);
     }
 
     /**
@@ -153,7 +157,7 @@ class Pohoda
             // @codeCoverageIgnoreEnd
         }
 
-        $this->xmlWriter->startDocument('1.0', $this->sanitizeEncoding->getEncoding());
+        $this->xmlWriter->startDocument('1.0', $this->dependenciesFactory->getSanitizeEncoding()->getEncoding());
         $this->xmlWriter->startElementNs('dat', 'dataPack', null);
 
         $this->xmlWriter->writeAttribute('id', $id);
@@ -162,7 +166,7 @@ class Pohoda
         $this->xmlWriter->writeAttribute('version', '2.0');
         $this->xmlWriter->writeAttribute('note', $note);
 
-        foreach ($this->namespacesPaths->allNamespaces() as $k => $v) {
+        foreach ($this->dependenciesFactory->getNamespacePaths()->allNamespaces() as $k => $v) {
             // put all known namespaces into base element attributes
             $this->xmlWriter->writeAttributeNs('xmlns', $k, null, $v);
         }
@@ -229,7 +233,7 @@ class Pohoda
             }
         }
 
-        $class = $this->agendaFactory->getAgenda($name);
+        $class = $this->dependenciesFactory->getAgendaFactory()->getAgenda($name);
         $class->setResolveOptions(false);
         $this->elementName = $class->getImportRoot() ?? throw new \DomainException('Not allowed entity: ' . $name);
         $this->importRecursive = $class->canImportRecursive();

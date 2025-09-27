@@ -39,9 +39,7 @@ trait AddParameterTrait
         }
 
         $parameter = new Parameter(
-            $this->namespacesPaths,
-            $this->sanitizeEncoding,
-            $this->normalizerFactory,
+            $this->dependenciesFactory,
         );
         $this->data['parameters'][] = $parameter
             ->setDirectionalVariable($this->useOneDirectionalVariables)

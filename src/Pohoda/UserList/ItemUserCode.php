@@ -43,6 +43,6 @@ class ItemUserCode extends AbstractAgenda
         // validate / format options
         $resolver->setRequired('code');
         $resolver->setRequired('name');
-        $resolver->setNormalizer('constant', $this->normalizerFactory->getClosure('int'));
+        $resolver->setNormalizer('constant', $this->dependenciesFactory->getNormalizerFactory()->getClosure('int'));
     }
 }

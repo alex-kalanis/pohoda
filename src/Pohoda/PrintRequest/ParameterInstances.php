@@ -2,13 +2,7 @@
 
 namespace Riesenia\Pohoda\PrintRequest;
 
-use DomainException;
-use ReflectionClass;
-use ReflectionException;
-use Riesenia\Pohoda\ValueTransformer\SanitizeEncoding;
-use Riesenia\Pohoda\Common;
-
-class ParameterFactory
+class ParameterInstances
 {
     /** @var array<string, class-string<Parameter>> */
     protected array $instances = [
@@ -40,35 +34,16 @@ class ParameterFactory
         'comboboxEx2' => ComboboxEx2::class,
     ];
 
-    public function __construct(
-        protected readonly Common\NamespacesPaths $namespacesPaths,
-        protected readonly SanitizeEncoding $sanitizeEncoding,
-        protected readonly Common\OptionsResolver\Normalizers\NormalizerFactory $normalizerFactory = new Common\OptionsResolver\Normalizers\NormalizerFactory(),
-    ) {}
-
     /**
      * @param string $key
-     * @return Parameter
+     * @return class-string<Parameter>
      */
-    public function getByKey(string $key): Parameter
+    public function getByKey(string $key): string
     {
         if (!isset($this->instances[$key])) {
-            throw new DomainException(sprintf('The key *%s* is not known.', $key));
+            throw new \DomainException(sprintf('The key *%s* is not known.', $key));
         }
-        try {
-            $reflection = new ReflectionClass($this->instances[$key]);
-            $class = $reflection->newInstance(
-                $this->namespacesPaths,
-                $this->sanitizeEncoding,
-                $this->normalizerFactory,
-            );
-        } catch (ReflectionException $e) {
-            throw new DomainException($e->getMessage(), $e->getCode(), $e);
-        }
-        if (!is_a($class, Parameter::class)) {
-            throw new DomainException(sprintf('The class *%s* is not subclass of Parameter', get_class($class)));
-        }
-        return $class;
+        return $this->instances[$key];
     }
 
     /**

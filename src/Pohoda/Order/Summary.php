@@ -54,7 +54,7 @@ class Summary extends AbstractSummary
         $resolver->setAllowedValues('roundingVAT', ['none', 'noneEveryRate', 'up2tenthEveryItem', 'up2tenthEveryRate', 'math2tenthEveryItem', 'math2tenthEveryRate', 'math2halfEveryItem', 'math2halfEveryRate', 'math2intEveryItem', 'math2intEveryRate']);
 
         if ($this->useOneDirectionalVariables) {
-            $resolver->setNormalizer('typeCalculateVATInclusivePrice', $this->normalizerFactory->getClosure('string'));
+            $resolver->setNormalizer('typeCalculateVATInclusivePrice', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string'));
         }
     }
 }

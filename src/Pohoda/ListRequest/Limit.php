@@ -40,7 +40,7 @@ class Limit extends AbstractAgenda
         $resolver->setDefined($this->elements);
 
         // validate / format options
-        $resolver->setNormalizer('idFrom', $this->normalizerFactory->getClosure('int'));
-        $resolver->setNormalizer('count', $this->normalizerFactory->getClosure('int'));
+        $resolver->setNormalizer('idFrom', $this->dependenciesFactory->getNormalizerFactory()->getClosure('int'));
+        $resolver->setNormalizer('count', $this->dependenciesFactory->getNormalizerFactory()->getClosure('int'));
     }
 }

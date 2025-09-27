@@ -32,7 +32,7 @@ class Header extends AbstractAgenda
     {
         // process partner identity
         if (isset($data['partnerIdentity'])) {
-            $partnerIdentity = new Type\Address($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
+            $partnerIdentity = new Type\Address($this->dependenciesFactory);
             $data['partnerIdentity'] = $partnerIdentity->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['partnerIdentity']);
         }
 
@@ -60,11 +60,11 @@ class Header extends AbstractAgenda
         $resolver->setDefined($this->elements);
 
         // validate / format options
-        $resolver->setNormalizer('date', $this->normalizerFactory->getClosure('date'));
-        $resolver->setNormalizer('time', $this->normalizerFactory->getClosure('time'));
-        $resolver->setNormalizer('dateOfReceipt', $this->normalizerFactory->getClosure('date'));
-        $resolver->setNormalizer('timeOfReceipt', $this->normalizerFactory->getClosure('time'));
-        $resolver->setNormalizer('symPar', $this->normalizerFactory->getClosure('string20'));
-        $resolver->setNormalizer('text', $this->normalizerFactory->getClosure('string48'));
+        $resolver->setNormalizer('date', $this->dependenciesFactory->getNormalizerFactory()->getClosure('date'));
+        $resolver->setNormalizer('time', $this->dependenciesFactory->getNormalizerFactory()->getClosure('time'));
+        $resolver->setNormalizer('dateOfReceipt', $this->dependenciesFactory->getNormalizerFactory()->getClosure('date'));
+        $resolver->setNormalizer('timeOfReceipt', $this->dependenciesFactory->getNormalizerFactory()->getClosure('time'));
+        $resolver->setNormalizer('symPar', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string20'));
+        $resolver->setNormalizer('text', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string48'));
     }
 }

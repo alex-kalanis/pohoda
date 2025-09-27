@@ -48,7 +48,7 @@ class PohodaResponse extends Pohoda
             // @codeCoverageIgnoreEnd
         }
 
-        $this->xmlWriter->startDocument('1.0', $this->sanitizeEncoding->getEncoding());
+        $this->xmlWriter->startDocument('1.0', $this->dependenciesFactory->getSanitizeEncoding()->getEncoding());
         $this->xmlWriter->startElementNs('rsp', 'responsePack', null);
 
         $this->xmlWriter->writeAttribute('id', $id);
@@ -63,7 +63,7 @@ class PohodaResponse extends Pohoda
             $this->xmlWriter->writeAttribute('key', $key);
         }
 
-        foreach ($this->namespacesPaths->allNamespaces() as $k => $v) {
+        foreach ($this->dependenciesFactory->getNamespacePaths()->allNamespaces() as $k => $v) {
             // put all known namespaces into base element attributes
             $this->xmlWriter->writeAttributeNs('xmlns', $k, null, $v);
         }

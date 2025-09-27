@@ -12,8 +12,8 @@ declare(strict_types=1);
 namespace Riesenia\Pohoda\Order;
 
 use Riesenia\Pohoda\Common;
+use Riesenia\Pohoda\DI\DependenciesFactory;
 use Riesenia\Pohoda\Document\AbstractItem;
-use Riesenia\Pohoda\ValueTransformer\SanitizeEncoding;
 
 class Item extends AbstractItem
 {
@@ -27,16 +27,14 @@ class Item extends AbstractItem
     protected array $additionalElements = ['id'];
 
     public function __construct(
-        Common\NamespacesPaths $namespacesPaths,
-        SanitizeEncoding $sanitizeEncoding,
-        Common\OptionsResolver\Normalizers\NormalizerFactory $normalizerFactory = new Common\OptionsResolver\Normalizers\NormalizerFactory(),
+        DependenciesFactory $dependenciesFactory,
     ) {
         // init attributes
         $this->elementsAttributesMapper = [
             'rateVatValue' => new Common\ElementAttributes('rateVAT', 'value'),
         ];
 
-        parent::__construct($namespacesPaths, $sanitizeEncoding, $normalizerFactory);
+        parent::__construct($dependenciesFactory);
     }
 
     /**
@@ -67,22 +65,22 @@ class Item extends AbstractItem
         $resolver->setDefined(array_merge($this->elements, ($this->useOneDirectionalVariables ? $this->additionalElements : [])));
 
         // validate / format options
-        $resolver->setNormalizer('text', $this->normalizerFactory->getClosure('string90'));
-        $resolver->setNormalizer('quantity', $this->normalizerFactory->getClosure('float'));
-        $resolver->setNormalizer('delivered', $this->normalizerFactory->getClosure('float'));
-        $resolver->setNormalizer('unit', $this->normalizerFactory->getClosure('string10'));
-        $resolver->setNormalizer('coefficient', $this->normalizerFactory->getClosure('float'));
-        $resolver->setNormalizer('payVAT', $this->normalizerFactory->getClosure('bool'));
+        $resolver->setNormalizer('text', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string90'));
+        $resolver->setNormalizer('quantity', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
+        $resolver->setNormalizer('delivered', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
+        $resolver->setNormalizer('unit', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string10'));
+        $resolver->setNormalizer('coefficient', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
+        $resolver->setNormalizer('payVAT', $this->dependenciesFactory->getNormalizerFactory()->getClosure('bool'));
         $resolver->setAllowedValues('rateVAT', ['none', 'high', 'low', 'third', 'historyHigh', 'historyLow', 'historyThird']);
-        $resolver->setNormalizer('rateVatValue', $this->normalizerFactory->getClosure('float'));
-        $resolver->setNormalizer('percentVAT', $this->normalizerFactory->getClosure('float'));
-        $resolver->setNormalizer('discountPercentage', $this->normalizerFactory->getClosure('float'));
-        $resolver->setNormalizer('note', $this->normalizerFactory->getClosure('string90'));
-        $resolver->setNormalizer('code', $this->normalizerFactory->getClosure('string64'));
-        $resolver->setNormalizer('PDP', $this->normalizerFactory->getClosure('bool'));
+        $resolver->setNormalizer('rateVatValue', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
+        $resolver->setNormalizer('percentVAT', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
+        $resolver->setNormalizer('discountPercentage', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
+        $resolver->setNormalizer('note', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string90'));
+        $resolver->setNormalizer('code', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string64'));
+        $resolver->setNormalizer('PDP', $this->dependenciesFactory->getNormalizerFactory()->getClosure('bool'));
 
         if ($this->useOneDirectionalVariables) {
-            $resolver->setNormalizer('id', $this->normalizerFactory->getClosure('int'));
+            $resolver->setNormalizer('id', $this->dependenciesFactory->getNormalizerFactory()->getClosure('int'));
         }
     }
 }

@@ -43,19 +43,19 @@ class AddressType extends AbstractAgenda
         $resolver->setDefined($this->elements);
 
         // validate / format options
-        $resolver->setNormalizer('company', $this->normalizerFactory->getClosure('string255'));
-        $resolver->setNormalizer('division', $this->normalizerFactory->getClosure('string32'));
-        $resolver->setNormalizer('name', $this->normalizerFactory->getClosure('string32'));
-        $resolver->setNormalizer('city', $this->normalizerFactory->getClosure('string45'));
-        $resolver->setNormalizer('street', $this->normalizerFactory->getClosure('string45'));
-        $resolver->setNormalizer('zip', $this->normalizerFactory->getClosure('string15'));
-        $resolver->setNormalizer('ico', $this->normalizerFactory->getClosure('string15'));
-        $resolver->setNormalizer('dic', $this->normalizerFactory->getClosure('string18'));
+        $resolver->setNormalizer('company', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string255'));
+        $resolver->setNormalizer('division', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string32'));
+        $resolver->setNormalizer('name', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string32'));
+        $resolver->setNormalizer('city', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string45'));
+        $resolver->setNormalizer('street', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string45'));
+        $resolver->setNormalizer('zip', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string15'));
+        $resolver->setNormalizer('ico', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string15'));
+        $resolver->setNormalizer('dic', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string18'));
         $resolver->setAllowedValues('VATPayerType', ['payer', 'non-payer', '']);
-        $resolver->setNormalizer('icDph', $this->normalizerFactory->getClosure('string18'));
-        $resolver->setNormalizer('phone', $this->normalizerFactory->getClosure('string40'));
-        $resolver->setNormalizer('mobilPhone', $this->normalizerFactory->getClosure('string24'));
-        $resolver->setNormalizer('fax', $this->normalizerFactory->getClosure('string24'));
-        $resolver->setNormalizer('email', $this->normalizerFactory->getClosure('string98'));
+        $resolver->setNormalizer('icDph', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string18'));
+        $resolver->setNormalizer('phone', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string40'));
+        $resolver->setNormalizer('mobilPhone', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string24'));
+        $resolver->setNormalizer('fax', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string24'));
+        $resolver->setNormalizer('email', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string98'));
     }
 }

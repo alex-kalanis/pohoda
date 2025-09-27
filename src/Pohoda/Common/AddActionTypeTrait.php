@@ -34,9 +34,7 @@ trait AddActionTypeTrait
         }
 
         $actionType = new ActionType(
-            $this->namespacesPaths,
-            $this->sanitizeEncoding,
-            $this->normalizerFactory,
+            $this->dependenciesFactory,
         );
         $this->data['actionType'] = $actionType
             ->setDirectionalVariable($this->useOneDirectionalVariables)
