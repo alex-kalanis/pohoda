@@ -30,7 +30,8 @@ class Header extends AbstractHeader
         // process report
         if (isset($data['statementNumber'])) {
             $statementNumber = new StatementNumber($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
-            $data['statementNumber'] = $statementNumber->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['statementNumber']);
+            $statementNumber->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['statementNumber']);
+            $data['statementNumber'] = $statementNumber;
         }
 
         return parent::setData($data);

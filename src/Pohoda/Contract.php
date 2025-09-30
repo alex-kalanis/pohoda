@@ -11,8 +11,11 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda;
 
-use Riesenia\Pohoda\Contract\Desc;
-
+/**
+ * @property array{
+ *     header: Contract\Desc,
+ * } $data
+ */
 class Contract extends AbstractAgenda
 {
     use Common\AddParameterToHeaderTrait;
@@ -29,7 +32,7 @@ class Contract extends AbstractAgenda
     public function setData(array $data): parent
     {
         // pass to header
-        $desc = new Desc($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
+        $desc = new Contract\Desc($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
         $data = ['header' => $desc->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data)];
 
         return parent::setData($data);

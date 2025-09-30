@@ -13,7 +13,6 @@ namespace Riesenia\Pohoda\PrintRequest;
 
 use Riesenia\Pohoda\AbstractAgenda;
 use Riesenia\Pohoda\Common;
-use Riesenia\Pohoda\ValueTransformer\SanitizeEncoding;
 
 class PrinterSettings extends AbstractAgenda
 {

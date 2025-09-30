@@ -14,7 +14,9 @@ namespace Riesenia\Pohoda\Common;
 use Riesenia\Pohoda\Type\ActionType;
 
 /**
- * @property array<string, mixed> $data
+ * @property array{
+ *     actionType?: ActionType,
+ * } $data
  */
 trait AddActionTypeTrait
 {
@@ -38,7 +40,7 @@ trait AddActionTypeTrait
             $this->sanitizeEncoding,
             $this->normalizerFactory,
         );
-        $this->data['actionType'] = $actionType
+        $actionType
             ->setDirectionalVariable($this->useOneDirectionalVariables)
             ->setResolveOptions($this->resolveOptions)
             ->setData([
@@ -46,6 +48,7 @@ trait AddActionTypeTrait
                 'filter' => $filter,
                 'agenda' => $agenda,
             ]);
+        $this->data['actionType'] = $actionType;
 
         return $this;
     }

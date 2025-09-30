@@ -12,7 +12,7 @@ $config = new PhpCsFixer\Config();
 $config
     ->setRiskyAllowed(true)
     ->setRules([
-        '@PER-CS2.0' => true,
+        '@PER-CS2x0' => true,
         'concat_space' => false,
         'phpdoc_order' => true,
         'cast_spaces' => true,

@@ -11,9 +11,12 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda;
 
-use Riesenia\Pohoda\Invoice\AdvancePaymentItem;
-use Riesenia\Pohoda\Type\Link;
-
+/**
+ * @property array{
+ *     links?: iterable<Type\Link>,
+ *     invoiceDetail?: iterable<Invoice\AdvancePaymentItem>,
+ * } $data
+ */
 class Invoice extends AbstractDocument
 {
     public function getImportRoot(): string
@@ -33,14 +36,15 @@ class Invoice extends AbstractDocument
         if (!isset($this->data['links'])
             || !(
                 is_array($this->data['links'])
-                || (is_object($this->data['links']) && is_a($this->data['links'], \ArrayAccess::class))
+                || (is_a($this->data['links'], \ArrayAccess::class))
             )
         ) {
             $this->data['links'] = [];
         }
 
-        $link = new Link($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
-        $this->data['links'][] = $link->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data);
+        $link = new Type\Link($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
+        $link->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data);
+        $this->data['links'][] = $link;
 
         return $this;
     }
@@ -57,14 +61,15 @@ class Invoice extends AbstractDocument
         if (!isset($this->data['invoiceDetail'])
             || !(
                 is_array($this->data['invoiceDetail'])
-                || (is_object($this->data['invoiceDetail']) && is_a($this->data['invoiceDetail'], \ArrayAccess::class))
+                || (is_a($this->data['invoiceDetail'], \ArrayAccess::class))
             )
         ) {
             $this->data['invoiceDetail'] = [];
         }
 
-        $invoiceDetail = new AdvancePaymentItem($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
-        $this->data['invoiceDetail'][] = $invoiceDetail->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data);
+        $invoiceDetail = new Invoice\AdvancePaymentItem($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
+        $invoiceDetail->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data);
+        $this->data['invoiceDetail'][] = $invoiceDetail;
 
         return $this;
     }

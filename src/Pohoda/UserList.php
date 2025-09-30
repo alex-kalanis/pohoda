@@ -16,6 +16,16 @@ use Riesenia\Pohoda\UserList\ItemUserCode;
 
 /**
  * Definition of user-defined list
+ *
+ * @property array{
+ *     code: string,
+ *     name: string,
+ *     constants?: bool,
+ *     dateTimeStamp?: string|\DateTimeInterface,
+ *     dateValidFrom?: string|\DateTimeInterface,
+ *     submenu?: bool,
+ *     itemUserCodes?: iterable<UserList\ItemUserCode>,
+ * } $data
  */
 class UserList extends AbstractAgenda
 {
@@ -36,14 +46,15 @@ class UserList extends AbstractAgenda
         if (!isset($this->data['itemUserCodes'])
             || !(
                 is_array($this->data['itemUserCodes'])
-                || (is_object($this->data['itemUserCodes']) && is_a($this->data['itemUserCodes'], \ArrayAccess::class))
+                || (is_a($this->data['itemUserCodes'], \ArrayAccess::class))
             )
         ) {
             $this->data['itemUserCodes'] = [];
         }
 
-        $itemUserCodes = new ItemUserCode($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
-        $this->data['itemUserCodes'][] = $itemUserCodes->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data);
+        $itemUserCodes = new UserList\ItemUserCode($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
+        $itemUserCodes->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data);
+        $this->data['itemUserCodes'][] = $itemUserCodes;
 
         return $this;
     }
@@ -74,7 +85,7 @@ class UserList extends AbstractAgenda
             $xml->addAttribute('constants', strval($this->data['constants']));
         }
 
-        if (isset($this->data['itemUserCodes']) && is_iterable($this->data['itemUserCodes'])) {
+        if (isset($this->data['itemUserCodes'])) {
             foreach ($this->data['itemUserCodes'] as $itemUserCode) {
                 /** @var ItemUserCode $itemUserCode */
                 $this->appendNode($xml, $itemUserCode->getXML());

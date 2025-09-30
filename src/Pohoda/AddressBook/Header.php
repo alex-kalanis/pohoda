@@ -14,7 +14,6 @@ namespace Riesenia\Pohoda\AddressBook;
 use Riesenia\Pohoda\AbstractAgenda;
 use Riesenia\Pohoda\Common;
 use Riesenia\Pohoda\Type\Address;
-use Riesenia\Pohoda\ValueTransformer\SanitizeEncoding;
 
 class Header extends AbstractAgenda
 {
@@ -34,7 +33,8 @@ class Header extends AbstractAgenda
         // process identity
         if (isset($data['identity'])) {
             $identity = new Address($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
-            $data['identity'] = $identity->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['identity']);
+            $identity->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['identity']);
+            $data['identity'] = $identity;
         }
 
         return parent::setData($data);

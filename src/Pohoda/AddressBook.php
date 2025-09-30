@@ -11,9 +11,12 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda;
 
-use Riesenia\Pohoda\AddressBook\Header;
-use Riesenia\Pohoda\ValueTransformer\SanitizeEncoding;
-
+/**
+ * @property array{
+ *     actionType?: Type\ActionType,
+ *     header: AddressBook\Header,
+ * } $data
+ */
 class AddressBook extends AbstractAgenda
 {
     use Common\AddActionTypeTrait;
@@ -31,8 +34,9 @@ class AddressBook extends AbstractAgenda
     {
         // pass to header
         if (!empty($data)) {
-            $header = new Header($this->namespacesPaths, $this->sanitizeEncoding);
-            $data = ['header' => $header->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data)];
+            $header = new AddressBook\Header($this->namespacesPaths, $this->sanitizeEncoding);
+            $header->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data);
+            $data = ['header' => $header];
         }
 
         return parent::setData($data);

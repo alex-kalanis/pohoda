@@ -14,6 +14,11 @@ namespace Riesenia\Pohoda\Type;
 use Riesenia\Pohoda\AbstractAgenda;
 use Riesenia\Pohoda\Common;
 
+/**
+ * @property array{
+ *     sourceLiquidation?: SourceLiquidation,
+ * } $data
+ */
 class TaxDocument extends AbstractAgenda
 {
     /** @var string[] */
@@ -30,7 +35,8 @@ class TaxDocument extends AbstractAgenda
         // process source liquidation
         if (isset($data['sourceLiquidation'])) {
             $sourceLiquidation = new SourceLiquidation($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
-            $data['sourceLiquidation'] = $sourceLiquidation->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['sourceLiquidation']);
+            $sourceLiquidation->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['sourceLiquidation']);
+            $data['sourceLiquidation'] = $sourceLiquidation;
         }
 
         return parent::setData($data);

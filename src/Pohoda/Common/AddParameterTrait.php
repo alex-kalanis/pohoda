@@ -14,7 +14,9 @@ namespace Riesenia\Pohoda\Common;
 use Riesenia\Pohoda\Type\Parameter;
 
 /**
- * @property array<string, mixed> $data
+ * @property array{
+ *     parameters?: iterable<Parameter>
+ * } $data
  */
 trait AddParameterTrait
 {
@@ -32,7 +34,7 @@ trait AddParameterTrait
         if (!isset($this->data['parameters'])
             || !(
                 is_array($this->data['parameters'])
-                || (is_object($this->data['parameters']) && is_a($this->data['parameters'], \ArrayAccess::class))
+                || (is_a($this->data['parameters'], \ArrayAccess::class))
             )
         ) {
             $this->data['parameters'] = [];
@@ -43,7 +45,7 @@ trait AddParameterTrait
             $this->sanitizeEncoding,
             $this->normalizerFactory,
         );
-        $this->data['parameters'][] = $parameter
+        $parameter
             ->setDirectionalVariable($this->useOneDirectionalVariables)
             ->setResolveOptions($this->resolveOptions)
             ->setData([
@@ -52,6 +54,7 @@ trait AddParameterTrait
                 'value' => $value,
                 'list' => $list,
             ]);
+        $this->data['parameters'][] = $parameter;
 
         return $this;
     }

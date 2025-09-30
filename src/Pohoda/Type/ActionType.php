@@ -15,6 +15,13 @@ use Riesenia\Pohoda\AbstractAgenda;
 use Riesenia\Pohoda\Common\OptionsResolver;
 use Riesenia\Pohoda\Common\SetNamespaceTrait;
 
+/**
+ * @property array{
+ *     type: string,
+ *     filter?: iterable<string, mixed>,
+ *     agenda?: string,
+ * } $data
+ */
 class ActionType extends AbstractAgenda
 {
     use SetNamespaceTrait;
@@ -35,10 +42,10 @@ class ActionType extends AbstractAgenda
             $action->addAttribute('update', 'true');
         }
 
-        if (isset($this->data['filter']) && is_iterable($this->data['filter'])) {
+        if (isset($this->data['filter'])) {
             $filter = $action->addChild('ftr:filter', '', $this->namespace('ftr'));
 
-            if ($this->data['agenda']) {
+            if (!empty($this->data['agenda'])) {
                 $filter->addAttribute('agenda', strval($this->data['agenda']));
             }
 

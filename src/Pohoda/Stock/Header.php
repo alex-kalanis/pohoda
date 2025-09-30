@@ -13,8 +13,19 @@ namespace Riesenia\Pohoda\Stock;
 
 use Riesenia\Pohoda\AbstractAgenda;
 use Riesenia\Pohoda\Common;
+use Riesenia\Pohoda\Type;
 use Riesenia\Pohoda\ValueTransformer\SanitizeEncoding;
 
+/**
+ * @property array{
+ *     parameters?: iterable<Type\Parameter>,
+ *     intrastat?: Intrastat,
+ *     recyclingContrib?: RecyclingContrib,
+ *     pictures?: iterable<Picture>,
+ *     categories?: iterable<Category>,
+ *     intParameters?: iterable<IntParameter>,
+ * } $data
+ */
 class Header extends AbstractAgenda
 {
     use Common\AddParameterTrait;
@@ -58,13 +69,15 @@ class Header extends AbstractAgenda
         // process intrastat
         if (isset($data['intrastat'])) {
             $intrastat = new Intrastat($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
-            $data['intrastat'] = $intrastat->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['intrastat']);
+            $intrastat->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['intrastat']);
+            $data['intrastat'] = $intrastat;
         }
 
         // process recyclingContrib
         if (isset($data['recyclingContrib'])) {
             $recyclingContrib = new RecyclingContrib($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
-            $data['recyclingContrib'] = $recyclingContrib->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['recyclingContrib']);
+            $recyclingContrib->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['recyclingContrib']);
+            $data['recyclingContrib'] = $recyclingContrib;
         }
 
         return parent::setData($data);
@@ -85,19 +98,20 @@ class Header extends AbstractAgenda
         if (!isset($this->data['pictures'])
             || !(
                 is_array($this->data['pictures'])
-                || (is_object($this->data['pictures']) && is_a($this->data['pictures'], \ArrayAccess::class))
+                || (is_a($this->data['pictures'], \ArrayAccess::class))
             )
         ) {
             $this->data['pictures'] = [];
         }
 
         $picture = new Picture($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
-        $this->data['pictures'][] = $picture->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData([
+        $picture->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData([
             'filepath' => $filepath,
             'description' => $description,
             'order' => null === $order ? ++$this->imagesCounter : $order,
             'default' => $default,
         ]);
+        $this->data['pictures'][] = $picture;
     }
 
     /**
@@ -112,16 +126,17 @@ class Header extends AbstractAgenda
         if (!isset($this->data['categories'])
             || !(
                 is_array($this->data['categories'])
-                || (is_object($this->data['categories']) && is_a($this->data['categories'], \ArrayAccess::class))
+                || (is_a($this->data['categories'], \ArrayAccess::class))
             )
         ) {
             $this->data['categories'] = [];
         }
 
         $category = new Category($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
-        $this->data['categories'][] = $category->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData([
+        $category->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData([
             'idCategory' => $categoryId,
         ]);
+        $this->data['categories'][] = $category;
     }
 
     /**
@@ -136,14 +151,15 @@ class Header extends AbstractAgenda
         if (!isset($this->data['intParameters'])
             || !(
                 is_array($this->data['intParameters'])
-                || (is_object($this->data['intParameters']) && is_a($this->data['intParameters'], \ArrayAccess::class))
+                || (is_a($this->data['intParameters'], \ArrayAccess::class))
             )
         ) {
             $this->data['intParameters'] = [];
         }
 
         $intParameters = new IntParameter($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
-        $this->data['intParameters'][] = $intParameters->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data);
+        $intParameters->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data);
+        $this->data['intParameters'][] = $intParameters;
     }
 
     /**

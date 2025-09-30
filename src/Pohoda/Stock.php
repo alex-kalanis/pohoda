@@ -11,10 +11,14 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda;
 
-use Riesenia\Pohoda\Stock\Header;
-use Riesenia\Pohoda\Stock\Price;
-use Riesenia\Pohoda\Stock\StockItem;
-
+/**
+ * @property array{
+ *     actionType: Type\ActionType,
+ *     header: Stock\Header,
+ *     stockDetail?: iterable<Stock\StockItem>,
+ *     stockPriceItem?: iterable<Stock\Price>,
+ * } $data
+ */
 class Stock extends AbstractAgenda
 {
     use Common\AddActionTypeTrait;
@@ -28,7 +32,7 @@ class Stock extends AbstractAgenda
     {
         // pass to header
         if (!empty($data)) {
-            $header = new Header($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
+            $header = new Stock\Header($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
             $data = ['header' => $header->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data)];
         }
 
@@ -52,14 +56,15 @@ class Stock extends AbstractAgenda
         if (!isset($this->data['stockDetail'])
             || !(
                 is_array($this->data['stockDetail'])
-                || (is_object($this->data['stockDetail']) && is_a($this->data['stockDetail'], \ArrayAccess::class))
+                || (is_a($this->data['stockDetail'], \ArrayAccess::class))
             )
         ) {
             $this->data['stockDetail'] = [];
         }
 
-        $stockDetail = new StockItem($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
-        $this->data['stockDetail'][] = $stockDetail->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data);
+        $stockDetail = new Stock\StockItem($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
+        $stockDetail->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data);
+        $this->data['stockDetail'][] = $stockDetail;
 
         return $this;
     }
@@ -78,20 +83,21 @@ class Stock extends AbstractAgenda
         if (!isset($this->data['stockPriceItem'])
             || !(
                 is_array($this->data['stockPriceItem'])
-                || (is_object($this->data['stockPriceItem']) && is_a($this->data['stockPriceItem'], \ArrayAccess::class))
+                || (is_a($this->data['stockPriceItem'], \ArrayAccess::class))
             )
         ) {
             $this->data['stockPriceItem'] = [];
         }
 
-        $price = new Price($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
+        $price = new Stock\Price($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
         $data = [];
         if (!empty($id)) {
             $data['id'] = $id;
         }
         $data['ids'] = $code;
         $data['price'] = $value;
-        $this->data['stockPriceItem'][] = $price->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data);
+        $price->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data);
+        $this->data['stockPriceItem'][] = $price;
 
         return $this;
     }
@@ -109,7 +115,6 @@ class Stock extends AbstractAgenda
     public function addImage(string $filepath, string $description = '', int $order = null, bool $default = false): self
     {
         $object = $this->data['header'];
-        /** @var Header $object */
         $object->addImage($filepath, $description, $order, $default);
 
         return $this;
@@ -125,7 +130,6 @@ class Stock extends AbstractAgenda
     public function addCategory(int $categoryId): self
     {
         $object = $this->data['header'];
-        /** @var Header $object */
         $object->addCategory($categoryId);
 
         return $this;
@@ -141,7 +145,6 @@ class Stock extends AbstractAgenda
     public function addIntParameter(array $data): self
     {
         $object = $this->data['header'];
-        /** @var Header $object */
         $object->addIntParameter($data);
 
         return $this;

@@ -33,7 +33,8 @@ class Desc extends AbstractAgenda
         // process partner identity
         if (isset($data['partnerIdentity'])) {
             $partnerIdentity = new Address($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
-            $data['partnerIdentity'] = $partnerIdentity->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['partnerIdentity']);
+            $partnerIdentity->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['partnerIdentity']);
+            $data['partnerIdentity'] = $partnerIdentity;
         }
 
         return parent::setData($data);

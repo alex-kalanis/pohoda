@@ -11,12 +11,6 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda;
 
-use Riesenia\Pohoda\Common\DirectionAsResponseTrait;
-use Riesenia\Pohoda\Common\OptionsResolver;
-use Riesenia\Pohoda\ListRequest\Filter;
-use Riesenia\Pohoda\ListRequest\Limit;
-use Riesenia\Pohoda\ListRequest\RestrictionData;
-use Riesenia\Pohoda\ListRequest\UserFilterName;
 use Symfony\Component\OptionsResolver\Options;
 
 /**
@@ -24,10 +18,10 @@ use Symfony\Component\OptionsResolver\Options;
  *     type: string,
  *     state: string,
  *     namespace: string,
- *     limit?: Limit,
- *     filter?: Filter,
- *     restrictionData?: RestrictionData,
- *     userFilterName?: UserFilterName,
+ *     limit?: ListRequest\Limit,
+ *     filter?: ListRequest\Filter,
+ *     restrictionData?: ListRequest\RestrictionData,
+ *     userFilterName?: ListRequest\UserFilterName,
  *     order?: iterable<Order>,
  *     stock?: iterable<Stock>,
  *     timestamp?: string|\DateTimeInterface,
@@ -36,7 +30,7 @@ use Symfony\Component\OptionsResolver\Options;
  */
 class ListResponse extends AbstractAgenda
 {
-    use DirectionAsResponseTrait;
+    use Common\DirectionAsResponseTrait;
 
     /**
      * Add limit.
@@ -47,7 +41,7 @@ class ListResponse extends AbstractAgenda
      */
     public function addLimit(array $data): self
     {
-        $limit = new Limit($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
+        $limit = new ListRequest\Limit($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
         $limit->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data);
         $this->data['limit'] = $limit;
 
@@ -63,7 +57,7 @@ class ListResponse extends AbstractAgenda
      */
     public function addFilter(array $data): self
     {
-        $filter = new Filter($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
+        $filter = new ListRequest\Filter($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
         $filter->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data);
         $this->data['filter'] = $filter;
 
@@ -79,7 +73,7 @@ class ListResponse extends AbstractAgenda
      */
     public function addRestrictionData(array $data): self
     {
-        $restrictionData = new RestrictionData($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
+        $restrictionData = new ListRequest\RestrictionData($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
         $restrictionData->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data);
         $this->data['restrictionData'] = $restrictionData;
 
@@ -95,7 +89,7 @@ class ListResponse extends AbstractAgenda
      */
     public function addUserFilterName(string $name): self
     {
-        $userFilterName = new UserFilterName($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
+        $userFilterName = new ListRequest\UserFilterName($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
         $userFilterName->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData(['userFilterName' => $name]);
         $this->data['userFilterName'] = $userFilterName;
 
@@ -238,7 +232,7 @@ class ListResponse extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    protected function configureOptions(OptionsResolver $resolver): void
+    protected function configureOptions(Common\OptionsResolver $resolver): void
     {
         // available options
         $resolver->setDefined(['type', 'namespace', 'order', 'orderType', 'invoiceType', 'timestamp', 'validFrom', 'state']);
