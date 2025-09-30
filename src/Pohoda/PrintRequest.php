@@ -11,9 +11,12 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda;
 
-use Riesenia\Pohoda\PrintRequest\PrinterSettings;
-use Riesenia\Pohoda\PrintRequest\Record;
-
+/**
+ * @property array{
+ *     record: PrintRequest\Record,
+ *     printerSettings: PrintRequest\PrinterSettings,
+ * } $data
+ */
 class PrintRequest extends AbstractAgenda
 {
     /**
@@ -22,12 +25,14 @@ class PrintRequest extends AbstractAgenda
     public function setData(array $data): parent
     {
         // process record
-        $record = new Record($this->dependenciesFactory);
-        $data['record'] = $record->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['record']);
+        $record = new PrintRequest\Record($this->dependenciesFactory);
+        $record->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['record']);
+        $data['record'] = $record;
 
         // process printer settings
-        $printerSettings = new PrinterSettings($this->dependenciesFactory);
-        $data['printerSettings'] = $printerSettings->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['printerSettings']);
+        $printerSettings = new PrintRequest\PrinterSettings($this->dependenciesFactory);
+        $printerSettings->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['printerSettings']);
+        $data['printerSettings'] = $printerSettings;
 
         return parent::setData($data);
     }

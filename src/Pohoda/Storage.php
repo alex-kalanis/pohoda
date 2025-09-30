@@ -11,8 +11,13 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda;
 
-use Riesenia\Pohoda\Common\OptionsResolver;
-
+/**
+ * @property array{
+ *     code: string,
+ *     name?: string,
+ *     subStorages?: iterable<Storage>,
+ * } $data
+ */
 class Storage extends AbstractAgenda
 {
     public function getImportRoot(): string
@@ -32,7 +37,7 @@ class Storage extends AbstractAgenda
         if (!isset($this->data['subStorages'])
             || !(
                 is_array($this->data['subStorages'])
-                || (is_object($this->data['subStorages']) && is_a($this->data['subStorages'], \ArrayAccess::class))
+                || (is_a($this->data['subStorages'], \ArrayAccess::class))
             )
         ) {
             $this->data['subStorages'] = [];
@@ -72,7 +77,7 @@ class Storage extends AbstractAgenda
             $storage->addAttribute('name', strval($this->data['name']));
         }
 
-        if (isset($this->data['subStorages']) && is_iterable($this->data['subStorages'])) {
+        if (isset($this->data['subStorages'])) {
             $subStorages = $storage->addChild('str:subStorages', '', $this->namespace('str'));
 
             foreach ($this->data['subStorages'] as $subStorage) {
@@ -85,7 +90,7 @@ class Storage extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    protected function configureOptions(OptionsResolver $resolver): void
+    protected function configureOptions(Common\OptionsResolver $resolver): void
     {
         // available options
         $resolver->setDefined(['code', 'name']);

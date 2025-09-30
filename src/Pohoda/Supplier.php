@@ -11,6 +11,12 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda;
 
+/**
+ * @property array{
+ *     stockItem?: Supplier\StockItem,
+ *     suppliers?: Supplier\SupplierItem,
+ * } $data
+ */
 class Supplier extends AbstractAgenda
 {
     public function getImportRoot(): string
@@ -26,14 +32,16 @@ class Supplier extends AbstractAgenda
         // process stockItem
         if (isset($data['stockItem'])) {
             $stockItem = new Supplier\StockItem($this->dependenciesFactory);
-            $data['stockItem'] = $stockItem->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['stockItem']);
+            $stockItem->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['stockItem']);
+            $data['stockItem'] = $stockItem;
         }
 
         // process suppliers
         if (isset($data['suppliers']) && is_array($data['suppliers'])) {
             $data['suppliers'] = \array_map(function ($supplier) {
-                $SupplierItem = new Supplier\SupplierItem($this->dependenciesFactory);
-                return $SupplierItem->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($supplier['supplierItem']);
+                $supplierItem = new Supplier\SupplierItem($this->dependenciesFactory);
+                $supplierItem->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($supplier['supplierItem']);
+                return $supplierItem;
             }, $data['suppliers']);
         }
 

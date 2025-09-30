@@ -11,8 +11,11 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda;
 
-use Riesenia\Pohoda\Type\TaxDocument;
-
+/**
+ * @property array{
+ *     taxDocument?: Type\TaxDocument,
+ * } $data
+ */
 class IntDoc extends AbstractDocument
 {
     public function getImportRoot(): string
@@ -29,8 +32,9 @@ class IntDoc extends AbstractDocument
      */
     public function addTaxDocument(array $data): self
     {
-        $taxDocument = new TaxDocument($this->dependenciesFactory);
-        $this->data['taxDocument'] = $taxDocument->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data);
+        $taxDocument = new Type\TaxDocument($this->dependenciesFactory);
+        $taxDocument->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data);
+        $this->data['taxDocument'] = $taxDocument;
 
         return $this;
     }

@@ -14,6 +14,14 @@ namespace Riesenia\Pohoda\Document;
 use Riesenia\Pohoda\Common;
 use Riesenia\Pohoda\Type;
 
+/**
+ * @property array{
+ *     parameters?: iterable<Type\Parameter>,
+ *     homeCurrency?: Type\CurrencyItem,
+ *     foreignCurrency?: Type\CurrencyItem,
+ *     stockItem?: Type\StockItem,
+ * } $data
+ */
 abstract class AbstractItem extends AbstractPart
 {
     use Common\AddParameterTrait;
@@ -26,19 +34,22 @@ abstract class AbstractItem extends AbstractPart
         // process home currency
         if (isset($data['homeCurrency'])) {
             $homeCurrency = new Type\CurrencyItem($this->dependenciesFactory);
-            $data['homeCurrency'] = $homeCurrency->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['homeCurrency']);
+            $homeCurrency->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['homeCurrency']);
+            $data['homeCurrency'] = $homeCurrency;
         }
 
         // process foreign currency
         if (isset($data['foreignCurrency'])) {
             $foreignCurrency = new Type\CurrencyItem($this->dependenciesFactory);
-            $data['foreignCurrency'] = $foreignCurrency->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['foreignCurrency']);
+            $foreignCurrency->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['foreignCurrency']);
+            $data['foreignCurrency'] = $foreignCurrency;
         }
 
         // process stock item
         if (isset($data['stockItem'])) {
             $stockItem = new Type\StockItem($this->dependenciesFactory);
-            $data['stockItem'] = $stockItem->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['stockItem']);
+            $stockItem->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['stockItem']);
+            $data['stockItem'] = $stockItem;
         }
 
         return parent::setData($data);

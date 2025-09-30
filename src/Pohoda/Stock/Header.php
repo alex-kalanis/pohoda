@@ -14,8 +14,18 @@ namespace Riesenia\Pohoda\Stock;
 use Riesenia\Pohoda\AbstractAgenda;
 use Riesenia\Pohoda\Common;
 use Riesenia\Pohoda\DI\DependenciesFactory;
-use Riesenia\Pohoda\ValueTransformer\SanitizeEncoding;
+use Riesenia\Pohoda\Type;
 
+/**
+ * @property array{
+ *     parameters?: iterable<Type\Parameter>,
+ *     intrastat?: Intrastat,
+ *     recyclingContrib?: RecyclingContrib,
+ *     pictures?: iterable<Picture>,
+ *     categories?: iterable<Category>,
+ *     intParameters?: iterable<IntParameter>,
+ * } $data
+ */
 class Header extends AbstractAgenda
 {
     use Common\AddParameterTrait;
@@ -24,10 +34,10 @@ class Header extends AbstractAgenda
     protected array $refElements = ['storage', 'typePrice', 'typeRP', 'supplier', 'typeServiceMOSS'];
 
     /** @var string[] */
-    protected array $elements = ['stockType', 'code', 'EAN', 'PLU', 'isSales', 'isSerialNumber', 'isInternet', 'isBatch', 'purchasingRateVAT', 'sellingRateVAT', 'name', 'nameComplement', 'unit', 'unit2', 'unit3', 'coefficient2', 'coefficient3', 'storage', 'typePrice', 'purchasingPrice', 'purchasingPricePayVAT', 'sellingPrice', 'sellingPricePayVAT', 'limitMin', 'limitMax', 'mass', 'volume', 'supplier', 'orderName', 'orderQuantity', 'shortName', 'typeRP', 'guaranteeType', 'guarantee', 'producer', 'typeServiceMOSS', 'description', 'description2', 'note', 'intrastat', 'recyclingContrib'];
+    protected array $elements = ['stockType', 'code', 'EAN', 'PLU', 'isSales', 'isSerialNumber', 'isInternet', 'isBatch', 'purchasingRateVAT', 'purchasingRatePayVAT', 'sellingRateVAT', 'sellingRatePayVAT', 'name', 'nameComplement', 'unit', 'unit2', 'unit3', 'coefficient2', 'coefficient3', 'storage', 'typePrice', 'purchasingPrice', 'purchasingPricePayVAT', 'sellingPrice', 'sellingPricePayVAT', 'limitMin', 'limitMax', 'mass', 'volume', 'supplier', 'orderName', 'orderQuantity', 'shortName', 'typeRP', 'guaranteeType', 'guarantee', 'producer', 'typeServiceMOSS', 'description', 'description2', 'note', 'intrastat', 'recyclingContrib'];
 
     /** @var string[] */
-    protected array $additionalElements = ['weightedPurchasePrice', 'count', 'countIssue', 'countReceivedOrders', 'reservation', 'countIssuedOrders', 'reclamation', 'service'];
+    protected array $additionalElements = ['id', 'weightedPurchasePrice', 'count', 'countIssue', 'countReceivedOrders', 'reservation', 'countIssuedOrders', 'clearanceSale', 'controlLimitTaxLiability', 'discount', 'fixation', 'markRecord', 'news', 'prepare', 'recommended', 'sale', 'reclamation', 'service'];
 
     /** @var int */
     protected int $imagesCounter = 0;
@@ -42,6 +52,8 @@ class Header extends AbstractAgenda
         $this->elementsAttributesMapper = [
             'purchasingPricePayVAT' => new Common\ElementAttributes('purchasingPrice', 'payVAT'),
             'sellingPricePayVAT' => new Common\ElementAttributes('sellingPrice', 'payVAT'),
+            'purchasingRatePayVAT' => new Common\ElementAttributes('purchasingRateVAT', 'value'),
+            'sellingRatePayVAT' => new Common\ElementAttributes('sellingRateVAT', 'value'),
         ];
 
         parent::__construct($dependenciesFactory);
@@ -55,13 +67,15 @@ class Header extends AbstractAgenda
         // process intrastat
         if (isset($data['intrastat'])) {
             $intrastat = new Intrastat($this->dependenciesFactory);
-            $data['intrastat'] = $intrastat->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['intrastat']);
+            $intrastat->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['intrastat']);
+            $data['intrastat'] = $intrastat;
         }
 
         // process recyclingContrib
         if (isset($data['recyclingContrib'])) {
             $recyclingContrib = new RecyclingContrib($this->dependenciesFactory);
-            $data['recyclingContrib'] = $recyclingContrib->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['recyclingContrib']);
+            $recyclingContrib->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['recyclingContrib']);
+            $data['recyclingContrib'] = $recyclingContrib;
         }
 
         return parent::setData($data);
@@ -82,19 +96,20 @@ class Header extends AbstractAgenda
         if (!isset($this->data['pictures'])
             || !(
                 is_array($this->data['pictures'])
-                || (is_object($this->data['pictures']) && is_a($this->data['pictures'], \ArrayAccess::class))
+                || (is_a($this->data['pictures'], \ArrayAccess::class))
             )
         ) {
             $this->data['pictures'] = [];
         }
 
         $picture = new Picture($this->dependenciesFactory);
-        $this->data['pictures'][] = $picture->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData([
+        $picture->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData([
             'filepath' => $filepath,
             'description' => $description,
             'order' => null === $order ? ++$this->imagesCounter : $order,
             'default' => $default,
         ]);
+        $this->data['pictures'][] = $picture;
     }
 
     /**
@@ -109,16 +124,17 @@ class Header extends AbstractAgenda
         if (!isset($this->data['categories'])
             || !(
                 is_array($this->data['categories'])
-                || (is_object($this->data['categories']) && is_a($this->data['categories'], \ArrayAccess::class))
+                || (is_a($this->data['categories'], \ArrayAccess::class))
             )
         ) {
             $this->data['categories'] = [];
         }
 
         $category = new Category($this->dependenciesFactory);
-        $this->data['categories'][] = $category->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData([
+        $category->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData([
             'idCategory' => $categoryId,
         ]);
+        $this->data['categories'][] = $category;
     }
 
     /**
@@ -133,14 +149,15 @@ class Header extends AbstractAgenda
         if (!isset($this->data['intParameters'])
             || !(
                 is_array($this->data['intParameters'])
-                || (is_object($this->data['intParameters']) && is_a($this->data['intParameters'], \ArrayAccess::class))
+                || (is_a($this->data['intParameters'], \ArrayAccess::class))
             )
         ) {
             $this->data['intParameters'] = [];
         }
 
         $intParameters = new IntParameter($this->dependenciesFactory);
-        $this->data['intParameters'][] = $intParameters->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data);
+        $intParameters->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data);
+        $this->data['intParameters'][] = $intParameters;
     }
 
     /**
@@ -204,6 +221,15 @@ class Header extends AbstractAgenda
             $resolver->setNormalizer('countIssuedOrders', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
             $resolver->setNormalizer('reclamation', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
             $resolver->setNormalizer('service', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
+            $resolver->setNormalizer('clearanceSale', $this->dependenciesFactory->getNormalizerFactory()->getClosure('bool'));
+            $resolver->setNormalizer('controlLimitTaxLiability', $this->dependenciesFactory->getNormalizerFactory()->getClosure('bool'));
+            $resolver->setNormalizer('discount', $this->dependenciesFactory->getNormalizerFactory()->getClosure('bool'));
+            $resolver->setNormalizer('fixation', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string90'));
+            $resolver->setNormalizer('markRecord', $this->dependenciesFactory->getNormalizerFactory()->getClosure('bool'));
+            $resolver->setNormalizer('news', $this->dependenciesFactory->getNormalizerFactory()->getClosure('bool'));
+            $resolver->setNormalizer('prepare', $this->dependenciesFactory->getNormalizerFactory()->getClosure('bool'));
+            $resolver->setNormalizer('recommended', $this->dependenciesFactory->getNormalizerFactory()->getClosure('bool'));
+            $resolver->setNormalizer('sale', $this->dependenciesFactory->getNormalizerFactory()->getClosure('bool'));
         }
     }
 }

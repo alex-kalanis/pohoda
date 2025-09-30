@@ -11,14 +11,19 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda;
 
-use Riesenia\Pohoda\Stock\Header;
-use Riesenia\Pohoda\Stock\Price;
-use Riesenia\Pohoda\Stock\StockItem;
-
+/**
+ * @property array{
+ *     actionType: Type\ActionType,
+ *     header: Stock\Header,
+ *     stockDetail?: iterable<Stock\StockItem>,
+ *     stockPriceItem?: iterable<Stock\Price>,
+ * } $data
+ */
 class Stock extends AbstractAgenda
 {
     use Common\AddActionTypeTrait;
     use Common\AddParameterToHeaderTrait;
+    use Common\SetNamespaceTrait;
 
     /**
      * {@inheritdoc}
@@ -27,8 +32,9 @@ class Stock extends AbstractAgenda
     {
         // pass to header
         if (!empty($data)) {
-            $header = new Header($this->dependenciesFactory);
-            $data = ['header' => $header->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data)];
+            $header = new Stock\Header($this->dependenciesFactory);
+            $header->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data);
+            $data = ['header' => $header];
         }
 
         return parent::setData($data);
@@ -51,14 +57,15 @@ class Stock extends AbstractAgenda
         if (!isset($this->data['stockDetail'])
             || !(
                 is_array($this->data['stockDetail'])
-                || (is_object($this->data['stockDetail']) && is_a($this->data['stockDetail'], \ArrayAccess::class))
+                || (is_a($this->data['stockDetail'], \ArrayAccess::class))
             )
         ) {
             $this->data['stockDetail'] = [];
         }
 
-        $stockDetail = new StockItem($this->dependenciesFactory);
-        $this->data['stockDetail'][] = $stockDetail->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data);
+        $stockDetail = new Stock\StockItem($this->dependenciesFactory);
+        $stockDetail->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data);
+        $this->data['stockDetail'][] = $stockDetail;
 
         return $this;
     }
@@ -68,25 +75,30 @@ class Stock extends AbstractAgenda
      *
      * @param string $code
      * @param float  $value
+     * @param string $id
      *
      * @return $this
      */
-    public function addPrice(string $code, float $value): self
+    public function addPrice(string $code, float $value, string $id = ''): self
     {
         if (!isset($this->data['stockPriceItem'])
             || !(
                 is_array($this->data['stockPriceItem'])
-                || (is_object($this->data['stockPriceItem']) && is_a($this->data['stockPriceItem'], \ArrayAccess::class))
+                || (is_a($this->data['stockPriceItem'], \ArrayAccess::class))
             )
         ) {
             $this->data['stockPriceItem'] = [];
         }
 
-        $price = new Price($this->dependenciesFactory);
-        $this->data['stockPriceItem'][] = $price->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData([
-            'ids' => $code,
-            'price' => $value,
-        ]);
+        $price = new Stock\Price($this->dependenciesFactory);
+        $data = [];
+        if (!empty($id)) {
+            $data['id'] = $id;
+        }
+        $data['ids'] = $code;
+        $data['price'] = $value;
+        $price->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data);
+        $this->data['stockPriceItem'][] = $price;
 
         return $this;
     }
@@ -104,7 +116,6 @@ class Stock extends AbstractAgenda
     public function addImage(string $filepath, string $description = '', int $order = null, bool $default = false): self
     {
         $object = $this->data['header'];
-        /** @var Header $object */
         $object->addImage($filepath, $description, $order, $default);
 
         return $this;
@@ -120,7 +131,6 @@ class Stock extends AbstractAgenda
     public function addCategory(int $categoryId): self
     {
         $object = $this->data['header'];
-        /** @var Header $object */
         $object->addCategory($categoryId);
 
         return $this;
@@ -136,7 +146,6 @@ class Stock extends AbstractAgenda
     public function addIntParameter(array $data): self
     {
         $object = $this->data['header'];
-        /** @var Header $object */
         $object->addIntParameter($data);
 
         return $this;
@@ -147,7 +156,12 @@ class Stock extends AbstractAgenda
      */
     public function getXML(): \SimpleXMLElement
     {
-        $xml = $this->createXML()->addChild('stk:stock', '', $this->namespace('stk'));
+        $namespace = empty($this->namespace) ? 'stk' : $this->namespace;
+        $xml = $this->createXML()->addChild(
+            ($this->useOneDirectionalVariables ? $namespace : 'stk'). ':stock',
+            '',
+            $this->namespace(($this->useOneDirectionalVariables ? $namespace : 'stk')),
+        );
         $xml->addAttribute('version', '2.0');
 
         $this->addElements($xml, ['actionType', 'header', 'stockDetail', 'stockPriceItem'], 'stk');

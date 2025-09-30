@@ -30,7 +30,8 @@ class Item extends AbstractItem
     {
         if (isset($data['recyclingContrib'])) {
             $recyclingContrib = new RecyclingContrib($this->dependenciesFactory);
-            $data['recyclingContrib'] = $recyclingContrib->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['recyclingContrib']);
+            $recyclingContrib->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['recyclingContrib']);
+            $data['recyclingContrib'] = $recyclingContrib;
         }
 
         return parent::setData($data);

@@ -13,6 +13,17 @@ namespace Riesenia\Pohoda;
 
 use Riesenia\Pohoda\Common\OptionsResolver;
 
+/**
+ * @property array{
+ *     name: string,
+ *     description?: string,
+ *     sequence?: int,
+ *     displayed?: bool,
+ *     picture?: string,
+ *     note?: string,
+ *     subCategories?: iterable<Category>,
+ * } $data
+ */
 class Category extends AbstractAgenda
 {
     /** @var string[] */
@@ -40,7 +51,7 @@ class Category extends AbstractAgenda
         if (!isset($this->data['subCategories'])
             || !(
                 is_array($this->data['subCategories'])
-                || (is_object($this->data['subCategories']) && is_a($this->data['subCategories'], \ArrayAccess::class))
+                || (is_a($this->data['subCategories'], \ArrayAccess::class))
             )
         ) {
             $this->data['subCategories'] = [];
@@ -77,11 +88,10 @@ class Category extends AbstractAgenda
 
         $this->addElements($category, $this->elements, 'ctg');
 
-        if (isset($this->data['subCategories']) && is_iterable($this->data['subCategories'])) {
+        if (isset($this->data['subCategories'])) {
             $subCategories = $category->addChild('ctg:subCategories', '', $this->namespace('ctg'));
 
             foreach ($this->data['subCategories'] as $subCategory) {
-                /** @var self $subCategory */
                 $subCategory->categoryXML($subCategories);
             }
         }

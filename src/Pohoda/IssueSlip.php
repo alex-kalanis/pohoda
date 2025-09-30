@@ -11,8 +11,11 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda;
 
-use Riesenia\Pohoda\Type\Link;
-
+/**
+ * @property array{
+ *     links?: iterable<Type\Link>,
+ * } $data
+ */
 class IssueSlip extends AbstractDocument
 {
     public function getImportRoot(): string
@@ -32,14 +35,15 @@ class IssueSlip extends AbstractDocument
         if (!isset($this->data['links'])
             || !(
                 is_array($this->data['links'])
-                || (is_object($this->data['links']) && is_a($this->data['links'], \ArrayAccess::class))
+                || (is_a($this->data['links'], \ArrayAccess::class))
             )
         ) {
             $this->data['links'] = [];
         }
 
-        $link = new Link($this->dependenciesFactory);
-        $this->data['links'][] = $link->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data);
+        $link = new Type\Link($this->dependenciesFactory);
+        $link->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data);
+        $this->data['links'][] = $link;
 
         return $this;
     }

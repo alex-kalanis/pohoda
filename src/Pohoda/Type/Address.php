@@ -47,13 +47,15 @@ class Address extends AbstractAgenda
         // process address
         if (isset($data['address'])) {
             $address = new AddressType($this->dependenciesFactory);
-            $data['address'] = $address->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['address']);
+            $address->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['address']);
+            $data['address'] = $address;
         }
 
         // process shipping address
         if (isset($data['shipToAddress'])) {
             $shipTo = new ShipToAddressType($this->dependenciesFactory);
-            $data['shipToAddress'] = $shipTo->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['shipToAddress']);
+            $shipTo->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['shipToAddress']);
+            $data['shipToAddress'] = $shipTo;
         }
 
         return parent::setData($data);

@@ -11,9 +11,21 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda;
 
-use Riesenia\Pohoda\Common\OptionsResolver;
 use Symfony\Component\OptionsResolver\Options;
 
+/**
+ * @property array{
+ *     type: string,
+ *     namespace: string,
+ *     orderType?: string,
+ *     invoiceType?: string,
+ *     limit?: ListRequest\Limit,
+ *     filter?: ListRequest\Filter,
+ *     queryFilter?: ListRequest\QueryFilter,
+ *     restrictionData?: ListRequest\RestrictionData,
+ *     userFilterName?: ListRequest\UserFilterName,
+ * } $data
+ */
 class ListRequest extends AbstractAgenda
 {
     /**
@@ -26,7 +38,8 @@ class ListRequest extends AbstractAgenda
     public function addLimit(array $data): self
     {
         $limit = new ListRequest\Limit($this->dependenciesFactory);
-        $this->data['limit'] = $limit->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data);
+        $limit->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data);
+        $this->data['limit'] = $limit;
 
         return $this;
     }
@@ -41,7 +54,8 @@ class ListRequest extends AbstractAgenda
     public function addFilter(array $data): self
     {
         $filter = new ListRequest\Filter($this->dependenciesFactory);
-        $this->data['filter'] = $filter->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data);
+        $filter->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data);
+        $this->data['filter'] = $filter;
 
         return $this;
     }
@@ -57,7 +71,8 @@ class ListRequest extends AbstractAgenda
     public function addQueryFilter(array $data): self
     {
         $filter = new ListRequest\QueryFilter($this->dependenciesFactory);
-        $this->data['queryFilter'] = $filter->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data);
+        $filter->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data);
+        $this->data['queryFilter'] = $filter;
 
         return $this;
     }
@@ -72,7 +87,8 @@ class ListRequest extends AbstractAgenda
     public function addRestrictionData(array $data): self
     {
         $restrictionData = new ListRequest\RestrictionData($this->dependenciesFactory);
-        $this->data['restrictionData'] = $restrictionData->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data);
+        $restrictionData->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data);
+        $this->data['restrictionData'] = $restrictionData;
 
         return $this;
     }
@@ -87,7 +103,8 @@ class ListRequest extends AbstractAgenda
     public function addUserFilterName(string $name): self
     {
         $userFilterName = new ListRequest\UserFilterName($this->dependenciesFactory);
-        $this->data['userFilterName'] = $userFilterName->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData(['userFilterName' => $name]);
+        $userFilterName->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData(['userFilterName' => $name]);
+        $this->data['userFilterName'] = $userFilterName;
 
         return $this;
     }
@@ -130,7 +147,7 @@ class ListRequest extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    protected function configureOptions(OptionsResolver $resolver): void
+    protected function configureOptions(Common\OptionsResolver $resolver): void
     {
         // available options
         $resolver->setDefined(['type', 'namespace', 'orderType', 'invoiceType']);

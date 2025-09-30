@@ -211,6 +211,62 @@ class ListResponseTest extends CommonTestClass
         $this->assertEquals('<lStk:listStock version="2.0" stockVersion="2.0" dateTimeStamp="2025-07-01T01:00:00" dateValidFrom="2025-07-01" state="ok"><lStk:requestStock><ftr:filter><ftr:storage><typ:ids>MAIN</typ:ids></ftr:storage><ftr:lastChanges>2018-04-29T14:30:00</ftr:lastChanges></ftr:filter></lStk:requestStock></lStk:listStock>', $lib->getXML()->asXML());
     }
 
+    public function testStockWithResponseData(): void
+    {
+        $lib = new Pohoda\ListResponse(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
+        $lib->setDirectionalVariable(true);
+        $lib->setData([
+            'type' => 'Stock',
+            'timestamp' => date_create_immutable('2025-09-01T10:00:00'),
+            'validFrom' => date_create_immutable('2025-09-01'),
+            'state' => 'ok',
+        ]);
+        $stock = $lib->addStock([
+            'id' => 1999,
+            'stockType' => 'card',
+            'code' => '123456',
+            'isSales' => false,
+            'isInternet' => false,
+            'purchasingRateVAT' => 'none',
+            'purchasingRatePayVAT' => 0,
+            'sellingRateVAT' => 'none',
+            'sellingRatePayVAT' => 0,
+            'name' => 'Dummy object',
+            'unit' => 'ks',
+            'storage' => [
+                'id' => '1',
+                'ids' => '01',
+            ],
+            'typePrice' => [
+                'id' => '01',
+                'ids' => 'ACC',
+            ],
+            'weightedPurchasePrice' => 0,
+            'sellingPrice' => 400,
+            'fixation' => 'sellingPrice',
+            'count' => 0.0,
+            'countIssue' => 0.0,
+            'countReceivedOrders' => 0.0,
+            'reservation' => 0.0,
+            'reclamation' => 0.0,
+            'service' => 0.0,
+            'orderQuantity' => 0.0,
+            'countIssuedOrders' => 0.0,
+            'news' => false,
+            'clearanceSale' => false,
+            'sale' => false,
+            'recommended' => false,
+            'discount' => false,
+            'prepare' => false,
+            'controlLimitTaxLiability' => false,
+            'description' => 'This one is longer with escaped HTML elements',
+            'markRecord' => true,
+        ]);
+        $stock->addPrice('Sleva 1', 111, 2);
+        $stock->addPrice('Prodejní', 150, 1);
+        $this->assertEquals('<lStk:listStock version="2.0" dateTimeStamp="2025-09-01T10:00:00" dateValidFrom="2025-09-01" state="ok"><lStk:stock version="2.0"><stk:stockHeader><stk:stockType>card</stk:stockType><stk:code>123456</stk:code><stk:isSales>false</stk:isSales><stk:isInternet>false</stk:isInternet><stk:purchasingRateVAT value="0">none</stk:purchasingRateVAT><stk:sellingRateVAT value="0">none</stk:sellingRateVAT><stk:name>Dummy object</stk:name><stk:unit>ks</stk:unit><stk:storage><typ:id>1</typ:id><typ:ids>01</typ:ids></stk:storage><stk:typePrice><typ:id>01</typ:id><typ:ids>ACC</typ:ids></stk:typePrice><stk:sellingPrice>400</stk:sellingPrice><stk:orderQuantity>0</stk:orderQuantity><stk:description>This one is longer with escaped HTML elements</stk:description><stk:id>1999</stk:id><stk:weightedPurchasePrice>0</stk:weightedPurchasePrice><stk:count>0</stk:count><stk:countIssue>0</stk:countIssue><stk:countReceivedOrders>0</stk:countReceivedOrders><stk:reservation>0</stk:reservation><stk:countIssuedOrders>0</stk:countIssuedOrders><stk:clearanceSale>false</stk:clearanceSale><stk:controlLimitTaxLiability>false</stk:controlLimitTaxLiability><stk:discount>false</stk:discount><stk:fixation>sellingPrice</stk:fixation><stk:markRecord>true</stk:markRecord><stk:news>false</stk:news><stk:prepare>false</stk:prepare><stk:recommended>false</stk:recommended><stk:sale>false</stk:sale><stk:reclamation>0</stk:reclamation><stk:service>0</stk:service></stk:stockHeader><stk:stockPriceItem><stk:stockPrice><typ:id>2</typ:id><typ:ids>Sleva 1</typ:ids><typ:price>111</typ:price></stk:stockPrice><stk:stockPrice><typ:id>1</typ:id><typ:ids>Prodejní</typ:ids><typ:price>150</typ:price></stk:stockPrice></stk:stockPriceItem></lStk:stock></lStk:listStock>', $lib->getXML()->asXML());
+    }
+
     public function testRestrict(): void
     {
         $lib = new Pohoda\ListResponse(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));

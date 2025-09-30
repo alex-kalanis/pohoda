@@ -14,6 +14,13 @@ namespace Riesenia\Pohoda\Document;
 use Riesenia\Pohoda\Common;
 use Riesenia\Pohoda\Type;
 
+/**
+ * @property array{
+ *     parameters?: iterable<Type\Parameter>,
+ *     partnerIdentity?: Type\Address,
+ *     myIdentity?: Type\MyAddress,
+ * } $data
+ */
 abstract class AbstractHeader extends AbstractPart
 {
     use Common\AddParameterTrait;
@@ -26,13 +33,15 @@ abstract class AbstractHeader extends AbstractPart
         // process partner identity
         if (isset($data['partnerIdentity'])) {
             $parentIdentity = new Type\Address($this->dependenciesFactory);
-            $data['partnerIdentity'] = $parentIdentity->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['partnerIdentity']);
+            $parentIdentity->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['partnerIdentity']);
+            $data['partnerIdentity'] = $parentIdentity;
         }
 
         // process my identity
         if (isset($data['myIdentity'])) {
             $myIdentity = new Type\MyAddress($this->dependenciesFactory);
-            $data['myIdentity'] = $myIdentity->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['myIdentity']);
+            $myIdentity->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['myIdentity']);
+            $data['myIdentity'] = $myIdentity;
         }
 
         return parent::setData($data);

@@ -11,8 +11,14 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda;
 
-use Riesenia\Pohoda\IntParam\Settings;
-
+/**
+ * @property array{
+ *     name: string,
+ *     description?: string,
+ *     parameterType: string,
+ *     parameterSettings?: IntParam\Settings,
+ * } $data
+ */
 class IntParam extends AbstractAgenda
 {
     /** @var string[] */
@@ -30,8 +36,9 @@ class IntParam extends AbstractAgenda
 
         // process settings
         if (isset($data['parameterSettings'])) {
-            $parameterSettings = new Settings($this->dependenciesFactory);
-            $data['parameterSettings'] = $parameterSettings->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['parameterSettings']);
+            $parameterSettings = new IntParam\Settings($this->dependenciesFactory);
+            $parameterSettings->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['parameterSettings']);
+            $data['parameterSettings'] = $parameterSettings;
         }
 
         return parent::setData($data);
