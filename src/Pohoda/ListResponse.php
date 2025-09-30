@@ -28,7 +28,7 @@ use Symfony\Component\OptionsResolver\Options;
  *     filter?: Filter,
  *     restrictionData?: RestrictionData,
  *     userFilterName?: UserFilterName,
- *     order?: Order,
+ *     order?: iterable<Order>,
  *     stock?: iterable<Stock>,
  *     timestamp?: string|\DateTimeInterface,
  *     validFrom?: string|\DateTimeInterface,
@@ -110,25 +110,20 @@ class ListResponse extends AbstractAgenda
      * @param array<string, mixed> $summary
      *
      * @return Order
-     *
-     * @todo: more orders in one query
      */
     public function addOrder(array $header, array $items = [], array $summary = []): Order
     {
-        /*
         if (!isset($this->data['order'])
             || !(
                 is_array($this->data['order'])
-                || (is_object($this->data['order']) && is_a($this->data['order'], \ArrayAccess::class))
+                || (is_a($this->data['order'], \ArrayAccess::class))
             )
         ) {
             $this->data['order'] = [];
         }
-        */
         $order = new Order($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
-        // $this->data['order'][] = $order->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($header);
         $order->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($header);
-        $this->data['order'] = $order;
+        $this->data['order'][] = $order;
         foreach ($items as $item) {
             $order->addItem($item);
         }
@@ -189,7 +184,9 @@ class ListResponse extends AbstractAgenda
             }
 
             if ('Order' == $this->data['type'] && (isset($this->data['order']))) {
-                $this->addElements($xml, ['order'], strval($this->data['namespace']));
+                foreach ($this->data['order'] as $orderElement) {
+                    $this->appendNode($xml, $orderElement->getXML());
+                }
 
             } elseif ('Stock' == $this->data['type'] && (isset($this->data['stock']))) {
                 foreach ($this->data['stock'] as $stockElement) {
