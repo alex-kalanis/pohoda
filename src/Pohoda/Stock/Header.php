@@ -23,10 +23,10 @@ class Header extends AbstractAgenda
     protected array $refElements = ['storage', 'typePrice', 'typeRP', 'supplier', 'typeServiceMOSS'];
 
     /** @var string[] */
-    protected array $elements = ['stockType', 'code', 'EAN', 'PLU', 'isSales', 'isSerialNumber', 'isInternet', 'isBatch', 'purchasingRateVAT', 'sellingRateVAT', 'name', 'nameComplement', 'unit', 'unit2', 'unit3', 'coefficient2', 'coefficient3', 'storage', 'typePrice', 'purchasingPrice', 'purchasingPricePayVAT', 'sellingPrice', 'sellingPricePayVAT', 'limitMin', 'limitMax', 'mass', 'volume', 'supplier', 'orderName', 'orderQuantity', 'shortName', 'typeRP', 'guaranteeType', 'guarantee', 'producer', 'typeServiceMOSS', 'description', 'description2', 'note', 'intrastat', 'recyclingContrib'];
+    protected array $elements = ['stockType', 'code', 'EAN', 'PLU', 'isSales', 'isSerialNumber', 'isInternet', 'isBatch', 'purchasingRateVAT', 'purchasingRatePayVAT', 'sellingRateVAT', 'sellingRatePayVAT', 'name', 'nameComplement', 'unit', 'unit2', 'unit3', 'coefficient2', 'coefficient3', 'storage', 'typePrice', 'purchasingPrice', 'purchasingPricePayVAT', 'sellingPrice', 'sellingPricePayVAT', 'limitMin', 'limitMax', 'mass', 'volume', 'supplier', 'orderName', 'orderQuantity', 'shortName', 'typeRP', 'guaranteeType', 'guarantee', 'producer', 'typeServiceMOSS', 'description', 'description2', 'note', 'intrastat', 'recyclingContrib'];
 
     /** @var string[] */
-    protected array $additionalElements = ['weightedPurchasePrice', 'count', 'countIssue', 'countReceivedOrders', 'reservation', 'countIssuedOrders', 'reclamation', 'service'];
+    protected array $additionalElements = ['id', 'weightedPurchasePrice', 'count', 'countIssue', 'countReceivedOrders', 'reservation', 'countIssuedOrders', 'clearanceSale', 'controlLimitTaxLiability', 'discount', 'fixation', 'markRecord', 'news', 'prepare', 'recommended', 'sale', 'reclamation', 'service'];
 
     /** @var int */
     protected int $imagesCounter = 0;
@@ -45,6 +45,8 @@ class Header extends AbstractAgenda
         $this->elementsAttributesMapper = [
             'purchasingPricePayVAT' => new Common\ElementAttributes('purchasingPrice', 'payVAT'),
             'sellingPricePayVAT' => new Common\ElementAttributes('sellingPrice', 'payVAT'),
+            'purchasingRatePayVAT' => new Common\ElementAttributes('purchasingRateVAT', 'value'),
+            'sellingRatePayVAT' => new Common\ElementAttributes('sellingRateVAT', 'value'),
         ];
 
         parent::__construct($namespacesPaths, $sanitizeEncoding, $companyRegistrationNumber, $resolveOptions, $normalizerFactory);
@@ -207,6 +209,15 @@ class Header extends AbstractAgenda
             $resolver->setNormalizer('countIssuedOrders', $this->normalizerFactory->getClosure('float'));
             $resolver->setNormalizer('reclamation', $this->normalizerFactory->getClosure('float'));
             $resolver->setNormalizer('service', $this->normalizerFactory->getClosure('float'));
+            $resolver->setNormalizer('clearanceSale', $this->normalizerFactory->getClosure('bool'));
+            $resolver->setNormalizer('controlLimitTaxLiability', $this->normalizerFactory->getClosure('bool'));
+            $resolver->setNormalizer('discount', $this->normalizerFactory->getClosure('bool'));
+            $resolver->setNormalizer('fixation', $this->normalizerFactory->getClosure('string90'));
+            $resolver->setNormalizer('markRecord', $this->normalizerFactory->getClosure('bool'));
+            $resolver->setNormalizer('news', $this->normalizerFactory->getClosure('bool'));
+            $resolver->setNormalizer('prepare', $this->normalizerFactory->getClosure('bool'));
+            $resolver->setNormalizer('recommended', $this->normalizerFactory->getClosure('bool'));
+            $resolver->setNormalizer('sale', $this->normalizerFactory->getClosure('bool'));
         }
     }
 }
