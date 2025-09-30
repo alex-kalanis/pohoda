@@ -32,6 +32,6 @@ class Price extends AbstractAgenda
     protected function configureOptions(OptionsResolver $resolver): void
     {
         // available options
-        $resolver->setDefined(['ids', 'price']);
+        $resolver->setDefined(['id', 'ids', 'price']);
     }
 }

@@ -19,6 +19,7 @@ class Stock extends AbstractAgenda
 {
     use Common\AddActionTypeTrait;
     use Common\AddParameterToHeaderTrait;
+    use Common\SetNamespaceTrait;
 
     /**
      * {@inheritdoc}
@@ -68,10 +69,11 @@ class Stock extends AbstractAgenda
      *
      * @param string $code
      * @param float  $value
+     * @param string $id
      *
      * @return $this
      */
-    public function addPrice(string $code, float $value): self
+    public function addPrice(string $code, float $value, string $id = ''): self
     {
         if (!isset($this->data['stockPriceItem'])
             || !(
@@ -83,10 +85,13 @@ class Stock extends AbstractAgenda
         }
 
         $price = new Price($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
-        $this->data['stockPriceItem'][] = $price->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData([
-            'ids' => $code,
-            'price' => $value,
-        ]);
+        $data = [];
+        if (!empty($id)) {
+            $data['id'] = $id;
+        }
+        $data['ids'] = $code;
+        $data['price'] = $value;
+        $this->data['stockPriceItem'][] = $price->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data);
 
         return $this;
     }
@@ -147,7 +152,12 @@ class Stock extends AbstractAgenda
      */
     public function getXML(): \SimpleXMLElement
     {
-        $xml = $this->createXML()->addChild('stk:stock', '', $this->namespace('stk'));
+        $namespace = empty($this->namespace) ? 'stk' : $this->namespace;
+        $xml = $this->createXML()->addChild(
+            ($this->useOneDirectionalVariables ? $namespace : 'stk'). ':stock',
+            '',
+            $this->namespace(($this->useOneDirectionalVariables ? $namespace : 'stk')),
+        );
         $xml->addAttribute('version', '2.0');
 
         $this->addElements($xml, ['actionType', 'header', 'stockDetail', 'stockPriceItem'], 'stk');

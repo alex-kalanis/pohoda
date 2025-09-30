@@ -19,6 +19,21 @@ use Riesenia\Pohoda\ListRequest\RestrictionData;
 use Riesenia\Pohoda\ListRequest\UserFilterName;
 use Symfony\Component\OptionsResolver\Options;
 
+/**
+ * @property array{
+ *     type: string,
+ *     state: string,
+ *     namespace: string,
+ *     limit?: Limit,
+ *     filter?: Filter,
+ *     restrictionData?: RestrictionData,
+ *     userFilterName?: UserFilterName,
+ *     order?: Order,
+ *     stock?: iterable<Stock>,
+ *     timestamp?: string|\DateTimeInterface,
+ *     validFrom?: string|\DateTimeInterface,
+ * } $data
+ */
 class ListResponse extends AbstractAgenda
 {
     use DirectionAsResponseTrait;
@@ -33,7 +48,8 @@ class ListResponse extends AbstractAgenda
     public function addLimit(array $data): self
     {
         $limit = new Limit($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
-        $this->data['limit'] = $limit->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data);
+        $limit->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data);
+        $this->data['limit'] = $limit;
 
         return $this;
     }
@@ -48,7 +64,8 @@ class ListResponse extends AbstractAgenda
     public function addFilter(array $data): self
     {
         $filter = new Filter($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
-        $this->data['filter'] = $filter->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data);
+        $filter->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data);
+        $this->data['filter'] = $filter;
 
         return $this;
     }
@@ -63,7 +80,8 @@ class ListResponse extends AbstractAgenda
     public function addRestrictionData(array $data): self
     {
         $restrictionData = new RestrictionData($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
-        $this->data['restrictionData'] = $restrictionData->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data);
+        $restrictionData->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data);
+        $this->data['restrictionData'] = $restrictionData;
 
         return $this;
     }
@@ -78,7 +96,8 @@ class ListResponse extends AbstractAgenda
     public function addUserFilterName(string $name): self
     {
         $userFilterName = new UserFilterName($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
-        $this->data['userFilterName'] = $userFilterName->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData(['userFilterName' => $name]);
+        $userFilterName->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData(['userFilterName' => $name]);
+        $this->data['userFilterName'] = $userFilterName;
 
         return $this;
     }
@@ -108,7 +127,8 @@ class ListResponse extends AbstractAgenda
         */
         $order = new Order($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
         // $this->data['order'][] = $order->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($header);
-        $this->data['order'] = $order->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($header);
+        $order->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($header);
+        $this->data['order'] = $order;
         foreach ($items as $item) {
             $order->addItem($item);
         }
@@ -117,6 +137,30 @@ class ListResponse extends AbstractAgenda
         }
 
         return $order;
+    }
+
+    /**
+     * Add Stock as content
+     *
+     * @param array<string, mixed> $header
+     *
+     * @return Stock
+     */
+    public function addStock(array $header): Stock
+    {
+        if (!isset($this->data['stock'])
+            || !(
+                is_array($this->data['stock'])
+                || (is_a($this->data['stock'], \ArrayAccess::class))
+            )
+        ) {
+            $this->data['stock'] = [];
+        }
+        $stock = new Stock($this->namespacesPaths, $this->sanitizeEncoding, $this->normalizerFactory);
+        $stock->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($header);
+        $this->data['stock'][] = $stock;
+
+        return $stock;
     }
 
     /**
@@ -135,7 +179,9 @@ class ListResponse extends AbstractAgenda
 
             // IntParam and Order doesn't have the version attribute
             if (!in_array($this->data['type'], ['IntParam', 'Order'])) {
-                $xml->addAttribute($this->getLcFirstType() . 'Version', '2.0');
+                if (!isset($this->data['stock'])) {
+                    $xml->addAttribute($this->getLcFirstType() . 'Version', '2.0');
+                }
             }
 
             if (isset($this->data[$this->getLcFirstType() . 'Type'])) {
@@ -144,6 +190,13 @@ class ListResponse extends AbstractAgenda
 
             if ('Order' == $this->data['type'] && (isset($this->data['order']))) {
                 $this->addElements($xml, ['order'], strval($this->data['namespace']));
+
+            } elseif ('Stock' == $this->data['type'] && (isset($this->data['stock']))) {
+                foreach ($this->data['stock'] as $stockElement) {
+                    // set namespace
+                    $stockElement->setNamespace('lStk');
+                    $this->appendNode($xml, $stockElement->getXML());
+                }
 
             } else {
                 $request = $xml->addChild($this->data['namespace'] . ':' . $this->whichDirection($this->directionAsResponse) . $this->data['type']);
