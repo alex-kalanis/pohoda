@@ -11,16 +11,19 @@ declare(strict_types=1);
 
 namespace spec\Riesenia\Pohoda;
 
+require_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'DiTrait.php';
+
 use PhpSpec\ObjectBehavior;
-use Riesenia\Pohoda\Common\NamespacesPaths;
 use Riesenia\Pohoda\Storage;
-use Riesenia\Pohoda\ValueTransformer;
+use spec\Riesenia\DiTrait;
 
 class StorageSpec extends ObjectBehavior
 {
+    use DiTrait;
+
     public function let(): void
     {
-        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
+        $this->beConstructedWith($this->getBasicDi());
         $this->setData([
             'code' => 'MAIN',
         ]);
@@ -39,7 +42,7 @@ class StorageSpec extends ObjectBehavior
 
     public function it_can_add_substorages(): void
     {
-        $sub = new Storage(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
+        $sub = new Storage($this->getBasicDi());
         $sub->setData([
             'code' => 'Sub',
             'name' => 'Sub',
@@ -49,7 +52,7 @@ class StorageSpec extends ObjectBehavior
 
         $this->getXML()->asXML()->shouldReturn('<str:storage version="2.0"><str:itemStorage code="MAIN"><str:subStorages><str:itemStorage code="Sub" name="Sub"/></str:subStorages></str:itemStorage></str:storage>');
 
-        $subsub = new Storage(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
+        $subsub = new Storage($this->getBasicDi());
         $subsub->setData([
             'code' => 'SubSub',
             'name' => 'SubSub',

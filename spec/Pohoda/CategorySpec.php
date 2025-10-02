@@ -11,16 +11,19 @@ declare(strict_types=1);
 
 namespace spec\Riesenia\Pohoda;
 
+require_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'DiTrait.php';
+
 use PhpSpec\ObjectBehavior;
 use Riesenia\Pohoda\Category;
-use Riesenia\Pohoda\Common\NamespacesPaths;
-use Riesenia\Pohoda\ValueTransformer;
+use spec\Riesenia\DiTrait;
 
 class CategorySpec extends ObjectBehavior
 {
+    use DiTrait;
+
     public function let(): void
     {
-        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
+        $this->beConstructedWith($this->getBasicDi());
         $this->setData([
             'name' => 'Main',
             'sequence' => 1,
@@ -41,14 +44,14 @@ class CategorySpec extends ObjectBehavior
 
     public function it_can_add_subcategories(): void
     {
-        $sub = new Category(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
+        $sub = new Category($this->getBasicDi());
         $sub->setData([
             'name' => 'Sub',
             'sequence' => 1,
             'displayed' => true,
         ]);
 
-        $subsub = new Category(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
+        $subsub = new Category($this->getBasicDi());
         $subsub->setData([
             'name' => 'SubSub',
             'sequence' => 1,
@@ -57,7 +60,7 @@ class CategorySpec extends ObjectBehavior
 
         $sub->addSubcategory($subsub);
 
-        $sub2 = new Category(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
+        $sub2 = new Category($this->getBasicDi());
         $sub2->setData([
             'name' => 'Sub2',
             'sequence' => '2',

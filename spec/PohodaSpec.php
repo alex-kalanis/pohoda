@@ -11,21 +11,23 @@ declare(strict_types=1);
 
 namespace spec\Riesenia;
 
+require_once __DIR__ . DIRECTORY_SEPARATOR . 'DiTrait.php';
+require_once __DIR__ . DIRECTORY_SEPARATOR . 'Capitalize.php';
+
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Riesenia\Pohoda;
-use Riesenia\Pohoda\Common\NamespacesPaths;
-use Riesenia\Pohoda\Stock;
-use Riesenia\Pohoda\ValueTransformer;
 
 class PohodaSpec extends ObjectBehavior
 {
-    protected ValueTransformer\SanitizeEncoding $sanitization;
+    use DiTrait;
+
+    protected Pohoda\ValueTransformer\SanitizeEncoding $sanitization;
 
     public function let(): void
     {
-        $this->sanitization = new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing());
-        $this->beConstructedWith(Pohoda\Common\CompanyRegistrationNumber::init('123'), $this->sanitization);
+        $this->sanitization = new Pohoda\ValueTransformer\SanitizeEncoding(new Pohoda\ValueTransformer\Listing());
+        $this->beConstructedWith(Pohoda\Common\CompanyRegistrationNumber::init('123'), $this->getBasicDi($this->sanitization));
     }
 
     public function it_is_initializable(): void
@@ -58,7 +60,7 @@ class PohodaSpec extends ObjectBehavior
             'storage' => 'STORAGE',
             'typePrice' => ['id' => 1],
         ];
-        $stock = new Stock(new NamespacesPaths(), $this->sanitization);
+        $stock = new Pohoda\Stock($this->getBasicDi());
         $stock->setData($data);
 
         $this->open($tmpFile, 'ABC')->shouldReturn(true);
@@ -86,7 +88,7 @@ class PohodaSpec extends ObjectBehavior
             'storage' => 'STORAGE',
             'typePrice' => ['id' => 1],
         ];
-        $stock = new Stock(new NamespacesPaths(), $this->sanitization);
+        $stock = new Pohoda\Stock($this->getBasicDi());
         $stock->setData($data);
 
         $this->open(null, 'ABC')->shouldReturn(true);
@@ -186,7 +188,7 @@ class PohodaSpec extends ObjectBehavior
             'storage' => 'storage3',
             'typePrice' => ['id' => 4],
         ];
-        $stock = new Stock(new NamespacesPaths(), $this->sanitization);
+        $stock = new Pohoda\Stock($this->getBasicDi($this->sanitization));
         $stock->setData($data);
 
         // set for each run
@@ -214,7 +216,7 @@ class PohodaSpec extends ObjectBehavior
             'storage' => 'storage3',
             'typePrice' => ['id' => 4],
         ];
-        $stock = new Stock(new NamespacesPaths(), $this->sanitization);
+        $stock = new Pohoda\Stock($this->getBasicDi($this->sanitization));
         $stock->setData($data);
 
         $this->sanitization->willBeSanitized(true);
@@ -228,14 +230,5 @@ class PohodaSpec extends ObjectBehavior
         // for class version it's passable when it will process test and other tests does not been affected
         //        $this->sanitization->willBeSanitized(false);
         //        expect(\count($this->sanitization->getListing()->clear()->getTransformers()))->toBe(0);
-    }
-}
-
-
-class Capitalize implements Pohoda\ValueTransformer\ValueTransformerInterface
-{
-    public function transform(string $value): string
-    {
-        return \strtoupper($value);
     }
 }

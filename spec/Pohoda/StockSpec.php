@@ -11,15 +11,18 @@ declare(strict_types=1);
 
 namespace spec\Riesenia\Pohoda;
 
+require_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'DiTrait.php';
+
 use PhpSpec\ObjectBehavior;
-use Riesenia\Pohoda\Common\NamespacesPaths;
-use Riesenia\Pohoda\ValueTransformer;
+use spec\Riesenia\DiTrait;
 
 class StockSpec extends ObjectBehavior
 {
+    use DiTrait;
+
     public function let(): void
     {
-        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
+        $this->beConstructedWith($this->getBasicDi());
         $this->setData([
             'code' => 'CODE',
             'name' => 'NAME',
@@ -132,7 +135,7 @@ class StockSpec extends ObjectBehavior
 
     protected function it_can_delete_stock(): void
     {
-        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
+        $this->beConstructedWith($this->getBasicDi());
 
         $this->addActionType('delete', [
             'code' => 'CODE',

@@ -11,15 +11,20 @@ declare(strict_types=1);
 
 namespace spec\Riesenia\Pohoda;
 
+require_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'DiTrait.php';
+
 use PhpSpec\ObjectBehavior;
 use Riesenia\Pohoda\Common\NamespacesPaths;
 use Riesenia\Pohoda\ValueTransformer;
+use spec\Riesenia\DiTrait;
 
 class CashSlipSpec extends ObjectBehavior
 {
+    use DiTrait;
+
     public function let()
     {
-        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
+        $this->beConstructedWith($this->getBasicDi());
         $this->setData([
             'date' => '2015-01-10',
             'text' => 'Prod',

@@ -11,15 +11,18 @@ declare(strict_types=1);
 
 namespace spec\Riesenia\Pohoda;
 
+require_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'DiTrait.php';
+
 use PhpSpec\ObjectBehavior;
-use Riesenia\Pohoda\Common\NamespacesPaths;
-use Riesenia\Pohoda\ValueTransformer;
+use spec\Riesenia\DiTrait;
 
 class OrderSpec extends ObjectBehavior
 {
+    use DiTrait;
+
     public function constructSelf(): void
     {
-        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
+        $this->beConstructedWith($this->getBasicDi());
         $this->setData([
             'partnerIdentity' => [
                 'id' => 25,
@@ -119,7 +122,7 @@ class OrderSpec extends ObjectBehavior
 
     public function it_can_delete_order(): void
     {
-        $this->beConstructedWith(new NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
+        $this->beConstructedWith($this->getBasicDi());
 
         $this->addActionType('delete', [
             'number' => '222',
