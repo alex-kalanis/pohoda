@@ -4,7 +4,6 @@ namespace tests\AgendaTests;
 
 use tests\CommonTestClass;
 use Riesenia\Pohoda;
-use Riesenia\Pohoda\ValueTransformer;
 
 class StockTransferTest extends CommonTestClass
 {
@@ -65,7 +64,7 @@ class StockTransferTest extends CommonTestClass
 
     protected function getLib(): Pohoda\StockTransfer
     {
-        $lib = new Pohoda\StockTransfer(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
+        $lib = new Pohoda\StockTransfer($this->getBasicDi());
         return $lib->setData([
             'date' => '2015-01-10',
             'store' => [

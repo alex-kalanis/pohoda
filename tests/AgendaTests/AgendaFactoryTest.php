@@ -22,7 +22,7 @@ class XAgendaNotInit extends AbstractAgenda
 
 class XAgendaNotInstance
 {
-    public function __construct(object $obj1, object $obj2, object $obj3) {}
+    public function __construct(object $obj1) {}
 }
 
 
@@ -32,14 +32,13 @@ namespace tests\AgendaTests;
 
 use DomainException;
 use Riesenia\Pohoda;
-use Riesenia\Pohoda\ValueTransformer;
 use tests\CommonTestClass;
 
 class AgendaFactoryTest extends CommonTestClass
 {
     public function testSuccess(): void
     {
-        $lib = new Pohoda\DI\AgendaReflectFactory(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
+        $lib = new Pohoda\DI\AgendaReflectFactory($this->getBasicDi());
         $agenda = $lib->getAgenda('Bank');
         $this->assertInstanceOf(Pohoda\AbstractAgenda::class, $agenda);
         $this->assertFalse($agenda->canImportRecursive());
@@ -48,7 +47,7 @@ class AgendaFactoryTest extends CommonTestClass
     public function testNonExistingEntity(): void
     {
         // this thing is ignored by phpstan, but called here
-        $lib = new Pohoda\DI\AgendaReflectFactory(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
+        $lib = new Pohoda\DI\AgendaReflectFactory($this->getBasicDi());
         $this->expectExceptionMessage('Agenda class does not exists: ');
         $this->expectException(DomainException::class);
         $lib->getAgenda('this_class_does_not_exists');
@@ -56,7 +55,7 @@ class AgendaFactoryTest extends CommonTestClass
 
     public function testAbstractEntity(): void
     {
-        $lib = new Pohoda\DI\AgendaReflectFactory(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
+        $lib = new Pohoda\DI\AgendaReflectFactory($this->getBasicDi());
         $this->expectExceptionMessage('Agenda class cannot be initialized: ');
         $this->expectException(DomainException::class);
         $lib->getAgenda('AbstractDocument');
@@ -64,7 +63,7 @@ class AgendaFactoryTest extends CommonTestClass
 
     public function testBadConstructEntity(): void
     {
-        $lib = new Pohoda\DI\AgendaReflectFactory(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
+        $lib = new Pohoda\DI\AgendaReflectFactory($this->getBasicDi());
         $this->expectExceptionMessage('Agenda class cannot be initialized: XAgendaNotInit');
         $this->expectException(DomainException::class);
         $lib->getAgenda('XAgendaNotInit');
@@ -72,7 +71,7 @@ class AgendaFactoryTest extends CommonTestClass
 
     public function testEntityNotInstance(): void
     {
-        $lib = new Pohoda\DI\AgendaReflectFactory(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
+        $lib = new Pohoda\DI\AgendaReflectFactory($this->getBasicDi());
         $this->expectExceptionMessage('Agenda class is not an instance of AbstractAgenda: ');
         $this->expectException(DomainException::class);
         $lib->getAgenda('XAgendaNotInstance');

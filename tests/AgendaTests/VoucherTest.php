@@ -4,7 +4,6 @@ namespace tests\AgendaTests;
 
 use tests\CommonTestClass;
 use Riesenia\Pohoda;
-use Riesenia\Pohoda\ValueTransformer;
 
 class VoucherTest extends CommonTestClass
 {
@@ -65,7 +64,7 @@ class VoucherTest extends CommonTestClass
 
     protected function getLib(): Pohoda\Voucher
     {
-        $lib = new Pohoda\Voucher(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
+        $lib = new Pohoda\Voucher($this->getBasicDi());
         return $lib->setData([
             'id' => '123456',
         ]);

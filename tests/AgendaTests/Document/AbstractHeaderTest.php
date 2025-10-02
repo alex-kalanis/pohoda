@@ -4,22 +4,19 @@ namespace tests\AgendaTests\Document;
 
 use tests\CommonTestClass;
 use LogicException;
-use Riesenia\Pohoda\Common\NamespacesPaths;
-use Riesenia\Pohoda\ValueTransformer\Listing;
-use Riesenia\Pohoda\ValueTransformer\SanitizeEncoding;
 
 class AbstractHeaderTest extends CommonTestClass
 {
     public function testNoNamespace(): void
     {
-        $lib = new XDocumentHeader(new NamespacesPaths(), new SanitizeEncoding(new Listing()));
+        $lib = new XDocumentHeader($this->getBasicDi());
         $this->expectException(LogicException::class);
         $lib->getXML();
     }
 
     public function testNoPrefix(): void
     {
-        $lib = new XDocumentHeader(new NamespacesPaths(), new SanitizeEncoding(new Listing()));
+        $lib = new XDocumentHeader($this->getBasicDi());
         $lib->setNamespace('bar');
         $this->expectException(LogicException::class);
         $lib->getXML();

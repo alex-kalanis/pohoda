@@ -4,7 +4,6 @@ namespace tests\AgendaTests;
 
 use tests\CommonTestClass;
 use Riesenia\Pohoda;
-use Riesenia\Pohoda\ValueTransformer;
 
 class IntDocTest extends CommonTestClass
 {
@@ -82,7 +81,7 @@ class IntDocTest extends CommonTestClass
 
     protected function getLib(): Pohoda\IntDoc
     {
-        $lib = new Pohoda\IntDoc(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
+        $lib = new Pohoda\IntDoc($this->getBasicDi());
         return $lib->setData([
             'partnerIdentity' => [
                 'id' => 25,

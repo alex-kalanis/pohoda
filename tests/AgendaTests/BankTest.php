@@ -4,7 +4,6 @@ namespace tests\AgendaTests;
 
 use tests\CommonTestClass;
 use Riesenia\Pohoda;
-use Riesenia\Pohoda\ValueTransformer;
 
 class BankTest extends CommonTestClass
 {
@@ -76,10 +75,7 @@ class BankTest extends CommonTestClass
 
     protected function getLib(): Pohoda\Bank
     {
-        $lib = new Pohoda\Bank(
-            new Pohoda\Common\NamespacesPaths(),
-            new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()),
-        );
+        $lib = new Pohoda\Bank($this->getBasicDi());
         return $lib->setData([
             'bankType' => 'receipt',
             'account' => 'KB',
@@ -103,10 +99,7 @@ class BankTest extends CommonTestClass
     // testing RefItem in AbstractAgenda
     public function testItem1(): void
     {
-        $lib = new Pohoda\Bank\Item(
-            new Pohoda\Common\NamespacesPaths(),
-            new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()),
-        );
+        $lib = new Pohoda\Bank\Item($this->getBasicDi());
         $lib->setData([
             'accounting' => [
                 'which' => [ // deeper, list
@@ -123,10 +116,7 @@ class BankTest extends CommonTestClass
 
     public function testItem2(): void
     {
-        $lib = new Pohoda\Bank\Item(
-            new Pohoda\Common\NamespacesPaths(),
-            new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()),
-        );
+        $lib = new Pohoda\Bank\Item($this->getBasicDi());
         $lib->setData([
             'accounting' => [
                 'which' => [ // deeper, items

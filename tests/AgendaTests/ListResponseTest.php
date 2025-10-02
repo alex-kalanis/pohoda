@@ -4,13 +4,12 @@ namespace tests\AgendaTests;
 
 use tests\CommonTestClass;
 use Riesenia\Pohoda;
-use Riesenia\Pohoda\ValueTransformer;
 
 class ListResponseTest extends CommonTestClass
 {
     public function testCategory(): void
     {
-        $lib = new Pohoda\ListResponse(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
+        $lib = new Pohoda\ListResponse($this->getBasicDi());
         $lib->setData([
             'type' => 'Category',
             'timestamp' => date_create_immutable('2025-07-01T01:00:00'),
@@ -21,7 +20,7 @@ class ListResponseTest extends CommonTestClass
 
     public function testActionPrice(): void
     {
-        $lib = new Pohoda\ListResponse(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
+        $lib = new Pohoda\ListResponse($this->getBasicDi());
         $lib->setData([
             'type' => 'ActionPrice',
             'timestamp' => date_create_immutable('2025-07-01T01:00:00'),
@@ -32,7 +31,7 @@ class ListResponseTest extends CommonTestClass
 
     public function testOrder(): void
     {
-        $lib = new Pohoda\ListResponse(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
+        $lib = new Pohoda\ListResponse($this->getBasicDi());
         $lib->setData([
             'type' => 'Order',
             'timestamp' => date_create_immutable('2025-07-01T01:00:00'),
@@ -43,7 +42,7 @@ class ListResponseTest extends CommonTestClass
 
     public function testOrder2(): void
     {
-        $lib = new Pohoda\ListResponse(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
+        $lib = new Pohoda\ListResponse($this->getBasicDi());
         $lib->setDirectionAsResponse(true);
         $lib->setDirectionalVariable(true);
         $lib->setData([
@@ -82,7 +81,7 @@ class ListResponseTest extends CommonTestClass
 
     public function testAdvanceInvoice(): void
     {
-        $lib = new Pohoda\ListResponse(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
+        $lib = new Pohoda\ListResponse($this->getBasicDi());
         $lib->setData([
             'type' => 'Invoice',
             'invoiceType' => 'issuedAdvanceInvoice',
@@ -94,7 +93,7 @@ class ListResponseTest extends CommonTestClass
 
     public function testVydejka(): void
     {
-        $lib = new Pohoda\ListResponse(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
+        $lib = new Pohoda\ListResponse($this->getBasicDi());
         $lib->setData([
             'type' => 'Vydejka',
             'timestamp' => date_create_immutable('2025-07-01T01:00:00'),
@@ -105,7 +104,7 @@ class ListResponseTest extends CommonTestClass
 
     public function testIssueSlip(): void
     {
-        $lib = new Pohoda\ListResponse(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
+        $lib = new Pohoda\ListResponse($this->getBasicDi());
         $lib->setData([
             'type' => 'IssueSlip',
             'timestamp' => date_create_immutable('2025-07-01T01:00:00'),
@@ -116,7 +115,7 @@ class ListResponseTest extends CommonTestClass
 
     public function testProdejka(): void
     {
-        $lib = new Pohoda\ListResponse(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
+        $lib = new Pohoda\ListResponse($this->getBasicDi());
         $lib->setData([
             'type' => 'Prodejka',
             'timestamp' => date_create_immutable('2025-07-01T01:00:00'),
@@ -127,7 +126,7 @@ class ListResponseTest extends CommonTestClass
 
     public function testCashSlip(): void
     {
-        $lib = new Pohoda\ListResponse(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
+        $lib = new Pohoda\ListResponse($this->getBasicDi());
         $lib->setData([
             'type' => 'CashSlip',
             'timestamp' => date_create_immutable('2025-07-01T01:00:00'),
@@ -139,7 +138,7 @@ class ListResponseTest extends CommonTestClass
 
     public function testAddressBook(): void
     {
-        $lib = new Pohoda\ListResponse(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
+        $lib = new Pohoda\ListResponse($this->getBasicDi());
         $lib->setData([
             'type' => 'AddressBook',
             'timestamp' => date_create_immutable('2025-07-01T01:00:00'),
@@ -151,7 +150,7 @@ class ListResponseTest extends CommonTestClass
 
     public function testInitParams(): void
     {
-        $lib = new Pohoda\ListResponse(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
+        $lib = new Pohoda\ListResponse($this->getBasicDi());
         $lib->setData([
             'type' => 'IntParam',
             'timestamp' => date_create_immutable('2025-07-01T01:00:00'),
@@ -162,7 +161,7 @@ class ListResponseTest extends CommonTestClass
 
     public function testContract(): void
     {
-        $lib = new Pohoda\ListResponse(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
+        $lib = new Pohoda\ListResponse($this->getBasicDi());
         $lib->setData([
             'type' => 'Contract',
             'timestamp' => date_create_immutable('2025-07-01T01:00:00'),
@@ -177,7 +176,7 @@ class ListResponseTest extends CommonTestClass
 
     public function testUserList(): void
     {
-        $lib = new Pohoda\ListResponse(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
+        $lib = new Pohoda\ListResponse($this->getBasicDi());
         $lib->setData([
             'type' => 'UserList',
             'timestamp' => date_create_immutable('2025-07-01T01:00:00'),
@@ -188,7 +187,7 @@ class ListResponseTest extends CommonTestClass
 
     public function testInvoiceWithFilterName(): void
     {
-        $lib = new Pohoda\ListResponse(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
+        $lib = new Pohoda\ListResponse($this->getBasicDi());
         $lib->setData([
             'type' => 'Invoice',
             'timestamp' => date_create_immutable('2025-07-01T01:00:00'),
@@ -200,7 +199,7 @@ class ListResponseTest extends CommonTestClass
 
     public function testStockWithComplexFilter(): void
     {
-        $lib = new Pohoda\ListResponse(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
+        $lib = new Pohoda\ListResponse($this->getBasicDi());
         $lib->setData([
             'type' => 'Stock',
             'timestamp' => date_create_immutable('2025-07-01T01:00:00'),
@@ -213,7 +212,7 @@ class ListResponseTest extends CommonTestClass
 
     public function testStockWithResponseData(): void
     {
-        $lib = new Pohoda\ListResponse(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
+        $lib = new Pohoda\ListResponse($this->getBasicDi());
         $lib->setDirectionalVariable(true);
         $lib->setData([
             'type' => 'Stock',
@@ -269,7 +268,7 @@ class ListResponseTest extends CommonTestClass
 
     public function testRestrict(): void
     {
-        $lib = new Pohoda\ListResponse(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
+        $lib = new Pohoda\ListResponse($this->getBasicDi());
         $lib->setData([
             'type' => 'Invoice',
             'timestamp' => date_create_immutable('2025-07-01T01:00:00'),

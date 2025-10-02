@@ -4,7 +4,6 @@ namespace tests\AgendaTests;
 
 use tests\CommonTestClass;
 use Riesenia\Pohoda;
-use Riesenia\Pohoda\ValueTransformer;
 
 class IntParamTest extends CommonTestClass
 {
@@ -23,7 +22,7 @@ class IntParamTest extends CommonTestClass
 
     public function testCreateList(): void
     {
-        $lib = new Pohoda\IntParam(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
+        $lib = new Pohoda\IntParam($this->getBasicDi());
         $lib->setData([
             'name' => 'NAME',
             'parameterType' => 'listValue',
@@ -34,7 +33,7 @@ class IntParamTest extends CommonTestClass
 
     protected function getLib(): Pohoda\IntParam
     {
-        $lib = new Pohoda\IntParam(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
+        $lib = new Pohoda\IntParam($this->getBasicDi());
         return $lib->setData([
             'name' => 'NAME',
             'parameterType' => 'textValue',

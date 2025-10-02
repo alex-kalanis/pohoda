@@ -4,7 +4,6 @@ namespace tests\AgendaTests;
 
 use tests\CommonTestClass;
 use Riesenia\Pohoda;
-use Riesenia\Pohoda\ValueTransformer;
 
 class StockTest extends CommonTestClass
 {
@@ -106,7 +105,7 @@ class StockTest extends CommonTestClass
 
     public function testDeleteStock(): void
     {
-        $lib = new Pohoda\Stock(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
+        $lib = new Pohoda\Stock($this->getBasicDi());
         $lib->addActionType('delete', [
             'code' => 'CODE',
             'store' => ['ids' => 'STORAGE'],
@@ -117,7 +116,7 @@ class StockTest extends CommonTestClass
 
     public function testExtendedStock(): void
     {
-        $lib = new Pohoda\Stock(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
+        $lib = new Pohoda\Stock($this->getBasicDi());
         $lib->setDirectionalVariable(true);
         $lib->setData([
             'code' => 'CODE',
@@ -153,7 +152,7 @@ class StockTest extends CommonTestClass
 
     protected function getLib(): Pohoda\Stock
     {
-        $lib = new Pohoda\Stock(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
+        $lib = new Pohoda\Stock($this->getBasicDi());
         return $lib->setData([
             'code' => 'CODE',
             'name' => 'NAME',

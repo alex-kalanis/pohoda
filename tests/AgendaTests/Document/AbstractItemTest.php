@@ -4,22 +4,19 @@ namespace tests\AgendaTests\Document;
 
 use tests\CommonTestClass;
 use LogicException;
-use Riesenia\Pohoda\Common\NamespacesPaths;
-use Riesenia\Pohoda\ValueTransformer\Listing;
-use Riesenia\Pohoda\ValueTransformer\SanitizeEncoding;
 
 class AbstractItemTest extends CommonTestClass
 {
     public function testNoNamespace(): void
     {
-        $lib = new XDocumentItem(new NamespacesPaths(), new SanitizeEncoding(new Listing()));
+        $lib = new XDocumentItem($this->getBasicDi());
         $this->expectException(LogicException::class);
         $lib->getXML();
     }
 
     public function testNoPrefix(): void
     {
-        $lib = new XDocumentItem(new NamespacesPaths(), new SanitizeEncoding(new Listing()));
+        $lib = new XDocumentItem($this->getBasicDi());
         $lib->setNamespace('bar');
         $this->expectException(LogicException::class);
         $lib->getXML();
@@ -40,7 +37,7 @@ class AbstractItemTest extends CommonTestClass
                 ],
             ],
         ];
-        $lib = new XDocumentItem(new NamespacesPaths(), new SanitizeEncoding(new Listing()));
+        $lib = new XDocumentItem($this->getBasicDi());
         $lib->setData($data);
         $lib->setNamespace('lst');
         $lib->setNodePrefix('test');

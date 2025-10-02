@@ -5,8 +5,6 @@ namespace tests\AgendaTests\Type;
 use tests\CommonTestClass;
 use Riesenia\Pohoda;
 use Riesenia\Pohoda\Type\CurrencyHome;
-use Riesenia\Pohoda\ValueTransformer\Listing;
-use Riesenia\Pohoda\ValueTransformer\SanitizeEncoding;
 
 class CurrencyHomeTest extends CommonTestClass
 {
@@ -19,11 +17,8 @@ class CurrencyHomeTest extends CommonTestClass
         $this->assertNull($lib->getImportRoot());
     }
 
-    protected function getLib(bool $resolve = true): CurrencyHome
+    protected function getLib(): CurrencyHome
     {
-        return new CurrencyHome(
-            new Pohoda\Common\NamespacesPaths(),
-            new SanitizeEncoding(new Listing()),
-        );
+        return new CurrencyHome($this->getBasicDi());
     }
 }

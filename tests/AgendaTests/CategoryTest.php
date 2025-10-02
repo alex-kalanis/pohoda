@@ -4,7 +4,6 @@ namespace tests\AgendaTests;
 
 use tests\CommonTestClass;
 use Riesenia\Pohoda;
-use Riesenia\Pohoda\ValueTransformer;
 
 class CategoryTest extends CommonTestClass
 {
@@ -23,14 +22,14 @@ class CategoryTest extends CommonTestClass
 
     public function testAddSubCategories(): void
     {
-        $sub = new Pohoda\Category(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
+        $sub = new Pohoda\Category($this->getBasicDi());
         $sub->setData([
             'name' => 'Sub',
             'sequence' => 1,
             'displayed' => true,
         ]);
 
-        $subSub = new Pohoda\Category(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
+        $subSub = new Pohoda\Category($this->getBasicDi());
         $subSub->setData([
             'name' => 'SubSub',
             'sequence' => 1,
@@ -39,7 +38,7 @@ class CategoryTest extends CommonTestClass
 
         $sub->addSubcategory($subSub);
 
-        $sub2 = new Pohoda\Category(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
+        $sub2 = new Pohoda\Category($this->getBasicDi());
         $sub2->setData([
             'name' => 'Sub2',
             'sequence' => '2',
@@ -55,7 +54,7 @@ class CategoryTest extends CommonTestClass
 
     protected function getLib(): Pohoda\Category
     {
-        $lib = new Pohoda\Category(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
+        $lib = new Pohoda\Category($this->getBasicDi());
         return $lib->setData([
             'name' => 'Main',
             'sequence' => 1,

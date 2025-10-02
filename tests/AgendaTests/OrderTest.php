@@ -4,7 +4,6 @@ namespace tests\AgendaTests;
 
 use tests\CommonTestClass;
 use Riesenia\Pohoda;
-use Riesenia\Pohoda\ValueTransformer;
 
 class OrderTest extends CommonTestClass
 {
@@ -83,7 +82,7 @@ class OrderTest extends CommonTestClass
 
     public function testCustomHeader(): void
     {
-        $lib = new Pohoda\Order(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
+        $lib = new Pohoda\Order($this->getBasicDi());
         $lib->setDirectionalVariable(true);
         $lib->setData([
             'numberOrder' => '1234567890',
@@ -95,14 +94,14 @@ class OrderTest extends CommonTestClass
 
     public function testHeaderKillNamespace(): void
     {
-        $lib = new Pohoda\Order\Header(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
+        $lib = new Pohoda\Order\Header($this->getBasicDi());
         $this->expectException(\LogicException::class);
         $lib->getXML();
     }
 
     public function testHeaderKillNodePrefix(): void
     {
-        $lib = new Pohoda\Order\Header(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
+        $lib = new Pohoda\Order\Header($this->getBasicDi());
         $lib->setNamespace('test');
         $this->expectException(\LogicException::class);
         $lib->getXML();
@@ -110,14 +109,14 @@ class OrderTest extends CommonTestClass
 
     public function testItemKillNamespace(): void
     {
-        $lib = new Pohoda\Order\Item(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
+        $lib = new Pohoda\Order\Item($this->getBasicDi());
         $this->expectException(\LogicException::class);
         $lib->getXML();
     }
 
     public function testItemKillNodePrefix(): void
     {
-        $lib = new Pohoda\Order\Item(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
+        $lib = new Pohoda\Order\Item($this->getBasicDi());
         $lib->setNamespace('test');
         $this->expectException(\LogicException::class);
         $lib->getXML();
@@ -125,14 +124,14 @@ class OrderTest extends CommonTestClass
 
     public function testSummaryKillNamespace(): void
     {
-        $lib = new Pohoda\Order\Summary(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
+        $lib = new Pohoda\Order\Summary($this->getBasicDi());
         $this->expectException(\LogicException::class);
         $lib->getXML();
     }
 
     public function testSummaryKillNodePrefix(): void
     {
-        $lib = new Pohoda\Order\Summary(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
+        $lib = new Pohoda\Order\Summary($this->getBasicDi());
         $lib->setNamespace('test');
         $this->expectException(\LogicException::class);
         $lib->getXML();
@@ -178,7 +177,7 @@ class OrderTest extends CommonTestClass
 
     public function testDeleteOrder(): void
     {
-        $lib = new Pohoda\Order(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
+        $lib = new Pohoda\Order($this->getBasicDi());
         $lib->addActionType('delete', [
             'number' => '222',
         ], 'prijate_objednavky');
@@ -188,7 +187,7 @@ class OrderTest extends CommonTestClass
 
     public function testWithSpecialCharsIntact(): void
     {
-        $lib = new Pohoda\AddressBook(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
+        $lib = new Pohoda\AddressBook($this->getBasicDi());
         $lib->setData([
             'identity' => [
                 'address' => [
@@ -210,7 +209,7 @@ class OrderTest extends CommonTestClass
 
     protected function getLib(): Pohoda\Order
     {
-        $lib = new Pohoda\Order(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
+        $lib = new Pohoda\Order($this->getBasicDi());
         return $lib->setData([
             'partnerIdentity' => [
                 'id' => 25,

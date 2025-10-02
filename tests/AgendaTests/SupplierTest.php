@@ -4,7 +4,6 @@ namespace tests\AgendaTests;
 
 use tests\CommonTestClass;
 use Riesenia\Pohoda;
-use Riesenia\Pohoda\ValueTransformer;
 
 class SupplierTest extends CommonTestClass
 {
@@ -23,7 +22,7 @@ class SupplierTest extends CommonTestClass
 
     protected function getLib(): Pohoda\Supplier
     {
-        $lib = new Pohoda\Supplier(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
+        $lib = new Pohoda\Supplier($this->getBasicDi());
         return $lib->setData([
             'stockItem' => [
                 'stockItem' => [

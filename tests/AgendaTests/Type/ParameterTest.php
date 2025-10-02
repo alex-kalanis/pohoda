@@ -49,10 +49,13 @@ class ParameterTest extends CommonTestClass
     {
         $sanitize = new SanitizeEncoding(new Listing());
         $sanitize->willBeSanitized(true);
-        $lib = new Parameter(
+        $lib = new Parameter(new Pohoda\DI\DependenciesFactory(
             new Pohoda\Common\NamespacesPaths(),
             $sanitize,
-        );
+            new Pohoda\Common\OptionsResolver\Normalizers\NormalizerFactory(),
+            null,
+            new Pohoda\PrintRequest\ParameterInstances(),
+        ));
         $lib->setData([
             'name' => 'testing',
             'type' => 'list',
@@ -78,9 +81,6 @@ class ParameterTest extends CommonTestClass
 
     protected function getLib(): Parameter
     {
-        return new Parameter(
-            new Pohoda\Common\NamespacesPaths(),
-            new SanitizeEncoding(new Listing()),
-        );
+        return new Parameter($this->getBasicDi());
     }
 }

@@ -4,7 +4,6 @@ namespace tests\AgendaTests;
 
 use tests\CommonTestClass;
 use Riesenia\Pohoda;
-use Riesenia\Pohoda\ValueTransformer;
 
 class StorageTest extends CommonTestClass
 {
@@ -24,7 +23,7 @@ class StorageTest extends CommonTestClass
     public function testAddSubStorages(): void
     {
         $lib = $this->getLib();
-        $sub = new Pohoda\Storage(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
+        $sub = new Pohoda\Storage($this->getBasicDi());
         $sub->setData([
             'code' => 'Sub',
             'name' => 'Sub',
@@ -34,7 +33,7 @@ class StorageTest extends CommonTestClass
 
         $this->assertEquals('<str:storage version="2.0"><str:itemStorage code="MAIN"><str:subStorages><str:itemStorage code="Sub" name="Sub"/></str:subStorages></str:itemStorage></str:storage>', $lib->getXML()->asXML());
 
-        $subsub = new Pohoda\Storage(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
+        $subsub = new Pohoda\Storage($this->getBasicDi());
         $subsub->setData([
             'code' => 'SubSub',
             'name' => 'SubSub',
@@ -47,7 +46,7 @@ class StorageTest extends CommonTestClass
 
     protected function getLib(): Pohoda\Storage
     {
-        $lib = new Pohoda\Storage(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
+        $lib = new Pohoda\Storage($this->getBasicDi());
         return $lib->setData([
             'code' => 'MAIN',
         ]);

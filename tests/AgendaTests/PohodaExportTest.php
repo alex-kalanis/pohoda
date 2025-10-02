@@ -83,7 +83,7 @@ class PohodaExportTest extends CommonTestClass
             </rsp:responsePackItem>
         </rsp:responsePack>');
 
-        $lib = new Pohoda('123');
+        $lib = new Pohoda('123', $this->getBasicDi());
         $this->assertNotEmpty($lib->loadCategory($this->testFile));
 
         // read only root elements

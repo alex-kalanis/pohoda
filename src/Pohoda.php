@@ -127,7 +127,12 @@ class Pohoda
      */
     public function create(string $name, array $data = []): AbstractAgenda
     {
-        return $this->dependenciesFactory->getAgendaFactory()->getAgenda($name)->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions(true)->setData($data);
+        return $this->dependenciesFactory
+            ->getAgendaFactory()
+            ->getAgenda($name)
+            ->setDirectionalVariable($this->useOneDirectionalVariables)
+            ->setResolveOptions(true)
+            ->setData($data);
     }
 
     /**

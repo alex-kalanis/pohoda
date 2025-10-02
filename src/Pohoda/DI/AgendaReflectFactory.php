@@ -6,11 +6,11 @@ use DomainException;
 use ReflectionClass;
 use ReflectionException;
 use Riesenia\Pohoda\AbstractAgenda;
-use Riesenia\Pohoda\Common;
-use Riesenia\Pohoda\ValueTransformer;
 
 class AgendaReflectFactory implements AgendaFactoryInterface
 {
+    use ClassNameTrait;
+
     public function __construct(
         protected readonly DependenciesFactory $dependenciesFactory,
     ) {}
@@ -21,7 +21,7 @@ class AgendaReflectFactory implements AgendaFactoryInterface
     public function getAgenda(string $name): AbstractAgenda
     {
         /** @var class-string<AbstractAgenda> $className */
-        $className = __NAMESPACE__ . '\\' . $name;
+        $className = $this->getClassName($name);
         try {
             $reflection = new ReflectionClass($className);
         } catch (ReflectionException) {

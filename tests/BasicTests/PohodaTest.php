@@ -2,21 +2,12 @@
 
 namespace tests\BasicTests;
 
-use tests\CommonTestClass;
 use Riesenia\Pohoda;
-use Riesenia\Pohoda\Common\NamespacesPaths;
-use Riesenia\Pohoda\Stock;
-use Riesenia\Pohoda\ValueTransformer;
+use tests\CommonTestClass;
 
 class PohodaTest extends CommonTestClass
 {
-    protected ValueTransformer\SanitizeEncoding $sanitization;
     protected ?string $tempFile = null;
-
-    protected function setUp(): void
-    {
-        $this->sanitization = new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing());
-    }
 
     protected function tearDown(): void
     {
@@ -87,7 +78,7 @@ class PohodaTest extends CommonTestClass
             'storage' => 'STORAGE',
             'typePrice' => ['id' => 1],
         ];
-        $stock = new Stock(new NamespacesPaths(), $this->sanitization);
+        $stock = new Pohoda\Stock($this->getBasicDi());
         $stock->setData($data);
 
         $lib = $this->getLib();
@@ -128,7 +119,7 @@ class PohodaTest extends CommonTestClass
             'storage' => 'STORAGE',
             'typePrice' => ['id' => 1],
         ];
-        $stock = new Stock(new NamespacesPaths(), $this->sanitization);
+        $stock = new Pohoda\Stock($this->getBasicDi());
         $stock->setData($data);
 
         $lib = $this->getLib();
@@ -292,16 +283,18 @@ class PohodaTest extends CommonTestClass
 
     public function testRunTransformersProperly(): void
     {
+        $di = $this->getBasicDi(); // MUST be connected
+
         $data = [
             'code' => 'code1',
             'name' => 'name2',
             'storage' => 'storage3',
             'typePrice' => ['id' => 4],
         ];
-        $stock = new Stock(new NamespacesPaths(), $this->sanitization);
+        $stock = new Pohoda\Stock($di);
         $stock->setData($data);
 
-        $lib = $this->getLib();
+        $lib = new Pohoda('123', $di);
         // set for each run
         $lib->getTransformerListing()->clear();
         $lib->getTransformerListing()->addTransformer(new XCapitalize());
@@ -321,21 +314,30 @@ class PohodaTest extends CommonTestClass
 
     public function testHandleSanitizeCorrectly(): void
     {
+        $sanitization = new Pohoda\ValueTransformer\SanitizeEncoding(new Pohoda\ValueTransformer\Listing());
+        $di = new Pohoda\DI\DependenciesFactory(
+            new Pohoda\Common\NamespacesPaths(),
+            $sanitization,
+            new Pohoda\Common\OptionsResolver\Normalizers\NormalizerFactory(),
+            null,
+            new Pohoda\PrintRequest\ParameterInstances()
+        );
+
         $data = [
             'code' => 'code1',
             'name' => 'name2',
             'storage' => 'storage3',
             'typePrice' => ['id' => 4],
         ];
-        $stock = new Stock(new NamespacesPaths(), $this->sanitization);
+        $stock = new Pohoda\Stock($di);
         $stock->setData($data);
 
-        $this->sanitization->willBeSanitized(true);
+        $sanitization->willBeSanitized(true);
 
-        $lib = $this->getLib();
+        $lib = new Pohoda('123', $di);
         $this->assertTrue($lib->open(null, 'ABC'));
         $lib->addItem('item_id', $stock);
-        $this->assertEquals(0, \count($this->sanitization->getListing()->clear()->getTransformers()));
+        $this->assertEquals(0, \count($sanitization->getListing()->clear()->getTransformers()));
         $lib->close();
     }
 
@@ -343,7 +345,7 @@ class PohodaTest extends CommonTestClass
     {
         return new Pohoda(
             '123',
-            $this->sanitization,
+            $this->getBasicDi(),
         );
     }
 }

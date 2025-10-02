@@ -4,7 +4,7 @@ namespace tests\AgendaTests\Type;
 
 use Riesenia\Pohoda\PrintRequest;
 
-class XParamFactory extends PrintRequest\ParameterFactory
+class XParamInstances extends PrintRequest\ParameterInstances
 {
     protected array $instances = [
         'just_standard' => \stdClass::class,

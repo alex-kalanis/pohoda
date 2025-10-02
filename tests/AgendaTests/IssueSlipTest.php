@@ -4,7 +4,6 @@ namespace tests\AgendaTests;
 
 use tests\CommonTestClass;
 use Riesenia\Pohoda;
-use Riesenia\Pohoda\ValueTransformer;
 
 class IssueSlipTest extends CommonTestClass
 {
@@ -97,7 +96,7 @@ class IssueSlipTest extends CommonTestClass
 
     protected function getLib(): Pohoda\IssueSlip
     {
-        $lib = new Pohoda\IssueSlip(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
+        $lib = new Pohoda\IssueSlip($this->getBasicDi());
         return $lib->setData([
             'date' => '2015-01-10',
             'dateOrder' => '2015-01-04',

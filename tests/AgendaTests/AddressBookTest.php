@@ -4,7 +4,6 @@ namespace tests\AgendaTests;
 
 use tests\CommonTestClass;
 use Riesenia\Pohoda;
-use Riesenia\Pohoda\ValueTransformer;
 
 class AddressBookTest extends CommonTestClass
 {
@@ -45,7 +44,7 @@ class AddressBookTest extends CommonTestClass
 
     public function testDeleteAddress(): void
     {
-        $lib = new Pohoda\AddressBook(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
+        $lib = new Pohoda\AddressBook($this->getBasicDi());
         $lib->addActionType('delete', [
             'company' => 'COMPANY',
         ]);
@@ -55,7 +54,7 @@ class AddressBookTest extends CommonTestClass
 
     public function testWithSpecialCharsIntact(): void
     {
-        $lib = new Pohoda\AddressBook(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
+        $lib = new Pohoda\AddressBook($this->getBasicDi());
         $lib->setData([
             'identity' => [
                 'address' => [
@@ -77,7 +76,7 @@ class AddressBookTest extends CommonTestClass
 
     protected function getLib(): Pohoda\AddressBook
     {
-        $lib = new Pohoda\AddressBook(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
+        $lib = new Pohoda\AddressBook($this->getBasicDi());
         return $lib->setData([
             'identity' => [
                 'address' => [

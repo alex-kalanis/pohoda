@@ -4,7 +4,6 @@ namespace tests\AgendaTests;
 
 use tests\CommonTestClass;
 use Riesenia\Pohoda;
-use Riesenia\Pohoda\ValueTransformer;
 
 class ReceiptTest extends CommonTestClass
 {
@@ -81,7 +80,7 @@ class ReceiptTest extends CommonTestClass
 
     protected function getLib(): Pohoda\Receipt
     {
-        $lib = new Pohoda\Receipt(new Pohoda\Common\NamespacesPaths(), new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing()));
+        $lib = new Pohoda\Receipt($this->getBasicDi());
         return $lib->setData([
             'date' => new \DateTimeImmutable('2015-01-10'),
             'dateOfReceipt' => '',
