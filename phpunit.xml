@@ -31,6 +31,7 @@
   <testsuites>
     <testsuite name="ALL">
       <directory>tests/BasicTests</directory>
+      <directory>tests/DiTests</directory>
       <directory>tests/AgendaTests</directory>
       <directory>tests/ValueTransformerTests</directory>
     </testsuite>

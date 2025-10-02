@@ -65,15 +65,7 @@ class DependenciesFactory
             return $this->namespacesPaths;
         }
 
-        if (empty($this->container)) {
-            throw new \LogicException('No DI available, you must set the NamespacesPaths class first!');
-        }
-
-        if (!$this->container->has(Common\NamespacesPaths::class)) {
-            throw new \LogicException('Container does not have NamespacesPaths class!');
-        }
-
-        $instance = $this->container->get(Common\NamespacesPaths::class);
+        $instance = $this->getInstances(Common\NamespacesPaths::class);
         if (!$instance instanceof Common\NamespacesPaths) {
             throw new \LogicException('Container does not return NamespacesPaths class!');
         }
@@ -87,15 +79,7 @@ class DependenciesFactory
             return $this->sanitizeEncoding;
         }
 
-        if (empty($this->container)) {
-            throw new \LogicException('No DI available, you must set the encoding sanitizer class first!');
-        }
-
-        if (!$this->container->has(ValueTransformer\SanitizeEncoding::class)) {
-            throw new \LogicException('Container does not have SanitizeEncoding class!');
-        }
-
-        $instance = $this->container->get(ValueTransformer\SanitizeEncoding::class);
+        $instance = $this->getInstances(ValueTransformer\SanitizeEncoding::class);
         if (!$instance instanceof ValueTransformer\SanitizeEncoding) {
             throw new \LogicException('Container does not return SanitizeEncoding class!');
         }
@@ -109,15 +93,7 @@ class DependenciesFactory
             return $this->normalizerFactory;
         }
 
-        if (empty($this->container)) {
-            throw new \LogicException('No DI available, you must set the NormalizerFactory class first!');
-        }
-
-        if (!$this->container->has(Common\OptionsResolver\Normalizers\NormalizerFactory::class)) {
-            throw new \LogicException('Container does not have NormalizerFactory class!');
-        }
-
-        $instance = $this->container->get(Common\OptionsResolver\Normalizers\NormalizerFactory::class);
+        $instance = $this->getInstances(Common\OptionsResolver\Normalizers\NormalizerFactory::class);
         if (!$instance instanceof Common\OptionsResolver\Normalizers\NormalizerFactory) {
             throw new \LogicException('Container does not return NormalizerFactory class!');
         }
@@ -131,19 +107,29 @@ class DependenciesFactory
             return $this->parameterInstances;
         }
 
-        if (empty($this->container)) {
-            throw new \LogicException('No DI available, you must set the ParameterInstances class first!');
-        }
-
-        if (!$this->container->has(ParameterInstances::class)) {
-            throw new \LogicException('Container does not have ParameterInstances class!');
-        }
-
-        $instance = $this->container->get(ParameterInstances::class);
+        $instance = $this->getInstances(ParameterInstances::class);
         if (!$instance instanceof ParameterInstances) {
             throw new \LogicException('Container does not return ParameterInstances class!');
         }
 
         return $this->parameterInstances = $instance;
+    }
+
+    protected function getInstances(string $className): object
+    {
+        if (empty($this->container)) {
+            throw new \LogicException('No DI available, you must set the ' . $className . ' class first!');
+        }
+
+        if (!$this->container->has($className)) {
+            throw new \LogicException('Container does not have ' . $className . ' class!');
+        }
+
+        $instance = $this->container->get($className);
+        if (!is_object($instance)) {
+            throw new \LogicException('Container does not return ' . $className . ' class!');
+        }
+
+        return $instance;
     }
 }

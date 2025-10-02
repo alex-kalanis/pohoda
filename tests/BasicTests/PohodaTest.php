@@ -320,7 +320,7 @@ class PohodaTest extends CommonTestClass
             $sanitization,
             new Pohoda\Common\OptionsResolver\Normalizers\NormalizerFactory(),
             null,
-            new Pohoda\PrintRequest\ParameterInstances()
+            new Pohoda\PrintRequest\ParameterInstances(),
         );
 
         $data = [

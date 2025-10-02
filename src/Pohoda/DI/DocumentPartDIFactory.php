@@ -5,12 +5,7 @@ namespace Riesenia\Pohoda\DI;
 use DomainException;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
-use ReflectionClass;
-use ReflectionException;
-use Riesenia\Pohoda\AbstractAgenda;
-use Riesenia\Pohoda\Common;
 use Riesenia\Pohoda\Document;
-use Riesenia\Pohoda\ValueTransformer\SanitizeEncoding;
 
 class DocumentPartDIFactory implements DocumentPartFactoryInterface
 {

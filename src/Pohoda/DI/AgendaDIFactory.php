@@ -5,8 +5,6 @@ namespace Riesenia\Pohoda\DI;
 use DomainException;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
-use ReflectionClass;
-use ReflectionException;
 use Riesenia\Pohoda\AbstractAgenda;
 
 class AgendaDIFactory implements AgendaFactoryInterface
