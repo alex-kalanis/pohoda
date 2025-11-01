@@ -12,30 +12,10 @@ declare(strict_types=1);
 namespace Riesenia\Pohoda\Type;
 
 use Riesenia\Pohoda\AbstractAgenda;
-use Riesenia\Pohoda\Common\OptionsResolver;
+use Riesenia\Pohoda\Common;
 
 class AddressInternetType extends AbstractAgenda
 {
-    /** @var string[] */
-    protected array $elements = [
-        'company',
-        'title',
-        'surname',
-        'name',
-        'city',
-        'street',
-        'number',
-        'zip',
-        'ico',
-        'dic',
-        'icDph',
-        'phone',
-        'mobilPhone',
-        'fax',
-        'email',
-        'www',
-    ];
-
     /**
      * {@inheritdoc}
      */
@@ -43,7 +23,7 @@ class AddressInternetType extends AbstractAgenda
     {
         $xml = $this->createXML()->addChild('typ:address', '', $this->namespace('typ'));
 
-        $this->addElements($xml, $this->elements, 'typ');
+        $this->addElements($xml, $this->getDataElements(), 'typ');
 
         return $xml;
     }
@@ -51,10 +31,10 @@ class AddressInternetType extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    protected function configureOptions(OptionsResolver $resolver): void
+    protected function configureOptions(Common\OptionsResolver $resolver): void
     {
         // available options
-        $resolver->setDefined($this->elements);
+        $resolver->setDefined($this->getDataElements());
 
         // validate / format options
         $resolver->setNormalizer('company', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string255'));
@@ -73,5 +53,13 @@ class AddressInternetType extends AbstractAgenda
         $resolver->setNormalizer('fax', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string24'));
         $resolver->setNormalizer('email', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string64'));
         $resolver->setNormalizer('www', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string32'));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function getDefaultDto(): Common\Dtos\AbstractDto
+    {
+        return new Dtos\AddressInternetTypeDto();
     }
 }

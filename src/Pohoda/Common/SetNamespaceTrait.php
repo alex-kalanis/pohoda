@@ -11,9 +11,6 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\Common;
 
-/**
- * @property string[] $elements
- */
 trait SetNamespaceTrait
 {
     protected ?string $namespace = null;
@@ -59,7 +56,7 @@ trait SetNamespaceTrait
 
         $xml = $this->createXML()->addChild($this->namespace . ':' . $this->nodeName, '', $this->namespace($this->namespace));
 
-        $this->addElements($xml, $this->elements, 'typ');
+        $this->addElements($xml, $this->getDataElements(), 'typ');
 
         return $xml;
     }
@@ -90,4 +87,11 @@ trait SetNamespaceTrait
      * @return void
      */
     abstract protected function addElements(\SimpleXMLElement $xml, array $elements, ?string $namespace = null): void;
+
+    /**
+     * Add elements defined as properties of DTOs
+     *
+     * @return string[]
+     */
+    abstract protected function getDataElements(): array;
 }

@@ -12,8 +12,11 @@ declare(strict_types=1);
 namespace Riesenia\Pohoda\Supplier;
 
 use Riesenia\Pohoda\AbstractAgenda;
-use Riesenia\Pohoda\Common\OptionsResolver;
+use Riesenia\Pohoda\Common;
 
+/**
+ * @property SupplierDto $data
+ */
 class SupplierItem extends AbstractAgenda
 {
     /** @var string[] */
@@ -21,27 +24,6 @@ class SupplierItem extends AbstractAgenda
         'refAd',
         'currency',
         'deliveryPeriod',
-    ];
-
-    /** @var string[] */
-    protected array $elements = [
-        'default',
-        'refAd',
-        'orderCode',
-        'orderName',
-        'purchasingPrice',
-        'currency',
-        'rate',
-        'payVAT',
-        'ean',
-        'printEAN',
-        'unitEAN',
-        'unitCoefEAN',
-        'deliveryTime',
-        'deliveryPeriod',
-        'minQuantity',
-        'unit',
-        'note',
     ];
 
     /**
@@ -52,12 +34,12 @@ class SupplierItem extends AbstractAgenda
         $xml = $this->createXML()->addChild('sup:supplierItem', '', $this->namespace('sup'));
 
         // handle default
-        if ($this->data['default']) {
-            $xml->addAttribute('default', strval($this->data['default']));
-            unset($this->data['default']);
+        if (isset($this->data->default)) {
+            $xml->addAttribute('default', strval($this->data->default));
+            $this->data->default = null;
         }
 
-        $this->addElements($xml, $this->elements, 'sup');
+        $this->addElements($xml, $this->getDataElements(), 'sup');
 
         return $xml;
     }
@@ -65,10 +47,10 @@ class SupplierItem extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    protected function configureOptions(OptionsResolver $resolver): void
+    protected function configureOptions(Common\OptionsResolver $resolver): void
     {
         // available options
-        $resolver->setDefined($this->elements);
+        $resolver->setDefined($this->getDataElements());
 
         $resolver->setNormalizer('default', $this->dependenciesFactory->getNormalizerFactory()->getClosure('bool'));
         $resolver->setNormalizer('orderCode', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string64'));
@@ -83,5 +65,13 @@ class SupplierItem extends AbstractAgenda
         $resolver->setNormalizer('deliveryTime', $this->dependenciesFactory->getNormalizerFactory()->getClosure('int'));
         $resolver->setNormalizer('minQuantity', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
         $resolver->setNormalizer('unit', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string10'));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getDefaultDto(): Common\Dtos\AbstractDto
+    {
+        return new SupplierItemDto();
     }
 }

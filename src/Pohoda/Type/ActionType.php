@@ -12,19 +12,14 @@ declare(strict_types=1);
 namespace Riesenia\Pohoda\Type;
 
 use Riesenia\Pohoda\AbstractAgenda;
-use Riesenia\Pohoda\Common\OptionsResolver;
-use Riesenia\Pohoda\Common\SetNamespaceTrait;
+use Riesenia\Pohoda\Common;
 
 /**
- * @property array{
- *     type: string,
- *     filter?: iterable<string, mixed>,
- *     agenda?: string,
- * } $data
+ * @property Dtos\ActionTypeDto $data
  */
 class ActionType extends AbstractAgenda
 {
-    use SetNamespaceTrait;
+    use Common\SetNamespaceTrait;
 
     /**
      * {@inheritdoc}
@@ -36,20 +31,20 @@ class ActionType extends AbstractAgenda
         }
 
         $xml = $this->createXML()->addChild($this->namespace . ':actionType', '', $this->namespace($this->namespace));
-        $action = $xml->addChild($this->namespace . ':' . ('add/update' == $this->data['type'] ? 'add' : $this->data['type']));
+        $action = $xml->addChild($this->namespace . ':' . ('add/update' == $this->data->type ? 'add' : $this->data->type));
 
-        if ('add/update' == $this->data['type']) {
+        if ('add/update' == $this->data->type) {
             $action->addAttribute('update', 'true');
         }
 
-        if (isset($this->data['filter'])) {
+        if (!is_null($this->data->filter)) {
             $filter = $action->addChild('ftr:filter', '', $this->namespace('ftr'));
 
-            if (!empty($this->data['agenda'])) {
-                $filter->addAttribute('agenda', strval($this->data['agenda']));
+            if (!empty($this->data->agenda)) {
+                $filter->addAttribute('agenda', strval($this->data->agenda));
             }
 
-            foreach ($this->data['filter'] as $property => $value) {
+            foreach ($this->data->filter as $property => $value) {
                 $ftr = $filter->addChild('ftr:' . $property, \is_array($value) ? null : strval($value));
 
                 if (\is_array($value)) {
@@ -66,13 +61,21 @@ class ActionType extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    protected function configureOptions(OptionsResolver $resolver): void
+    protected function configureOptions(Common\OptionsResolver $resolver): void
     {
         // available options
-        $resolver->setDefined(['type', 'filter', 'agenda']);
+        $resolver->setDefined($this->getDataElements());
 
         // validate / format options
         $resolver->setRequired('type');
         $resolver->setAllowedValues('type', ['add', 'add/update', 'update', 'delete']);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function getDefaultDto(): Common\Dtos\AbstractDto
+    {
+        return new Dtos\ActionTypeDto();
     }
 }

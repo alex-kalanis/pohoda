@@ -12,8 +12,11 @@ declare(strict_types=1);
 namespace Riesenia\Pohoda\Type;
 
 use Riesenia\Pohoda\AbstractAgenda;
-use Riesenia\Pohoda\Common\OptionsResolver;
+use Riesenia\Pohoda\Common;
 
+/**
+ * @property Dtos\ParameterDto $data
+ */
 class Parameter extends AbstractAgenda
 {
     /**
@@ -23,18 +26,18 @@ class Parameter extends AbstractAgenda
     {
         $xml = $this->createXML()->addChild('typ:parameter', '', $this->namespace('typ'));
 
-        $child = $this->data['name'] ?? null;
+        $child = $this->data->name ?? null;
         $xml->addChild('typ:name', is_null($child) ? null : strval($child));
 
-        if ('list' == $this->data['type']) {
-            $this->addRefElement($xml, 'typ:listValueRef', $this->data['value']);
+        if ('list' == $this->data->type) {
+            $this->addRefElement($xml, 'typ:listValueRef', $this->data->value);
 
-            if (isset($this->data['list'])) {
-                $this->addRefElement($xml, 'typ:list', $this->data['list']);
+            if (isset($this->data->list)) {
+                $this->addRefElement($xml, 'typ:list', $this->data->list);
             }
 
         } else {
-            $xml->addChild('typ:' . $this->data['type'] . 'Value', \htmlspecialchars(strval($this->data['value'])));
+            $xml->addChild('typ:' . $this->data->type . 'Value', \htmlspecialchars(strval($this->data->value)));
         }
 
         return $xml;
@@ -43,14 +46,14 @@ class Parameter extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    protected function configureOptions(OptionsResolver $resolver): void
+    protected function configureOptions(Common\OptionsResolver $resolver): void
     {
         // available options
-        $resolver->setDefined(['name', 'type', 'value', 'list']);
+        $resolver->setDefined($this->getDataElements());
 
         // validate / format options
         $resolver->setRequired('name');
-        $resolver->setNormalizer('name', function (OptionsResolver $options, mixed $value): string {
+        $resolver->setNormalizer('name', function (Common\OptionsResolver $options, mixed $value): string {
             $prefix = 'VPr';
             $value = \strval($value);
 
@@ -80,5 +83,13 @@ class Parameter extends AbstractAgenda
                 return \is_array($value) ? $value : \strval($value);
             }
         });
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getDefaultDto(): Common\Dtos\AbstractDto
+    {
+        return new Dtos\ParameterDto();
     }
 }

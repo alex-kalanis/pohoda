@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace Riesenia\Pohoda;
 
 use Riesenia\Pohoda\Common\AddParameterToHeaderTrait;
+use Riesenia\Pohoda\Common\Dtos;
 use Riesenia\Pohoda\Common\OptionsResolver;
 
 abstract class AbstractDocument extends AbstractAgenda
@@ -21,27 +22,16 @@ abstract class AbstractDocument extends AbstractAgenda
     /**
      * Add document item.
      *
-     * @param array<string,mixed> $data
+     * @param Dtos\AbstractItemDto|null $data
      *
      * @return Document\AbstractPart
      */
-    public function addItem(array $data): Document\AbstractPart
+    public function addItem(?Dtos\AbstractItemDto $data): Document\AbstractPart
     {
-        $key = $this->getDocumentName() . 'Detail';
-
-        if (!isset($this->data[$key])
-            || !(
-                is_array($this->data[$key])
-                || (is_object($this->data[$key]) && is_a($this->data[$key], \ArrayAccess::class))
-            )
-        ) {
-            $this->data[$key] = [];
-        }
-
         $part = $this->getDocumentPart('Item')
             ->setDirectionalVariable($this->useOneDirectionalVariables)
             ->setData($data);
-        $this->data[$key][] = $part;
+        $this->data->details[] = $part;
 
         return $part;
     }
@@ -49,13 +39,13 @@ abstract class AbstractDocument extends AbstractAgenda
     /**
      * Add document summary.
      *
-     * @param array<string,mixed> $data
+     * @param Dtos\AbstractSummaryDto|null $data
      *
-     * @return $this
+     * @return $thisDtos
      */
-    public function addSummary(array $data): self
+    public function addSummary(?Dtos\AbstractSummaryDto $data): self
     {
-        $this->data['summary'] = $this->getDocumentPart('Summary')
+        $this->data->summary = $this->getDocumentPart('Summary')
             ->setDirectionalVariable($this->useOneDirectionalVariables)
             ->setData($data);
 
@@ -65,15 +55,13 @@ abstract class AbstractDocument extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    public function setData(array $data): parent
+    public function setData(?Dtos\AbstractDto $data): parent
     {
         // pass to header
-        if (!empty($data)) {
-            $data = [
-                'header' => $this->getDocumentPart('Header', $this->resolveOptions)
-                    ->setDirectionalVariable($this->useOneDirectionalVariables)
-                    ->setData($data),
-            ];
+        if (!empty($data->header)) {
+            $data->header = $this->getDocumentPart('Header', $this->resolveOptions)
+                ->setDirectionalVariable($this->useOneDirectionalVariables)
+                ->setData($data->header);
         }
         return parent::setData($data);
     }
@@ -90,7 +78,7 @@ abstract class AbstractDocument extends AbstractAgenda
         );
         $xml->addAttribute('version', '2.0');
 
-        $this->addElements($xml, $this->getDocumentElements(), $this->getDocumentNamespace());
+        $this->addElements($xml, $this->getDataElements(), $this->getDocumentNamespace());
 
         return $xml;
     }
@@ -129,7 +117,18 @@ abstract class AbstractDocument extends AbstractAgenda
      */
     protected function getDocumentElements(): array
     {
-        return ['header', $this->getDocumentName() . 'Detail', 'summary'];
+        return ['header', 'details', 'summary'];
+    }
+
+    /**
+     * @{inheritDoc}
+     */
+    protected function getNodeKey(string $key): string
+    {
+        if ('details' == $key) {
+            return $this->getDocumentName() . 'Detail';
+        }
+        return $key;
     }
 
     /**

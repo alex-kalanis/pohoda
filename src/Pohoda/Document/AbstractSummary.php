@@ -25,26 +25,26 @@ abstract class AbstractSummary extends AbstractPart
     /**
      * {@inheritdoc}
      */
-    public function setData(array $data): parent
+    public function setData(?Common\Dtos\AbstractDto $data): parent
     {
         // process home currency
-        if (isset($data['homeCurrency'])) {
+        if (isset($data->homeCurrency)) {
             $homeCurrency = new Type\CurrencyHome($this->dependenciesFactory);
             $homeCurrency
                 ->setDirectionalVariable($this->useOneDirectionalVariables)
                 ->setResolveOptions($this->resolveOptions)
-                ->setData($data['homeCurrency']);
-            $data['homeCurrency'] = $homeCurrency;
+                ->setData($data->homeCurrency);
+            $data->homeCurrency = $homeCurrency;
         }
 
         // process foreign currency
-        if (isset($data['foreignCurrency'])) {
+        if (isset($data->foreignCurrency)) {
             $foreignCurrency = new Type\CurrencyForeign($this->dependenciesFactory);
             $foreignCurrency
                 ->setDirectionalVariable($this->useOneDirectionalVariables)
                 ->setResolveOptions($this->resolveOptions)
-                ->setData($data['foreignCurrency']);
-            $data['foreignCurrency'] = $foreignCurrency;
+                ->setData($data->foreignCurrency);
+            $data->foreignCurrency = $foreignCurrency;
         }
 
         return parent::setData($data);
@@ -65,7 +65,7 @@ abstract class AbstractSummary extends AbstractPart
 
         $xml = $this->createXML()->addChild($this->namespace . ':' . $this->nodePrefix . 'Summary', '', $this->namespace($this->namespace));
 
-        $this->addElements($xml, $this->elements, $this->namespace);
+        $this->addElements($xml, $this->getDataElements(), $this->namespace);
 
         return $xml;
     }
@@ -76,6 +76,6 @@ abstract class AbstractSummary extends AbstractPart
     protected function configureOptions(Common\OptionsResolver $resolver): void
     {
         // available options
-        $resolver->setDefined($this->elements);
+        $resolver->setDefined($this->getDataElements());
     }
 }

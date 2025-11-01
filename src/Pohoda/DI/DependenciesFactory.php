@@ -59,6 +59,14 @@ class DependenciesFactory
         ;
     }
 
+    public function getDtoFactory(): DtoFactoryInterface
+    {
+        return $this->container
+            ? new DtoDIFactory($this->container)
+            : new DtoReflectFactory()
+        ;
+    }
+
     public function getNamespacePaths(): Common\NamespacesPaths
     {
         if (!empty($this->namespacesPaths)) {

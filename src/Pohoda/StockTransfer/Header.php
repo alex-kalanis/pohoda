@@ -15,6 +15,9 @@ use Riesenia\Pohoda\AbstractAgenda;
 use Riesenia\Pohoda\Common;
 use Riesenia\Pohoda\Type;
 
+/**
+ * @property HeaderDto $data
+ */
 class Header extends AbstractAgenda
 {
     use Common\AddParameterTrait;
@@ -29,38 +32,19 @@ class Header extends AbstractAgenda
         'contract',
     ];
 
-    /** @var string[] */
-    protected array $elements = [
-        'number',
-        'date',
-        'time',
-        'dateOfReceipt',
-        'timeOfReceipt',
-        'symPar',
-        'store',
-        'text',
-        'partnerIdentity',
-        'centreSource',
-        'centreDestination',
-        'activity',
-        'contract',
-        'note',
-        'intNote',
-    ];
-
     /**
      * {@inheritdoc}
      */
-    public function setData(array $data): parent
+    public function setData(?Common\Dtos\AbstractDto $data): parent
     {
         // process partner identity
-        if (isset($data['partnerIdentity'])) {
+        if (isset($data->partnerIdentity)) {
             $partnerIdentity = new Type\Address($this->dependenciesFactory);
             $partnerIdentity
                 ->setDirectionalVariable($this->useOneDirectionalVariables)
                 ->setResolveOptions($this->resolveOptions)
-                ->setData($data['partnerIdentity']);
-            $data['partnerIdentity'] = $partnerIdentity;
+                ->setData($data->partnerIdentity);
+            $data->partnerIdentity = $partnerIdentity;
         }
 
         return parent::setData($data);
@@ -73,7 +57,7 @@ class Header extends AbstractAgenda
     {
         $xml = $this->createXML()->addChild('pre:prevodkaHeader', '', $this->namespace('pre'));
 
-        $this->addElements($xml, \array_merge($this->elements, ['parameters']), 'pre');
+        $this->addElements($xml, \array_merge($this->getDataElements(), ['parameters']), 'pre');
 
         return $xml;
     }
@@ -84,7 +68,7 @@ class Header extends AbstractAgenda
     protected function configureOptions(Common\OptionsResolver $resolver): void
     {
         // available options
-        $resolver->setDefined($this->elements);
+        $resolver->setDefined($this->getDataElements());
 
         // validate / format options
         $resolver->setNormalizer('date', $this->dependenciesFactory->getNormalizerFactory()->getClosure('date'));
@@ -93,5 +77,13 @@ class Header extends AbstractAgenda
         $resolver->setNormalizer('timeOfReceipt', $this->dependenciesFactory->getNormalizerFactory()->getClosure('time'));
         $resolver->setNormalizer('symPar', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string20'));
         $resolver->setNormalizer('text', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string48'));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getDefaultDto(): Common\Dtos\AbstractDto
+    {
+        return new HeaderDto();
     }
 }

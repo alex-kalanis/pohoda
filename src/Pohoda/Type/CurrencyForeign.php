@@ -12,37 +12,36 @@ declare(strict_types=1);
 namespace Riesenia\Pohoda\Type;
 
 use Riesenia\Pohoda\AbstractAgenda;
-use Riesenia\Pohoda\Common\OptionsResolver;
-use Riesenia\Pohoda\Common\SetNamespaceTrait;
+use Riesenia\Pohoda\Common;
 
 class CurrencyForeign extends AbstractAgenda
 {
-    use SetNamespaceTrait;
+    use Common\SetNamespaceTrait;
 
     /** @var string[] */
     protected array $refElements = [
         'currency',
     ];
 
-    /** @var string[] */
-    protected array $elements = [
-        'currency',
-        'rate',
-        'amount',
-        'priceSum',
-    ];
-
     /**
      * {@inheritdoc}
      */
-    protected function configureOptions(OptionsResolver $resolver): void
+    protected function configureOptions(Common\OptionsResolver $resolver): void
     {
         // available options
-        $resolver->setDefined($this->elements);
+        $resolver->setDefined($this->getDataElements());
 
         // validate / format options
         $resolver->setNormalizer('rate', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
         $resolver->setNormalizer('amount', $this->dependenciesFactory->getNormalizerFactory()->getClosure('int'));
         $resolver->setNormalizer('priceSum', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function getDefaultDto(): Common\Dtos\AbstractDto
+    {
+        return new Dtos\CurrencyForeignDto();
     }
 }

@@ -12,33 +12,32 @@ declare(strict_types=1);
 namespace Riesenia\Pohoda\Type;
 
 use Riesenia\Pohoda\AbstractAgenda;
-use Riesenia\Pohoda\Common\OptionsResolver;
-use Riesenia\Pohoda\Common\SetNamespaceTrait;
+use Riesenia\Pohoda\Common;
 
 class CurrencyItem extends AbstractAgenda
 {
-    use SetNamespaceTrait;
-
-    /** @var string[] */
-    protected array $elements = [
-        'unitPrice',
-        'price',
-        'priceVAT',
-        'priceSum',
-    ];
+    use Common\SetNamespaceTrait;
 
     /**
      * {@inheritdoc}
      */
-    protected function configureOptions(OptionsResolver $resolver): void
+    protected function configureOptions(Common\OptionsResolver $resolver): void
     {
         // available options
-        $resolver->setDefined($this->elements);
+        $resolver->setDefined($this->getDataElements());
 
         // validate / format options
         $resolver->setNormalizer('unitPrice', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
         $resolver->setNormalizer('price', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
         $resolver->setNormalizer('priceVAT', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
         $resolver->setNormalizer('priceSum', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function getDefaultDto(): Common\Dtos\AbstractDto
+    {
+        return new Dtos\CurrencyItemDto();
     }
 }

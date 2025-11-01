@@ -12,17 +12,12 @@ declare(strict_types=1);
 namespace Riesenia\Pohoda\Supplier;
 
 use Riesenia\Pohoda\AbstractAgenda;
-use Riesenia\Pohoda\Common\OptionsResolver;
+use Riesenia\Pohoda\Common;
 
 class StockItem extends AbstractAgenda
 {
     /** @var string[] */
     protected array $refElements = [
-        'stockItem',
-    ];
-
-    /** @var string[] */
-    protected array $elements = [
         'stockItem',
     ];
 
@@ -33,7 +28,7 @@ class StockItem extends AbstractAgenda
     {
         $xml = $this->createXML()->addChild('sup:stockItem', '', $this->namespace('sup'));
 
-        $this->addElements($xml, $this->elements, 'typ');
+        $this->addElements($xml, $this->getDataElements(), 'typ');
 
         return $xml;
     }
@@ -41,9 +36,17 @@ class StockItem extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    protected function configureOptions(OptionsResolver $resolver): void
+    protected function configureOptions(Common\OptionsResolver $resolver): void
     {
         // available options
-        $resolver->setDefined($this->elements);
+        $resolver->setDefined($this->getDataElements());
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getDefaultDto(): Common\Dtos\AbstractDto
+    {
+        return new StockItemDto();
     }
 }

@@ -12,11 +12,7 @@ declare(strict_types=1);
 namespace Riesenia\Pohoda;
 
 /**
- * @property array{
- *     code: string,
- *     name?: string,
- *     subStorages?: iterable<Storage>,
- * } $data
+ * @property Storage\StorageDto $data
  */
 class Storage extends AbstractAgenda
 {
@@ -26,24 +22,15 @@ class Storage extends AbstractAgenda
     }
 
     /**
-     * Add substorage.
+     * Add sub storage.
      *
      * @param self $storage
      *
      * @return $this
      */
-    public function addSubstorage(self $storage): self
+    public function addSubStorage(self $storage): self
     {
-        if (!isset($this->data['subStorages'])
-            || !(
-                is_array($this->data['subStorages'])
-                || (is_a($this->data['subStorages'], \ArrayAccess::class))
-            )
-        ) {
-            $this->data['subStorages'] = [];
-        }
-
-        $this->data['subStorages'][] = $storage;
+        $this->data->subStorages[] = $storage;
 
         return $this;
     }
@@ -71,17 +58,16 @@ class Storage extends AbstractAgenda
     public function storageXML(\SimpleXMLElement $xml): void
     {
         $storage = $xml->addChild('str:itemStorage', '', $this->namespace('str'));
-        $storage->addAttribute('code', strval($this->data['code']));
+        $storage->addAttribute('code', strval($this->data->code));
 
-        if (isset($this->data['name'])) {
-            $storage->addAttribute('name', strval($this->data['name']));
+        if (isset($this->data->name)) {
+            $storage->addAttribute('name', strval($this->data->name));
         }
 
-        if (isset($this->data['subStorages'])) {
+        if (!empty($this->data->subStorages)) {
             $subStorages = $storage->addChild('str:subStorages', '', $this->namespace('str'));
 
-            foreach ($this->data['subStorages'] as $subStorage) {
-                /** @var self $subStorage */
+            foreach ($this->data->subStorages as $subStorage) {
                 $subStorage->storageXML($subStorages);
             }
         }
@@ -93,9 +79,25 @@ class Storage extends AbstractAgenda
     protected function configureOptions(Common\OptionsResolver $resolver): void
     {
         // available options
-        $resolver->setDefined(['code', 'name']);
+        $resolver->setDefined($this->getDataElements());
 
         // validate / format options
         $resolver->setRequired('code');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getDefaultDto(): Common\Dtos\AbstractDto
+    {
+        return new Storage\StorageDto();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function skipElements(): array
+    {
+        return ['subStorages'];
     }
 }

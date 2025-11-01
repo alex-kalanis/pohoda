@@ -15,6 +15,9 @@ use Riesenia\Pohoda\AbstractAgenda;
 use Riesenia\Pohoda\Common;
 use Riesenia\Pohoda\DI\DependenciesFactory;
 
+/**
+ * @property Dtos\AddressDto $data
+ */
 class Address extends AbstractAgenda
 {
     use Common\SetNamespaceTrait;
@@ -22,15 +25,6 @@ class Address extends AbstractAgenda
     /** @var string[] */
     protected array $refElements = [
         'extId',
-    ];
-
-    /** @var string[] */
-    protected array $elements = [
-        'id',
-        'extId',
-        'address',
-        'addressLinkToAddress',
-        'shipToAddress',
     ];
 
     /**
@@ -50,26 +44,26 @@ class Address extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    public function setData(array $data): parent
+    public function setData(?Common\Dtos\AbstractDto $data): parent
     {
         // process address
-        if (isset($data['address'])) {
+        if (isset($data->address)) {
             $address = new AddressType($this->dependenciesFactory);
             $address
                 ->setDirectionalVariable($this->useOneDirectionalVariables)
                 ->setResolveOptions($this->resolveOptions)
-                ->setData($data['address']);
-            $data['address'] = $address;
+                ->setData($data->address);
+            $data->address = $address;
         }
 
         // process shipping address
-        if (isset($data['shipToAddress'])) {
+        if (isset($data->shipToAddress)) {
             $shipTo = new ShipToAddressType($this->dependenciesFactory);
             $shipTo
                 ->setDirectionalVariable($this->useOneDirectionalVariables)
                 ->setResolveOptions($this->resolveOptions)
-                ->setData($data['shipToAddress']);
-            $data['shipToAddress'] = $shipTo;
+                ->setData($data->shipToAddress);
+            $data->shipToAddress = $shipTo;
         }
 
         return parent::setData($data);
@@ -81,10 +75,18 @@ class Address extends AbstractAgenda
     protected function configureOptions(Common\OptionsResolver $resolver): void
     {
         // available options
-        $resolver->setDefined($this->elements);
+        $resolver->setDefined($this->getDataElements());
 
         // validate / format options
         $resolver->setNormalizer('id', $this->dependenciesFactory->getNormalizerFactory()->getClosure('int'));
         $resolver->setNormalizer('addressLinkToAddress', $this->dependenciesFactory->getNormalizerFactory()->getClosure('bool'));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function getDefaultDto(): Common\Dtos\AbstractDto
+    {
+        return new Dtos\AddressDto();
     }
 }

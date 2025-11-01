@@ -12,10 +12,7 @@ declare(strict_types=1);
 namespace Riesenia\Pohoda;
 
 /**
- * @property array{
- *     stockItem?: Supplier\StockItem,
- *     suppliers?: Supplier\SupplierItem,
- * } $data
+ * @property Supplier\SupplierDto $data
  */
 class Supplier extends AbstractAgenda
 {
@@ -27,28 +24,28 @@ class Supplier extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    public function setData(array $data): parent
+    public function setData(?Common\Dtos\AbstractDto $data): parent
     {
         // process stockItem
-        if (isset($data['stockItem'])) {
+        if (isset($data->stockItem)) {
             $stockItem = new Supplier\StockItem($this->dependenciesFactory);
             $stockItem
                 ->setDirectionalVariable($this->useOneDirectionalVariables)
                 ->setResolveOptions($this->resolveOptions)
-                ->setData($data['stockItem']);
-            $data['stockItem'] = $stockItem;
+                ->setData($data->stockItem);
+            $data->stockItem = $stockItem;
         }
 
         // process suppliers
-        if (isset($data['suppliers']) && is_array($data['suppliers'])) {
-            $data['suppliers'] = \array_map(function ($supplier) {
+        if (!empty($data->suppliers) && is_array($data->suppliers)) {
+            $data->suppliers = \array_map(function (Supplier\SupplierItemDto $item) {
                 $supplierItem = new Supplier\SupplierItem($this->dependenciesFactory);
                 $supplierItem
                     ->setDirectionalVariable($this->useOneDirectionalVariables)
                     ->setResolveOptions($this->resolveOptions)
-                    ->setData($supplier['supplierItem']);
+                    ->setData($item);
                 return $supplierItem;
-            }, $data['suppliers']);
+            }, $data->suppliers);
         }
 
         return parent::setData($data);
@@ -62,7 +59,7 @@ class Supplier extends AbstractAgenda
         $xml = $this->createXML()->addChild('sup:supplier', '', $this->namespace('sup'));
         $xml->addAttribute('version', '2.0');
 
-        $this->addElements($xml, ['stockItem', 'suppliers'], 'sup');
+        $this->addElements($xml, $this->getDataElements(), 'sup');
 
         return $xml;
     }
@@ -73,6 +70,14 @@ class Supplier extends AbstractAgenda
     protected function configureOptions(Common\OptionsResolver $resolver): void
     {
         // available options
-        $resolver->setDefined(['stockItem', 'suppliers']);
+        $resolver->setDefined($this->getDataElements());
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getDefaultDto(): Common\Dtos\AbstractDto
+    {
+        return new Supplier\SupplierDto();
     }
 }

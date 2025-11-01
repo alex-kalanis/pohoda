@@ -14,7 +14,7 @@ namespace Riesenia\Pohoda\Common;
 use Riesenia\Pohoda\Type\ActionType;
 
 /**
- * @property array{
+ * @property object{
  *     actionType?: ActionType,
  * } $data
  */
@@ -31,7 +31,7 @@ trait AddActionTypeTrait
      */
     public function addActionType(string $type, mixed $filter = null, ?string $agenda = null): self
     {
-        if (isset($this->data['actionType'])) {
+        if (isset($this->data->actionType)) {
             throw new \LogicException('Duplicate action type.');
         }
 
@@ -46,7 +46,7 @@ trait AddActionTypeTrait
                 'filter' => $filter,
                 'agenda' => $agenda,
             ]);
-        $this->data['actionType'] = $actionType;
+        $this->data->actionType = $actionType;
 
         return $this;
     }

@@ -22,26 +22,28 @@ class StockTransferTest extends CommonTestClass
 
     public function testAddItems(): void
     {
-        $lib = $this->getLib();
-        $lib->addItem([
-            'quantity' => 2,
-            'stockItem' => [
-                'stockItem' => [
-                    'ids' => 'model',
-                    'store' => 'X',
-                ],
-            ],
-        ]);
+        $stock1 = new Pohoda\Type\Dtos\StockItemDto();
+        $stock1->stockItem = [
+            'ids' => 'model',
+            'store' => 'X',
+        ];
+        $item1 = new Pohoda\StockTransfer\ItemDto();
+        $item1->quantity = 2;
+        $item1->stockItem = $stock1;
 
-        $lib->addItem([
-            'quantity' => 1,
-            'stockItem' => [
-                'stockItem' => [
-                    'ids' => 'STM',
-                ],
-            ],
-            'note' => 'STM',
-        ]);
+        $lib = $this->getLib();
+        $lib->addItem($item1);
+
+        $stock2 = new Pohoda\Type\Dtos\StockItemDto();
+        $stock2->stockItem = [
+            'ids' => 'STM',
+        ];
+        $item2 = new Pohoda\StockTransfer\ItemDto();
+        $item2->quantity = 1;
+        $item2->note = 'STM';
+        $item2->stockItem = $stock2;
+
+        $lib->addItem($item2);
 
         $this->assertEquals('<pre:prevodka version="2.0"><pre:prevodkaHeader>' . $this->defaultHeader() . '</pre:prevodkaHeader><pre:prevodkaDetail><pre:prevodkaItem><pre:quantity>2</pre:quantity><pre:stockItem><typ:stockItem><typ:ids>model</typ:ids><typ:store>X</typ:store></typ:stockItem></pre:stockItem></pre:prevodkaItem><pre:prevodkaItem><pre:quantity>1</pre:quantity><pre:stockItem><typ:stockItem><typ:ids>STM</typ:ids></typ:stockItem></pre:stockItem><pre:note>STM</pre:note></pre:prevodkaItem></pre:prevodkaDetail></pre:prevodka>', $lib->getXML()->asXML());
     }
@@ -64,23 +66,26 @@ class StockTransferTest extends CommonTestClass
 
     protected function getLib(): Pohoda\StockTransfer
     {
+        $partnerAddress = new Pohoda\Type\Dtos\AddressTypeDto();
+        $partnerAddress->name = 'NAME';
+        $partnerAddress->ico = '123';
+
+        $partnerIdentity = new Pohoda\Type\Dtos\AddressDto();
+        $partnerIdentity->address = $partnerAddress;
+
+        $stockHeader = new Pohoda\StockTransfer\HeaderDto();
+        $stockHeader->date = '2015-01-10';
+        $stockHeader->store = [
+            'ids' => 'MAIN',
+        ];
+        $stockHeader->text = 'Prevodka na MAIN';
+        $stockHeader->activity = [
+            'id' => 1,
+        ];
+        $stockHeader->intNote = 'Note';
+        $stockHeader->partnerIdentity = $partnerIdentity;
+
         $lib = new Pohoda\StockTransfer($this->getBasicDi());
-        return $lib->setData([
-            'date' => '2015-01-10',
-            'store' => [
-                'ids' => 'MAIN',
-            ],
-            'text' => 'Prevodka na MAIN',
-            'partnerIdentity' => [
-                'address' => [
-                    'name' => 'NAME',
-                    'ico' => '123',
-                ],
-            ],
-            'activity' => [
-                'id' => 1,
-            ],
-            'intNote' => 'Note',
-        ]);
+        return $lib->setData($stockHeader);
     }
 }

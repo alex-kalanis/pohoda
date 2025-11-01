@@ -11,11 +11,11 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\Common;
 
-use Riesenia\Pohoda\Type\Parameter;
+use Riesenia\Pohoda\Type;
 
 /**
- * @property array{
- *     parameters?: iterable<Parameter>
+ * @property object{
+ *     parameters?: iterable<Type\Parameter>|null
  * } $data
  */
 trait AddParameterTrait
@@ -31,28 +31,20 @@ trait AddParameterTrait
      */
     public function addParameter(string $name, string $type, mixed $value, mixed $list = null): self
     {
-        if (!isset($this->data['parameters'])
-            || !(
-                is_array($this->data['parameters'])
-                || (is_a($this->data['parameters'], \ArrayAccess::class))
-            )
-        ) {
-            $this->data['parameters'] = [];
-        }
-
-        $parameter = new Parameter(
+        $parameter = new Type\Parameter(
             $this->dependenciesFactory,
         );
+        $dto = new Type\Dtos\ParameterDto();
+        $dto->name = $name;
+        $dto->type = $type;
+        $dto->value = $value;
+        $dto->list = $list;
+
         $parameter
             ->setDirectionalVariable($this->useOneDirectionalVariables)
             ->setResolveOptions($this->resolveOptions)
-            ->setData([
-                'name' => $name,
-                'type' => $type,
-                'value' => $value,
-                'list' => $list,
-            ]);
-        $this->data['parameters'][] = $parameter;
+            ->setData($dto);
+        $this->data->parameters[] = $parameter;
 
         return $this;
     }

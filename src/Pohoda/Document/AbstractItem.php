@@ -15,7 +15,7 @@ use Riesenia\Pohoda\Common;
 use Riesenia\Pohoda\Type;
 
 /**
- * @property array{
+ * @property object{
  *     parameters?: iterable<Type\Parameter>,
  *     homeCurrency?: Type\CurrencyItem,
  *     foreignCurrency?: Type\CurrencyItem,
@@ -29,36 +29,36 @@ abstract class AbstractItem extends AbstractPart
     /**
      * {@inheritdoc}
      */
-    public function setData(array $data): parent
+    public function setData(?Common\Dtos\AbstractDto $data): parent
     {
         // process home currency
-        if (isset($data['homeCurrency'])) {
+        if (isset($data->homeCurrency)) {
             $homeCurrency = new Type\CurrencyItem($this->dependenciesFactory);
             $homeCurrency
                 ->setDirectionalVariable($this->useOneDirectionalVariables)
                 ->setResolveOptions($this->resolveOptions)
-                ->setData($data['homeCurrency']);
-            $data['homeCurrency'] = $homeCurrency;
+                ->setData($data->homeCurrency);
+            $data->homeCurrency = $homeCurrency;
         }
 
         // process foreign currency
-        if (isset($data['foreignCurrency'])) {
+        if (isset($data->foreignCurrency)) {
             $foreignCurrency = new Type\CurrencyItem($this->dependenciesFactory);
             $foreignCurrency
                 ->setDirectionalVariable($this->useOneDirectionalVariables)
                 ->setResolveOptions($this->resolveOptions)
-                ->setData($data['foreignCurrency']);
-            $data['foreignCurrency'] = $foreignCurrency;
+                ->setData($data->foreignCurrency);
+            $data->foreignCurrency = $foreignCurrency;
         }
 
         // process stock item
-        if (isset($data['stockItem'])) {
+        if (isset($data->stockItem)) {
             $stockItem = new Type\StockItem($this->dependenciesFactory);
             $stockItem
                 ->setDirectionalVariable($this->useOneDirectionalVariables)
                 ->setResolveOptions($this->resolveOptions)
-                ->setData($data['stockItem']);
-            $data['stockItem'] = $stockItem;
+                ->setData($data->stockItem);
+            $data->stockItem = $stockItem;
         }
 
         return parent::setData($data);
@@ -79,7 +79,7 @@ abstract class AbstractItem extends AbstractPart
 
         $xml = $this->createXML()->addChild($this->namespace . ':' . $this->nodePrefix . 'Item', '', $this->namespace($this->namespace));
 
-        $this->addElements($xml, \array_merge($this->elements, ['parameters']), $this->namespace);
+        $this->addElements($xml, \array_merge($this->getDataElements(), ['parameters']), $this->namespace);
 
         return $xml;
     }
@@ -90,6 +90,6 @@ abstract class AbstractItem extends AbstractPart
     protected function configureOptions(Common\OptionsResolver $resolver): void
     {
         // available options
-        $resolver->setDefined($this->elements);
+        $resolver->setDefined($this->getDataElements());
     }
 }

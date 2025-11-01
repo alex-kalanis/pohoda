@@ -11,21 +11,10 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda;
 
-use Riesenia\Pohoda\Common\OptionsResolver;
-use Riesenia\Pohoda\UserList\ItemUserCode;
-
 /**
  * Definition of user-defined list
  *
- * @property array{
- *     code: string,
- *     name: string,
- *     constants?: bool,
- *     dateTimeStamp?: string|\DateTimeInterface,
- *     dateValidFrom?: string|\DateTimeInterface,
- *     submenu?: bool,
- *     itemUserCodes?: iterable<UserList\ItemUserCode>,
- * } $data
+ * @property UserList\UserListDto $data
  */
 class UserList extends AbstractAgenda
 {
@@ -37,27 +26,18 @@ class UserList extends AbstractAgenda
     /**
      * Add item user code.
      *
-     * @param array<string,mixed> $data
+     * @param UserList\ItemUserCodeDto $data
      *
      * @return $this
      */
-    public function addItemUserCode(array $data): self
+    public function addItemUserCode(UserList\ItemUserCodeDto $data): self
     {
-        if (!isset($this->data['itemUserCodes'])
-            || !(
-                is_array($this->data['itemUserCodes'])
-                || (is_a($this->data['itemUserCodes'], \ArrayAccess::class))
-            )
-        ) {
-            $this->data['itemUserCodes'] = [];
-        }
-
         $itemUserCodes = new UserList\ItemUserCode($this->dependenciesFactory);
         $itemUserCodes
             ->setDirectionalVariable($this->useOneDirectionalVariables)
             ->setResolveOptions($this->resolveOptions)
             ->setData($data);
-        $this->data['itemUserCodes'][] = $itemUserCodes;
+        $this->data->itemUserCodes[] = $itemUserCodes;
 
         return $this;
     }
@@ -69,28 +49,27 @@ class UserList extends AbstractAgenda
     {
         $xml = $this->createXML()->addChild('lst:listUserCode', '', $this->namespace('lst'));
         $xml->addAttribute('version', '1.1');
-        $xml->addAttribute('code', strval($this->data['code']));
-        $xml->addAttribute('name', strval($this->data['name']));
+        $xml->addAttribute('code', strval($this->data->code));
+        $xml->addAttribute('name', strval($this->data->name));
 
-        if (isset($this->data['dateTimeStamp'])) {
-            $xml->addAttribute('dateTimeStamp', strval($this->data['dateTimeStamp']));
+        if (isset($this->data->dateTimeStamp)) {
+            $xml->addAttribute('dateTimeStamp', $this->data->dateTimeStamp);
         }
 
-        if (isset($this->data['dateValidFrom'])) {
-            $xml->addAttribute('dateValidFrom', strval($this->data['dateValidFrom']));
+        if (isset($this->data->dateValidFrom)) {
+            $xml->addAttribute('dateValidFrom', $this->data->dateValidFrom);
         }
 
-        if (isset($this->data['submenu'])) {
-            $xml->addAttribute('submenu', strval($this->data['submenu']));
+        if (isset($this->data->submenu)) {
+            $xml->addAttribute('submenu', strval($this->data->submenu));
         }
 
-        if (isset($this->data['constants']) && 'true' == $this->data['constants']) {
-            $xml->addAttribute('constants', strval($this->data['constants']));
+        if (isset($this->data->constants) && 'true' == $this->data->constants) {
+            $xml->addAttribute('constants', strval($this->data->constants));
         }
 
-        if (isset($this->data['itemUserCodes'])) {
-            foreach ($this->data['itemUserCodes'] as $itemUserCode) {
-                /** @var ItemUserCode $itemUserCode */
+        if (!empty($this->data->itemUserCodes)) {
+            foreach ($this->data->itemUserCodes as $itemUserCode) {
                 $this->appendNode($xml, $itemUserCode->getXML());
             }
         }
@@ -101,10 +80,10 @@ class UserList extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    protected function configureOptions(OptionsResolver $resolver): void
+    protected function configureOptions(Common\OptionsResolver $resolver): void
     {
         // available options
-        $resolver->setDefined(['code', 'name', 'constants', 'dateTimeStamp', 'dateValidFrom', 'submenu']);
+        $resolver->setDefined($this->getDataElements());
 
         // validate / format options
         $resolver->setRequired('code');
@@ -113,5 +92,21 @@ class UserList extends AbstractAgenda
         $resolver->setNormalizer('dateTimeStamp', $this->dependenciesFactory->getNormalizerFactory()->getClosure('datetime'));
         $resolver->setNormalizer('dateValidFrom', $this->dependenciesFactory->getNormalizerFactory()->getClosure('date'));
         $resolver->setNormalizer('submenu', $this->dependenciesFactory->getNormalizerFactory()->getClosure('boolean'));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getDefaultDto(): Common\Dtos\AbstractDto
+    {
+        return new UserList\UserListDto();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function skipElements(): array
+    {
+        return ['itemUserCodes'];
     }
 }

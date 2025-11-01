@@ -15,37 +15,28 @@ use Riesenia\Pohoda\AbstractAgenda;
 use Riesenia\Pohoda\Common;
 
 /**
- * @property array{
- *     address?: AddressInternetType,
- *     establishment?: EstablishmentType,
- * } $data
+ * @property Dtos\MyAddressDto $data
  */
 class MyAddress extends AbstractAgenda
 {
     use Common\SetNamespaceTrait;
 
-    /** @var string[] */
-    protected array $elements = [
-        'address',
-        'establishment',
-    ];
-
     /**
      * {@inheritdoc}
      */
-    public function setData(array $data): parent
+    public function setData(?Common\Dtos\AbstractDto $data): parent
     {
         // process address
-        if (isset($data['address'])) {
+        if (isset($data->address)) {
             $address = new AddressInternetType($this->dependenciesFactory);
             $address->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['address']);
-            $data['address'] = $address;
+            $data->address = $address;
         }
         // process establishment
-        if (isset($data['establishment'])) {
+        if (isset($data->establishment)) {
             $establishment = new EstablishmentType($this->dependenciesFactory);
             $establishment->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['establishment']);
-            $data['establishment'] = $establishment;
+            $data->establishment = $establishment;
         }
 
         return parent::setData($data);
@@ -57,6 +48,14 @@ class MyAddress extends AbstractAgenda
     protected function configureOptions(Common\OptionsResolver $resolver): void
     {
         // available options
-        $resolver->setDefined($this->elements);
+        $resolver->setDefined($this->getDataElements());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function getDefaultDto(): Common\Dtos\AbstractDto
+    {
+        return new Dtos\MyAddressDto();
     }
 }

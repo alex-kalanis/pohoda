@@ -58,7 +58,7 @@ class StorageSpec extends ObjectBehavior
             'name' => 'SubSub',
         ]);
 
-        $sub->addSubstorage($subsub);
+        $sub->addSubStorage($subsub);
 
         $this->getXML()->asXML()->shouldReturn('<str:storage version="2.0"><str:itemStorage code="MAIN"><str:subStorages><str:itemStorage code="Sub" name="Sub"><str:subStorages><str:itemStorage code="SubSub" name="SubSub"/></str:subStorages></str:itemStorage></str:subStorages></str:itemStorage></str:storage>');
     }

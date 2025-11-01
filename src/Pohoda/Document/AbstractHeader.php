@@ -15,7 +15,7 @@ use Riesenia\Pohoda\Common;
 use Riesenia\Pohoda\Type;
 
 /**
- * @property array{
+ * @property object{
  *     parameters?: iterable<Type\Parameter>,
  *     partnerIdentity?: Type\Address,
  *     myIdentity?: Type\MyAddress,
@@ -28,26 +28,26 @@ abstract class AbstractHeader extends AbstractPart
     /**
      * {@inheritdoc}
      */
-    public function setData(array $data): parent
+    public function setData(?Common\Dtos\AbstractDto $data): parent
     {
         // process partner identity
-        if (isset($data['partnerIdentity'])) {
+        if (isset($data->partnerIdentity)) {
             $parentIdentity = new Type\Address($this->dependenciesFactory);
             $parentIdentity
                 ->setDirectionalVariable($this->useOneDirectionalVariables)
                 ->setResolveOptions($this->resolveOptions)
-                ->setData($data['partnerIdentity']);
-            $data['partnerIdentity'] = $parentIdentity;
+                ->setData($data->partnerIdentity);
+            $data->partnerIdentity = $parentIdentity;
         }
 
         // process my identity
-        if (isset($data['myIdentity'])) {
+        if (isset($data->myIdentity)) {
             $myIdentity = new Type\MyAddress($this->dependenciesFactory);
             $myIdentity
                 ->setDirectionalVariable($this->useOneDirectionalVariables)
                 ->setResolveOptions($this->resolveOptions)
-                ->setData($data['myIdentity']);
-            $data['myIdentity'] = $myIdentity;
+                ->setData($data->myIdentity);
+            $data->myIdentity = $myIdentity;
         }
 
         return parent::setData($data);
@@ -68,7 +68,7 @@ abstract class AbstractHeader extends AbstractPart
 
         $xml = $this->createXML()->addChild($this->namespace . ':' . $this->nodePrefix . 'Header', '', $this->namespace($this->namespace));
 
-        $this->addElements($xml, \array_merge($this->elements, ['parameters']), $this->namespace);
+        $this->addElements($xml, \array_merge($this->getDataElements(), ['parameters']), $this->namespace);
 
         return $xml;
     }
@@ -79,6 +79,6 @@ abstract class AbstractHeader extends AbstractPart
     protected function configureOptions(Common\OptionsResolver $resolver): void
     {
         // available options
-        $resolver->setDefined($this->elements);
+        $resolver->setDefined($this->getDataElements());
     }
 }

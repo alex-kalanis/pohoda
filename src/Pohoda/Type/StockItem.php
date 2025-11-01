@@ -25,15 +25,6 @@ class StockItem extends AbstractAgenda
         'stockItem',
     ];
 
-    /** @var string[] */
-    protected array $elements = [
-        'store',
-        'stockItem',
-        'insertAttachStock',
-        'applyUserSettingsFilterOnTheStore',
-        'serialNumber',
-    ];
-
     public function __construct(
         DependenciesFactory $dependenciesFactory,
     ) {
@@ -52,11 +43,19 @@ class StockItem extends AbstractAgenda
     protected function configureOptions(Common\OptionsResolver $resolver): void
     {
         // available options
-        $resolver->setDefined($this->elements);
+        $resolver->setDefined($this->getDataElements());
 
         // validate / format options
         $resolver->setNormalizer('insertAttachStock', $this->dependenciesFactory->getNormalizerFactory()->getClosure('bool'));
         $resolver->setNormalizer('applyUserSettingsFilterOnTheStore', $this->dependenciesFactory->getNormalizerFactory()->getClosure('bool'));
         $resolver->setNormalizer('serialNumber', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string40'));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function getDefaultDto(): Common\Dtos\AbstractDto
+    {
+        return new Dtos\StockItemDto();
     }
 }

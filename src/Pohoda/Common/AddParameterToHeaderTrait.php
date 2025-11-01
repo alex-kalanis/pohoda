@@ -27,7 +27,7 @@ trait AddParameterToHeaderTrait
      */
     public function addParameter(string $name, string $type, mixed $value, mixed $list = null): AbstractAgenda
     {
-        $object = $this->data['header'];
+        $object = $this->data->header;
         /** @var self $object */
         $object->addParameter($name, $type, $value, $list);
         return $this;

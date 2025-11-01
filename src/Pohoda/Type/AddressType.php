@@ -12,32 +12,16 @@ declare(strict_types=1);
 namespace Riesenia\Pohoda\Type;
 
 use Riesenia\Pohoda\AbstractAgenda;
-use Riesenia\Pohoda\Common\OptionsResolver;
+use Riesenia\Pohoda\Common;
 
+/**
+ * @property Dtos\AddressTypeDto $data
+ */
 class AddressType extends AbstractAgenda
 {
     /** @var string[] */
     protected array $refElements = [
         'country',
-    ];
-
-    /** @var string[] */
-    protected array $elements = [
-        'company',
-        'division',
-        'name',
-        'city',
-        'street',
-        'zip',
-        'ico',
-        'dic',
-        'VATPayerType',
-        'icDph',
-        'country',
-        'phone',
-        'mobilPhone',
-        'fax',
-        'email',
     ];
 
     /**
@@ -47,7 +31,7 @@ class AddressType extends AbstractAgenda
     {
         $xml = $this->createXML()->addChild('typ:address', '', $this->namespace('typ'));
 
-        $this->addElements($xml, $this->elements, 'typ');
+        $this->addElements($xml, $this->getDataElements(), 'typ');
 
         return $xml;
     }
@@ -55,10 +39,10 @@ class AddressType extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    protected function configureOptions(OptionsResolver $resolver): void
+    protected function configureOptions(Common\OptionsResolver $resolver): void
     {
         // available options
-        $resolver->setDefined($this->elements);
+        $resolver->setDefined($this->getDataElements());
 
         // validate / format options
         $resolver->setNormalizer('company', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string255'));
@@ -75,5 +59,13 @@ class AddressType extends AbstractAgenda
         $resolver->setNormalizer('mobilPhone', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string24'));
         $resolver->setNormalizer('fax', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string24'));
         $resolver->setNormalizer('email', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string98'));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function getDefaultDto(): Common\Dtos\AbstractDto
+    {
+        return new Dtos\AddressTypeDto();
     }
 }

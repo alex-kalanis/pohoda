@@ -15,30 +15,23 @@ use Riesenia\Pohoda\AbstractAgenda;
 use Riesenia\Pohoda\Common;
 
 /**
- * @property array{
- *     sourceLiquidation?: SourceLiquidation,
- * } $data
+ * @property Dtos\TaxDocumentDto $data
  */
 class TaxDocument extends AbstractAgenda
 {
-    /** @var string[] */
-    protected array $elements = [
-        'sourceLiquidation',
-    ];
-
     /**
      * {@inheritdoc}
      */
-    public function setData(array $data): parent
+    public function setData(?Common\Dtos\AbstractDto $data): parent
     {
         // process source liquidation
-        if (isset($data['sourceLiquidation'])) {
+        if (isset($data->sourceLiquidation)) {
             $sourceLiquidation = new SourceLiquidation($this->dependenciesFactory);
             $sourceLiquidation
                 ->setDirectionalVariable($this->useOneDirectionalVariables)
                 ->setResolveOptions($this->resolveOptions)
-                ->setData($data['sourceLiquidation']);
-            $data['sourceLiquidation'] = $sourceLiquidation;
+                ->setData($data->sourceLiquidation);
+            $data->sourceLiquidation = $sourceLiquidation;
         }
 
         return parent::setData($data);
@@ -51,7 +44,7 @@ class TaxDocument extends AbstractAgenda
     {
         $xml = $this->createXML()->addChild('int:taxDocument', '', $this->namespace('int'));
 
-        $this->addElements($xml, $this->elements, 'int');
+        $this->addElements($xml, $this->getDataElements(), 'int');
 
         return $xml;
     }
@@ -62,6 +55,14 @@ class TaxDocument extends AbstractAgenda
     protected function configureOptions(Common\OptionsResolver $resolver): void
     {
         // available options
-        $resolver->setDefined($this->elements);
+        $resolver->setDefined($this->getDataElements());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function getDefaultDto(): Common\Dtos\AbstractDto
+    {
+        return new Dtos\TaxDocumentDto();
     }
 }

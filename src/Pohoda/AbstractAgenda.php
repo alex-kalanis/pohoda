@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace Riesenia\Pohoda;
 
 use Riesenia\Pohoda;
+use Riesenia\Pohoda\Common\Dtos;
 use Riesenia\Pohoda\ValueTransformer\ValueTransformerInterface;
 use SimpleXMLElement;
 
@@ -27,8 +28,8 @@ abstract class AbstractAgenda
     use Pohoda\Common\ResolveOptionsTrait;
     use Pohoda\Common\DirectionAsResponseTrait;
 
-    /** @var array<string, mixed> */
-    protected array $data = [];
+    /** @var Dtos\AbstractDto|null */
+    protected ?Dtos\AbstractDto $data = null;
 
     /** @var string[] */
     protected array $refElements = [];
@@ -77,14 +78,29 @@ abstract class AbstractAgenda
      * Set & resolve data options
      * Necessary for late setting when there is more options available
      *
-     * @param array<string, mixed> $data
+     * @param Dtos\AbstractDto|null $data
+     *
+     * @throws \ReflectionException
      *
      * @return $this
      */
-    public function setData(array $data): self
+    public function setData(?Dtos\AbstractDto $data): self
     {
         // resolve options
-        $this->data = $this->resolveOptions ? $this->resolveOptions($data) : $data;
+        if ($data) {
+            $clonedDto = $this->dependenciesFactory->getDtoFactory()->getDto($data);
+
+            if ($this->resolveOptions) {
+                $passedData = array_filter((array) $data, fn($in) => !(is_null($in) || (is_array($in) && empty($in)))); // throw nulls and empty arrays (unused values) out
+                $resolvedData = $this->resolveOptions($passedData);
+                foreach ($clonedDto as $key => $entry) {
+                    $clonedDto->{$key} = $resolvedData[$key] ?? (new \ReflectionClass($clonedDto))?->getProperty($key)?->getDefaultValue();
+                }
+                $this->data = $clonedDto;
+            } else {
+                $this->data = $data;
+            }
+        }
 
         return $this;
     }
@@ -142,28 +158,30 @@ abstract class AbstractAgenda
     protected function addElements(SimpleXMLElement $xml, array $elements, ?string $namespace = null): void
     {
         foreach ($elements as $element) {
-            if (!isset($this->data[$element])) {
+            $nodeKey = $this->getNodeKey($element);
+
+            if (!isset($this->data->{$element})) {
                 continue;
             }
 
             // ref element
-            if (\in_array($element, $this->refElements)) {
-                $this->addRefElement($xml, ($namespace ? $namespace . ':' : '') . $element, $this->data[$element], $namespace);
+            if (\in_array($nodeKey, $this->refElements)) {
+                $this->addRefElement($xml, ($namespace ? $namespace . ':' : '') . $nodeKey, $this->data->{$element}, $namespace);
                 continue;
             }
-            if ($this->useOneDirectionalVariables && \in_array($element, $this->directionalRefElements)) {
-                $this->addRefElement($xml, ($namespace ? $namespace . ':' : '') . $element, $this->data[$element], $namespace);
+            if ($this->useOneDirectionalVariables && \in_array($nodeKey, $this->directionalRefElements)) {
+                $this->addRefElement($xml, ($namespace ? $namespace . ':' : '') . $nodeKey, $this->data->{$element}, $namespace);
                 continue;
             }
 
             // element attribute
-            if (isset($this->elementsAttributesMapper[$element])) {
-                $attrs = $this->elementsAttributesMapper[$element];
+            if (isset($this->elementsAttributesMapper[$nodeKey])) {
+                $attrs = $this->elementsAttributesMapper[$nodeKey];
 
                 // get element
                 $attrElement = $namespace ? $xml->children($namespace, true)->{$attrs->attrElement} : $xml->{$attrs->attrElement};
 
-                $sanitized = $this->sanitize($this->data[$element]);
+                $sanitized = $this->sanitize($this->data->{$element});
                 $attrs->attrNamespace ? $attrElement->addAttribute(
                     $attrs->attrNamespace . ':' . $attrs->attrName,
                     $sanitized,
@@ -175,35 +193,39 @@ abstract class AbstractAgenda
             }
 
             // Agenda object
-            if ($this->data[$element] instanceof self) {
+            if ($this->data->{$element} instanceof self) {
                 // set namespace
-                if ($namespace && \method_exists($this->data[$element], 'setNamespace')) {
-                    $this->data[$element]->setNamespace($namespace);
+                if ($namespace && \method_exists($this->data->{$element}, 'setNamespace')) {
+                    $this->data->{$element}->setNamespace($namespace);
                 }
 
                 // set node name
-                if (\method_exists($this->data[$element], 'setNodeName')) {
-                    $this->data[$element]->setNodeName($element);
+                if (\method_exists($this->data->{$element}, 'setNodeName')) {
+                    $this->data->{$element}->setNodeName($nodeKey);
                 }
 
-                $this->appendNode($xml, $this->data[$element]->getXML());
+                $this->appendNode($xml, $this->data->{$element}->getXML());
 
                 continue;
             }
 
             // array of Agenda objects
-            if (\is_array($this->data[$element])) {
-                $child = $namespace ? $xml->addChild($namespace . ':' . $element, '', $this->namespace($namespace)) : $xml->addChild($element);
+            if (\is_array($this->data->{$element})) {
+                if (empty($this->data->{$element})) {
+                    continue;
+                }
 
-                foreach ($this->data[$element] as $node) {
+                $child = $namespace ? $xml->addChild($namespace . ':' . $nodeKey, '', $this->namespace($namespace)) : $xml->addChild($nodeKey);
+
+                foreach ($this->data->{$element} as $node) {
                     $this->appendNode($child, $node->getXML());
                 }
 
                 continue;
             }
 
-            $sanitized = $this->sanitize($this->data[$element]);
-            $namespace ? $xml->addChild($namespace . ':' . $element, $sanitized, $this->namespace($namespace)) : $xml->addChild($element, $sanitized);
+            $sanitized = $this->sanitize($this->data->{$element});
+            $namespace ? $xml->addChild($namespace . ':' . $nodeKey, $sanitized, $this->namespace($namespace)) : $xml->addChild($nodeKey, $sanitized);
         }
     }
 
@@ -342,4 +364,54 @@ abstract class AbstractAgenda
         return $defaultPrefix;
     }
 
+    /**
+     * Get elements - properties in data class
+     *
+     * @throws \ReflectionException
+     *
+     * @return string[]
+     */
+    protected function getDataElements(): array
+    {
+        $data = $this->data ?: $this->getDefaultDto();
+
+        $reflection = new \ReflectionClass($data);
+        return array_diff(array_map(
+            fn(\ReflectionProperty $property) => $property->getName(),
+            $reflection->getProperties(),
+        ), $this->skipElements());
+    }
+
+    /**
+     * Change key for specific cases
+     *
+     * @param string $key
+     *
+     * @return string
+     */
+    protected function getNodeKey(string $key): string
+    {
+        return $key;
+    }
+
+    /**
+     * Get DTO which has defined elements for the agenda
+     *
+     * @return Dtos\AbstractDto
+     */
+    // abstract protected function getDefaultDto(): Dtos\AbstractDto;
+    protected function getDefaultDto(): Dtos\AbstractDto
+    {
+        return new Dtos\AgendaDto();
+    }
+
+    /**
+     * Skip defined data elements - not need to use everything
+     *
+     * @return string[]
+     */
+    protected function skipElements(): array
+    {
+        return [];
+    }
 }

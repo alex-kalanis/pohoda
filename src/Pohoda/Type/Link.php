@@ -12,19 +12,12 @@ declare(strict_types=1);
 namespace Riesenia\Pohoda\Type;
 
 use Riesenia\Pohoda\AbstractAgenda;
-use Riesenia\Pohoda\Common\OptionsResolver;
+use Riesenia\Pohoda\Common;
 
 class Link extends AbstractAgenda
 {
     /** @var string[] */
     protected array $refElements = [
-        'sourceDocument',
-        'settingsSourceDocument',
-    ];
-
-    /** @var string[] */
-    protected array $elements = [
-        'sourceAgenda',
         'sourceDocument',
         'settingsSourceDocument',
     ];
@@ -36,7 +29,7 @@ class Link extends AbstractAgenda
     {
         $xml = $this->createXML()->addChild('typ:link', '', $this->namespace('typ'));
 
-        $this->addElements($xml, $this->elements, 'typ');
+        $this->addElements($xml, $this->getDataElements(), 'typ');
 
         return $xml;
     }
@@ -44,12 +37,20 @@ class Link extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    protected function configureOptions(OptionsResolver $resolver): void
+    protected function configureOptions(Common\OptionsResolver $resolver): void
     {
         // available options
-        $resolver->setDefined($this->elements);
+        $resolver->setDefined($this->getDataElements());
 
         // validate / format options
         $resolver->setAllowedValues('sourceAgenda', ['issuedInvoice', 'receivedInvoice', 'receivable', 'commitment', 'issuedAdvanceInvoice', 'receivedAdvanceInvoice', 'offer', 'enquiry', 'receivedOrder', 'issuedOrder']);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function getDefaultDto(): Common\Dtos\AbstractDto
+    {
+        return new Dtos\LinkDto();
     }
 }

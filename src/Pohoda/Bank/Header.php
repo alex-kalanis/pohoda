@@ -61,16 +61,16 @@ class Header extends AbstractHeader
     /**
      * {@inheritdoc}
      */
-    public function setData(array $data): parent
+    public function setData(?Common\Dtos\AbstractDto $data): parent
     {
         // process report
-        if (isset($data['statementNumber'])) {
+        if (isset($data->statementNumber)) {
             $statementNumber = new StatementNumber($this->dependenciesFactory);
             $statementNumber
                 ->setDirectionalVariable($this->useOneDirectionalVariables)
                 ->setResolveOptions($this->resolveOptions)
-                ->setData($data['statementNumber']);
-            $data['statementNumber'] = $statementNumber;
+                ->setData($data->statementNumber);
+            $data->statementNumber = $statementNumber;
         }
 
         return parent::setData($data);

@@ -2,17 +2,16 @@
 
 namespace Riesenia\Pohoda\Voucher;
 
+use Riesenia\Pohoda\Common\Dtos;
 use Riesenia\Pohoda\Document\AbstractSummary;
 
 class Summary extends AbstractSummary
 {
-    /** @var string[] */
-    protected array $elements = [
-        'roundingDocument',
-        'roundingVAT',
-        'calculateVAT',
-        'typeCalculateVATInclusivePrice',
-        'homeCurrency',
-        'foreignCurrency',
-    ];
+    /**
+     * @{inheritDoc}
+     */
+    protected function getDefaultDto(): Dtos\AbstractDto
+    {
+        return new SummaryDto();
+    }
 }

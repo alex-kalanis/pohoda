@@ -12,27 +12,13 @@ declare(strict_types=1);
 namespace Riesenia\Pohoda\Type;
 
 use Riesenia\Pohoda\AbstractAgenda;
-use Riesenia\Pohoda\Common\OptionsResolver;
+use Riesenia\Pohoda\Common;
 
 class ShipToAddressType extends AbstractAgenda
 {
     /** @var string[] */
     protected array $refElements = [
         'country',
-    ];
-
-    /** @var string[] */
-    protected array $elements = [
-        'company',
-        'division',
-        'name',
-        'city',
-        'street',
-        'zip',
-        'country',
-        'phone',
-        'email',
-        'defaultShipAddress',
     ];
 
     /**
@@ -42,7 +28,7 @@ class ShipToAddressType extends AbstractAgenda
     {
         $xml = $this->createXML()->addChild('typ:shipToAddress', '', $this->namespace('typ'));
 
-        $this->addElements($xml, $this->elements, 'typ');
+        $this->addElements($xml, $this->getDataElements(), 'typ');
 
         return $xml;
     }
@@ -50,10 +36,10 @@ class ShipToAddressType extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    protected function configureOptions(OptionsResolver $resolver): void
+    protected function configureOptions(Common\OptionsResolver $resolver): void
     {
         // available options
-        $resolver->setDefined($this->elements);
+        $resolver->setDefined($this->getDataElements());
 
         // validate / format options
         $resolver->setNormalizer('company', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string255'));
@@ -65,5 +51,13 @@ class ShipToAddressType extends AbstractAgenda
         $resolver->setNormalizer('phone', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string40'));
         $resolver->setNormalizer('email', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string98'));
         $resolver->setNormalizer('defaultShipAddress', $this->dependenciesFactory->getNormalizerFactory()->getClosure('bool'));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function getDefaultDto(): Common\Dtos\AbstractDto
+    {
+        return new Dtos\ShipToAddressDto();
     }
 }

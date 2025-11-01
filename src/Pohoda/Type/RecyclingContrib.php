@@ -12,38 +12,37 @@ declare(strict_types=1);
 namespace Riesenia\Pohoda\Type;
 
 use Riesenia\Pohoda\AbstractAgenda;
-use Riesenia\Pohoda\Common\OptionsResolver;
-use Riesenia\Pohoda\Common\SetNamespaceTrait;
+use Riesenia\Pohoda\Common;
 
 class RecyclingContrib extends AbstractAgenda
 {
-    use SetNamespaceTrait;
+    use Common\SetNamespaceTrait;
 
     /** @var string[] */
     protected array $refElements = [
         'recyclingContribType',
     ];
 
-    /** @var string[] */
-    protected array $elements = [
-        'recyclingContribText',
-        'recyclingContribAmount',
-        'recyclingContribUnit',
-        'coefficientOfRecyclingContrib',
-    ];
-
     /**
      * {@inheritdoc}
      */
-    protected function configureOptions(OptionsResolver $resolver): void
+    protected function configureOptions(Common\OptionsResolver $resolver): void
     {
         // available options
-        $resolver->setDefined($this->elements);
+        $resolver->setDefined($this->getDataElements());
 
         // validate / format options
         $resolver->setNormalizer('recyclingContribText', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string64'));
         $resolver->setNormalizer('recyclingContribAmount', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
         $resolver->setNormalizer('recyclingContribUnit', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string10'));
         $resolver->setNormalizer('coefficientOfRecyclingContrib', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function getDefaultDto(): Common\Dtos\AbstractDto
+    {
+        return new Dtos\RecyclingContribDto();
     }
 }

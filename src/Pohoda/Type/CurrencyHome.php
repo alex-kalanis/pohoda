@@ -24,23 +24,6 @@ class CurrencyHome extends AbstractAgenda
         'round',
     ];
 
-    /** @var string[] */
-    protected array $elements = [
-        'priceNone',
-        'price3',
-        'price3VAT',
-        'price3Sum',
-        'priceLow',
-        'priceLowVAT',
-        'priceLowVatRate',
-        'priceLowSum',
-        'priceHigh',
-        'priceHighVAT',
-        'priceHighVatRate',
-        'priceHighSum',
-        'round',
-    ];
-
     public function __construct(
         DependenciesFactory $dependenciesFactory,
     ) {
@@ -59,7 +42,7 @@ class CurrencyHome extends AbstractAgenda
     protected function configureOptions(Common\OptionsResolver $resolver): void
     {
         // available options
-        $resolver->setDefined($this->elements);
+        $resolver->setDefined($this->getDataElements());
 
         // validate / format options
         $resolver->setNormalizer('priceNone', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
@@ -74,5 +57,13 @@ class CurrencyHome extends AbstractAgenda
         $resolver->setNormalizer('priceHighVAT', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
         $resolver->setNormalizer('priceHighVatRate', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
         $resolver->setNormalizer('priceHighSum', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function getDefaultDto(): Common\Dtos\AbstractDto
+    {
+        return new Dtos\CurrencyHomeDto();
     }
 }

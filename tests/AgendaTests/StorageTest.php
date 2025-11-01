@@ -22,33 +22,36 @@ class StorageTest extends CommonTestClass
 
     public function testAddSubStorages(): void
     {
+        $subStore = new Pohoda\Storage\StorageDto();
+        $subStore->code = 'Sub';
+        $subStore->name = 'Sub';
+
         $lib = $this->getLib();
         $sub = new Pohoda\Storage($this->getBasicDi());
-        $sub->setData([
-            'code' => 'Sub',
-            'name' => 'Sub',
-        ]);
+        $sub->setData($subStore);
 
-        $lib->addSubstorage($sub);
+        $lib->addSubStorage($sub);
 
         $this->assertEquals('<str:storage version="2.0"><str:itemStorage code="MAIN"><str:subStorages><str:itemStorage code="Sub" name="Sub"/></str:subStorages></str:itemStorage></str:storage>', $lib->getXML()->asXML());
 
-        $subsub = new Pohoda\Storage($this->getBasicDi());
-        $subsub->setData([
-            'code' => 'SubSub',
-            'name' => 'SubSub',
-        ]);
+        $subSubStore = new Pohoda\Storage\StorageDto();
+        $subSubStore->code = 'SubSub';
+        $subSubStore->name = 'SubSub';
 
-        $sub->addSubstorage($subsub);
+        $subSub = new Pohoda\Storage($this->getBasicDi());
+        $subSub->setData($subSubStore);
+
+        $sub->addSubStorage($subSub);
 
         $this->assertEquals('<str:storage version="2.0"><str:itemStorage code="MAIN"><str:subStorages><str:itemStorage code="Sub" name="Sub"><str:subStorages><str:itemStorage code="SubSub" name="SubSub"/></str:subStorages></str:itemStorage></str:subStorages></str:itemStorage></str:storage>', $lib->getXML()->asXML());
     }
 
     protected function getLib(): Pohoda\Storage
     {
+        $store = new Pohoda\Storage\StorageDto();
+        $store->code = 'MAIN';
+
         $lib = new Pohoda\Storage($this->getBasicDi());
-        return $lib->setData([
-            'code' => 'MAIN',
-        ]);
+        return $lib->setData($store);
     }
 }

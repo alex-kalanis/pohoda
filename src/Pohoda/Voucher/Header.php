@@ -2,6 +2,7 @@
 
 namespace Riesenia\Pohoda\Voucher;
 
+use Riesenia\Pohoda\Common\Dtos;
 use Riesenia\Pohoda\Common\OptionsResolver;
 use Riesenia\Pohoda\Document\AbstractHeader;
 
@@ -16,44 +17,6 @@ class Header extends AbstractHeader
         'contract',
     ];
 
-    /** @var string[] */
-    protected array $elements = [
-        'id',
-        'extId',
-        'voucherType',
-        'storno',
-        'cashAccount',
-        'number',
-        'originalDocument',
-        'date',
-        'datePayment',
-        'dateTax',
-        'dateKHDPH',
-        'accounting',
-        'classificationVAT',
-        'classificationKVDPH',
-        'text',
-        'partnerIdentity',
-        'myIdentity',
-        'symPar',
-        'priceLevel',
-        'centre',
-        'activity',
-        'contract',
-        'regVATinEU',
-        'MOSS',
-        'evidentiaryResourcesMOSS',
-        'note',
-        'intNote',
-        'histRate',
-        'lock1',
-        'lock2',
-        'markRecord',
-        'labels',
-        'parameters',
-        'validate',
-    ];
-
     /**
      * {@inheritdoc}
      */
@@ -66,5 +29,13 @@ class Header extends AbstractHeader
         $resolver->setNormalizer('date', $this->dependenciesFactory->getNormalizerFactory()->getClosure('date'));
         $resolver->setNormalizer('symPar', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string20'));
         $resolver->setNormalizer('text', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string240'));
+    }
+
+    /**
+     * @{inheritDoc}
+     */
+    protected function getDefaultDto(): Dtos\AbstractDto
+    {
+        return new HeaderDto();
     }
 }

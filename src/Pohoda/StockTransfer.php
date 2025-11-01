@@ -12,10 +12,7 @@ declare(strict_types=1);
 namespace Riesenia\Pohoda;
 
 /**
- * @property array{
- *     header: StockTransfer\Header,
- *     prevodkaDetail?: iterable<StockTransfer\Item>,
- * } $data
+ * @property StockTransfer\StockTransferDto $data
  */
 class StockTransfer extends AbstractAgenda
 {
@@ -24,7 +21,7 @@ class StockTransfer extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    public function setData(array $data): parent
+    public function setData(?Common\Dtos\AbstractDto $data): parent
     {
         // pass to header
         $header = new StockTransfer\Header($this->dependenciesFactory);
@@ -32,7 +29,8 @@ class StockTransfer extends AbstractAgenda
             ->setDirectionalVariable($this->useOneDirectionalVariables)
             ->setResolveOptions($this->resolveOptions)
             ->setData($data);
-        $data = ['header' => $header];
+        $data = new StockTransfer\StockTransferDto();
+        $data->header = $header;
 
         return parent::setData($data);
     }
@@ -45,27 +43,18 @@ class StockTransfer extends AbstractAgenda
     /**
      * Add item.
      *
-     * @param array<string,mixed> $data
+     * @param StockTransfer\ItemDto $data
      *
      * @return $this
      */
-    public function addItem(array $data): self
+    public function addItem(StockTransfer\ItemDto $data): self
     {
-        if (!isset($this->data['prevodkaDetail'])
-            || !(
-                is_array($this->data['prevodkaDetail'])
-                || (is_a($this->data['prevodkaDetail'], \ArrayAccess::class))
-            )
-        ) {
-            $this->data['prevodkaDetail'] = [];
-        }
-
         $prevodkaDetail = new StockTransfer\Item($this->dependenciesFactory);
         $prevodkaDetail
             ->setDirectionalVariable($this->useOneDirectionalVariables)
             ->setResolveOptions($this->resolveOptions)
             ->setData($data);
-        $this->data['prevodkaDetail'][] = $prevodkaDetail;
+        $this->data->prevodkaDetail[] = $prevodkaDetail;
 
         return $this;
     }
@@ -89,6 +78,22 @@ class StockTransfer extends AbstractAgenda
     protected function configureOptions(Common\OptionsResolver $resolver): void
     {
         // available options
-        $resolver->setDefined(['header']);
+        $resolver->setDefined($this->getDataElements());
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getDefaultDto(): Common\Dtos\AbstractDto
+    {
+        return new StockTransfer\StockTransferDto();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function skipElements(): array
+    {
+        return ['prevodkaDetail'];
     }
 }
