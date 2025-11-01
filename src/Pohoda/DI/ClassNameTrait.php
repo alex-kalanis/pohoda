@@ -6,7 +6,7 @@ trait ClassNameTrait
 {
     /**
      * @param string|class-string $name
-     * @return class-string
+     * @return string
      * The difference in absolute-relative paths are signalized by slash in the beginning of string
      */
     public function getClassName(string $name): string
