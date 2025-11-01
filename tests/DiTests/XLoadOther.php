@@ -2,15 +2,11 @@
 
 namespace Riesenia\Pohoda;
 
-class XClass
-{
-}
+class XClass {}
 
 namespace tests\DiTests;
 
 class XLoadOther
 {
-    public static function init(): void
-    {
-    }
+    public static function init(): void {}
 }

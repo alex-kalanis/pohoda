@@ -19,9 +19,8 @@ class TestingContainer implements ContainerInterface
      * @param object[] $objects
      */
     public function __construct(
-        array $objects
-    )
-    {
+        array $objects,
+    ) {
         $obj = [];
         foreach ($objects as $object) {
             $obj[get_class($object)] = $object;
