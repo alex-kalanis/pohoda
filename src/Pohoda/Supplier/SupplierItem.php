@@ -17,10 +17,32 @@ use Riesenia\Pohoda\Common\OptionsResolver;
 class SupplierItem extends AbstractAgenda
 {
     /** @var string[] */
-    protected array $refElements = ['refAd', 'currency', 'deliveryPeriod'];
+    protected array $refElements = [
+        'refAd',
+        'currency',
+        'deliveryPeriod',
+    ];
 
     /** @var string[] */
-    protected array $elements = ['default', 'refAd', 'orderCode', 'orderName', 'purchasingPrice', 'currency', 'rate', 'payVAT', 'ean', 'printEAN', 'unitEAN', 'unitCoefEAN', 'deliveryTime', 'deliveryPeriod', 'minQuantity', 'unit', 'note'];
+    protected array $elements = [
+        'default',
+        'refAd',
+        'orderCode',
+        'orderName',
+        'purchasingPrice',
+        'currency',
+        'rate',
+        'payVAT',
+        'ean',
+        'printEAN',
+        'unitEAN',
+        'unitCoefEAN',
+        'deliveryTime',
+        'deliveryPeriod',
+        'minQuantity',
+        'unit',
+        'note',
+    ];
 
     /**
      * {@inheritdoc}

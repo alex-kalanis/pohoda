@@ -11,4 +11,4 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\PrintRequest;
 
-class Month2 extends NumberType {}
+final class Month2 extends NumberType {}

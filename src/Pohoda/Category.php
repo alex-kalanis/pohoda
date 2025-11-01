@@ -27,7 +27,14 @@ use Riesenia\Pohoda\Common\OptionsResolver;
 class Category extends AbstractAgenda
 {
     /** @var string[] */
-    protected array $elements = ['name', 'description', 'sequence', 'displayed', 'picture', 'note'];
+    protected array $elements = [
+        'name',
+        'description',
+        'sequence',
+        'displayed',
+        'picture',
+        'note',
+    ];
 
     public function getImportRoot(): string
     {

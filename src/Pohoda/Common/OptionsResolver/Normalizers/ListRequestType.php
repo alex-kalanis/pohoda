@@ -2,7 +2,7 @@
 
 namespace Riesenia\Pohoda\Common\OptionsResolver\Normalizers;
 
-class ListRequestType extends AbstractNormalizer
+final class ListRequestType extends AbstractNormalizer
 {
     public function normalize(mixed $options, mixed $value): string
     {

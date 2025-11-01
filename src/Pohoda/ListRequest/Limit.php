@@ -17,7 +17,10 @@ use Riesenia\Pohoda\Common\OptionsResolver;
 class Limit extends AbstractAgenda
 {
     /** @var string[] */
-    protected array $elements = ['idFrom', 'count'];
+    protected array $elements = [
+        'idFrom',
+        'count',
+    ];
 
     /**
      * {@inheritdoc}

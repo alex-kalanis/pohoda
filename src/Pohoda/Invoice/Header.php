@@ -17,10 +17,73 @@ use Riesenia\Pohoda\Document\AbstractHeader;
 class Header extends AbstractHeader
 {
     /** @var string[] */
-    protected array $refElements = ['extId', 'number', 'accounting', 'classificationVAT', 'classificationKVDPH', 'order', 'paymentType', 'priceLevel', 'account', 'paymentAccount', 'centre', 'activity', 'contract', 'regVATinEU', 'MOSS', 'evidentiaryResourcesMOSS', 'carrier'];
+    protected array $refElements = [
+        'extId',
+        'number',
+        'accounting',
+        'classificationVAT',
+        'classificationKVDPH',
+        'order',
+        'paymentType',
+        'priceLevel',
+        'account',
+        'paymentAccount',
+        'centre',
+        'activity',
+        'contract',
+        'regVATinEU',
+        'MOSS',
+        'evidentiaryResourcesMOSS',
+        'carrier',
+    ];
 
     /** @var string[] */
-    protected array $elements = ['extId', 'invoiceType', 'number', 'symVar', 'originalDocument', 'originalDocumentNumber', 'symPar', 'date', 'dateTax', 'dateAccounting', 'dateKHDPH', 'dateDue', 'dateApplicationVAT', 'dateDelivery', 'accounting', 'classificationVAT', 'classificationKVDPH', 'numberKHDPH', 'text', 'partnerIdentity', 'myIdentity', 'order', 'numberOrder', 'dateOrder', 'paymentType', 'priceLevel', 'account', 'symConst', 'symSpec', 'paymentAccount', 'paymentTerminal', 'centre', 'activity', 'contract', 'regVATinEU', 'MOSS', 'evidentiaryResourcesMOSS', 'accountingPeriodMOSS', 'dateTaxOriginalDocumentMOSS', 'note', 'carrier', 'intNote', 'postponedIssue', 'histRate'];
+    protected array $elements = [
+        'extId',
+        'invoiceType',
+        'number',
+        'symVar',
+        'originalDocument',
+        'originalDocumentNumber',
+        'symPar',
+        'date',
+        'dateTax',
+        'dateAccounting',
+        'dateKHDPH',
+        'dateDue',
+        'dateApplicationVAT',
+        'dateDelivery',
+        'accounting',
+        'classificationVAT',
+        'classificationKVDPH',
+        'numberKHDPH',
+        'text',
+        'partnerIdentity',
+        'myIdentity',
+        'order',
+        'numberOrder',
+        'dateOrder',
+        'paymentType',
+        'priceLevel',
+        'account',
+        'symConst',
+        'symSpec',
+        'paymentAccount',
+        'paymentTerminal',
+        'centre',
+        'activity',
+        'contract',
+        'regVATinEU',
+        'MOSS',
+        'evidentiaryResourcesMOSS',
+        'accountingPeriodMOSS',
+        'dateTaxOriginalDocumentMOSS',
+        'note',
+        'carrier',
+        'intNote',
+        'postponedIssue',
+        'histRate',
+    ];
 
     /**
      * {@inheritdoc}

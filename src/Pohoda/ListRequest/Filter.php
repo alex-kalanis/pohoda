@@ -17,10 +17,35 @@ use Riesenia\Pohoda\Common\OptionsResolver;
 class Filter extends AbstractAgenda
 {
     /** @var string[] */
-    protected array $refElements = ['extId', 'storage', 'store', 'selectedNumbers', 'selectedCompanys', 'selectedIco'];
+    protected array $refElements = [
+        'extId',
+        'storage',
+        'store',
+        'selectedNumbers',
+        'selectedCompanys',
+        'selectedIco',
+    ];
 
     /** @var string[] */
-    protected array $elements = ['id', 'extId', 'code', 'EAN', 'name', 'storage', 'store', 'internet', 'company', 'ico', 'dic', 'lastChanges', 'dateFrom', 'dateTill', 'selectedNumbers', 'selectedCompanys', 'selectedIco'];
+    protected array $elements = [
+        'id',
+        'extId',
+        'code',
+        'EAN',
+        'name',
+        'storage',
+        'store',
+        'internet',
+        'company',
+        'ico',
+        'dic',
+        'lastChanges',
+        'dateFrom',
+        'dateTill',
+        'selectedNumbers',
+        'selectedCompanys',
+        'selectedIco',
+    ];
 
     /**
      * {@inheritdoc}

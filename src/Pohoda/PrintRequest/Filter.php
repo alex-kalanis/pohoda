@@ -17,7 +17,9 @@ use Riesenia\Pohoda\Common\OptionsResolver;
 class Filter extends AbstractAgenda
 {
     /** @var string[] */
-    protected array $elements = ['id'];
+    protected array $elements = [
+        'id',
+    ];
 
     /**
      * {@inheritdoc}

@@ -17,10 +17,9 @@ use Riesenia\Pohoda\Common\OptionsResolver;
 class RestrictionData extends AbstractAgenda
 {
     /** @var string[] */
-    protected array $refElements = [];
-
-    /** @var string[] */
-    protected array $elements = ['liquidations'];
+    protected array $elements = [
+        'liquidations',
+    ];
 
     /**
      * {@inheritdoc}

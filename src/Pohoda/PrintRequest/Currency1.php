@@ -11,4 +11,4 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\PrintRequest;
 
-class Currency1 extends NumberType {}
+final class Currency1 extends NumberType {}

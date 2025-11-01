@@ -11,4 +11,4 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\PrintRequest;
 
-class Spin1 extends NumberType {}
+final class Spin1 extends NumberType {}

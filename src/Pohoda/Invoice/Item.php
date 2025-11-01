@@ -18,10 +18,44 @@ use Riesenia\Pohoda\Type\RecyclingContrib;
 class Item extends AbstractItem
 {
     /** @var string[] */
-    protected array $refElements = ['typeServiceMOSS', 'accounting', 'classificationVAT', 'classificationKVDPH', 'centre', 'activity', 'contract'];
+    protected array $refElements = [
+        'typeServiceMOSS',
+        'accounting',
+        'classificationVAT',
+        'classificationKVDPH',
+        'centre',
+        'activity',
+        'contract',
+    ];
 
     /** @var string[] */
-    protected array $elements = ['text', 'quantity', 'unit', 'coefficient', 'payVAT', 'rateVAT', 'percentVAT', 'discountPercentage', 'homeCurrency', 'foreignCurrency', 'typeServiceMOSS', 'note', 'code', 'guarantee', 'guaranteeType', 'stockItem', 'accounting', 'classificationVAT', 'classificationKVDPH', 'centre', 'activity', 'contract', 'expirationDate', 'PDP', 'recyclingContrib'];
+    protected array $elements = [
+        'text',
+        'quantity',
+        'unit',
+        'coefficient',
+        'payVAT',
+        'rateVAT',
+        'percentVAT',
+        'discountPercentage',
+        'homeCurrency',
+        'foreignCurrency',
+        'typeServiceMOSS',
+        'note',
+        'code',
+        'guarantee',
+        'guaranteeType',
+        'stockItem',
+        'accounting',
+        'classificationVAT',
+        'classificationKVDPH',
+        'centre',
+        'activity',
+        'contract',
+        'expirationDate',
+        'PDP',
+        'recyclingContrib',
+    ];
 
     /**
      * @inheritdoc
@@ -30,7 +64,10 @@ class Item extends AbstractItem
     {
         if (isset($data['recyclingContrib'])) {
             $recyclingContrib = new RecyclingContrib($this->dependenciesFactory);
-            $recyclingContrib->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['recyclingContrib']);
+            $recyclingContrib
+                ->setDirectionalVariable($this->useOneDirectionalVariables)
+                ->setResolveOptions($this->resolveOptions)
+                ->setData($data['recyclingContrib']);
             $data['recyclingContrib'] = $recyclingContrib;
         }
 

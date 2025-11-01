@@ -17,7 +17,9 @@ use Riesenia\Pohoda\Common\OptionsResolver;
 class SourceLiquidation extends AbstractAgenda
 {
     /** @var string[] */
-    protected array $elements = ['sourceItemId'];
+    protected array $elements = [
+        'sourceItemId',
+    ];
 
     /**
      * {@inheritdoc}

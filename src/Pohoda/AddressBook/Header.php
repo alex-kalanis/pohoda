@@ -20,10 +20,60 @@ class Header extends AbstractAgenda
     use Common\AddParameterTrait;
 
     /** @var string[] */
-    protected array $refElements = ['paymentType', 'centre', 'activity', 'contract', 'number', 'accountingReceivedInvoice', 'accountingIssuedInvoice', 'classificationVATReceivedInvoice', 'classificationVATIssuedInvoice', 'classificationKVDPHReceivedInvoice', 'classificationKVDPHIssuedInvoice', 'accountForInvoicing', 'foreignCurrency'];
+    protected array $refElements = [
+        'paymentType',
+        'centre',
+        'activity',
+        'contract',
+        'number',
+        'accountingReceivedInvoice',
+        'accountingIssuedInvoice',
+        'classificationVATReceivedInvoice',
+        'classificationVATIssuedInvoice',
+        'classificationKVDPHReceivedInvoice',
+        'classificationKVDPHIssuedInvoice',
+        'accountForInvoicing',
+        'foreignCurrency',
+    ];
 
     /** @var string[] */
-    protected array $elements = ['identity', 'region', 'phone', 'mobil', 'fax', 'email', 'web', 'ICQ', 'Skype', 'GPS', 'credit', 'priceIDS', 'maturity', 'maturityCommitments', 'paymentType', 'agreement', 'number', 'ost1', 'ost2', 'p1', 'p2', 'p3', 'p4', 'p5', 'p6', 'markRecord', 'message', 'note', 'intNote', 'accountingReceivedInvoice', 'accountingIssuedInvoice', 'classificationVATReceivedInvoice', 'classificationVATIssuedInvoice', 'classificationKVDPHReceivedInvoice', 'classificationKVDPHIssuedInvoice', 'accountForInvoicing', 'foreignCurrency', 'centre', 'activity', 'contract', 'adGroup'];
+    protected array $elements = [
+        'identity',
+        'region',
+        'phone',
+        'mobil',
+        'fax',
+        'email',
+        'web',
+        'ICQ',
+        'Skype',
+        'GPS',
+        'credit',
+        'priceIDS',
+        'maturity',
+        'maturityCommitments',
+        'paymentType',
+        'agreement',
+        'number',
+        'ost1', 'ost2',
+        'p1', 'p2', 'p3', 'p4', 'p5', 'p6',
+        'markRecord',
+        'message',
+        'note',
+        'intNote',
+        'accountingReceivedInvoice',
+        'accountingIssuedInvoice',
+        'classificationVATReceivedInvoice',
+        'classificationVATIssuedInvoice',
+        'classificationKVDPHReceivedInvoice',
+        'classificationKVDPHIssuedInvoice',
+        'accountForInvoicing',
+        'foreignCurrency',
+        'centre',
+        'activity',
+        'contract',
+        'adGroup',
+    ];
 
     /**
      * {@inheritdoc}
@@ -33,7 +83,10 @@ class Header extends AbstractAgenda
         // process identity
         if (isset($data['identity'])) {
             $identity = new Address($this->dependenciesFactory);
-            $identity->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['identity']);
+            $identity
+                ->setDirectionalVariable($this->useOneDirectionalVariables)
+                ->setResolveOptions($this->resolveOptions)
+                ->setData($data['identity']);
             $data['identity'] = $identity;
         }
 

@@ -11,4 +11,4 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\PrintRequest;
 
-class Date1 extends DateType {}
+final class Date1 extends DateType {}

@@ -16,7 +16,7 @@ namespace Riesenia\Pohoda\ValueTransformer;
  *
  * This transformer performs no modifications and simply passes the original value through.
  */
-class IdentityTransformer implements ValueTransformerInterface
+final class IdentityTransformer implements ValueTransformerInterface
 {
     public function transform(string $value): string
     {

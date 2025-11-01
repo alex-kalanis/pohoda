@@ -43,7 +43,10 @@ class Invoice extends AbstractDocument
         }
 
         $link = new Type\Link($this->dependenciesFactory);
-        $link->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data);
+        $link
+            ->setDirectionalVariable($this->useOneDirectionalVariables)
+            ->setResolveOptions($this->resolveOptions)
+            ->setData($data);
         $this->data['links'][] = $link;
 
         return $this;
@@ -68,7 +71,10 @@ class Invoice extends AbstractDocument
         }
 
         $invoiceDetail = new Invoice\AdvancePaymentItem($this->dependenciesFactory);
-        $invoiceDetail->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data);
+        $invoiceDetail
+            ->setDirectionalVariable($this->useOneDirectionalVariables)
+            ->setResolveOptions($this->resolveOptions)
+            ->setData($data);
         $this->data['invoiceDetail'][] = $invoiceDetail;
 
         return $this;

@@ -25,7 +25,10 @@ class MyAddress extends AbstractAgenda
     use Common\SetNamespaceTrait;
 
     /** @var string[] */
-    protected array $elements = ['address', 'establishment'];
+    protected array $elements = [
+        'address',
+        'establishment',
+    ];
 
     /**
      * {@inheritdoc}

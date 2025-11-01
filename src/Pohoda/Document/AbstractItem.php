@@ -34,21 +34,30 @@ abstract class AbstractItem extends AbstractPart
         // process home currency
         if (isset($data['homeCurrency'])) {
             $homeCurrency = new Type\CurrencyItem($this->dependenciesFactory);
-            $homeCurrency->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['homeCurrency']);
+            $homeCurrency
+                ->setDirectionalVariable($this->useOneDirectionalVariables)
+                ->setResolveOptions($this->resolveOptions)
+                ->setData($data['homeCurrency']);
             $data['homeCurrency'] = $homeCurrency;
         }
 
         // process foreign currency
         if (isset($data['foreignCurrency'])) {
             $foreignCurrency = new Type\CurrencyItem($this->dependenciesFactory);
-            $foreignCurrency->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['foreignCurrency']);
+            $foreignCurrency
+                ->setDirectionalVariable($this->useOneDirectionalVariables)
+                ->setResolveOptions($this->resolveOptions)
+                ->setData($data['foreignCurrency']);
             $data['foreignCurrency'] = $foreignCurrency;
         }
 
         // process stock item
         if (isset($data['stockItem'])) {
             $stockItem = new Type\StockItem($this->dependenciesFactory);
-            $stockItem->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['stockItem']);
+            $stockItem
+                ->setDirectionalVariable($this->useOneDirectionalVariables)
+                ->setResolveOptions($this->resolveOptions)
+                ->setData($data['stockItem']);
             $data['stockItem'] = $stockItem;
         }
 

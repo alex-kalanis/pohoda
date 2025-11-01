@@ -20,10 +20,17 @@ class RecyclingContrib extends AbstractAgenda
     use SetNamespaceTrait;
 
     /** @var string[] */
-    protected array $refElements = ['recyclingContribType'];
+    protected array $refElements = [
+        'recyclingContribType',
+    ];
 
     /** @var string[] */
-    protected array $elements = ['recyclingContribText', 'recyclingContribAmount', 'recyclingContribUnit', 'coefficientOfRecyclingContrib'];
+    protected array $elements = [
+        'recyclingContribText',
+        'recyclingContribAmount',
+        'recyclingContribUnit',
+        'coefficientOfRecyclingContrib',
+    ];
 
     /**
      * {@inheritdoc}

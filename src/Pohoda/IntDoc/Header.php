@@ -17,10 +17,51 @@ use Riesenia\Pohoda\Document\AbstractHeader;
 class Header extends AbstractHeader
 {
     /** @var string[] */
-    protected array $refElements = ['number', 'accounting', 'classificationVAT', 'classificationKVDPH', 'centre', 'activity', 'contract', 'regVATinEU', 'MOSS', 'evidentiaryResourcesMOSS'];
+    protected array $refElements = [
+        'number',
+        'accounting',
+        'classificationVAT',
+        'classificationKVDPH',
+        'centre',
+        'activity',
+        'contract',
+        'regVATinEU',
+        'MOSS',
+        'evidentiaryResourcesMOSS',
+    ];
 
     /** @var string[] */
-    protected array $elements = ['number', 'symVar', 'symPar', 'originalDocumentNumber', 'originalCorrectiveDocument', 'date', 'dateTax', 'dateAccounting', 'dateDelivery', 'dateKVDPH', 'dateKHDPH', 'accounting', 'classificationVAT', 'classificationKVDPH', 'numberKHDPH', 'text', 'partnerIdentity', 'myIdentity', 'liquidation', 'centre', 'activity', 'contract', 'regVATinEU', 'MOSS', 'evidentiaryResourcesMOSS', 'accountingPeriodMOSS', 'note', 'intNote', 'markRecord'];
+    protected array $elements = [
+        'number',
+        'symVar',
+        'symPar',
+        'originalDocumentNumber',
+        'originalCorrectiveDocument',
+        'date',
+        'dateTax',
+        'dateAccounting',
+        'dateDelivery',
+        'dateKVDPH',
+        'dateKHDPH',
+        'accounting',
+        'classificationVAT',
+        'classificationKVDPH',
+        'numberKHDPH',
+        'text',
+        'partnerIdentity',
+        'myIdentity',
+        'liquidation',
+        'centre',
+        'activity',
+        'contract',
+        'regVATinEU',
+        'MOSS',
+        'evidentiaryResourcesMOSS',
+        'accountingPeriodMOSS',
+        'note',
+        'intNote',
+        'markRecord',
+    ];
 
     /**
      * {@inheritdoc}

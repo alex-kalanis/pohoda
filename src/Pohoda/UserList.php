@@ -53,7 +53,10 @@ class UserList extends AbstractAgenda
         }
 
         $itemUserCodes = new UserList\ItemUserCode($this->dependenciesFactory);
-        $itemUserCodes->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data);
+        $itemUserCodes
+            ->setDirectionalVariable($this->useOneDirectionalVariables)
+            ->setResolveOptions($this->resolveOptions)
+            ->setData($data);
         $this->data['itemUserCodes'][] = $itemUserCodes;
 
         return $this;

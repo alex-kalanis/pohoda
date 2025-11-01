@@ -42,7 +42,10 @@ class IssueSlip extends AbstractDocument
         }
 
         $link = new Type\Link($this->dependenciesFactory);
-        $link->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data);
+        $link
+            ->setDirectionalVariable($this->useOneDirectionalVariables)
+            ->setResolveOptions($this->resolveOptions)
+            ->setData($data);
         $this->data['links'][] = $link;
 
         return $this;

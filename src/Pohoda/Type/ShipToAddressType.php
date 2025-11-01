@@ -17,10 +17,23 @@ use Riesenia\Pohoda\Common\OptionsResolver;
 class ShipToAddressType extends AbstractAgenda
 {
     /** @var string[] */
-    protected array $refElements = ['country'];
+    protected array $refElements = [
+        'country',
+    ];
 
     /** @var string[] */
-    protected array $elements = ['company', 'division', 'name', 'city', 'street', 'zip', 'country', 'phone', 'email', 'defaultShipAddress'];
+    protected array $elements = [
+        'company',
+        'division',
+        'name',
+        'city',
+        'street',
+        'zip',
+        'country',
+        'phone',
+        'email',
+        'defaultShipAddress',
+    ];
 
     /**
      * {@inheritdoc}

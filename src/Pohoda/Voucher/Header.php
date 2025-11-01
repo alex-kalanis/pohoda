@@ -8,7 +8,13 @@ use Riesenia\Pohoda\Document\AbstractHeader;
 class Header extends AbstractHeader
 {
     /** @var string[] */
-    protected array $refElements = ['number', 'cashAccount', 'centre', 'activity', 'contract'];
+    protected array $refElements = [
+        'number',
+        'cashAccount',
+        'centre',
+        'activity',
+        'contract',
+    ];
 
     /** @var string[] */
     protected array $elements = [

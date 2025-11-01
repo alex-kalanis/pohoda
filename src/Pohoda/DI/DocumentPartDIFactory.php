@@ -7,7 +7,7 @@ use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Riesenia\Pohoda\Document;
 
-class DocumentPartDIFactory implements DocumentPartFactoryInterface
+final class DocumentPartDIFactory implements DocumentPartFactoryInterface
 {
     public function __construct(
         protected readonly ContainerInterface $container,

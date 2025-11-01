@@ -22,10 +22,9 @@ use Riesenia\Pohoda\Common;
 class TaxDocument extends AbstractAgenda
 {
     /** @var string[] */
-    protected array $refElements = [];
-
-    /** @var string[] */
-    protected array $elements = ['sourceLiquidation'];
+    protected array $elements = [
+        'sourceLiquidation',
+    ];
 
     /**
      * {@inheritdoc}
@@ -35,7 +34,10 @@ class TaxDocument extends AbstractAgenda
         // process source liquidation
         if (isset($data['sourceLiquidation'])) {
             $sourceLiquidation = new SourceLiquidation($this->dependenciesFactory);
-            $sourceLiquidation->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['sourceLiquidation']);
+            $sourceLiquidation
+                ->setDirectionalVariable($this->useOneDirectionalVariables)
+                ->setResolveOptions($this->resolveOptions)
+                ->setData($data['sourceLiquidation']);
             $data['sourceLiquidation'] = $sourceLiquidation;
         }
 

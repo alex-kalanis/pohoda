@@ -20,10 +20,33 @@ class Header extends AbstractAgenda
     use Common\AddParameterTrait;
 
     /** @var string[] */
-    protected array $refElements = ['number', 'store', 'centreSource', 'centreDestination', 'activity', 'contract'];
+    protected array $refElements = [
+        'number',
+        'store',
+        'centreSource',
+        'centreDestination',
+        'activity',
+        'contract',
+    ];
 
     /** @var string[] */
-    protected array $elements = ['number', 'date', 'time', 'dateOfReceipt', 'timeOfReceipt', 'symPar', 'store', 'text', 'partnerIdentity', 'centreSource', 'centreDestination', 'activity', 'contract', 'note', 'intNote'];
+    protected array $elements = [
+        'number',
+        'date',
+        'time',
+        'dateOfReceipt',
+        'timeOfReceipt',
+        'symPar',
+        'store',
+        'text',
+        'partnerIdentity',
+        'centreSource',
+        'centreDestination',
+        'activity',
+        'contract',
+        'note',
+        'intNote',
+    ];
 
     /**
      * {@inheritdoc}
@@ -33,7 +56,10 @@ class Header extends AbstractAgenda
         // process partner identity
         if (isset($data['partnerIdentity'])) {
             $partnerIdentity = new Type\Address($this->dependenciesFactory);
-            $partnerIdentity->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['partnerIdentity']);
+            $partnerIdentity
+                ->setDirectionalVariable($this->useOneDirectionalVariables)
+                ->setResolveOptions($this->resolveOptions)
+                ->setData($data['partnerIdentity']);
             $data['partnerIdentity'] = $partnerIdentity;
         }
 

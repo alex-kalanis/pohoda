@@ -17,10 +17,27 @@ use Riesenia\Pohoda\Document\AbstractHeader;
 class Header extends AbstractHeader
 {
     /** @var string[] */
-    protected array $refElements = ['number', 'centre', 'activity', 'contract'];
+    protected array $refElements = [
+        'number',
+        'centre',
+        'activity',
+        'contract',
+    ];
 
     /** @var string[] */
-    protected array $elements = ['number', 'date', 'dateOfReceipt', 'text', 'partnerIdentity', 'symPar', 'centre', 'activity', 'contract', 'note', 'intNote'];
+    protected array $elements = [
+        'number',
+        'date',
+        'dateOfReceipt',
+        'text',
+        'partnerIdentity',
+        'symPar',
+        'centre',
+        'activity',
+        'contract',
+        'note',
+        'intNote',
+    ];
 
     /**
      * {@inheritdoc}

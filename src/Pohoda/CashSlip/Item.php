@@ -17,10 +17,30 @@ use Riesenia\Pohoda\Document\AbstractItem;
 class Item extends AbstractItem
 {
     /** @var string[] */
-    protected array $refElements = ['centre', 'activity', 'contract'];
+    protected array $refElements = [
+        'centre',
+        'activity',
+        'contract',
+    ];
 
     /** @var string[] */
-    protected array $elements = ['text', 'quantity', 'unit', 'coefficient', 'payVAT', 'rateVAT', 'discountPercentage', 'homeCurrency', 'foreignCurrency', 'note', 'code', 'stockItem', 'centre', 'activity', 'contract'];
+    protected array $elements = [
+        'text',
+        'quantity',
+        'unit',
+        'coefficient',
+        'payVAT',
+        'rateVAT',
+        'discountPercentage',
+        'homeCurrency',
+        'foreignCurrency',
+        'note',
+        'code',
+        'stockItem',
+        'centre',
+        'activity',
+        'contract',
+    ];
 
     /**
      * {@inheritdoc}

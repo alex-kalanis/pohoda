@@ -17,7 +17,14 @@ use Riesenia\Pohoda\Common\OptionsResolver;
 class Intrastat extends AbstractAgenda
 {
     /** @var string[] */
-    protected array $elements = ['goodsCode', 'description', 'statistic', 'unit', 'coefficient', 'country'];
+    protected array $elements = [
+        'goodsCode',
+        'description',
+        'statistic',
+        'unit',
+        'coefficient',
+        'country',
+    ];
 
     /**
      * {@inheritdoc}

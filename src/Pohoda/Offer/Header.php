@@ -17,10 +17,40 @@ use Riesenia\Pohoda\Document\AbstractHeader;
 class Header extends AbstractHeader
 {
     /** @var string[] */
-    protected array $refElements = ['number', 'priceLevel', 'centre', 'activity', 'contract', 'regVATinEU', 'MOSS', 'evidentiaryResourcesMOSS'];
+    protected array $refElements = [
+        'number',
+        'priceLevel',
+        'centre',
+        'activity',
+        'contract',
+        'regVATinEU',
+        'MOSS',
+        'evidentiaryResourcesMOSS',
+    ];
 
     /** @var string[] */
-    protected array $elements = ['offerType', 'number', 'date', 'validTill', 'text', 'partnerIdentity', 'myIdentity', 'priceLevel', 'centre', 'activity', 'contract', 'regVATinEU', 'MOSS', 'evidentiaryResourcesMOSS', 'accountingPeriodMOSS', 'isExecuted', 'details', 'note', 'intNote', 'markRecord'];
+    protected array $elements = [
+        'offerType',
+        'number',
+        'date',
+        'validTill',
+        'text',
+        'partnerIdentity',
+        'myIdentity',
+        'priceLevel',
+        'centre',
+        'activity',
+        'contract',
+        'regVATinEU',
+        'MOSS',
+        'evidentiaryResourcesMOSS',
+        'accountingPeriodMOSS',
+        'isExecuted',
+        'details',
+        'note',
+        'intNote',
+        'markRecord',
+    ];
 
     /**
      * {@inheritdoc}

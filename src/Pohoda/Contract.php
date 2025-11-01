@@ -33,7 +33,10 @@ class Contract extends AbstractAgenda
     {
         // pass to header
         $desc = new Contract\Desc($this->dependenciesFactory);
-        $desc->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data);
+        $desc
+            ->setDirectionalVariable($this->useOneDirectionalVariables)
+            ->setResolveOptions($this->resolveOptions)
+            ->setData($data);
         $data = ['header' => $desc];
 
         return parent::setData($data);

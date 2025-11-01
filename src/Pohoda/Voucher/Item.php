@@ -7,7 +7,13 @@ use Riesenia\Pohoda\Document\AbstractItem;
 class Item extends AbstractItem
 {
     /** @var string[] */
-    protected array $refElements = ['number', 'cashAccount', 'centre', 'activity', 'contract'];
+    protected array $refElements = [
+        'number',
+        'cashAccount',
+        'centre',
+        'activity',
+        'contract',
+    ];
 
     /** @var string[] */
     protected array $elements = [

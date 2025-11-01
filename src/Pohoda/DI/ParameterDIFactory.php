@@ -7,7 +7,7 @@ use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Riesenia\Pohoda\PrintRequest;
 
-class ParameterDIFactory implements ParameterFactoryInterface
+final class ParameterDIFactory implements ParameterFactoryInterface
 {
     public function __construct(
         protected readonly ContainerInterface $container,

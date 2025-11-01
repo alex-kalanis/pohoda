@@ -17,7 +17,10 @@ use Riesenia\Pohoda\Common;
 class Parameters extends AbstractAgenda
 {
     /** @var string[] */
-    protected array $elements = ['copy', 'datePrint'];
+    protected array $elements = [
+        'copy',
+        'datePrint',
+    ];
 
     /**
      * {@inheritdoc}

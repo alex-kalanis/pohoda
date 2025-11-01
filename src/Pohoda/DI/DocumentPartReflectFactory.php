@@ -7,7 +7,7 @@ use ReflectionClass;
 use ReflectionException;
 use Riesenia\Pohoda\Document;
 
-class DocumentPartReflectFactory implements DocumentPartFactoryInterface
+final class DocumentPartReflectFactory implements DocumentPartFactoryInterface
 {
     public function __construct(
         protected readonly DependenciesFactory $dependenciesFactory,

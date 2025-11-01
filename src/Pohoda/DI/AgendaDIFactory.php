@@ -7,7 +7,7 @@ use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Riesenia\Pohoda\AbstractAgenda;
 
-class AgendaDIFactory implements AgendaFactoryInterface
+final class AgendaDIFactory implements AgendaFactoryInterface
 {
     use ClassNameTrait;
 

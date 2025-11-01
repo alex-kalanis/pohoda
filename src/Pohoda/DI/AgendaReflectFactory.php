@@ -7,7 +7,7 @@ use ReflectionClass;
 use ReflectionException;
 use Riesenia\Pohoda\AbstractAgenda;
 
-class AgendaReflectFactory implements AgendaFactoryInterface
+final class AgendaReflectFactory implements AgendaFactoryInterface
 {
     use ClassNameTrait;
 

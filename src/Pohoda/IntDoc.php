@@ -33,7 +33,10 @@ class IntDoc extends AbstractDocument
     public function addTaxDocument(array $data): self
     {
         $taxDocument = new Type\TaxDocument($this->dependenciesFactory);
-        $taxDocument->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data);
+        $taxDocument
+            ->setDirectionalVariable($this->useOneDirectionalVariables)
+            ->setResolveOptions($this->resolveOptions)
+            ->setData($data);
         $this->data['taxDocument'] = $taxDocument;
 
         return $this;

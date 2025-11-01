@@ -17,13 +17,57 @@ use Riesenia\Pohoda\Document\AbstractHeader;
 class Header extends AbstractHeader
 {
     /** @var string[] */
-    protected array $refElements = ['extId', 'number', 'paymentType', 'priceLevel', 'centre', 'activity', 'contract', 'regVATinEU', 'MOSS', 'evidentiaryResourcesMOSS', 'carrier'];
+    protected array $refElements = [
+        'extId',
+        'number',
+        'paymentType',
+        'priceLevel',
+        'centre',
+        'activity',
+        'contract',
+        'regVATinEU',
+        'MOSS',
+        'evidentiaryResourcesMOSS',
+        'carrier',
+    ];
 
     /** @var string[] */
-    protected array $elements = ['extId', 'orderType', 'number', 'numberOrder', 'date', 'dateDelivery', 'dateFrom', 'dateTo', 'text', 'partnerIdentity', 'myIdentity', 'paymentType', 'priceLevel', 'isExecuted', 'isReserved', 'centre', 'activity', 'contract', 'regVATinEU', 'MOSS', 'evidentiaryResourcesMOSS', 'accountingPeriodMOSS', 'note', 'carrier', 'intNote', 'markRecord', 'histRate'];
+    protected array $elements = [
+        'extId',
+        'orderType',
+        'number',
+        'numberOrder',
+        'date',
+        'dateDelivery',
+        'dateFrom',
+        'dateTo',
+        'text',
+        'partnerIdentity',
+        'myIdentity',
+        'paymentType',
+        'priceLevel',
+        'isExecuted',
+        'isReserved',
+        'centre',
+        'activity',
+        'contract',
+        'regVATinEU',
+        'MOSS',
+        'evidentiaryResourcesMOSS',
+        'accountingPeriodMOSS',
+        'note',
+        'carrier',
+        'intNote',
+        'markRecord',
+        'histRate',
+    ];
 
     /** @var string[] */
-    protected array $additionalElements = ['id', 'isDelivered', 'permanentDocument'];
+    protected array $additionalElements = [
+        'id',
+        'isDelivered',
+        'permanentDocument',
+    ];
 
     /**
      * {@inheritdoc}

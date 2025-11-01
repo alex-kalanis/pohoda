@@ -17,7 +17,12 @@ use Riesenia\Pohoda\Common;
 class PrinterSettings extends AbstractAgenda
 {
     /** @var string[] */
-    protected array $elements = ['report', 'printer', 'pdf', 'parameters'];
+    protected array $elements = [
+        'report',
+        'printer',
+        'pdf',
+        'parameters',
+    ];
 
     /**
      * {@inheritdoc}
@@ -27,17 +32,26 @@ class PrinterSettings extends AbstractAgenda
         // process report
         if (isset($data['report'])) {
             $report = new Report($this->dependenciesFactory);
-            $data['report'] = $report->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['report']);
+            $data['report'] = $report
+                ->setDirectionalVariable($this->useOneDirectionalVariables)
+                ->setResolveOptions($this->resolveOptions)
+                ->setData($data['report']);
         }
         // process pdf
         if (isset($data['pdf'])) {
             $pdf = new Pdf($this->dependenciesFactory);
-            $data['pdf'] = $pdf->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['pdf']);
+            $data['pdf'] = $pdf
+                ->setDirectionalVariable($this->useOneDirectionalVariables)
+                ->setResolveOptions($this->resolveOptions)
+                ->setData($data['pdf']);
         }
         // process parameters
         if (isset($data['parameters'])) {
             $parameters = new Parameters($this->dependenciesFactory);
-            $data['parameters'] = $parameters->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['parameters']);
+            $data['parameters'] = $parameters
+                ->setDirectionalVariable($this->useOneDirectionalVariables)
+                ->setResolveOptions($this->resolveOptions)
+                ->setData($data['parameters']);
         }
 
         return parent::setData($data);

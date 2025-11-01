@@ -22,7 +22,12 @@ namespace Riesenia\Pohoda;
 class IntParam extends AbstractAgenda
 {
     /** @var string[] */
-    protected array $elements = ['name', 'description', 'parameterType', 'parameterSettings'];
+    protected array $elements = [
+        'name',
+        'description',
+        'parameterType',
+        'parameterSettings',
+    ];
 
     /**
      * {@inheritdoc}
@@ -37,7 +42,10 @@ class IntParam extends AbstractAgenda
         // process settings
         if (isset($data['parameterSettings'])) {
             $parameterSettings = new IntParam\Settings($this->dependenciesFactory);
-            $parameterSettings->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['parameterSettings']);
+            $parameterSettings
+                ->setDirectionalVariable($this->useOneDirectionalVariables)
+                ->setResolveOptions($this->resolveOptions)
+                ->setData($data['parameterSettings']);
             $data['parameterSettings'] = $parameterSettings;
         }
 

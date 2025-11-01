@@ -17,10 +17,22 @@ use Riesenia\Pohoda\Common;
 class StockItem extends AbstractAgenda
 {
     /** @var string[] */
-    protected array $refElements = ['stockInfo', 'storage'];
+    protected array $refElements = [
+        'stockInfo',
+        'storage',
+    ];
 
     /** @var string[] */
-    protected array $elements = ['id', 'stockInfo', 'storage', 'code', 'name', 'count', 'quantity', 'stockPriceItem'];
+    protected array $elements = [
+        'id',
+        'stockInfo',
+        'storage',
+        'code',
+        'name',
+        'count',
+        'quantity',
+        'stockPriceItem',
+    ];
 
     /**
      * {@inheritdoc}
@@ -31,7 +43,9 @@ class StockItem extends AbstractAgenda
         if (isset($data['stockPriceItem']) && is_array($data['stockPriceItem'])) {
             $data['stockPriceItem'] = \array_map(function ($stockPriceItem) {
                 $price = new Price($this->dependenciesFactory);
-                $price->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($stockPriceItem['stockPrice']);
+                $price->setDirectionalVariable($this->useOneDirectionalVariables)
+                    ->setResolveOptions($this->resolveOptions)
+                    ->setData($stockPriceItem['stockPrice']);
                 return $price;
             }, $data['stockPriceItem']);
         }

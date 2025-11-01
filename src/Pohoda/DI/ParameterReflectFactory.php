@@ -7,7 +7,7 @@ use ReflectionClass;
 use ReflectionException;
 use Riesenia\Pohoda\PrintRequest;
 
-class ParameterReflectFactory implements ParameterFactoryInterface
+final class ParameterReflectFactory implements ParameterFactoryInterface
 {
     public function __construct(
         protected readonly DependenciesFactory $dependenciesFactory,

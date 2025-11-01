@@ -42,7 +42,10 @@ class ListResponse extends AbstractAgenda
     public function addLimit(array $data): self
     {
         $limit = new ListRequest\Limit($this->dependenciesFactory);
-        $limit->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data);
+        $limit
+            ->setDirectionalVariable($this->useOneDirectionalVariables)
+            ->setResolveOptions($this->resolveOptions)
+            ->setData($data);
         $this->data['limit'] = $limit;
 
         return $this;
@@ -58,7 +61,10 @@ class ListResponse extends AbstractAgenda
     public function addFilter(array $data): self
     {
         $filter = new ListRequest\Filter($this->dependenciesFactory);
-        $filter->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data);
+        $filter
+            ->setDirectionalVariable($this->useOneDirectionalVariables)
+            ->setResolveOptions($this->resolveOptions)
+            ->setData($data);
         $this->data['filter'] = $filter;
 
         return $this;
@@ -74,7 +80,10 @@ class ListResponse extends AbstractAgenda
     public function addRestrictionData(array $data): self
     {
         $restrictionData = new ListRequest\RestrictionData($this->dependenciesFactory);
-        $restrictionData->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data);
+        $restrictionData
+            ->setDirectionalVariable($this->useOneDirectionalVariables)
+            ->setResolveOptions($this->resolveOptions)
+            ->setData($data);
         $this->data['restrictionData'] = $restrictionData;
 
         return $this;
@@ -90,7 +99,10 @@ class ListResponse extends AbstractAgenda
     public function addUserFilterName(string $name): self
     {
         $userFilterName = new ListRequest\UserFilterName($this->dependenciesFactory);
-        $userFilterName->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData(['userFilterName' => $name]);
+        $userFilterName
+            ->setDirectionalVariable($this->useOneDirectionalVariables)
+            ->setResolveOptions($this->resolveOptions)
+            ->setData(['userFilterName' => $name]);
         $this->data['userFilterName'] = $userFilterName;
 
         return $this;
@@ -116,7 +128,10 @@ class ListResponse extends AbstractAgenda
             $this->data['order'] = [];
         }
         $order = new Order($this->dependenciesFactory);
-        $order->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($header);
+        $order
+            ->setDirectionalVariable($this->useOneDirectionalVariables)
+            ->setResolveOptions($this->resolveOptions)
+            ->setData($header);
         $this->data['order'][] = $order;
         foreach ($items as $item) {
             $order->addItem($item);
@@ -146,7 +161,10 @@ class ListResponse extends AbstractAgenda
             $this->data['stock'] = [];
         }
         $stock = new Stock($this->dependenciesFactory);
-        $stock->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($header);
+        $stock
+            ->setDirectionalVariable($this->useOneDirectionalVariables)
+            ->setResolveOptions($this->resolveOptions)
+            ->setData($header);
         $this->data['stock'][] = $stock;
 
         return $stock;

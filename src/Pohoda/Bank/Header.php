@@ -17,10 +17,46 @@ use Riesenia\Pohoda\Document\AbstractHeader;
 class Header extends AbstractHeader
 {
     /** @var string[] */
-    protected array $refElements = ['account', 'accounting', 'classificationVAT', 'classificationKVDPH', 'paymentAccount', 'centre', 'activity', 'contract', 'MOSS', 'evidentiaryResourcesMOSS'];
+    protected array $refElements = [
+        'account',
+        'accounting',
+        'classificationVAT',
+        'classificationKVDPH',
+        'paymentAccount',
+        'centre',
+        'activity',
+        'contract',
+        'MOSS',
+        'evidentiaryResourcesMOSS',
+    ];
 
     /** @var string[] */
-    protected array $elements = ['bankType', 'account', 'statementNumber', 'symVar', 'dateStatement', 'datePayment', 'accounting', 'classificationVAT', 'classificationKVDPH', 'text', 'partnerIdentity', 'myIdentity', 'paymentAccount', 'symConst', 'symSpec', 'symPar', 'centre', 'activity', 'contract', 'MOSS', 'evidentiaryResourcesMOSS', 'accountingPeriodMOSS', 'note', 'intNote'];
+    protected array $elements = [
+        'bankType',
+        'account',
+        'statementNumber',
+        'symVar',
+        'dateStatement',
+        'datePayment',
+        'accounting',
+        'classificationVAT',
+        'classificationKVDPH',
+        'text',
+        'partnerIdentity',
+        'myIdentity',
+        'paymentAccount',
+        'symConst',
+        'symSpec',
+        'symPar',
+        'centre',
+        'activity',
+        'contract',
+        'MOSS',
+        'evidentiaryResourcesMOSS',
+        'accountingPeriodMOSS',
+        'note',
+        'intNote',
+    ];
 
     /**
      * {@inheritdoc}
@@ -30,7 +66,10 @@ class Header extends AbstractHeader
         // process report
         if (isset($data['statementNumber'])) {
             $statementNumber = new StatementNumber($this->dependenciesFactory);
-            $statementNumber->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['statementNumber']);
+            $statementNumber
+                ->setDirectionalVariable($this->useOneDirectionalVariables)
+                ->setResolveOptions($this->resolveOptions)
+                ->setData($data['statementNumber']);
             $data['statementNumber'] = $statementNumber;
         }
 

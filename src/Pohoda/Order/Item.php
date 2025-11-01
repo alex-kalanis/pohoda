@@ -18,13 +18,41 @@ use Riesenia\Pohoda\Document\AbstractItem;
 class Item extends AbstractItem
 {
     /** @var string[] */
-    protected array $refElements = ['typeServiceMOSS', 'centre', 'activity', 'contract'];
+    protected array $refElements = [
+        'typeServiceMOSS',
+        'centre',
+        'activity',
+        'contract',
+    ];
 
     /** @var string[] */
-    protected array $elements = ['text', 'quantity', 'delivered', 'unit', 'coefficient', 'payVAT', 'rateVAT', 'rateVatValue', 'percentVAT', 'discountPercentage', 'homeCurrency', 'foreignCurrency', 'typeServiceMOSS', 'note', 'code', 'stockItem', 'centre', 'activity', 'contract', 'PDP'];
+    protected array $elements = [
+        'text',
+        'quantity',
+        'delivered',
+        'unit',
+        'coefficient',
+        'payVAT',
+        'rateVAT',
+        'rateVatValue',
+        'percentVAT',
+        'discountPercentage',
+        'homeCurrency',
+        'foreignCurrency',
+        'typeServiceMOSS',
+        'note',
+        'code',
+        'stockItem',
+        'centre',
+        'activity',
+        'contract',
+        'PDP',
+    ];
 
     /** @var string[] */
-    protected array $additionalElements = ['id'];
+    protected array $additionalElements = [
+        'id',
+    ];
 
     public function __construct(
         DependenciesFactory $dependenciesFactory,

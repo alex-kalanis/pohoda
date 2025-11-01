@@ -18,7 +18,11 @@ use Riesenia\Pohoda\Type\StockItem;
 class Item extends AbstractAgenda
 {
     /** @var string[] */
-    protected array $elements = ['quantity', 'stockItem', 'note'];
+    protected array $elements = [
+        'quantity',
+        'stockItem',
+        'note',
+    ];
 
     /**
      * {@inheritdoc}
@@ -28,7 +32,10 @@ class Item extends AbstractAgenda
         // process stock item
         if (isset($data['stockItem'])) {
             $stockItem = new StockItem($this->dependenciesFactory);
-            $stockItem->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['stockItem']);
+            $stockItem
+                ->setDirectionalVariable($this->useOneDirectionalVariables)
+                ->setResolveOptions($this->resolveOptions)
+                ->setData($data['stockItem']);
             $data['stockItem'] = $stockItem;
         }
 

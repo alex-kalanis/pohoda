@@ -20,7 +20,12 @@ class CurrencyItem extends AbstractAgenda
     use SetNamespaceTrait;
 
     /** @var string[] */
-    protected array $elements = ['unitPrice', 'price', 'priceVAT', 'priceSum'];
+    protected array $elements = [
+        'unitPrice',
+        'price',
+        'priceVAT',
+        'priceSum',
+    ];
 
     /**
      * {@inheritdoc}

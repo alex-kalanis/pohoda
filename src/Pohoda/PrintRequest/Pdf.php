@@ -17,7 +17,9 @@ use Riesenia\Pohoda\Common\OptionsResolver;
 class Pdf extends AbstractAgenda
 {
     /** @var string[] */
-    protected array $elements = ['fileName'];
+    protected array $elements = [
+        'fileName',
+    ];
 
     /**
      * {@inheritdoc}

@@ -20,10 +20,19 @@ class StockItem extends AbstractAgenda
     use Common\SetNamespaceTrait;
 
     /** @var string[] */
-    protected array $refElements = ['store', 'stockItem'];
+    protected array $refElements = [
+        'store',
+        'stockItem',
+    ];
 
     /** @var string[] */
-    protected array $elements = ['store', 'stockItem', 'insertAttachStock', 'applyUserSettingsFilterOnTheStore', 'serialNumber'];
+    protected array $elements = [
+        'store',
+        'stockItem',
+        'insertAttachStock',
+        'applyUserSettingsFilterOnTheStore',
+        'serialNumber',
+    ];
 
     public function __construct(
         DependenciesFactory $dependenciesFactory,

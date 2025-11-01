@@ -17,10 +17,14 @@ use Riesenia\Pohoda\Common\OptionsResolver;
 class StockItem extends AbstractAgenda
 {
     /** @var string[] */
-    protected array $refElements = ['stockItem'];
+    protected array $refElements = [
+        'stockItem',
+    ];
 
     /** @var string[] */
-    protected array $elements = ['stockItem'];
+    protected array $elements = [
+        'stockItem',
+    ];
 
     /**
      * {@inheritdoc}

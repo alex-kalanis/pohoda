@@ -26,12 +26,18 @@ class PrintRequest extends AbstractAgenda
     {
         // process record
         $record = new PrintRequest\Record($this->dependenciesFactory);
-        $record->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['record']);
+        $record
+            ->setDirectionalVariable($this->useOneDirectionalVariables)
+            ->setResolveOptions($this->resolveOptions)
+            ->setData($data['record']);
         $data['record'] = $record;
 
         // process printer settings
         $printerSettings = new PrintRequest\PrinterSettings($this->dependenciesFactory);
-        $printerSettings->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['printerSettings']);
+        $printerSettings
+            ->setDirectionalVariable($this->useOneDirectionalVariables)
+            ->setResolveOptions($this->resolveOptions)
+            ->setData($data['printerSettings']);
         $data['printerSettings'] = $printerSettings;
 
         return parent::setData($data);

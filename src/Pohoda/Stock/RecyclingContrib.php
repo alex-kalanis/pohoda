@@ -17,10 +17,15 @@ use Riesenia\Pohoda\Common\OptionsResolver;
 class RecyclingContrib extends AbstractAgenda
 {
     /** @var string[] */
-    protected array $refElements = ['recyclingContribType'];
+    protected array $refElements = [
+        'recyclingContribType',
+    ];
 
     /** @var string[] */
-    protected array $elements = ['recyclingContribType', 'coefficientOfRecyclingContrib'];
+    protected array $elements = [
+        'recyclingContribType',
+        'coefficientOfRecyclingContrib',
+    ];
 
     /**
      * {@inheritdoc}

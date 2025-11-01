@@ -20,7 +20,9 @@ class Parameter extends AbstractAgenda
     protected string $valueType = 'string';
 
     /** @var string[] */
-    protected array $elements = ['value'];
+    protected array $elements = [
+        'value',
+    ];
 
     /**
      * {@inheritdoc}

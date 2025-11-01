@@ -20,10 +20,24 @@ class Desc extends AbstractAgenda
     use Common\AddParameterTrait;
 
     /** @var string[] */
-    protected array $refElements = ['number', 'responsiblePerson'];
+    protected array $refElements = [
+        'number',
+        'responsiblePerson',
+    ];
 
     /** @var string[] */
-    protected array $elements = ['number', 'datePlanStart', 'datePlanDelivery', 'dateStart', 'dateDelivery', 'dateWarranty', 'text', 'partnerIdentity', 'responsiblePerson', 'note'];
+    protected array $elements = [
+        'number',
+        'datePlanStart',
+        'datePlanDelivery',
+        'dateStart',
+        'dateDelivery',
+        'dateWarranty',
+        'text',
+        'partnerIdentity',
+        'responsiblePerson',
+        'note',
+    ];
 
     /**
      * {@inheritdoc}
@@ -33,7 +47,10 @@ class Desc extends AbstractAgenda
         // process partner identity
         if (isset($data['partnerIdentity'])) {
             $partnerIdentity = new Address($this->dependenciesFactory);
-            $partnerIdentity->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['partnerIdentity']);
+            $partnerIdentity
+                ->setDirectionalVariable($this->useOneDirectionalVariables)
+                ->setResolveOptions($this->resolveOptions)
+                ->setData($data['partnerIdentity']);
             $data['partnerIdentity'] = $partnerIdentity;
         }
 

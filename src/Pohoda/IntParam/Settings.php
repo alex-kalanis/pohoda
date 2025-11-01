@@ -17,10 +17,17 @@ use Riesenia\Pohoda\Common\OptionsResolver;
 class Settings extends AbstractAgenda
 {
     /** @var string[] */
-    protected array $refElements = ['currency'];
+    protected array $refElements = [
+        'currency',
+    ];
 
     /** @var string[] */
-    protected array $elements = ['unit', 'length', 'currency', 'parameterList'];
+    protected array $elements = [
+        'unit',
+        'length',
+        'currency',
+        'parameterList',
+    ];
 
     /**
      * {@inheritdoc}

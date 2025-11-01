@@ -20,10 +20,26 @@ class CurrencyHome extends AbstractAgenda
     use Common\SetNamespaceTrait;
 
     /** @var string[] */
-    protected array $refElements = ['round'];
+    protected array $refElements = [
+        'round',
+    ];
 
     /** @var string[] */
-    protected array $elements = ['priceNone', 'price3', 'price3VAT', 'price3Sum', 'priceLow', 'priceLowVAT', 'priceLowVatRate', 'priceLowSum', 'priceHigh', 'priceHighVAT', 'priceHighVatRate', 'priceHighSum', 'round'];
+    protected array $elements = [
+        'priceNone',
+        'price3',
+        'price3VAT',
+        'price3Sum',
+        'priceLow',
+        'priceLowVAT',
+        'priceLowVatRate',
+        'priceLowSum',
+        'priceHigh',
+        'priceHighVAT',
+        'priceHighVatRate',
+        'priceHighSum',
+        'round',
+    ];
 
     public function __construct(
         DependenciesFactory $dependenciesFactory,

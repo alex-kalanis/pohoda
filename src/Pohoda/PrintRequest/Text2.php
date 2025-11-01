@@ -11,4 +11,4 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\PrintRequest;
 
-class Text2 extends TextType {}
+final class Text2 extends TextType {}

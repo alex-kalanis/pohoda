@@ -17,7 +17,24 @@ use Riesenia\Pohoda\Common\OptionsResolver;
 class AddressInternetType extends AbstractAgenda
 {
     /** @var string[] */
-    protected array $elements = ['company', 'title', 'surname', 'name', 'city', 'street', 'number', 'zip', 'ico', 'dic', 'icDph', 'phone', 'mobilPhone', 'fax', 'email', 'www'];
+    protected array $elements = [
+        'company',
+        'title',
+        'surname',
+        'name',
+        'city',
+        'street',
+        'number',
+        'zip',
+        'ico',
+        'dic',
+        'icDph',
+        'phone',
+        'mobilPhone',
+        'fax',
+        'email',
+        'www',
+    ];
 
     /**
      * {@inheritdoc}

@@ -2,7 +2,7 @@
 
 namespace Riesenia\Pohoda\Common\OptionsResolver\Normalizers;
 
-class Integers extends AbstractNormalizer
+final class Integers extends AbstractNormalizer
 {
     public function normalize(mixed $options, mixed $value): string
     {

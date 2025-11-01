@@ -30,8 +30,14 @@ class PohodaResponse extends Pohoda
      *
      * @return bool
      */
-    public function open(?string $filename, string $id, string $note = '', string $state = 'ok', ?string $programVersion = null, ?string $key = null): bool
-    {
+    public function open(
+        ?string $filename,
+        string $id,
+        string $note = '',
+        string $state = 'ok',
+        ?string $programVersion = null,
+        ?string $key = null,
+    ): bool {
         $this->xmlWriter = new \XMLWriter();
 
         if (is_null($filename)) {

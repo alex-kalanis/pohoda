@@ -11,4 +11,4 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\PrintRequest;
 
-class Checkbox5 extends CheckboxType {}
+final class Checkbox5 extends CheckboxType {}

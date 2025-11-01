@@ -17,7 +17,12 @@ use Riesenia\Pohoda\Common\OptionsResolver;
 class EstablishmentType extends AbstractAgenda
 {
     /** @var string[] */
-    protected array $elements = ['company', 'city', 'street', 'zip'];
+    protected array $elements = [
+        'company',
+        'city',
+        'street',
+        'zip',
+    ];
 
     /**
      * {@inheritdoc}

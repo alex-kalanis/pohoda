@@ -2,7 +2,7 @@
 
 namespace Riesenia\Pohoda\ValueTransformer;
 
-class Listing
+final class Listing
 {
     /**
      * A set of transformers that will be used when serializing data.

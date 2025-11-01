@@ -17,10 +17,28 @@ use Riesenia\Pohoda\Common\OptionsResolver;
 class AddressType extends AbstractAgenda
 {
     /** @var string[] */
-    protected array $refElements = ['country'];
+    protected array $refElements = [
+        'country',
+    ];
 
     /** @var string[] */
-    protected array $elements = ['company', 'division', 'name', 'city', 'street', 'zip', 'ico', 'dic', 'VATPayerType', 'icDph', 'country', 'phone', 'mobilPhone', 'fax', 'email'];
+    protected array $elements = [
+        'company',
+        'division',
+        'name',
+        'city',
+        'street',
+        'zip',
+        'ico',
+        'dic',
+        'VATPayerType',
+        'icDph',
+        'country',
+        'phone',
+        'mobilPhone',
+        'fax',
+        'email',
+    ];
 
     /**
      * {@inheritdoc}

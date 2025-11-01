@@ -33,7 +33,10 @@ class Stock extends AbstractAgenda
         // pass to header
         if (!empty($data)) {
             $header = new Stock\Header($this->dependenciesFactory);
-            $header->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data);
+            $header
+                ->setDirectionalVariable($this->useOneDirectionalVariables)
+                ->setResolveOptions($this->resolveOptions)
+                ->setData($data);
             $data = ['header' => $header];
         }
 
@@ -64,7 +67,10 @@ class Stock extends AbstractAgenda
         }
 
         $stockDetail = new Stock\StockItem($this->dependenciesFactory);
-        $stockDetail->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data);
+        $stockDetail
+            ->setDirectionalVariable($this->useOneDirectionalVariables)
+            ->setResolveOptions($this->resolveOptions)
+            ->setData($data);
         $this->data['stockDetail'][] = $stockDetail;
 
         return $this;
@@ -97,7 +103,10 @@ class Stock extends AbstractAgenda
         }
         $data['ids'] = $code;
         $data['price'] = $value;
-        $price->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data);
+        $price
+            ->setDirectionalVariable($this->useOneDirectionalVariables)
+            ->setResolveOptions($this->resolveOptions)
+            ->setData($data);
         $this->data['stockPriceItem'][] = $price;
 
         return $this;

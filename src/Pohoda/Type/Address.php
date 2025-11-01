@@ -20,10 +20,18 @@ class Address extends AbstractAgenda
     use Common\SetNamespaceTrait;
 
     /** @var string[] */
-    protected array $refElements = ['extId'];
+    protected array $refElements = [
+        'extId',
+    ];
 
     /** @var string[] */
-    protected array $elements = ['id', 'extId', 'address', 'addressLinkToAddress', 'shipToAddress'];
+    protected array $elements = [
+        'id',
+        'extId',
+        'address',
+        'addressLinkToAddress',
+        'shipToAddress',
+    ];
 
     /**
      * {@inheritdoc}
@@ -47,14 +55,20 @@ class Address extends AbstractAgenda
         // process address
         if (isset($data['address'])) {
             $address = new AddressType($this->dependenciesFactory);
-            $address->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['address']);
+            $address
+                ->setDirectionalVariable($this->useOneDirectionalVariables)
+                ->setResolveOptions($this->resolveOptions)
+                ->setData($data['address']);
             $data['address'] = $address;
         }
 
         // process shipping address
         if (isset($data['shipToAddress'])) {
             $shipTo = new ShipToAddressType($this->dependenciesFactory);
-            $shipTo->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['shipToAddress']);
+            $shipTo
+                ->setDirectionalVariable($this->useOneDirectionalVariables)
+                ->setResolveOptions($this->resolveOptions)
+                ->setData($data['shipToAddress']);
             $data['shipToAddress'] = $shipTo;
         }
 

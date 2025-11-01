@@ -17,7 +17,7 @@ namespace Riesenia\Pohoda\ValueTransformer;
  * Since most transformers will expect UTF-8 formatted strings, this transformer should either be the last
  * to run or be immediately followed by another one that will convert the string back to UTF-8.
  */
-class EncodingTransformer implements ValueTransformerInterface
+final class EncodingTransformer implements ValueTransformerInterface
 {
     public function __construct(
         protected readonly string $fromEncoding,

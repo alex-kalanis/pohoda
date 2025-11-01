@@ -17,10 +17,17 @@ use Riesenia\Pohoda\Common\OptionsResolver;
 class Link extends AbstractAgenda
 {
     /** @var string[] */
-    protected array $refElements = ['sourceDocument', 'settingsSourceDocument'];
+    protected array $refElements = [
+        'sourceDocument',
+        'settingsSourceDocument',
+    ];
 
     /** @var string[] */
-    protected array $elements = ['sourceAgenda', 'sourceDocument', 'settingsSourceDocument'];
+    protected array $elements = [
+        'sourceAgenda',
+        'sourceDocument',
+        'settingsSourceDocument',
+    ];
 
     /**
      * {@inheritdoc}

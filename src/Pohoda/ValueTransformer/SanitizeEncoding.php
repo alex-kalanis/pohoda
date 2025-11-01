@@ -2,7 +2,7 @@
 
 namespace Riesenia\Pohoda\ValueTransformer;
 
-class SanitizeEncoding
+final class SanitizeEncoding
 {
     protected string $encoding = 'windows-1250';
     protected bool $sanitizeEncoding = false;

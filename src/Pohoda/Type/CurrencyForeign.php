@@ -20,10 +20,17 @@ class CurrencyForeign extends AbstractAgenda
     use SetNamespaceTrait;
 
     /** @var string[] */
-    protected array $refElements = ['currency'];
+    protected array $refElements = [
+        'currency',
+    ];
 
     /** @var string[] */
-    protected array $elements = ['currency', 'rate', 'amount', 'priceSum'];
+    protected array $elements = [
+        'currency',
+        'rate',
+        'amount',
+        'priceSum',
+    ];
 
     /**
      * {@inheritdoc}

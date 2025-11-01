@@ -31,15 +31,83 @@ class Header extends AbstractAgenda
     use Common\AddParameterTrait;
 
     /** @var string[] */
-    protected array $refElements = ['storage', 'typePrice', 'typeRP', 'supplier', 'typeServiceMOSS'];
+    protected array $refElements = [
+        'storage',
+        'typePrice',
+        'typeRP',
+        'supplier',
+        'typeServiceMOSS',
+    ];
 
     /** @var string[] */
-    protected array $elements = ['stockType', 'code', 'EAN', 'PLU', 'isSales', 'isSerialNumber', 'isInternet', 'isBatch', 'purchasingRateVAT', 'purchasingRatePayVAT', 'sellingRateVAT', 'sellingRatePayVAT', 'name', 'nameComplement', 'unit', 'unit2', 'unit3', 'coefficient2', 'coefficient3', 'storage', 'typePrice', 'purchasingPrice', 'purchasingPricePayVAT', 'sellingPrice', 'sellingPricePayVAT', 'limitMin', 'limitMax', 'mass', 'volume', 'supplier', 'orderName', 'orderQuantity', 'shortName', 'typeRP', 'guaranteeType', 'guarantee', 'producer', 'typeServiceMOSS', 'description', 'description2', 'note', 'intrastat', 'recyclingContrib'];
+    protected array $elements = [
+        'stockType',
+        'code',
+        'EAN',
+        'PLU',
+        'isSales',
+        'isSerialNumber',
+        'isInternet',
+        'isBatch',
+        'purchasingRateVAT',
+        'purchasingRatePayVAT',
+        'sellingRateVAT',
+        'sellingRatePayVAT',
+        'name',
+        'nameComplement',
+        'unit',
+        'unit2',
+        'unit3',
+        'coefficient2',
+        'coefficient3',
+        'storage',
+        'typePrice',
+        'purchasingPrice',
+        'purchasingPricePayVAT',
+        'sellingPrice',
+        'sellingPricePayVAT',
+        'limitMin',
+        'limitMax',
+        'mass',
+        'volume',
+        'supplier',
+        'orderName',
+        'orderQuantity',
+        'shortName',
+        'typeRP',
+        'guaranteeType',
+        'guarantee',
+        'producer',
+        'typeServiceMOSS',
+        'description',
+        'description2',
+        'note',
+        'intrastat',
+        'recyclingContrib',
+    ];
 
     /** @var string[] */
-    protected array $additionalElements = ['id', 'weightedPurchasePrice', 'count', 'countIssue', 'countReceivedOrders', 'reservation', 'countIssuedOrders', 'clearanceSale', 'controlLimitTaxLiability', 'discount', 'fixation', 'markRecord', 'news', 'prepare', 'recommended', 'sale', 'reclamation', 'service'];
+    protected array $additionalElements = [
+        'id',
+        'weightedPurchasePrice',
+        'count',
+        'countIssue',
+        'countReceivedOrders',
+        'reservation',
+        'countIssuedOrders',
+        'clearanceSale',
+        'controlLimitTaxLiability',
+        'discount',
+        'fixation',
+        'markRecord',
+        'news',
+        'prepare',
+        'recommended',
+        'sale',
+        'reclamation',
+        'service',
+    ];
 
-    /** @var int */
     protected int $imagesCounter = 0;
 
     /**
@@ -67,14 +135,20 @@ class Header extends AbstractAgenda
         // process intrastat
         if (isset($data['intrastat'])) {
             $intrastat = new Intrastat($this->dependenciesFactory);
-            $intrastat->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['intrastat']);
+            $intrastat
+                ->setDirectionalVariable($this->useOneDirectionalVariables)
+                ->setResolveOptions($this->resolveOptions)
+                ->setData($data['intrastat']);
             $data['intrastat'] = $intrastat;
         }
 
         // process recyclingContrib
         if (isset($data['recyclingContrib'])) {
             $recyclingContrib = new RecyclingContrib($this->dependenciesFactory);
-            $recyclingContrib->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data['recyclingContrib']);
+            $recyclingContrib
+                ->setDirectionalVariable($this->useOneDirectionalVariables)
+                ->setResolveOptions($this->resolveOptions)
+                ->setData($data['recyclingContrib']);
             $data['recyclingContrib'] = $recyclingContrib;
         }
 
@@ -103,12 +177,15 @@ class Header extends AbstractAgenda
         }
 
         $picture = new Picture($this->dependenciesFactory);
-        $picture->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData([
-            'filepath' => $filepath,
-            'description' => $description,
-            'order' => null === $order ? ++$this->imagesCounter : $order,
-            'default' => $default,
-        ]);
+        $picture
+            ->setDirectionalVariable($this->useOneDirectionalVariables)
+            ->setResolveOptions($this->resolveOptions)
+            ->setData([
+                'filepath' => $filepath,
+                'description' => $description,
+                'order' => null === $order ? ++$this->imagesCounter : $order,
+                'default' => $default,
+            ]);
         $this->data['pictures'][] = $picture;
     }
 
@@ -131,9 +208,12 @@ class Header extends AbstractAgenda
         }
 
         $category = new Category($this->dependenciesFactory);
-        $category->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData([
-            'idCategory' => $categoryId,
-        ]);
+        $category
+            ->setDirectionalVariable($this->useOneDirectionalVariables)
+            ->setResolveOptions($this->resolveOptions)
+            ->setData([
+                'idCategory' => $categoryId,
+            ]);
         $this->data['categories'][] = $category;
     }
 
@@ -156,7 +236,10 @@ class Header extends AbstractAgenda
         }
 
         $intParameters = new IntParameter($this->dependenciesFactory);
-        $intParameters->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data);
+        $intParameters
+            ->setDirectionalVariable($this->useOneDirectionalVariables)
+            ->setResolveOptions($this->resolveOptions)
+            ->setData($data);
         $this->data['intParameters'][] = $intParameters;
     }
 

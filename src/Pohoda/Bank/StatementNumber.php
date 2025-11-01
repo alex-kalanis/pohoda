@@ -17,7 +17,10 @@ use Riesenia\Pohoda\Common\OptionsResolver;
 class StatementNumber extends AbstractAgenda
 {
     /** @var string[] */
-    protected array $elements = ['statementNumber', 'numberMovement'];
+    protected array $elements = [
+        'statementNumber',
+        'numberMovement',
+    ];
 
     /**
      * {@inheritdoc}

@@ -17,10 +17,17 @@ use Riesenia\Pohoda\Document\AbstractSummary;
 class Summary extends AbstractSummary
 {
     /** @var string[] */
-    protected array $elements = ['roundingDocument', 'roundingVAT', 'homeCurrency', 'foreignCurrency'];
+    protected array $elements = [
+        'roundingDocument',
+        'roundingVAT',
+        'homeCurrency',
+        'foreignCurrency',
+    ];
 
     /** @var string[] */
-    protected array $additionalElements = ['typeCalculateVATInclusivePrice'];
+    protected array $additionalElements = [
+        'typeCalculateVATInclusivePrice',
+    ];
 
     /**
      * {@inheritdoc}

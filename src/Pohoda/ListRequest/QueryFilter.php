@@ -17,7 +17,10 @@ use Riesenia\Pohoda\Common\OptionsResolver;
 class QueryFilter extends AbstractAgenda
 {
     /** @var string[] */
-    protected array $elements = ['filter', 'textName'];
+    protected array $elements = [
+        'filter',
+        'textName',
+    ];
 
     /**
      * {@inheritdoc}

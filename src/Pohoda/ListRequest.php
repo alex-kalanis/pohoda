@@ -38,7 +38,10 @@ class ListRequest extends AbstractAgenda
     public function addLimit(array $data): self
     {
         $limit = new ListRequest\Limit($this->dependenciesFactory);
-        $limit->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data);
+        $limit
+            ->setDirectionalVariable($this->useOneDirectionalVariables)
+            ->setResolveOptions($this->resolveOptions)
+            ->setData($data);
         $this->data['limit'] = $limit;
 
         return $this;
@@ -54,7 +57,10 @@ class ListRequest extends AbstractAgenda
     public function addFilter(array $data): self
     {
         $filter = new ListRequest\Filter($this->dependenciesFactory);
-        $filter->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data);
+        $filter
+            ->setDirectionalVariable($this->useOneDirectionalVariables)
+            ->setResolveOptions($this->resolveOptions)
+            ->setData($data);
         $this->data['filter'] = $filter;
 
         return $this;
@@ -71,7 +77,10 @@ class ListRequest extends AbstractAgenda
     public function addQueryFilter(array $data): self
     {
         $filter = new ListRequest\QueryFilter($this->dependenciesFactory);
-        $filter->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data);
+        $filter
+            ->setDirectionalVariable($this->useOneDirectionalVariables)
+            ->setResolveOptions($this->resolveOptions)
+            ->setData($data);
         $this->data['queryFilter'] = $filter;
 
         return $this;
@@ -87,7 +96,10 @@ class ListRequest extends AbstractAgenda
     public function addRestrictionData(array $data): self
     {
         $restrictionData = new ListRequest\RestrictionData($this->dependenciesFactory);
-        $restrictionData->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData($data);
+        $restrictionData
+            ->setDirectionalVariable($this->useOneDirectionalVariables)
+            ->setResolveOptions($this->resolveOptions)
+            ->setData($data);
         $this->data['restrictionData'] = $restrictionData;
 
         return $this;
@@ -103,7 +115,10 @@ class ListRequest extends AbstractAgenda
     public function addUserFilterName(string $name): self
     {
         $userFilterName = new ListRequest\UserFilterName($this->dependenciesFactory);
-        $userFilterName->setDirectionalVariable($this->useOneDirectionalVariables)->setResolveOptions($this->resolveOptions)->setData(['userFilterName' => $name]);
+        $userFilterName
+            ->setDirectionalVariable($this->useOneDirectionalVariables)
+            ->setResolveOptions($this->resolveOptions)
+            ->setData(['userFilterName' => $name]);
         $this->data['userFilterName'] = $userFilterName;
 
         return $this;

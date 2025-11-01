@@ -16,10 +16,34 @@ use Riesenia\Pohoda\Common\OptionsResolver;
 class AdvancePaymentItem extends Item
 {
     /** @var string[] */
-    protected array $refElements = ['sourceDocument', 'accounting', 'classificationVAT', 'classificationKVDPH', 'centre', 'activity', 'contract'];
+    protected array $refElements = [
+        'sourceDocument',
+        'accounting',
+        'classificationVAT',
+        'classificationKVDPH',
+        'centre',
+        'activity',
+        'contract',
+    ];
 
     /** @var string[] */
-    protected array $elements = ['sourceDocument', 'quantity', 'payVAT', 'rateVAT', 'discountPercentage', 'homeCurrency', 'foreignCurrency', 'note', 'accounting', 'classificationVAT', 'classificationKVDPH', 'centre', 'activity', 'contract', 'symPar'];
+    protected array $elements = [
+        'sourceDocument',
+        'quantity',
+        'payVAT',
+        'rateVAT',
+        'discountPercentage',
+        'homeCurrency',
+        'foreignCurrency',
+        'note',
+        'accounting',
+        'classificationVAT',
+        'classificationKVDPH',
+        'centre',
+        'activity',
+        'contract',
+        'symPar',
+    ];
 
     /**
      * {@inheritdoc}

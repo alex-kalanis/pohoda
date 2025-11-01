@@ -2,7 +2,7 @@
 
 namespace Riesenia\Pohoda\Common\OptionsResolver\Normalizers;
 
-class DateTimes extends AbstractDates
+final class DateTimes extends AbstractDates
 {
     protected function getFormat(): string
     {
