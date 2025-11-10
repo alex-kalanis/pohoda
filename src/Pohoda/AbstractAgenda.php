@@ -91,9 +91,9 @@ abstract class AbstractAgenda
         // resolve options
         if ($data) {
             if ($this->resolveOptions) {
-                $filteredData = Common\Dtos\Hydrate::filterUnusableData((array) $data);
+                $filteredData = Common\Dtos\Processing::filterUnusableData((array) $data);
                 $resolvedData = $this->resolveOptions($filteredData);
-                $this->data = Common\Dtos\Hydrate::fill($data, $resolvedData);
+                $this->data = Common\Dtos\Processing::hydrate($data, $resolvedData, $this->useOneDirectionalVariables);
             } else {
                 $this->data = $data;
             }

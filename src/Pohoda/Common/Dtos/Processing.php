@@ -8,7 +8,7 @@ use ReflectionProperty;
 use ReflectionUnionType;
 use Riesenia\Pohoda\Common\Attributes;
 
-class Hydrate
+class Processing
 {
     /**
      * Throw out the entries that cannot be used for check - containing null or empty array
@@ -58,13 +58,12 @@ class Hydrate
      * @param AbstractDto $class
      * @param array<string, mixed> $data
      * @param bool $responseDirection
-     * @throws ReflectionException
-     * @return AbstractDto
      *
-     * I do not want to look at this more than I need
-     * todo: 8.1 - detekce podle extra atributu, ne podle polozek poli
+     * @throws ReflectionException
+     *
+     * @return AbstractDto
      */
-    public static function fill(AbstractDto $class, array $data, bool $responseDirection): AbstractDto
+    public static function hydrate(AbstractDto $class, array $data, bool $responseDirection): AbstractDto
     {
         $reflection = new ReflectionClass($class);
         $clonedInstance = $reflection->newInstance();
@@ -91,21 +90,49 @@ class Hydrate
         return $clonedInstance;
     }
 
+    /**
+     * Check if this property shall be skipped
+     *
+     * @param ReflectionProperty $property
+     *
+     * @return bool
+     */
     protected static function hasSkipAttribute(ReflectionProperty $property): bool
     {
         return !empty($property->getAttributes(Attributes\OnlyInternal::class));
     }
 
+    /**
+     * Check if the property is used as reference to somewhere
+     *
+     * @param ReflectionProperty $property
+     *
+     * @return bool
+     */
     protected static function hasRefAttribute(ReflectionProperty $property): bool
     {
         return !empty($property->getAttributes(Attributes\RefElement::class));
     }
 
+    /**
+     * Check if the property is used only in direction for response
+     *
+     * @param ReflectionProperty $property
+     *
+     * @return bool
+     */
     protected static function hasDirectionAttribute(ReflectionProperty $property): bool
     {
         return !empty($property->getAttributes(Attributes\ResponseDirection::class));
     }
 
+    /**
+     * Use different attribute as target instead of the one now processed
+     *
+     * @param ReflectionProperty $property
+     *
+     * @return string|null
+     */
     protected static function getRepresentsAttribute(ReflectionProperty $property): ?string
     {
         $attrs = $property->getAttributes(Attributes\Represents::class);
@@ -117,36 +144,79 @@ class Hydrate
         return null;
     }
 
+    /**
+     * @param ReflectionProperty $property
+     * @param mixed $value
+     *
+     * @throws ReflectionException
+     *
+     * @return string|null
+     */
     protected static function getPropertyType(ReflectionProperty $property, mixed $value): ?string
     {
         if (is_a($property->getType(), ReflectionUnionType::class)) {
-            // compare against different types - first one match, use it
             return static::getPropertyTypeFromUnion($property, $value);
         } else {
             return $property->getType()->getName();
         }
     }
 
+    /**
+     * @param ReflectionProperty $property
+     * @param mixed $value
+     *
+     * @throws ReflectionException
+     *
+     * @return string|null
+     */
     protected static function getPropertyTypeFromUnion(ReflectionProperty $property, mixed $value): ?string
     {
         // compare against different types - first one match, use it
-        $propertyType = null;
         $variableType = gettype($value);
         $classType = is_object($value) ? get_class($value) : null;
+        $parentInstances = $classType ? static::getPropertyParentInstances($classType) : [];
         foreach ($property->getType()->getTypes() as $reflectedType) {
-            if ($classType && ($reflectedType->getName() == $classType)) {
+            if (in_array($reflectedType->getName(), $parentInstances)) {
                 // objects are special in match
-                $propertyType = 'object';
-                break;
+                return 'object';
             }
             if ($reflectedType->getName() == $variableType) {
-                $propertyType = $reflectedType->getName();
-                break;
+                return $reflectedType->getName();
             }
         }
-        return $propertyType;
+        return null;
     }
 
+    /**
+     * @param class-string $name
+     *
+     * @throws ReflectionException
+     *
+     * @return class-string[]
+     */
+    protected static function getPropertyParentInstances(string $name): array
+    {
+        $reflectionClass = new ReflectionClass($name);
+        $usedClasses = [$name] + $reflectionClass->getInterfaceNames();
+        while ($parentClass = $reflectionClass->getParentClass()) {
+            $usedClasses[] = $parentClass->getName();
+            $usedClasses = $usedClasses + $reflectionClass->getInterfaceNames();
+            $reflectionClass = $parentClass;
+        }
+        return $usedClasses;
+    }
+
+    /**
+     * Hydrate cloned instance with type control and conversion
+     *
+     * @param AbstractDto $clonedInstance
+     * @param string $key
+     * @param string $propertyType
+     * @param mixed $value
+     * @param ReflectionProperty $property
+     *
+     * @return void
+     */
     protected static function hydrateClonedInstance(
         AbstractDto & $clonedInstance,
         string $key,

@@ -3,6 +3,7 @@
 namespace Riesenia\Pohoda\Voucher;
 
 use Riesenia\Pohoda\AbstractAgenda;
+use Riesenia\Pohoda\Common\Attributes;
 use Riesenia\Pohoda\Common\Dtos\AbstractDto;
 use Riesenia\Pohoda\Common\Dtos\AbstractHeaderDto;
 use Riesenia\Pohoda\Type;
@@ -13,7 +14,9 @@ class HeaderDto extends AbstractHeaderDto
     public ?string $extId = null;
     public ?string $voucherType = null;
     public ?string $storno = null;
+    #[Attributes\RefElement]
     public ?string $cashAccount = null;
+    #[Attributes\RefElement]
     public ?string $number = null;
     public ?string $originalDocument = null;
     public \DateTimeInterface|string|null $date = null;
@@ -28,8 +31,11 @@ class HeaderDto extends AbstractHeaderDto
     public AbstractDto|AbstractAgenda|null $myIdentity = null;
     public ?string $symPar = null;
     public ?string $priceLevel = null;
+    #[Attributes\RefElement]
     public ?string $centre = null;
+    #[Attributes\RefElement]
     public ?string $activity = null;
+    #[Attributes\RefElement]
     public ?string $contract = null;
     public ?string $regVATinEU = null;
     public ?string $MOSS = null;

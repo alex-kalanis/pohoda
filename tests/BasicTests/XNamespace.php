@@ -21,4 +21,9 @@ class XNamespace
     }
 
     protected function addElements(\SimpleXMLElement $xml, array $elements, ?string $namespace = null): void {}
+
+    protected function getDataElements(): array
+    {
+        return [];
+    }
 }

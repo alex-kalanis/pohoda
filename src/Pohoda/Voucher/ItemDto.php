@@ -3,6 +3,7 @@
 namespace Riesenia\Pohoda\Voucher;
 
 use Riesenia\Pohoda\AbstractAgenda;
+use Riesenia\Pohoda\Common\Attributes;
 use Riesenia\Pohoda\Common\Dtos\AbstractItemDto;
 use Riesenia\Pohoda\Type;
 
@@ -29,8 +30,15 @@ class ItemDto extends AbstractItemDto
     public ?string $PDP = null;
     public ?string $CodePDP = null;
     public ?string $recyclingContrib = null;
+    #[Attributes\RefElement, Attributes\OnlyInternal]
+    public ?string $cashAccount = null;
+    #[Attributes\RefElement, Attributes\OnlyInternal]
+    public ?string $number = null;
+    #[Attributes\RefElement]
     public ?string $centre = null;
+    #[Attributes\RefElement]
     public ?string $activity = null;
+    #[Attributes\RefElement]
     public ?string $contract = null;
     public ?string $EETItem = null;
     public \ArrayAccess|array $parameters = [];
