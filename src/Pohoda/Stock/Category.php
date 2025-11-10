@@ -12,7 +12,7 @@ declare(strict_types=1);
 namespace Riesenia\Pohoda\Stock;
 
 use Riesenia\Pohoda\AbstractAgenda;
-use Riesenia\Pohoda\Common\OptionsResolver;
+use Riesenia\Pohoda\Common;
 
 class Category extends AbstractAgenda
 {
@@ -21,7 +21,7 @@ class Category extends AbstractAgenda
      */
     public function getXML(): \SimpleXMLElement
     {
-        $category = $this->data['idCategory'] ?? null;
+        $category = $this->data->idCategory ?? null;
         return $this->createXML()->addChild(
             'stk:idCategory',
             is_null($category) ? null : strval($category),
@@ -32,13 +32,21 @@ class Category extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    protected function configureOptions(OptionsResolver $resolver): void
+    protected function configureOptions(Common\OptionsResolver $resolver): void
     {
         // available options
-        $resolver->setDefined(['idCategory']);
+        $resolver->setDefined($this->getDataElements());
 
         // validate / format options
         $resolver->setRequired('idCategory');
         $resolver->setNormalizer('idCategory', $this->dependenciesFactory->getNormalizerFactory()->getClosure('int'));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getDefaultDto(): Common\Dtos\AbstractDto
+    {
+        return new CategoryDto();
     }
 }

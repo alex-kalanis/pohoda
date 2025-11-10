@@ -12,12 +12,7 @@ declare(strict_types=1);
 namespace Riesenia\Pohoda;
 
 /**
- * @property array{
- *     actionType: Type\ActionType,
- *     header: Stock\Header,
- *     stockDetail?: iterable<Stock\StockItem>,
- *     stockPriceItem?: iterable<Stock\Price>,
- * } $data
+ * @property Stock\StockDto $data
  */
 class Stock extends AbstractAgenda
 {
@@ -28,16 +23,16 @@ class Stock extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    public function setData(array $data): parent
+    public function setData(?Common\Dtos\AbstractDto $data): parent
     {
         // pass to header
-        if (!empty($data)) {
+        if (!empty($data->header)) {
             $header = new Stock\Header($this->dependenciesFactory);
             $header
                 ->setDirectionalVariable($this->useOneDirectionalVariables)
                 ->setResolveOptions($this->resolveOptions)
-                ->setData($data);
-            $data = ['header' => $header];
+                ->setData($data->header);
+            $data->header = $header;
         }
 
         return parent::setData($data);
@@ -51,27 +46,18 @@ class Stock extends AbstractAgenda
     /**
      * Add stock item.
      *
-     * @param array<string,mixed> $data
+     * @param Stock\StockItemDto $data
      *
      * @return $this
      */
-    public function addStockItem(array $data): self
+    public function addStockItem(Stock\StockItemDto $data): self
     {
-        if (!isset($this->data['stockDetail'])
-            || !(
-                is_array($this->data['stockDetail'])
-                || (is_a($this->data['stockDetail'], \ArrayAccess::class))
-            )
-        ) {
-            $this->data['stockDetail'] = [];
-        }
-
         $stockDetail = new Stock\StockItem($this->dependenciesFactory);
         $stockDetail
             ->setDirectionalVariable($this->useOneDirectionalVariables)
             ->setResolveOptions($this->resolveOptions)
             ->setData($data);
-        $this->data['stockDetail'][] = $stockDetail;
+        $this->data->stockDetail[] = $stockDetail;
 
         return $this;
     }
@@ -87,27 +73,18 @@ class Stock extends AbstractAgenda
      */
     public function addPrice(string $code, float $value, string $id = ''): self
     {
-        if (!isset($this->data['stockPriceItem'])
-            || !(
-                is_array($this->data['stockPriceItem'])
-                || (is_a($this->data['stockPriceItem'], \ArrayAccess::class))
-            )
-        ) {
-            $this->data['stockPriceItem'] = [];
-        }
-
-        $price = new Stock\Price($this->dependenciesFactory);
-        $data = [];
+        $priceDto = new Stock\PriceDto();
         if (!empty($id)) {
-            $data['id'] = $id;
+            $priceDto->id = $id;
         }
-        $data['ids'] = $code;
-        $data['price'] = $value;
+        $priceDto->ids = $code;
+        $priceDto->price = $value;
+        $price = new Stock\Price($this->dependenciesFactory);
         $price
             ->setDirectionalVariable($this->useOneDirectionalVariables)
             ->setResolveOptions($this->resolveOptions)
-            ->setData($data);
-        $this->data['stockPriceItem'][] = $price;
+            ->setData($priceDto);
+        $this->data->stockPriceItem[] = $price;
 
         return $this;
     }
@@ -124,7 +101,7 @@ class Stock extends AbstractAgenda
      */
     public function addImage(string $filepath, string $description = '', int $order = null, bool $default = false): self
     {
-        $object = $this->data['header'];
+        $object = $this->data->header;
         $object->addImage($filepath, $description, $order, $default);
 
         return $this;
@@ -139,7 +116,7 @@ class Stock extends AbstractAgenda
      */
     public function addCategory(int $categoryId): self
     {
-        $object = $this->data['header'];
+        $object = $this->data->header;
         $object->addCategory($categoryId);
 
         return $this;
@@ -148,13 +125,13 @@ class Stock extends AbstractAgenda
     /**
      * Add int parameter.
      *
-     * @param array<string,mixed> $data
+     * @param Stock\IntParameterDto $data
      *
      * @return $this
      */
-    public function addIntParameter(array $data): self
+    public function addIntParameter(Stock\IntParameterDto $data): self
     {
-        $object = $this->data['header'];
+        $object = $this->data->header;
         $object->addIntParameter($data);
 
         return $this;
@@ -173,7 +150,7 @@ class Stock extends AbstractAgenda
         );
         $xml->addAttribute('version', '2.0');
 
-        $this->addElements($xml, ['actionType', 'header', 'stockDetail', 'stockPriceItem'], 'stk');
+        $this->addElements($xml, $this->getDataElements(), 'stk');
 
         return $xml;
     }
@@ -185,5 +162,13 @@ class Stock extends AbstractAgenda
     {
         // available options
         $resolver->setDefined(['header']);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getDefaultDto(): Common\Dtos\AbstractDto
+    {
+        return new Stock\StockDto();
     }
 }

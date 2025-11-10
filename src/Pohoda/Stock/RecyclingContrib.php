@@ -12,19 +12,13 @@ declare(strict_types=1);
 namespace Riesenia\Pohoda\Stock;
 
 use Riesenia\Pohoda\AbstractAgenda;
-use Riesenia\Pohoda\Common\OptionsResolver;
+use Riesenia\Pohoda\Common;
 
 class RecyclingContrib extends AbstractAgenda
 {
     /** @var string[] */
     protected array $refElements = [
         'recyclingContribType',
-    ];
-
-    /** @var string[] */
-    protected array $elements = [
-        'recyclingContribType',
-        'coefficientOfRecyclingContrib',
     ];
 
     /**
@@ -34,7 +28,7 @@ class RecyclingContrib extends AbstractAgenda
     {
         $xml = $this->createXML()->addChild('stk:recyclingContrib', '', $this->namespace('stk'));
 
-        $this->addElements($xml, $this->elements, 'stk');
+        $this->addElements($xml, $this->getDataElements(), 'stk');
 
         return $xml;
     }
@@ -42,12 +36,20 @@ class RecyclingContrib extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    protected function configureOptions(OptionsResolver $resolver): void
+    protected function configureOptions(Common\OptionsResolver $resolver): void
     {
         // available options
-        $resolver->setDefined($this->elements);
+        $resolver->setDefined($this->getDataElements());
 
         // validate / format options
         $resolver->setNormalizer('coefficientOfRecyclingContrib', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getDefaultDto(): Common\Dtos\AbstractDto
+    {
+        return new RecyclingContribDto();
     }
 }

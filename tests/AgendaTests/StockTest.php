@@ -33,22 +33,23 @@ class StockTest extends CommonTestClass
 
     public function testAddStockItems(): void
     {
+        $price1 = new Pohoda\Stock\PriceDto();
+        $price1->ids = 'Cena 1';
+        $price1->price = 294;
+        $price2 = new Pohoda\Stock\PriceDto();
+        $price2->ids = 'MOC';
+        $price2->price = 393.3;
+        $stock = new Pohoda\Stock\StockItemDto();
+        $stock->storage = ['ids' => 'MATERIÁL'];
+        $stock->code = 'B03';
+        $stock->name = 'Spojovacia doska';
+        $stock->count = 88;
+        $stock->quantity = 1;
+        $stock->stockPriceItem[] = $price1;
+        $stock->stockPriceItem[] = $price2;
+
         $lib = $this->getLib();
-        $lib->addStockItem([
-            'storage' => ['ids' => 'MATERIÁL'],
-            'code' => 'B03',
-            'name' => 'Spojovacia doska',
-            'count' => 88,
-            'quantity' => 1,
-            'stockPriceItem' => [
-                [
-                    'stockPrice' => ['ids' => 'Cena 1', 'price' => 294],
-                ],
-                [
-                    'stockPrice' => ['ids' => 'MOC', 'price' => 393.3],
-                ],
-            ],
-        ]);
+        $lib->addStockItem($stock);
 
         $this->assertEquals('<stk:stock version="2.0"><stk:stockHeader>' . $this->defaultHeader() . '</stk:stockHeader><stk:stockDetail><stk:stockItem><stk:storage><typ:ids>MATERIÁL</typ:ids></stk:storage><stk:code>B03</stk:code><stk:name>Spojovacia doska</stk:name><stk:count>88</stk:count><stk:quantity>1</stk:quantity><stk:stockPriceItem><stk:stockPrice><typ:ids>Cena 1</typ:ids><typ:price>294</typ:price></stk:stockPrice><stk:stockPrice><typ:ids>MOC</typ:ids><typ:price>393.3</typ:price></stk:stockPrice></stk:stockPriceItem></stk:stockItem></stk:stockDetail></stk:stock>', $lib->getXML()->asXML());
     }
@@ -82,12 +83,13 @@ class StockTest extends CommonTestClass
 
     public function testSetIntParams(): void
     {
+        $intl = new Pohoda\Stock\IntParameterDto();
+        $intl->intParameterID = 1;
+        $intl->intParameterType = 'numberValue';
+        $intl->value = 'VALUE1';
+
         $lib = $this->getLib();
-        $lib->addIntParameter([
-            'intParameterID' => 1,
-            'intParameterType' => 'numberValue',
-            'value' => 'VALUE1',
-        ]);
+        $lib->addIntParameter($intl);
 
         $this->assertEquals('<stk:stock version="2.0"><stk:stockHeader>' . $this->defaultHeader() . '<stk:intParameters><stk:intParameter><stk:intParameterID>1</stk:intParameterID><stk:intParameterType>numberValue</stk:intParameterType><stk:intParameterValues><stk:intParameterValue><stk:parameterValue>VALUE1</stk:parameterValue></stk:intParameterValue></stk:intParameterValues></stk:intParameter></stk:intParameters></stk:stockHeader></stk:stock>', $lib->getXML()->asXML());
     }
@@ -116,31 +118,37 @@ class StockTest extends CommonTestClass
 
     public function testExtendedStock(): void
     {
+        $intrastat = new Pohoda\Stock\IntrastatDto();
+        $intrastat->goodsCode = '123';
+        $intrastat->unit = 'ZZZ';
+        $intrastat->coefficient = 0;
+        $intrastat->country = 'CN';
+
+        $recycling = new Pohoda\Stock\RecyclingContribDto();
+        $recycling->recyclingContribType = 'X';
+        $recycling->coefficientOfRecyclingContrib = 1;
+
+        $header = new Pohoda\Stock\HeaderDto();
+        $header->code = 'CODE';
+        $header->name = 'NAME';
+        $header->isSales = '0';
+        $header->isSerialNumber = 'false';
+        $header->isInternet = true;
+        $header->storage = 'STORAGE';
+        $header->typePrice = ['id' => 1];
+        $header->sellingPrice = 12.7;
+        $header->count = 22; // NEED
+        $header->reservation = 3; // WANT
+        $header->sellingPricePayVAT = true;
+        $header->intrastat = $intrastat;
+        $header->recyclingContrib = $recycling;
+
+        $dto = new Pohoda\Stock\StockDto();
+        $dto->header = $header;
+
         $lib = new Pohoda\Stock($this->getBasicDi());
         $lib->setDirectionalVariable(true);
-        $lib->setData([
-            'code' => 'CODE',
-            'name' => 'NAME',
-            'isSales' => '0',
-            'isSerialNumber' => 'false',
-            'isInternet' => true,
-            'storage' => 'STORAGE',
-            'typePrice' => ['id' => 1],
-            'sellingPrice' => 12.7,
-            'count' => 22, // NEED
-            'reservation' => 3, // WANT
-            'sellingPricePayVAT' => true,
-            'intrastat' => [
-                'goodsCode' => '123',
-                'unit' => 'ZZZ',
-                'coefficient' => 0,
-                'country' => 'CN',
-            ],
-            'recyclingContrib' => [
-                'recyclingContribType' => 'X',
-                'coefficientOfRecyclingContrib' => 1,
-            ],
-        ]);
+        $lib->setData($dto);
 
         $this->assertEquals('<stk:stock version="2.0"><stk:stockHeader>' . $this->defaultHeader() . '<stk:count>22</stk:count><stk:reservation>3</stk:reservation></stk:stockHeader></stk:stock>', $lib->getXML()->asXML());
     }
@@ -152,27 +160,33 @@ class StockTest extends CommonTestClass
 
     protected function getLib(): Pohoda\Stock
     {
+        $intrastat = new Pohoda\Stock\IntrastatDto();
+        $intrastat->goodsCode = '123';
+        $intrastat->unit = 'ZZZ';
+        $intrastat->coefficient = 0;
+        $intrastat->country = 'CN';
+
+        $recycling = new Pohoda\Stock\RecyclingContribDto();
+        $recycling->recyclingContribType = 'X';
+        $recycling->coefficientOfRecyclingContrib = 1;
+
+        $header = new Pohoda\Stock\HeaderDto();
+        $header->code = 'CODE';
+        $header->name = 'NAME';
+        $header->isSales = '0';
+        $header->isSerialNumber = 'false';
+        $header->isInternet = true;
+        $header->storage = 'STORAGE';
+        $header->typePrice = ['id' => 1];
+        $header->sellingPrice = 12.7;
+        $header->sellingPricePayVAT = true;
+        $header->intrastat = $intrastat;
+        $header->recyclingContrib = $recycling;
+
+        $dto = new Pohoda\Stock\StockDto();
+        $dto->header = $header;
+
         $lib = new Pohoda\Stock($this->getBasicDi());
-        return $lib->setData([
-            'code' => 'CODE',
-            'name' => 'NAME',
-            'isSales' => '0',
-            'isSerialNumber' => 'false',
-            'isInternet' => true,
-            'storage' => 'STORAGE',
-            'typePrice' => ['id' => 1],
-            'sellingPrice' => 12.7,
-            'sellingPricePayVAT' => true,
-            'intrastat' => [
-                'goodsCode' => '123',
-                'unit' => 'ZZZ',
-                'coefficient' => 0,
-                'country' => 'CN',
-            ],
-            'recyclingContrib' => [
-                'recyclingContribType' => 'X',
-                'coefficientOfRecyclingContrib' => 1,
-            ],
-        ]);
+        return $lib->setData($dto);
     }
 }

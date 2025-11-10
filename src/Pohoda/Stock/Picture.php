@@ -12,8 +12,11 @@ declare(strict_types=1);
 namespace Riesenia\Pohoda\Stock;
 
 use Riesenia\Pohoda\AbstractAgenda;
-use Riesenia\Pohoda\Common\OptionsResolver;
+use Riesenia\Pohoda\Common;
 
+/**
+ * @property PictureDto $data
+ */
 class Picture extends AbstractAgenda
 {
     /**
@@ -22,9 +25,9 @@ class Picture extends AbstractAgenda
     public function getXML(): \SimpleXMLElement
     {
         $xml = $this->createXML()->addChild('stk:picture', '', $this->namespace('stk'));
-        $xml->addAttribute('default', strval($this->data['default']));
+        $xml->addAttribute('default', $this->data->default ? 'true' : 'false');
 
-        $this->addElements($xml, ['filepath', 'description', 'order'], 'stk');
+        $this->addElements($xml, \array_diff($this->getDataElements(), ['default']), 'stk');
 
         return $xml;
     }
@@ -32,15 +35,23 @@ class Picture extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    protected function configureOptions(OptionsResolver $resolver): void
+    protected function configureOptions(Common\OptionsResolver $resolver): void
     {
         // available options
-        $resolver->setDefined(['filepath', 'description', 'order', 'default']);
+        $resolver->setDefined($this->getDataElements());
 
         // validate / format options
         $resolver->setRequired('filepath');
         $resolver->setNormalizer('order', $this->dependenciesFactory->getNormalizerFactory()->getClosure('int'));
         $resolver->setDefault('default', 'false');
         $resolver->setNormalizer('default', $this->dependenciesFactory->getNormalizerFactory()->getClosure('bool'));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getDefaultDto(): Common\Dtos\AbstractDto
+    {
+        return new PictureDto();
     }
 }

@@ -14,17 +14,9 @@ namespace Riesenia\Pohoda\Stock;
 use Riesenia\Pohoda\AbstractAgenda;
 use Riesenia\Pohoda\Common;
 use Riesenia\Pohoda\DI\DependenciesFactory;
-use Riesenia\Pohoda\Type;
 
 /**
- * @property array{
- *     parameters?: iterable<Type\Parameter>,
- *     intrastat?: Intrastat,
- *     recyclingContrib?: RecyclingContrib,
- *     pictures?: iterable<Picture>,
- *     categories?: iterable<Category>,
- *     intParameters?: iterable<IntParameter>,
- * } $data
+ * @property HeaderDto $data
  */
 class Header extends AbstractAgenda
 {
@@ -37,53 +29,6 @@ class Header extends AbstractAgenda
         'typeRP',
         'supplier',
         'typeServiceMOSS',
-    ];
-
-    /** @var string[] */
-    protected array $elements = [
-        'stockType',
-        'code',
-        'EAN',
-        'PLU',
-        'isSales',
-        'isSerialNumber',
-        'isInternet',
-        'isBatch',
-        'purchasingRateVAT',
-        'purchasingRatePayVAT',
-        'sellingRateVAT',
-        'sellingRatePayVAT',
-        'name',
-        'nameComplement',
-        'unit',
-        'unit2',
-        'unit3',
-        'coefficient2',
-        'coefficient3',
-        'storage',
-        'typePrice',
-        'purchasingPrice',
-        'purchasingPricePayVAT',
-        'sellingPrice',
-        'sellingPricePayVAT',
-        'limitMin',
-        'limitMax',
-        'mass',
-        'volume',
-        'supplier',
-        'orderName',
-        'orderQuantity',
-        'shortName',
-        'typeRP',
-        'guaranteeType',
-        'guarantee',
-        'producer',
-        'typeServiceMOSS',
-        'description',
-        'description2',
-        'note',
-        'intrastat',
-        'recyclingContrib',
     ];
 
     /** @var string[] */
@@ -108,6 +53,13 @@ class Header extends AbstractAgenda
         'service',
     ];
 
+    protected array $extraGroups = [
+        'categories',
+        'pictures',
+        'parameters',
+        'intParameters',
+    ];
+
     protected int $imagesCounter = 0;
 
     /**
@@ -130,26 +82,26 @@ class Header extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    public function setData(array $data): parent
+    public function setData(?Common\Dtos\AbstractDto $data): parent
     {
         // process intrastat
-        if (isset($data['intrastat'])) {
+        if (isset($data->intrastat)) {
             $intrastat = new Intrastat($this->dependenciesFactory);
             $intrastat
                 ->setDirectionalVariable($this->useOneDirectionalVariables)
                 ->setResolveOptions($this->resolveOptions)
-                ->setData($data['intrastat']);
-            $data['intrastat'] = $intrastat;
+                ->setData($data->intrastat);
+            $data->intrastat = $intrastat;
         }
 
         // process recyclingContrib
-        if (isset($data['recyclingContrib'])) {
+        if (isset($data->recyclingContrib)) {
             $recyclingContrib = new RecyclingContrib($this->dependenciesFactory);
             $recyclingContrib
                 ->setDirectionalVariable($this->useOneDirectionalVariables)
                 ->setResolveOptions($this->resolveOptions)
-                ->setData($data['recyclingContrib']);
-            $data['recyclingContrib'] = $recyclingContrib;
+                ->setData($data->recyclingContrib);
+            $data->recyclingContrib = $recyclingContrib;
         }
 
         return parent::setData($data);
@@ -167,26 +119,18 @@ class Header extends AbstractAgenda
      */
     public function addImage(string $filepath, string $description = '', int $order = null, bool $default = false): void
     {
-        if (!isset($this->data['pictures'])
-            || !(
-                is_array($this->data['pictures'])
-                || (is_a($this->data['pictures'], \ArrayAccess::class))
-            )
-        ) {
-            $this->data['pictures'] = [];
-        }
+        $pictureDto = new PictureDto();
+        $pictureDto->filepath = $filepath;
+        $pictureDto->description = $description;
+        $pictureDto->order = null === $order ? ++$this->imagesCounter : $order;
+        $pictureDto->default = $default;
 
         $picture = new Picture($this->dependenciesFactory);
         $picture
             ->setDirectionalVariable($this->useOneDirectionalVariables)
             ->setResolveOptions($this->resolveOptions)
-            ->setData([
-                'filepath' => $filepath,
-                'description' => $description,
-                'order' => null === $order ? ++$this->imagesCounter : $order,
-                'default' => $default,
-            ]);
-        $this->data['pictures'][] = $picture;
+            ->setData($pictureDto);
+        $this->data->pictures[] = $picture;
     }
 
     /**
@@ -198,49 +142,32 @@ class Header extends AbstractAgenda
      */
     public function addCategory(int $categoryId): void
     {
-        if (!isset($this->data['categories'])
-            || !(
-                is_array($this->data['categories'])
-                || (is_a($this->data['categories'], \ArrayAccess::class))
-            )
-        ) {
-            $this->data['categories'] = [];
-        }
+        $categoryDto = new CategoryDto();
+        $categoryDto->idCategory = $categoryId;
 
         $category = new Category($this->dependenciesFactory);
         $category
             ->setDirectionalVariable($this->useOneDirectionalVariables)
             ->setResolveOptions($this->resolveOptions)
-            ->setData([
-                'idCategory' => $categoryId,
-            ]);
-        $this->data['categories'][] = $category;
+            ->setData($categoryDto);
+        $this->data->categories[] = $category;
     }
 
     /**
      * Add int parameter.
      *
-     * @param array<string,mixed> $data
+     * @param IntParameterDto $data
      *
      * @return void
      */
-    public function addIntParameter(array $data): void
+    public function addIntParameter(IntParameterDto $data): void
     {
-        if (!isset($this->data['intParameters'])
-            || !(
-                is_array($this->data['intParameters'])
-                || (is_a($this->data['intParameters'], \ArrayAccess::class))
-            )
-        ) {
-            $this->data['intParameters'] = [];
-        }
-
         $intParameters = new IntParameter($this->dependenciesFactory);
         $intParameters
             ->setDirectionalVariable($this->useOneDirectionalVariables)
             ->setResolveOptions($this->resolveOptions)
             ->setData($data);
-        $this->data['intParameters'][] = $intParameters;
+        $this->data->intParameters[] = $intParameters;
     }
 
     /**
@@ -250,7 +177,14 @@ class Header extends AbstractAgenda
     {
         $xml = $this->createXML()->addChild('stk:stockHeader', '', $this->namespace('stk'));
 
-        $this->addElements($xml, \array_merge($this->elements, ($this->useOneDirectionalVariables ? $this->additionalElements : []), ['categories', 'pictures', 'parameters', 'intParameters']), 'stk');
+        $this->addElements($xml,
+            $this->useOneDirectionalVariables
+                ? $this->getAllDataProperties()
+                : \array_diff(
+                    $this->getAllDataProperties(),
+                    $this->additionalElements,
+                )
+        , 'stk');
 
         return $xml;
     }
@@ -261,7 +195,7 @@ class Header extends AbstractAgenda
     protected function configureOptions(Common\OptionsResolver $resolver): void
     {
         // available options
-        $resolver->setDefined(array_merge($this->elements, ($this->useOneDirectionalVariables ? $this->additionalElements : [])));
+        $resolver->setDefined($this->getDataElements());
 
         // validate / format options
         $resolver->setDefault('stockType', 'card');
@@ -314,5 +248,24 @@ class Header extends AbstractAgenda
             $resolver->setNormalizer('recommended', $this->dependenciesFactory->getNormalizerFactory()->getClosure('bool'));
             $resolver->setNormalizer('sale', $this->dependenciesFactory->getNormalizerFactory()->getClosure('bool'));
         }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getDefaultDto(): Common\Dtos\AbstractDto
+    {
+        return new HeaderDto();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function skipElements(): array
+    {
+        return array_merge(
+            $this->extraGroups,
+            $this->useOneDirectionalVariables ? [] : $this->additionalElements,
+        );
     }
 }

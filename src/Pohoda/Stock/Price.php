@@ -12,7 +12,7 @@ declare(strict_types=1);
 namespace Riesenia\Pohoda\Stock;
 
 use Riesenia\Pohoda\AbstractAgenda;
-use Riesenia\Pohoda\Common\OptionsResolver;
+use Riesenia\Pohoda\Common;
 
 class Price extends AbstractAgenda
 {
@@ -23,15 +23,22 @@ class Price extends AbstractAgenda
     {
         $xml = $this->createXML()->addChild('stk:stockPriceItem', '', $this->namespace('stk'));
 
-        return $this->addRefElement($xml, 'stk:stockPrice', $this->data);
+        return $this->addRefElement($xml, 'stk:stockPrice', array_filter((array) $this->data));
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function configureOptions(OptionsResolver $resolver): void
+    protected function configureOptions(Common\OptionsResolver $resolver): void
     {
-        // available options
-        $resolver->setDefined(['id', 'ids', 'price']);
+        $resolver->setDefined($this->getDataElements());
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getDefaultDto(): Common\Dtos\AbstractDto
+    {
+        return new PriceDto();
     }
 }

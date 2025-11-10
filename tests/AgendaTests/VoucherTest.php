@@ -24,6 +24,7 @@ class VoucherTest extends CommonTestClass
     {
         $currency = new Pohoda\Type\Dtos\CurrencyHomeDto();
         $currency->priceNone = 500;
+
         $summaryDto = new Pohoda\Voucher\SummaryDto();
         $summaryDto->homeCurrency = $currency;
 
@@ -67,10 +68,12 @@ class VoucherTest extends CommonTestClass
 
     protected function getLib(): Pohoda\Voucher
     {
-        $base = new Pohoda\Common\Dtos\AgendaDto();
         $header = new Pohoda\Voucher\HeaderDto();
         $header->id = '123456';
+
+        $base = new Pohoda\Voucher\VoucherDto();
         $base->header = $header;
+
         $lib = new Pohoda\Voucher($this->getBasicDi());
         return $lib->setData($base);
     }

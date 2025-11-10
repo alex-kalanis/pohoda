@@ -12,20 +12,10 @@ declare(strict_types=1);
 namespace Riesenia\Pohoda\Stock;
 
 use Riesenia\Pohoda\AbstractAgenda;
-use Riesenia\Pohoda\Common\OptionsResolver;
+use Riesenia\Pohoda\Common;
 
 class Intrastat extends AbstractAgenda
 {
-    /** @var string[] */
-    protected array $elements = [
-        'goodsCode',
-        'description',
-        'statistic',
-        'unit',
-        'coefficient',
-        'country',
-    ];
-
     /**
      * {@inheritdoc}
      */
@@ -33,7 +23,7 @@ class Intrastat extends AbstractAgenda
     {
         $xml = $this->createXML()->addChild('stk:intrastat', '', $this->namespace('stk'));
 
-        $this->addElements($xml, $this->elements, 'stk');
+        $this->addElements($xml, $this->getDataElements(), 'stk');
 
         return $xml;
     }
@@ -41,10 +31,10 @@ class Intrastat extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    protected function configureOptions(OptionsResolver $resolver): void
+    protected function configureOptions(Common\OptionsResolver $resolver): void
     {
         // available options
-        $resolver->setDefined($this->elements);
+        $resolver->setDefined($this->getDataElements());
 
         // validate / format options
         $resolver->setNormalizer('goodsCode', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string8'));
@@ -53,5 +43,13 @@ class Intrastat extends AbstractAgenda
         $resolver->setNormalizer('unit', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string10'));
         $resolver->setNormalizer('coefficient', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
         $resolver->setNormalizer('country', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string2'));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getDefaultDto(): Common\Dtos\AbstractDto
+    {
+        return new IntrastatDto();
     }
 }

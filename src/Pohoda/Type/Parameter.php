@@ -32,9 +32,12 @@ class Parameter extends AbstractAgenda
         if ('list' == $this->data->type) {
             $this->addRefElement($xml, 'typ:listValueRef', $this->data->value);
 
-            if (isset($this->data->list)) {
+            if (!empty($this->data->list)) {
                 $this->addRefElement($xml, 'typ:list', $this->data->list);
             }
+
+        } elseif ('boolean' == $this->data->type) {
+            $xml->addChild('typ:' . $this->data->type . 'Value', $this->data->value ? 'true' : 'false');
 
         } else {
             $xml->addChild('typ:' . $this->data->type . 'Value', \htmlspecialchars(strval($this->data->value)));

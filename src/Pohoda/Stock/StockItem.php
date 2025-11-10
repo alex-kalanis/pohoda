@@ -22,32 +22,20 @@ class StockItem extends AbstractAgenda
         'storage',
     ];
 
-    /** @var string[] */
-    protected array $elements = [
-        'id',
-        'stockInfo',
-        'storage',
-        'code',
-        'name',
-        'count',
-        'quantity',
-        'stockPriceItem',
-    ];
-
     /**
      * {@inheritdoc}
      */
-    public function setData(array $data): parent
+    public function setData(?Common\Dtos\AbstractDto $data): parent
     {
         // process stockPriceItem
-        if (isset($data['stockPriceItem']) && is_array($data['stockPriceItem'])) {
-            $data['stockPriceItem'] = \array_map(function ($stockPriceItem) {
+        if (is_array($data->stockPriceItem) && !empty($data->stockPriceItem)) {
+            $data->stockPriceItem = \array_map(function (PriceDto $stockPriceItem) {
                 $price = new Price($this->dependenciesFactory);
                 $price->setDirectionalVariable($this->useOneDirectionalVariables)
                     ->setResolveOptions($this->resolveOptions)
-                    ->setData($stockPriceItem['stockPrice']);
+                    ->setData($stockPriceItem);
                 return $price;
-            }, $data['stockPriceItem']);
+            }, $data->stockPriceItem);
         }
 
         return parent::setData($data);
@@ -60,7 +48,7 @@ class StockItem extends AbstractAgenda
     {
         $xml = $this->createXML()->addChild('stk:stockItem', '', $this->namespace('stk'));
 
-        $this->addElements($xml, $this->elements, 'stk');
+        $this->addElements($xml, $this->getDataElements(), 'stk');
 
         return $xml;
     }
@@ -71,10 +59,18 @@ class StockItem extends AbstractAgenda
     protected function configureOptions(Common\OptionsResolver $resolver): void
     {
         // available options
-        $resolver->setDefined($this->elements);
+        $resolver->setDefined($this->getDataElements());
 
         $resolver->setNormalizer('id', $this->dependenciesFactory->getNormalizerFactory()->getClosure('int'));
         $resolver->setNormalizer('count', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
         $resolver->setNormalizer('quantity', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getDefaultDto(): Common\Dtos\AbstractDto
+    {
+        return new StockItemDto();
     }
 }

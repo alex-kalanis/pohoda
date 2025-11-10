@@ -11,11 +11,11 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\Common;
 
-use Riesenia\Pohoda\Type\ActionType;
+use Riesenia\Pohoda\Type;
 
 /**
  * @property object{
- *     actionType?: ActionType,
+ *     actionType?: Type\ActionType,
  * } $data
  */
 trait AddActionTypeTrait
@@ -35,17 +35,18 @@ trait AddActionTypeTrait
             throw new \LogicException('Duplicate action type.');
         }
 
-        $actionType = new ActionType(
+        $actionTypeDto = new Type\Dtos\ActionTypeDto();
+        $actionTypeDto->type = $type;
+        $actionTypeDto->filter = $filter;
+        $actionTypeDto->agenda = $agenda;
+
+        $actionType = new Type\ActionType(
             $this->dependenciesFactory,
         );
         $actionType
             ->setDirectionalVariable($this->useOneDirectionalVariables)
             ->setResolveOptions($this->resolveOptions)
-            ->setData([
-                'type' => $type,
-                'filter' => $filter,
-                'agenda' => $agenda,
-            ]);
+            ->setData($actionTypeDto);
         $this->data->actionType = $actionType;
 
         return $this;

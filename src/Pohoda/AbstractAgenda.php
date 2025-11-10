@@ -50,7 +50,9 @@ abstract class AbstractAgenda
      */
     public function __construct(
         protected readonly Pohoda\DI\DependenciesFactory $dependenciesFactory,
-    ) {}
+    ) {
+        $this->data = $this->getDefaultDto();
+    }
 
     /**
      * Import root
@@ -88,15 +90,10 @@ abstract class AbstractAgenda
     {
         // resolve options
         if ($data) {
-            $clonedDto = $this->dependenciesFactory->getDtoFactory()->getDto($data);
-
             if ($this->resolveOptions) {
-                $passedData = array_filter((array) $data, fn($in) => !(is_null($in) || (is_array($in) && empty($in)))); // throw nulls and empty arrays (unused values) out
-                $resolvedData = $this->resolveOptions($passedData);
-                foreach ($clonedDto as $key => $entry) {
-                    $clonedDto->{$key} = $resolvedData[$key] ?? (new \ReflectionClass($clonedDto))?->getProperty($key)?->getDefaultValue();
-                }
-                $this->data = $clonedDto;
+                $filteredData = Common\Dtos\Hydrate::filterUnusableData((array) $data);
+                $resolvedData = $this->resolveOptions($filteredData);
+                $this->data = Common\Dtos\Hydrate::fill($data, $resolvedData);
             } else {
                 $this->data = $data;
             }
@@ -367,19 +364,27 @@ abstract class AbstractAgenda
     /**
      * Get elements - properties in data class
      *
-     * @throws \ReflectionException
-     *
      * @return string[]
      */
     protected function getDataElements(): array
     {
+        return array_diff($this->getAllDataProperties(), $this->skipElements());
+    }
+
+    /**
+     * Get inner properties of Dtos - All
+     *
+     * @return string[]
+     */
+    protected function getAllDataProperties(): array
+    {
         $data = $this->data ?: $this->getDefaultDto();
 
         $reflection = new \ReflectionClass($data);
-        return array_diff(array_map(
+        return array_map(
             fn(\ReflectionProperty $property) => $property->getName(),
             $reflection->getProperties(),
-        ), $this->skipElements());
+        );
     }
 
     /**

@@ -41,7 +41,7 @@ abstract class AbstractDocument extends AbstractAgenda
      *
      * @param Dtos\AbstractSummaryDto|null $data
      *
-     * @return $thisDtos
+     * @return $this
      */
     public function addSummary(?Dtos\AbstractSummaryDto $data): self
     {

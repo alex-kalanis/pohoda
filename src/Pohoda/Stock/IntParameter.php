@@ -12,8 +12,11 @@ declare(strict_types=1);
 namespace Riesenia\Pohoda\Stock;
 
 use Riesenia\Pohoda\AbstractAgenda;
-use Riesenia\Pohoda\Common\OptionsResolver;
+use Riesenia\Pohoda\Common;
 
+/**
+ * @property IntParameterDto $data
+ */
 class IntParameter extends AbstractAgenda
 {
     /**
@@ -26,7 +29,7 @@ class IntParameter extends AbstractAgenda
         $this->addElements($xml, ['intParameterID', 'intParameterType'], 'stk');
 
         // value
-        $value = $this->data['value'] ?? null;
+        $value = $this->data->value ?? null;
         $xml->addChild('stk:intParameterValues')
             ->addChild('stk:intParameterValue')
             ->addChild(
@@ -40,10 +43,10 @@ class IntParameter extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    protected function configureOptions(OptionsResolver $resolver): void
+    protected function configureOptions(Common\OptionsResolver $resolver): void
     {
         // available options
-        $resolver->setDefined(['intParameterID', 'intParameterName', 'intParameterOrder', 'intParameterType', 'value']);
+        $resolver->setDefined($this->getDataElements());
 
         // validate / format options
         $resolver->setRequired('intParameterID');
@@ -51,5 +54,13 @@ class IntParameter extends AbstractAgenda
         $resolver->setRequired('intParameterType');
         $resolver->setAllowedValues('intParameterType', ['textValue', 'currencyValue', 'booleanValue', 'numberValue', 'integerValue', 'datetimeValue', 'unit', 'listValue']);
         $resolver->setRequired('value');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getDefaultDto(): Common\Dtos\AbstractDto
+    {
+        return new IntParameterDto();
     }
 }
