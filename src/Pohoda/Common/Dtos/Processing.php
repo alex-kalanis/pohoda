@@ -88,6 +88,8 @@ class Processing
     {
         $reflection = new ReflectionClass($class);
         $clonedInstance = $reflection->newInstance();
+        $usedKeys = [];
+        // regular defined properties
         $allProperties = $reflection->getProperties();
         foreach ($allProperties as $property) {
             if (static::hasSkipAttribute($property)) {
@@ -107,6 +109,13 @@ class Processing
                     static::hydrateClonedInstance($clonedInstance, $key, $propertyType, $value, $property);
                 }
             }
+            $usedKeys[] = $property->getName();
+        }
+        // now dynamically added ones
+        $extraProperties = array_diff(array_keys((array) $class), $usedKeys);
+        foreach ($extraProperties as $extraProperty) {
+            // cannot determine their metadata, so just copy them
+            $clonedInstance->{$extraProperty} = $data[$extraProperty];
         }
         return $clonedInstance;
     }
