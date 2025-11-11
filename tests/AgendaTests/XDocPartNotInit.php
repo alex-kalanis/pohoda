@@ -11,5 +11,5 @@ class XDocPartNotInit extends Pohoda\Document\AbstractPart
         // this one will kill the init - cannot initialize protected
     }
 
-    public function configureOptions(Pohoda\Common\OptionsResolver $resolver): void {}
+    protected function configureOptions(Pohoda\Common\OptionsResolver $resolver): void {}
 }

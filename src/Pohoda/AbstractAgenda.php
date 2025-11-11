@@ -40,9 +40,6 @@ abstract class AbstractAgenda
     /** @var array<string, Common\ElementAttributes> */
     protected array $elementsAttributesMapper = [];
 
-    /** @var Common\OptionsResolver[] */
-    private static array $resolvers = [];
-
     /**
      * Construct agenda using provided data.
      *
@@ -319,15 +316,9 @@ abstract class AbstractAgenda
      */
     protected function resolveOptions(array $data): array
     {
-        $class = \get_class($this);
-        $opt = '_' . intval($this->useOneDirectionalVariables);
-
-        if (!isset(self::$resolvers[$class . $opt])) {
-            self::$resolvers[$class . $opt] = new Common\OptionsResolver();
-            $this->configureOptions(self::$resolvers[$class . $opt]);
-        }
-
-        return self::$resolvers[$class . $opt]->resolve($data);
+        $resolver = Pohoda\Common\SharedResolver::getResolver($this, $this->useOneDirectionalVariables, $data);
+        $this->configureOptions($resolver);
+        return $resolver->resolve($data);
     }
 
     /**
