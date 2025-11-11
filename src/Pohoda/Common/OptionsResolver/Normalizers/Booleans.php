@@ -9,6 +9,17 @@ final class Booleans extends AbstractNormalizer
         if ($this->nullable && empty($value) && !\is_bool($value)) {
             return '';
         }
-        return !$value || \is_string($value) && 'false' === \strtolower($value) ? 'false' : 'true';
+        if (\is_bool($value)) {
+            return $this->whichResult($value);
+        }
+        if (\is_string($value)) {
+            return $this->whichResult('false' !== \strtolower($value));
+        }
+        return $this->whichResult(!empty($value));
+    }
+
+    protected function whichResult(bool $value) : string
+    {
+        return $value ? 'true' : 'false';
     }
 }

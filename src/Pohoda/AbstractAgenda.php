@@ -364,27 +364,25 @@ abstract class AbstractAgenda
     /**
      * Get elements - properties in data class
      *
+     * @param bool $withAttributes
+     *
      * @return string[]
      */
-    protected function getDataElements(): array
+    protected function getDataElements(bool $withAttributes = false): array
     {
-        return array_diff($this->getAllDataProperties(), $this->skipElements());
+        return array_diff($this->getAllDataProperties($withAttributes), $this->skipElements());
     }
 
     /**
      * Get inner properties of Dtos - All
      *
+     * @param bool $withAttributes
+     *
      * @return string[]
      */
-    protected function getAllDataProperties(): array
+    protected function getAllDataProperties(bool $withAttributes): array
     {
-        $data = $this->data ?: $this->getDefaultDto();
-
-        $reflection = new \ReflectionClass($data);
-        return array_map(
-            fn(\ReflectionProperty $property) => $property->getName(),
-            $reflection->getProperties(),
-        );
+        return Common\Dtos\Processing::getProperties($this->data ?: $this->getDefaultDto(), $withAttributes);
     }
 
     /**

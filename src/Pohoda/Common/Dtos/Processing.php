@@ -53,6 +53,27 @@ class Processing
     }
 
     /**
+     * Get all properties of DTO
+     *
+     * @param AbstractDto $class
+     * @param bool $withAttributes
+     *
+     * @return string[]
+     */
+    public static function getProperties(AbstractDto $class, bool $withAttributes): array
+    {
+        $reflection = new \ReflectionClass($class);
+        $props = [];
+        foreach ($reflection->getProperties() as $prop) {
+            if (static::isJustAttribute($prop) && !$withAttributes) {
+                continue;
+            }
+            $props[] = $prop->getName();
+        }
+        return $props;
+    }
+
+    /**
      * Fill DTO with data, change types when necessary
      *
      * @param AbstractDto $class
@@ -124,6 +145,18 @@ class Processing
     protected static function hasDirectionAttribute(ReflectionProperty $property): bool
     {
         return !empty($property->getAttributes(Attributes\ResponseDirection::class));
+    }
+
+    /**
+     * Check if the property is used only as attribute
+     *
+     * @param ReflectionProperty $property
+     *
+     * @return bool
+     */
+    protected static function isJustAttribute(ReflectionProperty $property): bool
+    {
+        return !empty($property->getAttributes(Attributes\JustAttribute::class));
     }
 
     /**

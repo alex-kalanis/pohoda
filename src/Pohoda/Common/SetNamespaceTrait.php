@@ -93,5 +93,5 @@ trait SetNamespaceTrait
      *
      * @return string[]
      */
-    abstract protected function getDataElements(): array;
+    abstract protected function getDataElements(bool $withAttributes = false): array;
 }

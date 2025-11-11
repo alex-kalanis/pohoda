@@ -22,7 +22,7 @@ class XNamespace
 
     protected function addElements(\SimpleXMLElement $xml, array $elements, ?string $namespace = null): void {}
 
-    protected function getDataElements(): array
+    protected function getDataElements(bool $withAttributes = false): array
     {
         return [];
     }

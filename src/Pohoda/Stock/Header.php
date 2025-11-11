@@ -179,9 +179,9 @@ class Header extends AbstractAgenda
 
         $this->addElements($xml,
             $this->useOneDirectionalVariables
-                ? $this->getAllDataProperties()
+                ? $this->getAllDataProperties(false)
                 : \array_diff(
-                    $this->getAllDataProperties(),
+                    $this->getAllDataProperties(false),
                     $this->additionalElements,
                 )
         , 'stk');
