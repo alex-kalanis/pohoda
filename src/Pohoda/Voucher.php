@@ -21,6 +21,6 @@ class Voucher extends AbstractDocument
 
     protected function getDefaultDto(): Common\Dtos\AbstractDto
     {
-        return new Common\Dtos\AgendaDto();
+        return new Voucher\VoucherDto();
     }
 }

@@ -36,58 +36,19 @@ class Header extends AbstractAgenda
         'foreignCurrency',
     ];
 
-    /** @var string[] */
-    protected array $elements = [
-        'identity',
-        'region',
-        'phone',
-        'mobil',
-        'fax',
-        'email',
-        'web',
-        'ICQ',
-        'Skype',
-        'GPS',
-        'credit',
-        'priceIDS',
-        'maturity',
-        'maturityCommitments',
-        'paymentType',
-        'agreement',
-        'number',
-        'ost1', 'ost2',
-        'p1', 'p2', 'p3', 'p4', 'p5', 'p6',
-        'markRecord',
-        'message',
-        'note',
-        'intNote',
-        'accountingReceivedInvoice',
-        'accountingIssuedInvoice',
-        'classificationVATReceivedInvoice',
-        'classificationVATIssuedInvoice',
-        'classificationKVDPHReceivedInvoice',
-        'classificationKVDPHIssuedInvoice',
-        'accountForInvoicing',
-        'foreignCurrency',
-        'centre',
-        'activity',
-        'contract',
-        'adGroup',
-    ];
-
     /**
      * {@inheritdoc}
      */
-    public function setData(array $data): parent
+    public function setData(?Common\Dtos\AbstractDto $data): parent
     {
         // process identity
-        if (isset($data['identity'])) {
+        if (isset($data->identity)) {
             $identity = new Address($this->dependenciesFactory);
             $identity
                 ->setDirectionalVariable($this->useOneDirectionalVariables)
                 ->setResolveOptions($this->resolveOptions)
-                ->setData($data['identity']);
-            $data['identity'] = $identity;
+                ->setData($data->identity);
+            $data->identity = $identity;
         }
 
         return parent::setData($data);
@@ -100,7 +61,7 @@ class Header extends AbstractAgenda
     {
         $xml = $this->createXML()->addChild('adb:addressbookHeader', '', $this->namespace('adb'));
 
-        $this->addElements($xml, \array_merge($this->elements, ['parameters']), 'adb');
+        $this->addElements($xml, $this->getDataElements(), 'adb');
 
         return $xml;
     }
@@ -111,7 +72,7 @@ class Header extends AbstractAgenda
     protected function configureOptions(Common\OptionsResolver $resolver): void
     {
         // available options
-        $resolver->setDefined($this->elements);
+        $resolver->setDefined($this->getDataElements());
 
         // validate / format options
         $resolver->setNormalizer('region', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string32'));
@@ -137,5 +98,13 @@ class Header extends AbstractAgenda
         $resolver->setNormalizer('p6', $this->dependenciesFactory->getNormalizerFactory()->getClosure('bool'));
         $resolver->setNormalizer('markRecord', $this->dependenciesFactory->getNormalizerFactory()->getClosure('bool'));
         $resolver->setNormalizer('message', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string64'));
+    }
+
+    /**
+     * @{inheritDoc}
+     */
+    protected function getDefaultDto(): Common\Dtos\AbstractDto
+    {
+        return new HeaderDto();
     }
 }

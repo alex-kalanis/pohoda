@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\Receipt;
 
+use Riesenia\Pohoda\Common\Dtos;
 use Riesenia\Pohoda\Common\OptionsResolver;
 use Riesenia\Pohoda\Document\AbstractHeader;
 
@@ -22,21 +23,6 @@ class Header extends AbstractHeader
         'centre',
         'activity',
         'contract',
-    ];
-
-    /** @var string[] */
-    protected array $elements = [
-        'number',
-        'date',
-        'dateOfReceipt',
-        'text',
-        'partnerIdentity',
-        'symPar',
-        'centre',
-        'activity',
-        'contract',
-        'note',
-        'intNote',
     ];
 
     /**
@@ -51,5 +37,13 @@ class Header extends AbstractHeader
         $resolver->setNormalizer('dateOfReceipt', $this->dependenciesFactory->getNormalizerFactory()->getClosure('?date'));
         $resolver->setNormalizer('symPar', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string20'));
         $resolver->setNormalizer('text', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string240'));
+    }
+
+    /**
+     * @{inheritDoc}
+     */
+    protected function getDefaultDto(): Dtos\AbstractDto
+    {
+        return new HeaderDto();
     }
 }

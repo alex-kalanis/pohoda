@@ -18,19 +18,18 @@ class Receipt extends AbstractDocument
         return 'lst:prijemka';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getDocumentNamespace(): string
     {
         return 'pri';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getDocumentName(): string
     {
         return 'prijemka';
+    }
+
+    protected function getDefaultDto(): Common\Dtos\AbstractDto
+    {
+        return new Receipt\ReceiptDto();
     }
 }

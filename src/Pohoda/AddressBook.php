@@ -12,7 +12,7 @@ declare(strict_types=1);
 namespace Riesenia\Pohoda;
 
 /**
- * @property array{
+ * @property object{
  *     actionType?: Type\ActionType,
  *     header: AddressBook\Header,
  * } $data
@@ -30,16 +30,16 @@ class AddressBook extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    public function setData(array $data): parent
+    public function setData(?Common\Dtos\AbstractDto $data): parent
     {
         // pass to header
-        if (!empty($data)) {
+        if (!empty($data->header)) {
             $header = new AddressBook\Header($this->dependenciesFactory);
             $header
                 ->setDirectionalVariable($this->useOneDirectionalVariables)
                 ->setResolveOptions($this->resolveOptions)
-                ->setData($data);
-            $data = ['header' => $header];
+                ->setData($data->header);
+            $data->header = $header;
         }
 
         return parent::setData($data);
@@ -64,6 +64,14 @@ class AddressBook extends AbstractAgenda
     protected function configureOptions(Common\OptionsResolver $resolver): void
     {
         // available options
-        $resolver->setDefined(['header']);
+        $resolver->setDefined($this->getDataElements());
+    }
+
+    /**
+     * @{inheritDoc}
+     */
+    protected function getDefaultDto(): Common\Dtos\AbstractDto
+    {
+        return new AddressBook\AddressBookDto();
     }
 }

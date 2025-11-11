@@ -8,5 +8,5 @@ class PriceDto extends Dtos\AbstractDto
 {
     public ?string $id = null;
     public ?string $ids = null;
-    public ?float $price = null;
+    public float|string|null $price = null;
 }

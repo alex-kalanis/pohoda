@@ -33,61 +33,72 @@ class OrderTest extends CommonTestClass
 
     public function testAddItems(): void
     {
-        $lib = $this->getLib();
-        $lib->addItem([
-            'text' => 'NAME 1',
-            'quantity' => 1,
-            'delivered' => 0,
-            'rateVAT' => 'high',
-            'homeCurrency' => [
-                'unitPrice' => 200,
-            ],
-        ]);
+        $home1 = new Pohoda\Type\Dtos\CurrencyItemDto();
+        $home1->unitPrice = 200;
 
-        $lib->addItem([
-            'quantity' => 1,
-            'payVAT' => 1,
-            'rateVAT' => 'high',
-            'homeCurrency' => [
-                'unitPrice' => 198,
-            ],
-            'stockItem' => [
-                'stockItem' => [
-                    'ids' => 'STM',
-                ],
-                'insertAttachStock' => 0,
-                'applyUserSettingsFilterOnTheStore' => false,
-            ],
-        ]);
+        $item1 = new Pohoda\Order\ItemDto();
+        $item1->text = 'NAME 1';
+        $item1->quantity = 1;
+        $item1->delivered = 0;
+        $item1->rateVAT = 'high';
+        $item1->homeCurrency = $home1;
+
+        $lib = $this->getLib();
+        $lib->addItem($item1);
+
+        $home2 = new Pohoda\Type\Dtos\CurrencyItemDto();
+        $home2->unitPrice = 198;
+
+        $stock = new Pohoda\Type\Dtos\StockItemDto();
+        $stock->stockItem = [
+            'ids' => 'STM',
+        ];
+        $stock->insertAttachStock = false;
+        $stock->applyUserSettingsFilterOnTheStore = false;
+
+        $item2 = new Pohoda\Order\ItemDto();
+        $item2->quantity = 1;
+        $item2->payVAT = true;
+        $item2->rateVAT = 'high';
+        $item2->homeCurrency = $home2;
+        $item2->stockItem = $stock;
+
+        $lib->addItem($item2);
 
         $this->assertEquals('<ord:order version="2.0"><ord:orderHeader>' . $this->defaultHeader() . '</ord:orderHeader><ord:orderDetail><ord:orderItem><ord:text>NAME 1</ord:text><ord:quantity>1</ord:quantity><ord:delivered>0</ord:delivered><ord:rateVAT>high</ord:rateVAT><ord:homeCurrency><typ:unitPrice>200</typ:unitPrice></ord:homeCurrency></ord:orderItem><ord:orderItem><ord:quantity>1</ord:quantity><ord:payVAT>true</ord:payVAT><ord:rateVAT>high</ord:rateVAT><ord:homeCurrency><typ:unitPrice>198</typ:unitPrice></ord:homeCurrency><ord:stockItem><typ:stockItem insertAttachStock="false" applyUserSettingsFilterOnTheStore="false"><typ:ids>STM</typ:ids></typ:stockItem></ord:stockItem></ord:orderItem></ord:orderDetail></ord:order>', $lib->getXML()->asXML());
     }
 
     public function testAddItems2(): void
     {
+        $home1 = new Pohoda\Type\Dtos\CurrencyItemDto();
+        $home1->unitPrice = 200;
+
+        $item1 = new Pohoda\Order\ItemDto();
+        $item1->text = 'NAME 1';
+        $item1->quantity = 1;
+        $item1->delivered = 0;
+        $item1->rateVAT = 'high';
+        $item1->homeCurrency = $home1;
+
         $lib = $this->getLib();
         $lib->setDirectionalVariable(true);
-        $lib->addItem([
-            'text' => 'NAME 1',
-            'quantity' => 1,
-            'delivered' => 0,
-            'rateVAT' => 'high',
-            'homeCurrency' => [
-                'unitPrice' => 200,
-            ],
-        ]);
+        $lib->addItem($item1);
 
         $this->assertEquals('<ord:order version="2.0"><ord:orderHeader>' . $this->defaultHeader() . '</ord:orderHeader><ord:orderDetail><ord:orderItem><ord:text>NAME 1</ord:text><ord:quantity>1</ord:quantity><ord:delivered>0</ord:delivered><ord:rateVAT>high</ord:rateVAT><ord:homeCurrency><typ:unitPrice>200</typ:unitPrice></ord:homeCurrency></ord:orderItem></ord:orderDetail></ord:order>', $lib->getXML()->asXML());
     }
 
     public function testCustomHeader(): void
     {
+        $header = new Pohoda\Order\HeaderDto();
+        $header->numberOrder = '1234567890';
+        $header->isDelivered = true;
+
+        $dto = new Pohoda\Order\OrderDto();
+        $dto->header = $header;
+
         $lib = new Pohoda\Order($this->getBasicDi());
         $lib->setDirectionalVariable(true);
-        $lib->setData([
-            'numberOrder' => '1234567890',
-            'isDelivered' => true,
-        ]);
+        $lib->setData($dto);
 
         $this->assertEquals('<ord:order version="2.0"><ord:orderHeader><ord:orderType>receivedOrder</ord:orderType><ord:numberOrder>1234567890</ord:numberOrder><ord:isDelivered>true</ord:isDelivered></ord:orderHeader></ord:order>', $lib->getXML()->asXML());
     }
@@ -139,27 +150,30 @@ class OrderTest extends CommonTestClass
 
     public function testSetSummary(): void
     {
+        $foreign = new Pohoda\Type\Dtos\CurrencyForeignDto();
+        $foreign->currency = 'EUR';
+        $foreign->rate = '20.232';
+        $foreign->amount = 1;
+        $foreign->priceSum = 580;
+
+        $summary = new Pohoda\Order\SummaryDto();
+        $summary->roundingDocument = 'math2one';
+        $summary->foreignCurrency = $foreign;
+
         $lib = $this->getLib();
-        $lib->addSummary([
-            'roundingDocument' => 'math2one',
-            'foreignCurrency' => [
-                'currency' => 'EUR',
-                'rate' => '20.232',
-                'amount' => 1,
-                'priceSum' => 580,
-            ],
-        ]);
+        $lib->addSummary($summary);
 
         $this->assertEquals('<ord:order version="2.0"><ord:orderHeader>' . $this->defaultHeader() . '</ord:orderHeader><ord:orderSummary><ord:roundingDocument>math2one</ord:roundingDocument><ord:foreignCurrency><typ:currency><typ:ids>EUR</typ:ids></typ:currency><typ:rate>20.232</typ:rate><typ:amount>1</typ:amount><typ:priceSum>580</typ:priceSum></ord:foreignCurrency></ord:orderSummary></ord:order>', $lib->getXML()->asXML());
     }
 
     public function testSetSummary2(): void
     {
+        $summary = new Pohoda\Order\SummaryDto();
+        $summary->roundingDocument = 'math2one';
+
         $lib = $this->getLib();
         $lib->setDirectionalVariable(true);
-        $lib->addSummary([
-            'roundingDocument' => 'math2one',
-        ]);
+        $lib->addSummary($summary);
 
         $this->assertEquals('<ord:order version="2.0"><ord:orderHeader>' . $this->defaultHeader() . '</ord:orderHeader><ord:orderSummary><ord:roundingDocument>math2one</ord:roundingDocument></ord:orderSummary></ord:order>', $lib->getXML()->asXML());
     }
@@ -187,17 +201,23 @@ class OrderTest extends CommonTestClass
 
     public function testWithSpecialCharsIntact(): void
     {
+        $addrType = new Pohoda\Type\Dtos\AddressTypeDto();
+        $addrType->name = 'Călărași ñüé¿s';
+        $addrType->city = 'Dâmbovița';
+
+        $addr = new Pohoda\Type\Dtos\AddressDto();
+        $addr->address = $addrType;
+
+        $header = new Pohoda\AddressBook\HeaderDto();
+        $header->phone = '123';
+        $header->centre = ['id' => 1];
+        $header->identity = $addr;
+
+        $dto = new Pohoda\AddressBook\AddressBookDto();
+        $dto->header = $header;
+
         $lib = new Pohoda\AddressBook($this->getBasicDi());
-        $lib->setData([
-            'identity' => [
-                'address' => [
-                    'name' => 'Călărași ñüé¿s',
-                    'city' => 'Dâmbovița',
-                ],
-            ],
-            'phone' => '123',
-            'centre' => ['id' => 1],
-        ]);
+        $lib->setData($dto);
 
         $this->assertEquals('<adb:addressbook version="2.0"><adb:addressbookHeader><adb:identity><typ:address><typ:name>Călărași ñüé¿s</typ:name><typ:city>Dâmbovița</typ:city></typ:address></adb:identity><adb:phone>123</adb:phone><adb:centre><typ:id>1</typ:id></adb:centre></adb:addressbookHeader></adb:addressbook>', $lib->getXML()->asXML());
     }
@@ -209,19 +229,26 @@ class OrderTest extends CommonTestClass
 
     protected function getLib(): Pohoda\Order
     {
+        $partner = new Pohoda\Type\Dtos\AddressDto();
+        $partner->id = 25;
+
+        $mineAddr = new Pohoda\Type\Dtos\AddressInternetTypeDto();
+        $mineAddr->name = 'NAME';
+        $mineAddr->ico = '123';
+
+        $mine = new Pohoda\Type\Dtos\MyAddressDto();
+        $mine->address = $mineAddr;
+
+        $header = new Pohoda\Order\HeaderDto();
+        $header->date = '2015-01-10';
+        $header->intNote = 'Note';
+        $header->partnerIdentity = $partner;
+        $header->myIdentity = $mine;
+
+        $dto = new Pohoda\Order\OrderDto();
+        $dto->header = $header;
+
         $lib = new Pohoda\Order($this->getBasicDi());
-        return $lib->setData([
-            'partnerIdentity' => [
-                'id' => 25,
-            ],
-            'myIdentity' => [
-                'address' => [
-                    'name' => 'NAME',
-                    'ico' => '123',
-                ],
-            ],
-            'date' => '2015-01-10',
-            'intNote' => 'Note',
-        ]);
+        return $lib->setData($dto);
     }
 }

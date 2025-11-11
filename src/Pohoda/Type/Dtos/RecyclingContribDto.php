@@ -7,7 +7,7 @@ use Riesenia\Pohoda\Common\Dtos\AbstractDto;
 class RecyclingContribDto extends AbstractDto
 {
     public ?string $recyclingContribText = null;
-    public ?float $recyclingContribAmount = null;
+    public float|string|null $recyclingContribAmount = null;
     public ?string $recyclingContribUnit = null;
-    public ?float $coefficientOfRecyclingContrib = null;
+    public float|string|null $coefficientOfRecyclingContrib = null;
 }

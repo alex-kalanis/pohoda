@@ -11,19 +11,12 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\Order;
 
+use Riesenia\Pohoda\Common\Dtos;
 use Riesenia\Pohoda\Common\OptionsResolver;
 use Riesenia\Pohoda\Document\AbstractSummary;
 
 class Summary extends AbstractSummary
 {
-    /** @var string[] */
-    protected array $elements = [
-        'roundingDocument',
-        'roundingVAT',
-        'homeCurrency',
-        'foreignCurrency',
-    ];
-
     /** @var string[] */
     protected array $additionalElements = [
         'typeCalculateVATInclusivePrice',
@@ -44,7 +37,7 @@ class Summary extends AbstractSummary
 
         $xml = $this->createXML()->addChild($this->namespace . ':' . $this->nodePrefix . 'Summary', '', $this->namespace($this->namespace));
 
-        $this->addElements($xml, \array_merge($this->elements, ($this->useOneDirectionalVariables ? $this->additionalElements : [])), $this->namespace);
+        $this->addElements($xml, \array_merge($this->getDataElements(), ($this->useOneDirectionalVariables ? $this->additionalElements : [])), $this->namespace);
 
         return $xml;
     }
@@ -54,7 +47,7 @@ class Summary extends AbstractSummary
      */
     protected function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefined(array_merge($this->elements, ($this->useOneDirectionalVariables ? $this->additionalElements : [])));
+        $resolver->setDefined(array_merge($this->getDataElements(), ($this->useOneDirectionalVariables ? $this->additionalElements : [])));
 
         // validate / format options
         $resolver->setAllowedValues('roundingDocument', ['none', 'math2one', 'math2half', 'math2tenth', 'math5cent', 'up2one', 'up2half', 'up2tenth', 'down2one', 'down2half', 'down2tenth']);
@@ -63,5 +56,10 @@ class Summary extends AbstractSummary
         if ($this->useOneDirectionalVariables) {
             $resolver->setNormalizer('typeCalculateVATInclusivePrice', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string'));
         }
+    }
+
+    protected function getDefaultDto(): Dtos\AbstractDto
+    {
+        return new SummaryDto();
     }
 }

@@ -54,17 +54,23 @@ class AddressBookTest extends CommonTestClass
 
     public function testWithSpecialCharsIntact(): void
     {
+        $addrType = new Pohoda\Type\Dtos\AddressTypeDto();
+        $addrType->name = 'Călărași ñüé¿s';
+        $addrType->city = 'Dâmbovița';
+
+        $addr = new Pohoda\Type\Dtos\AddressDto();
+        $addr->address = $addrType;
+
+        $header = new Pohoda\AddressBook\HeaderDto();
+        $header->phone = '123';
+        $header->centre = ['id' => 1];
+        $header->identity = $addr;
+
+        $dto = new Pohoda\AddressBook\AddressBookDto();
+        $dto->header = $header;
+
         $lib = new Pohoda\AddressBook($this->getBasicDi());
-        $lib->setData([
-            'identity' => [
-                'address' => [
-                    'name' => 'Călărași ñüé¿s',
-                    'city' => 'Dâmbovița',
-                ],
-            ],
-            'phone' => '123',
-            'centre' => ['id' => 1],
-        ]);
+        $lib->setData($dto);
 
         $this->assertEquals('<adb:addressbook version="2.0"><adb:addressbookHeader><adb:identity><typ:address><typ:name>Călărași ñüé¿s</typ:name><typ:city>Dâmbovița</typ:city></typ:address></adb:identity><adb:phone>123</adb:phone><adb:centre><typ:id>1</typ:id></adb:centre></adb:addressbookHeader></adb:addressbook>', $lib->getXML()->asXML());
     }
@@ -76,16 +82,22 @@ class AddressBookTest extends CommonTestClass
 
     protected function getLib(): Pohoda\AddressBook
     {
+        $addrType = new Pohoda\Type\Dtos\AddressTypeDto();
+        $addrType->name = 'NAME';
+        $addrType->ico = '123';
+
+        $addr = new Pohoda\Type\Dtos\AddressDto();
+        $addr->address = $addrType;
+
+        $header = new Pohoda\AddressBook\HeaderDto();
+        $header->phone = '123';
+        $header->centre = ['id' => 1];
+        $header->identity = $addr;
+
+        $dto = new Pohoda\AddressBook\AddressBookDto();
+        $dto->header = $header;
+
         $lib = new Pohoda\AddressBook($this->getBasicDi());
-        return $lib->setData([
-            'identity' => [
-                'address' => [
-                    'name' => 'NAME',
-                    'ico' => '123',
-                ],
-            ],
-            'phone' => '123',
-            'centre' => ['id' => 1],
-        ]);
+        return $lib->setData($dto);
     }
 }

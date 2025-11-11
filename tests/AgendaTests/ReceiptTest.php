@@ -22,42 +22,47 @@ class ReceiptTest extends CommonTestClass
 
     public function testSetSummary(): void
     {
+        $foreign = new Pohoda\Type\Dtos\CurrencyForeignDto();
+        $foreign->currency = 'EUR';
+        $foreign->rate = '20.232';
+        $foreign->amount = 1;
+        $foreign->priceSum = 580;
+
+        $summary = new Pohoda\Receipt\SummaryDto();
+        $summary->roundingDocument = 'math2one';
+        $summary->foreignCurrency = $foreign;
+
         $lib = $this->getLib();
-        $lib->addSummary([
-            'roundingDocument' => 'math2one',
-            'foreignCurrency' => [
-                'currency' => 'EUR',
-                'rate' => '20.232',
-                'amount' => 1,
-                'priceSum' => 580,
-            ],
-        ]);
+        $lib->addSummary($summary);
 
         $this->assertEquals('<pri:prijemka version="2.0"><pri:prijemkaHeader>' . $this->defaultHeader() . '</pri:prijemkaHeader><pri:prijemkaSummary><pri:roundingDocument>math2one</pri:roundingDocument><pri:foreignCurrency><typ:currency><typ:ids>EUR</typ:ids></typ:currency><typ:rate>20.232</typ:rate><typ:amount>1</typ:amount><typ:priceSum>580</typ:priceSum></pri:foreignCurrency></pri:prijemkaSummary></pri:prijemka>', $lib->getXML()->asXML());
     }
 
     public function testSetItem(): void
     {
-        $lib = $this->getLib();
-        $lib->addItem([
-            'quantity' => 2,
-            'stockItem' => [
-                'stockItem' => [
-                    'ids' => 'model',
-                    'store' => 'X',
-                ],
-            ],
-        ]);
+        $stock1 = new Pohoda\Type\Dtos\StockItemDto();
+        $stock1->stockItem = [
+            'ids' => 'model',
+            'store' => 'X',
+        ];
 
-        $lib->addItem([
-            'quantity' => 1,
-            'stockItem' => [
-                'stockItem' => [
-                    'ids' => 'STM',
-                ],
-            ],
-            'note' => 'STM',
-        ]);
+        $item1 = new Pohoda\Receipt\ItemDto();
+        $item1->quantity = 2;
+        $item1->stockItem = $stock1;
+
+        $stock2 = new Pohoda\Type\Dtos\StockItemDto();
+        $stock2->stockItem = [
+            'ids' => 'STM',
+        ];
+
+        $item2 = new Pohoda\Receipt\ItemDto();
+        $item2->quantity = 1;
+        $item2->note = 'STM';
+        $item2->stockItem = $stock2;
+
+        $lib = $this->getLib();
+        $lib->addItem($item1);
+        $lib->addItem($item2);
 
         $this->assertEquals('<pri:prijemka version="2.0"><pri:prijemkaHeader>' . $this->defaultHeader() . '</pri:prijemkaHeader><pri:prijemkaDetail><pri:prijemkaItem><pri:quantity>2</pri:quantity><pri:stockItem><typ:stockItem><typ:ids>model</typ:ids><typ:store>X</typ:store></typ:stockItem></pri:stockItem></pri:prijemkaItem><pri:prijemkaItem><pri:quantity>1</pri:quantity><pri:stockItem><typ:stockItem><typ:ids>STM</typ:ids></typ:stockItem></pri:stockItem><pri:note>STM</pri:note></pri:prijemkaItem></pri:prijemkaDetail></pri:prijemka>', $lib->getXML()->asXML());
     }
@@ -80,18 +85,23 @@ class ReceiptTest extends CommonTestClass
 
     protected function getLib(): Pohoda\Receipt
     {
+        $partner = new Pohoda\Type\Dtos\AddressDto();
+        $partner->id = 20;
+
+        $header = new Pohoda\Receipt\HeaderDto();
+        $header->date = new \DateTimeImmutable('2015-01-10');
+        $header->dateOfReceipt = '';
+        $header->text = 'Prijemka';
+        $header->activity = [
+            'id' => 1,
+        ];
+        $header->intNote = 'Note';
+        $header->partnerIdentity = $partner;
+
+        $dto = new Pohoda\Receipt\ReceiptDto();
+        $dto->header = $header;
+
         $lib = new Pohoda\Receipt($this->getBasicDi());
-        return $lib->setData([
-            'date' => new \DateTimeImmutable('2015-01-10'),
-            'dateOfReceipt' => '',
-            'text' => 'Prijemka',
-            'partnerIdentity' => [
-                'id' => 20,
-            ],
-            'activity' => [
-                'id' => 1,
-            ],
-            'intNote' => 'Note',
-        ]);
+        return $lib->setData($dto);
     }
 }

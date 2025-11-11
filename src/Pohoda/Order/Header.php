@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\Order;
 
+use Riesenia\Pohoda\Common\Dtos;
 use Riesenia\Pohoda\Common\OptionsResolver;
 use Riesenia\Pohoda\Document\AbstractHeader;
 
@@ -31,44 +32,6 @@ class Header extends AbstractHeader
         'carrier',
     ];
 
-    /** @var string[] */
-    protected array $elements = [
-        'extId',
-        'orderType',
-        'number',
-        'numberOrder',
-        'date',
-        'dateDelivery',
-        'dateFrom',
-        'dateTo',
-        'text',
-        'partnerIdentity',
-        'myIdentity',
-        'paymentType',
-        'priceLevel',
-        'isExecuted',
-        'isReserved',
-        'centre',
-        'activity',
-        'contract',
-        'regVATinEU',
-        'MOSS',
-        'evidentiaryResourcesMOSS',
-        'accountingPeriodMOSS',
-        'note',
-        'carrier',
-        'intNote',
-        'markRecord',
-        'histRate',
-    ];
-
-    /** @var string[] */
-    protected array $additionalElements = [
-        'id',
-        'isDelivered',
-        'permanentDocument',
-    ];
-
     /**
      * {@inheritdoc}
      */
@@ -84,7 +47,7 @@ class Header extends AbstractHeader
 
         $xml = $this->createXML()->addChild($this->namespace . ':' . $this->nodePrefix . 'Header', '', $this->namespace($this->namespace));
 
-        $this->addElements($xml, \array_merge($this->elements, ($this->useOneDirectionalVariables ? $this->additionalElements : []), ['parameters']), $this->namespace);
+        $this->addElements($xml, $this->getDataElements(), $this->namespace);
 
         return $xml;
     }
@@ -94,7 +57,7 @@ class Header extends AbstractHeader
      */
     protected function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefined(array_merge($this->elements, ($this->useOneDirectionalVariables ? $this->additionalElements : [])));
+        $resolver->setDefined($this->getDataElements());
 
         // validate / format options
         $resolver->setDefault('orderType', 'receivedOrder');
@@ -115,5 +78,13 @@ class Header extends AbstractHeader
             $resolver->setNormalizer('isDelivered', $this->dependenciesFactory->getNormalizerFactory()->getClosure('bool'));
             $resolver->setNormalizer('permanentDocument', $this->dependenciesFactory->getNormalizerFactory()->getClosure('bool'));
         }
+    }
+
+    /**
+     * @{inheritDoc}
+     */
+    protected function getDefaultDto(): Dtos\AbstractDto
+    {
+        return new HeaderDto();
     }
 }

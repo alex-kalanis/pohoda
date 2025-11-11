@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\Receipt;
 
+use Riesenia\Pohoda\Common\Dtos;
 use Riesenia\Pohoda\Common\OptionsResolver;
 use Riesenia\Pohoda\Document\AbstractItem;
 
@@ -18,24 +19,6 @@ class Item extends AbstractItem
 {
     /** @var string[] */
     protected array $refElements = [
-        'centre',
-        'activity',
-        'contract',
-    ];
-
-    /** @var string[] */
-    protected array $elements = [
-        'quantity',
-        'unit',
-        'coefficient',
-        'payVAT',
-        'rateVAT',
-        'discountPercentage',
-        'homeCurrency',
-        'foreignCurrency',
-        'code',
-        'stockItem',
-        'note',
         'centre',
         'activity',
         'contract',
@@ -57,5 +40,13 @@ class Item extends AbstractItem
         $resolver->setNormalizer('discountPercentage', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
         $resolver->setNormalizer('code', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string64'));
         $resolver->setNormalizer('note', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string90'));
+    }
+
+    /**
+     * @{inheritDoc}
+     */
+    protected function getDefaultDto(): Dtos\AbstractDto
+    {
+        return new ItemDto();
     }
 }

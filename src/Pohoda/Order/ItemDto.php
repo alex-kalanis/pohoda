@@ -1,45 +1,38 @@
 <?php
 
-namespace Riesenia\Pohoda\Voucher;
+namespace Riesenia\Pohoda\Order;
 
-use Riesenia\Pohoda\AbstractAgenda;
 use Riesenia\Pohoda\Common\Attributes;
 use Riesenia\Pohoda\Common\Dtos\AbstractItemDto;
 use Riesenia\Pohoda\Type;
 
 class ItemDto extends AbstractItemDto
 {
+    #[Attributes\ResponseDirection]
+    public ?string $id = null;
     public ?string $text = null;
-    public ?string $quantity = null;
+    public float|string|null $quantity = null;
+    public float|string|null $delivered = null;
     public ?string $unit = null;
-    public ?string $coefficient = null;
-    public ?string $payVAT = null;
+    public float|string|null $coefficient = null;
+    public bool|string|null $payVAT = null;
     public ?string $rateVAT = null;
-    public ?string $percentVAT = null;
-    public ?string $discountPercentage = null;
+    public float|string|null $rateVatValue = null;
+    public float|string|null $percentVAT = null;
+    public float|string|null $discountPercentage = null;
     public Type\Dtos\CurrencyItemDto|Type\CurrencyItem|null $homeCurrency = null;
     public Type\Dtos\CurrencyItemDto|Type\CurrencyItem|null $foreignCurrency = null;
+    #[Attributes\RefElement]
     public ?string $typeServiceMOSS = null;
     public ?string $note = null;
     public ?string $code = null;
-    public ?string $symPar = null;
     public Type\Dtos\StockItemDto|Type\StockItem|null $stockItem = null;
-    public ?string $accounting = null;
-    public ?string $classificationVAT = null;
-    public ?string $classificationKVDPH = null;
-    public ?string $PDP = null;
-    public ?string $CodePDP = null;
-    public ?string $recyclingContrib = null;
-    #[Attributes\RefElement, Attributes\OnlyInternal]
-    public ?string $cashAccount = null;
-    #[Attributes\RefElement, Attributes\OnlyInternal]
-    public ?string $number = null;
     #[Attributes\RefElement]
     public ?string $centre = null;
     #[Attributes\RefElement]
     public ?string $activity = null;
     #[Attributes\RefElement]
     public ?string $contract = null;
-    public ?string $EETItem = null;
+    public bool|string|null $PDP = null;
     public \ArrayAccess|array $parameters = [];
 }

@@ -22,27 +22,18 @@ class Order extends AbstractDocument
         return 'lst:order';
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getDocumentElements(): array
-    {
-        return \array_merge(parent::getDocumentElements(), ['actionType']);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     protected function getDocumentNamespace(): string
     {
         return 'ord';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getDocumentName(): string
     {
         return 'order';
+    }
+
+    protected function getDefaultDto(): Common\Dtos\AbstractDto
+    {
+        return new Order\OrderDto();
     }
 }

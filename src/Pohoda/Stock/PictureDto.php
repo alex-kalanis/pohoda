@@ -9,5 +9,5 @@ class PictureDto extends Dtos\AbstractDto
     public ?string $filepath = null;
     public ?string $description = null;
     public ?int $order = null;
-    public ?bool $default = null;
+    public bool|string|null $default = null;
 }

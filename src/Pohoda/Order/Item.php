@@ -26,30 +26,6 @@ class Item extends AbstractItem
     ];
 
     /** @var string[] */
-    protected array $elements = [
-        'text',
-        'quantity',
-        'delivered',
-        'unit',
-        'coefficient',
-        'payVAT',
-        'rateVAT',
-        'rateVatValue',
-        'percentVAT',
-        'discountPercentage',
-        'homeCurrency',
-        'foreignCurrency',
-        'typeServiceMOSS',
-        'note',
-        'code',
-        'stockItem',
-        'centre',
-        'activity',
-        'contract',
-        'PDP',
-    ];
-
-    /** @var string[] */
     protected array $additionalElements = [
         'id',
     ];
@@ -80,7 +56,7 @@ class Item extends AbstractItem
 
         $xml = $this->createXML()->addChild($this->namespace . ':' . $this->nodePrefix . 'Item', '', $this->namespace($this->namespace));
 
-        $this->addElements($xml, \array_merge($this->elements, ($this->useOneDirectionalVariables ? $this->additionalElements : []), ['parameters']), $this->namespace);
+        $this->addElements($xml, \array_merge($this->getDataElements(), ($this->useOneDirectionalVariables ? $this->additionalElements : [])), $this->namespace);
 
         return $xml;
     }
@@ -90,7 +66,7 @@ class Item extends AbstractItem
      */
     protected function configureOptions(Common\OptionsResolver $resolver): void
     {
-        $resolver->setDefined(array_merge($this->elements, ($this->useOneDirectionalVariables ? $this->additionalElements : [])));
+        $resolver->setDefined(array_merge($this->getDataElements(), ($this->useOneDirectionalVariables ? $this->additionalElements : [])));
 
         // validate / format options
         $resolver->setNormalizer('text', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string90'));
@@ -110,5 +86,13 @@ class Item extends AbstractItem
         if ($this->useOneDirectionalVariables) {
             $resolver->setNormalizer('id', $this->dependenciesFactory->getNormalizerFactory()->getClosure('int'));
         }
+    }
+
+    /**
+     * @{inheritDoc}
+     */
+    protected function getDefaultDto(): Common\Dtos\AbstractDto
+    {
+        return new ItemDto();
     }
 }
