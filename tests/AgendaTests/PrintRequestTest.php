@@ -22,141 +22,95 @@ class PrintRequestTest extends CommonTestClass
 
     public function testKnownPdfData(): void
     {
+        $recordFilter = new Pohoda\PrintRequest\FilterDto();
+        $recordFilter->id = 463; // ID of list in Pohoda;
+
+        $record = new Pohoda\PrintRequest\RecordDto();
+        $record->agenda = 'vydane_faktury';
+        $record->filter = $recordFilter;
+
+        $report = new Pohoda\PrintRequest\ReportDto();
+        $report->id = 111; // ID of printing base
+
+        $pdf = new Pohoda\PrintRequest\PdfDto();
+        $pdf->fileName = 'Z:\\\\Pohoda_Export\\Dokumenty_PDF\\\\receipts-123456789.pdf'; // usually returns just simple backslashes - for escaping it's necessary to double it twice
+
+        $params = new Pohoda\PrintRequest\ParametersDto();
+        $params->checkbox1 = Pohoda\PrintRequest\ParameterDto::init(false);
+        $params->checkbox2 = Pohoda\PrintRequest\ParameterDto::init(false);
+        $params->checkbox5 = Pohoda\PrintRequest\ParameterDto::init(false);
+        $params->checkbox6 = Pohoda\PrintRequest\ParameterDto::init(false);
+        $params->checkbox8 = Pohoda\PrintRequest\ParameterDto::init(true);
+        $params->checkbox10 = Pohoda\PrintRequest\ParameterDto::init(true); // unknown in factory, will be kicked out
+
+        $settings = new Pohoda\PrintRequest\PrinterSettingsDto();
+        $settings->report = $report;
+        $settings->pdf = $pdf;
+        $settings->parameters = $params;
+
+        $dto = new Pohoda\PrintRequest\PrintRequestDto();
+        $dto->printerSettings = $settings;
+        $dto->record = $record;
+
         $lib = new Pohoda\PrintRequest($this->getBasicDi());
-        $lib->setData([
-            'record' => [
-                'agenda' => 'vydane_faktury',
-                'filter' => [
-                    'id' => 463, //ID dokladu v Pohoda
-                ],
-            ],
-            'printerSettings' => [
-                'pdf' => [
-                    'fileName' => 'Z:\\\\Pohoda_Export\\Dokumenty_PDF\\\\receipts-123456789.pdf', // bezne vrati jenom jednoducha zpetna lomitka - pro escape je potreba zdvojit jeste jednou
-                ],
-                'report' => [
-                    'id' => 111, //ID tiskové sestavy
-                ],
-                'parameters' => [ // Zobrazovat nebo nezobrazovat různé součásti tiskového PDF, např. DPH, QR kód...
-                    'checkbox1' => [
-                        'value' => false,
-                    ],
-                    'checkbox2' => [
-                        'value' => false,
-                    ],
-                    'checkbox5' => [
-                        'value' => false,
-                    ],
-                    'checkbox6' => [
-                        'value' => false,
-                    ],
-                    'checkbox8' => [
-                        'value' => true,
-                    ],
-                ],
-            ],
-        ]);
+        $lib->setData($dto);
         $this->assertEquals('<prn:print version="1.0"><prn:record agenda="vydane_faktury"><ftr:filter><ftr:id>463</ftr:id></ftr:filter></prn:record><prn:printerSettings><prn:report><prn:id>111</prn:id></prn:report><prn:pdf><prn:fileName>Z:\\\\Pohoda_Export\Dokumenty_PDF\\\\receipts-123456789.pdf</prn:fileName></prn:pdf><prn:parameters><prn:checkbox1><prn:value>false</prn:value></prn:checkbox1><prn:checkbox2><prn:value>false</prn:value></prn:checkbox2><prn:checkbox5><prn:value>false</prn:value></prn:checkbox5><prn:checkbox6><prn:value>false</prn:value></prn:checkbox6><prn:checkbox8><prn:value>true</prn:value></prn:checkbox8></prn:parameters></prn:printerSettings></prn:print>', $lib->getXML()->asXML());
     }
 
     protected function getLib(): Pohoda\PrintRequest
     {
+        $recordFilter = new Pohoda\PrintRequest\FilterDto();
+        $recordFilter->id = 1234; // ID of list in Pohoda;
+
+        $record = new Pohoda\PrintRequest\RecordDto();
+        $record->agenda = 'vydane_faktury';
+        $record->filter = $recordFilter;
+
+        $report = new Pohoda\PrintRequest\ReportDto();
+        $report->id = 5678;
+
+        $pdf = new Pohoda\PrintRequest\PdfDto();
+        $pdf->fileName = 'C:\Test\1234.pdf';
+
+        $params = new Pohoda\PrintRequest\ParametersDto();
+        $params->copy = 3;
+        $params->datePrint = '123-src-456-tgt-789';
+        $params->checkbox1 = Pohoda\PrintRequest\ParameterDto::init('foo');
+        $params->checkbox2 = Pohoda\PrintRequest\ParameterDto::init('qya');
+        $params->checkbox3 = Pohoda\PrintRequest\ParameterDto::init('wsx');
+        $params->checkbox4 = Pohoda\PrintRequest\ParameterDto::init('edc');
+        $params->checkbox5 = Pohoda\PrintRequest\ParameterDto::init('rfv');
+        $params->checkbox6 = Pohoda\PrintRequest\ParameterDto::init('tgb');
+        $params->checkbox7 = Pohoda\PrintRequest\ParameterDto::init('zhn');
+        $params->radioButton1 = Pohoda\PrintRequest\ParameterDto::init('ujm');
+        $params->spin1 = Pohoda\PrintRequest\ParameterDto::init(123);
+        $params->currency1 = Pohoda\PrintRequest\ParameterDto::init(153);
+        $params->month1 = Pohoda\PrintRequest\ParameterDto::init(9);
+        $params->month2 = Pohoda\PrintRequest\ParameterDto::init(11);
+        $params->year1 = Pohoda\PrintRequest\ParameterDto::init(1990);
+        $params->date1 = Pohoda\PrintRequest\ParameterDto::init(null); // intentionally empty
+        $params->date2 = Pohoda\PrintRequest\ParameterDto::init(new \DateTime('2021-11-26 19:32:24'));
+        $params->date3 = Pohoda\PrintRequest\ParameterDto::init('2017-08-31 02:48:35');
+        $params->date4 = Pohoda\PrintRequest\ParameterDto::init('2017-08-31 02:48:35');
+        $params->text1 = Pohoda\PrintRequest\ParameterDto::init('bar');
+        $params->text2 = Pohoda\PrintRequest\ParameterDto::init('baz');
+        $params->text3 = Pohoda\PrintRequest\ParameterDto::init('faz');
+        $params->combobox1 = Pohoda\PrintRequest\ParameterDto::init('okm');
+        $params->combobox2 = Pohoda\PrintRequest\ParameterDto::init('ijn');
+        $params->combobox3 = Pohoda\PrintRequest\ParameterDto::init('uhb');
+        $params->comboboxEx1 = Pohoda\PrintRequest\ParameterDto::init('zgv');
+        $params->comboboxEx2 = Pohoda\PrintRequest\ParameterDto::init('tfc');
+
+        $settings = new Pohoda\PrintRequest\PrinterSettingsDto();
+        $settings->report = $report;
+        $settings->pdf = $pdf;
+        $settings->parameters = $params;
+
+        $dto = new Pohoda\PrintRequest\PrintRequestDto();
+        $dto->printerSettings = $settings;
+        $dto->record = $record;
+
         $lib = new Pohoda\PrintRequest($this->getBasicDi());
-        return $lib->setData([
-            'record' => [
-                'agenda' => 'vydane_faktury',
-                'filter' => [
-                    'id' => '1234',
-                ],
-            ],
-            'printerSettings' => [
-                'report' => [
-                    'id' => 5678,
-                ],
-                'pdf' => [
-                    'fileName' => 'C:\Test\1234.pdf',
-                ],
-                // this is not usually need...
-                'parameters' => [
-                    'copy' => 3,
-                    'datePrint' => '123-src-456-tgt-789',
-                    'checkbox1' => [
-                        'value' => 'foo',
-                    ],
-                    'checkbox2' => [
-                        'value' => 'qya',
-                    ],
-                    'checkbox3' => [
-                        'value' => 'wsx',
-                    ],
-                    'checkbox4' => [
-                        'value' => 'edc',
-                    ],
-                    'checkbox5' => [
-                        'value' => 'rfv',
-                    ],
-                    'checkbox6' => [
-                        'value' => 'tgb',
-                    ],
-                    'checkbox7' => [
-                        'value' => 'zhn',
-                    ],
-                    'radioButton1' => [
-                        'value' => 'ujm',
-                    ],
-                    'spin1' => [
-                        'value' => 123,
-                    ],
-                    'currency1' => [
-                        'value' => 153,
-                    ],
-                    'month1' => [
-                        'value' => 9,
-                    ],
-                    'month2' => [
-                        'value' => 11,
-                    ],
-                    'year1' => [
-                        'value' => 1990,
-                    ],
-                    'date1' => [
-                        // intentionally empty
-                    ],
-                    'date2' => [
-                        'value' => new \DateTime('2021-11-26 19:32:24'),
-                    ],
-                    'date3' => [
-                        'value' => '2017-08-31 02:48:35',
-                    ],
-                    'date4' => [
-                        'value' => '2017-08-31 02:48:35',
-                    ],
-                    'text1' => [
-                        'value' => 'bar',
-                    ],
-                    'text2' => [
-                        'value' => 'baz',
-                    ],
-                    'text3' => [
-                        'value' => 'faz',
-                    ],
-                    'combobox1' => [
-                        'value' => 'okm',
-                    ],
-                    'combobox2' => [
-                        'value' => 'ijn',
-                    ],
-                    'combobox3' => [
-                        'value' => 'uhb',
-                    ],
-                    'comboboxEx1' => [
-                        'value' => 'zgv',
-                    ],
-                    'comboboxEx2' => [
-                        'value' => 'tfc',
-                    ],
-                ],
-            ],
-        ]);
+        return $lib->setData($dto);
     }
 }

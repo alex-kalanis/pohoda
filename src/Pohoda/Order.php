@@ -13,6 +13,9 @@ namespace Riesenia\Pohoda;
 
 use Riesenia\Pohoda\Common\AddActionTypeTrait;
 
+/**
+ * @property Order\OrderDto $data
+ */
 class Order extends AbstractDocument
 {
     use AddActionTypeTrait;

@@ -56,7 +56,7 @@ class Item extends AbstractItem
 
         $xml = $this->createXML()->addChild($this->namespace . ':' . $this->nodePrefix . 'Item', '', $this->namespace($this->namespace));
 
-        $this->addElements($xml, \array_merge($this->getDataElements(), ($this->useOneDirectionalVariables ? $this->additionalElements : [])), $this->namespace);
+        $this->addElements($xml, $this->getDataElements(), $this->namespace);
 
         return $xml;
     }
@@ -66,7 +66,7 @@ class Item extends AbstractItem
      */
     protected function configureOptions(Common\OptionsResolver $resolver): void
     {
-        $resolver->setDefined(array_merge($this->getDataElements(), ($this->useOneDirectionalVariables ? $this->additionalElements : [])));
+        $resolver->setDefined($this->getDataElements());
 
         // validate / format options
         $resolver->setNormalizer('text', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string90'));

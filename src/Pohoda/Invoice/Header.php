@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\Invoice;
 
-use Riesenia\Pohoda\Common\OptionsResolver;
+use Riesenia\Pohoda\Common;
 use Riesenia\Pohoda\Document\AbstractHeader;
 
 class Header extends AbstractHeader
@@ -37,58 +37,10 @@ class Header extends AbstractHeader
         'carrier',
     ];
 
-    /** @var string[] */
-    protected array $elements = [
-        'extId',
-        'invoiceType',
-        'number',
-        'symVar',
-        'originalDocument',
-        'originalDocumentNumber',
-        'symPar',
-        'date',
-        'dateTax',
-        'dateAccounting',
-        'dateKHDPH',
-        'dateDue',
-        'dateApplicationVAT',
-        'dateDelivery',
-        'accounting',
-        'classificationVAT',
-        'classificationKVDPH',
-        'numberKHDPH',
-        'text',
-        'partnerIdentity',
-        'myIdentity',
-        'order',
-        'numberOrder',
-        'dateOrder',
-        'paymentType',
-        'priceLevel',
-        'account',
-        'symConst',
-        'symSpec',
-        'paymentAccount',
-        'paymentTerminal',
-        'centre',
-        'activity',
-        'contract',
-        'regVATinEU',
-        'MOSS',
-        'evidentiaryResourcesMOSS',
-        'accountingPeriodMOSS',
-        'dateTaxOriginalDocumentMOSS',
-        'note',
-        'carrier',
-        'intNote',
-        'postponedIssue',
-        'histRate',
-    ];
-
     /**
      * {@inheritdoc}
      */
-    protected function configureOptions(OptionsResolver $resolver): void
+    protected function configureOptions(Common\OptionsResolver $resolver): void
     {
         parent::configureOptions($resolver);
 
@@ -115,5 +67,13 @@ class Header extends AbstractHeader
         $resolver->setNormalizer('postponedIssue', $this->dependenciesFactory->getNormalizerFactory()->getClosure('bool'));
         $resolver->setNormalizer('histRate', $this->dependenciesFactory->getNormalizerFactory()->getClosure('bool'));
         $resolver->setNormalizer('dateTaxOriginalDocumentMOSS', $this->dependenciesFactory->getNormalizerFactory()->getClosure('date'));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getDefaultDto(): Common\Dtos\AbstractDto
+    {
+        return new HeaderDto();
     }
 }

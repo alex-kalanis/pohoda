@@ -14,20 +14,25 @@ namespace Riesenia\Pohoda\PrintRequest;
 use Riesenia\Pohoda\AbstractAgenda;
 use Riesenia\Pohoda\Common;
 
+/**
+ * @property RecordDto $data
+ */
 class Record extends AbstractAgenda
 {
     /**
      * {@inheritdoc}
      */
-    public function setData(array $data): parent
+    public function setData(?Common\Dtos\AbstractDto $data): parent
     {
-        // process filter
-        $filter = new Filter($this->dependenciesFactory);
-        $filter
-            ->setDirectionalVariable($this->useOneDirectionalVariables)
-            ->setResolveOptions($this->resolveOptions)
-            ->setData($data['filter']);
-        $data['filter'] = $filter;
+        if (!empty($data->filter)) {
+            // process filter
+            $filter = new Filter($this->dependenciesFactory);
+            $filter
+                ->setDirectionalVariable($this->useOneDirectionalVariables)
+                ->setResolveOptions($this->resolveOptions)
+                ->setData($data->filter);
+            $data->filter = $filter;
+        }
 
         return parent::setData($data);
     }
@@ -38,9 +43,9 @@ class Record extends AbstractAgenda
     public function getXML(): \SimpleXMLElement
     {
         $xml = $this->createXML()->addChild('prn:record', '', $this->namespace('prn'));
-        $xml->addAttribute('agenda', strval($this->data['agenda']));
+        $xml->addAttribute('agenda', strval($this->data->agenda));
 
-        $this->addElements($xml, ['filter'], 'prn');
+        $this->addElements($xml, $this->getDataElements(), 'prn');
 
         return $xml;
     }
@@ -51,9 +56,17 @@ class Record extends AbstractAgenda
     protected function configureOptions(Common\OptionsResolver $resolver): void
     {
         // available options
-        $resolver->setDefined(['agenda', 'filter']);
+        $resolver->setDefined($this->getDataElements(true));
 
         $resolver->setRequired('agenda');
         $resolver->setRequired('filter');
+    }
+
+    /**
+     * @{inheritDoc}
+     */
+    protected function getDefaultDto(): Common\Dtos\AbstractDto
+    {
+        return new RecordDto();
     }
 }

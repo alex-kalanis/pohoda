@@ -11,22 +11,18 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda;
 
-use Riesenia\Pohoda\Common\AddParameterToHeaderTrait;
-use Riesenia\Pohoda\Common\Dtos;
-use Riesenia\Pohoda\Common\OptionsResolver;
-
 abstract class AbstractDocument extends AbstractAgenda
 {
-    use AddParameterToHeaderTrait;
+    use Common\AddParameterToHeaderTrait;
 
     /**
      * Add document item.
      *
-     * @param Dtos\AbstractItemDto|null $data
+     * @param Common\Dtos\AbstractItemDto|null $data
      *
      * @return Document\AbstractPart
      */
-    public function addItem(?Dtos\AbstractItemDto $data): Document\AbstractPart
+    public function addItem(?Common\Dtos\AbstractItemDto $data): Document\AbstractPart
     {
         $part = $this->getDocumentPart('Item')
             ->setDirectionalVariable($this->useOneDirectionalVariables)
@@ -39,11 +35,11 @@ abstract class AbstractDocument extends AbstractAgenda
     /**
      * Add document summary.
      *
-     * @param Dtos\AbstractSummaryDto|null $data
+     * @param Common\Dtos\AbstractSummaryDto|null $data
      *
      * @return $this
      */
-    public function addSummary(?Dtos\AbstractSummaryDto $data): self
+    public function addSummary(?Common\Dtos\AbstractSummaryDto $data): self
     {
         $this->data->summary = $this->getDocumentPart('Summary')
             ->setDirectionalVariable($this->useOneDirectionalVariables)
@@ -55,7 +51,7 @@ abstract class AbstractDocument extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    public function setData(?Dtos\AbstractDto $data): parent
+    public function setData(?Common\Dtos\AbstractDto $data): parent
     {
         // pass to header
         if (!empty($data->header)) {
@@ -86,7 +82,7 @@ abstract class AbstractDocument extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    protected function configureOptions(OptionsResolver $resolver): void
+    protected function configureOptions(Common\OptionsResolver $resolver): void
     {
         // available options
         $resolver->setDefined(['header']);

@@ -12,10 +12,7 @@ declare(strict_types=1);
 namespace Riesenia\Pohoda;
 
 /**
- * @property object{
- *     actionType?: Type\ActionType,
- *     header: AddressBook\Header,
- * } $data
+ * @property AddressBook\AddressBookDto $data
  */
 class AddressBook extends AbstractAgenda
 {
@@ -53,7 +50,7 @@ class AddressBook extends AbstractAgenda
         $xml = $this->createXML()->addChild('adb:addressbook', '', $this->namespace('adb'));
         $xml->addAttribute('version', '2.0');
 
-        $this->addElements($xml, ['actionType', 'header'], 'adb');
+        $this->addElements($xml, $this->getDataElements(), 'adb');
 
         return $xml;
     }

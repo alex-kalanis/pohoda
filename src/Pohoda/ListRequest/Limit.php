@@ -12,16 +12,10 @@ declare(strict_types=1);
 namespace Riesenia\Pohoda\ListRequest;
 
 use Riesenia\Pohoda\AbstractAgenda;
-use Riesenia\Pohoda\Common\OptionsResolver;
+use Riesenia\Pohoda\Common;
 
 class Limit extends AbstractAgenda
 {
-    /** @var string[] */
-    protected array $elements = [
-        'idFrom',
-        'count',
-    ];
-
     /**
      * {@inheritdoc}
      */
@@ -29,7 +23,7 @@ class Limit extends AbstractAgenda
     {
         $xml = $this->createXML()->addChild('ftr:limit', '', $this->namespace('ftr'));
 
-        $this->addElements($xml, $this->elements, 'ftr');
+        $this->addElements($xml, $this->getDataElements(), 'ftr');
 
         return $xml;
     }
@@ -37,13 +31,21 @@ class Limit extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    protected function configureOptions(OptionsResolver $resolver): void
+    protected function configureOptions(Common\OptionsResolver $resolver): void
     {
         // available options
-        $resolver->setDefined($this->elements);
+        $resolver->setDefined($this->getDataElements());
 
         // validate / format options
         $resolver->setNormalizer('idFrom', $this->dependenciesFactory->getNormalizerFactory()->getClosure('int'));
         $resolver->setNormalizer('count', $this->dependenciesFactory->getNormalizerFactory()->getClosure('int'));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getDefaultDto(): Common\Dtos\AbstractDto
+    {
+        return new LimitDto();
     }
 }

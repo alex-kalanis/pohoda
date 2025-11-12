@@ -14,19 +14,7 @@ namespace Riesenia\Pohoda;
 use Symfony\Component\OptionsResolver\Options;
 
 /**
- * @property array{
- *     type: string,
- *     state: string,
- *     namespace: string,
- *     limit?: ListRequest\Limit,
- *     filter?: ListRequest\Filter,
- *     restrictionData?: ListRequest\RestrictionData,
- *     userFilterName?: ListRequest\UserFilterName,
- *     order?: iterable<Order>,
- *     stock?: iterable<Stock>,
- *     timestamp?: string|\DateTimeInterface,
- *     validFrom?: string|\DateTimeInterface,
- * } $data
+ * @property ListResponse\ListResponseDto $data
  */
 class ListResponse extends AbstractAgenda
 {
@@ -35,18 +23,18 @@ class ListResponse extends AbstractAgenda
     /**
      * Add limit.
      *
-     * @param array<string,mixed> $data
+     * @param ListRequest\LimitDto $data
      *
      * @return $this
      */
-    public function addLimit(array $data): self
+    public function addLimit(ListRequest\LimitDto $data): self
     {
         $limit = new ListRequest\Limit($this->dependenciesFactory);
         $limit
             ->setDirectionalVariable($this->useOneDirectionalVariables)
             ->setResolveOptions($this->resolveOptions)
             ->setData($data);
-        $this->data['limit'] = $limit;
+        $this->data->limit = $limit;
 
         return $this;
     }
@@ -54,18 +42,18 @@ class ListResponse extends AbstractAgenda
     /**
      * Add filter.
      *
-     * @param array<string,mixed> $data
+     * @param ListRequest\FilterDto $data
      *
      * @return $this
      */
-    public function addFilter(array $data): self
+    public function addFilter(ListRequest\FilterDto $data): self
     {
         $filter = new ListRequest\Filter($this->dependenciesFactory);
         $filter
             ->setDirectionalVariable($this->useOneDirectionalVariables)
             ->setResolveOptions($this->resolveOptions)
             ->setData($data);
-        $this->data['filter'] = $filter;
+        $this->data->filter = $filter;
 
         return $this;
     }
@@ -73,18 +61,18 @@ class ListResponse extends AbstractAgenda
     /**
      * Add restriction data.
      *
-     * @param array<string,mixed> $data
+     * @param ListRequest\RestrictionDataDto $data
      *
      * @return $this
      */
-    public function addRestrictionData(array $data): self
+    public function addRestrictionData(ListRequest\RestrictionDataDto $data): self
     {
         $restrictionData = new ListRequest\RestrictionData($this->dependenciesFactory);
         $restrictionData
             ->setDirectionalVariable($this->useOneDirectionalVariables)
             ->setResolveOptions($this->resolveOptions)
             ->setData($data);
-        $this->data['restrictionData'] = $restrictionData;
+        $this->data->restrictionData = $restrictionData;
 
         return $this;
     }
@@ -92,18 +80,18 @@ class ListResponse extends AbstractAgenda
     /**
      * Add user filter name.
      *
-     * @param string $name
+     * @param ListRequest\UserFilterNameDto $data
      *
      * @return $this
      */
-    public function addUserFilterName(string $name): self
+    public function addUserFilterName(ListRequest\UserFilterNameDto $data): self
     {
         $userFilterName = new ListRequest\UserFilterName($this->dependenciesFactory);
         $userFilterName
             ->setDirectionalVariable($this->useOneDirectionalVariables)
             ->setResolveOptions($this->resolveOptions)
-            ->setData(['userFilterName' => $name]);
-        $this->data['userFilterName'] = $userFilterName;
+            ->setData($data);
+        $this->data->userFilterName = $userFilterName;
 
         return $this;
     }
@@ -111,28 +99,20 @@ class ListResponse extends AbstractAgenda
     /**
      * Add Order as content
      *
-     * @param array<string, mixed> $header
-     * @param array<array<string, mixed>> $items
-     * @param array<string, mixed> $summary
+     * @param Order\OrderDto $dto
+     * @param Order\ItemDto[] $items
+     * @param Order\SummaryDto|null $summary
      *
      * @return Order
      */
-    public function addOrder(array $header, array $items = [], array $summary = []): Order
+    public function addOrder(Order\OrderDto $dto, array $items = [], ?Order\SummaryDto $summary = null): Order
     {
-        if (!isset($this->data['order'])
-            || !(
-                is_array($this->data['order'])
-                || (is_a($this->data['order'], \ArrayAccess::class))
-            )
-        ) {
-            $this->data['order'] = [];
-        }
         $order = new Order($this->dependenciesFactory);
         $order
             ->setDirectionalVariable($this->useOneDirectionalVariables)
             ->setResolveOptions($this->resolveOptions)
-            ->setData($header);
-        $this->data['order'][] = $order;
+            ->setData($dto);
+        $this->data->order[] = $order;
         foreach ($items as $item) {
             $order->addItem($item);
         }
@@ -146,26 +126,18 @@ class ListResponse extends AbstractAgenda
     /**
      * Add Stock as content
      *
-     * @param array<string, mixed> $header
+     * @param Stock\StockDto $dto
      *
      * @return Stock
      */
-    public function addStock(array $header): Stock
+    public function addStock(Stock\StockDto $dto): Stock
     {
-        if (!isset($this->data['stock'])
-            || !(
-                is_array($this->data['stock'])
-                || (is_a($this->data['stock'], \ArrayAccess::class))
-            )
-        ) {
-            $this->data['stock'] = [];
-        }
         $stock = new Stock($this->dependenciesFactory);
         $stock
             ->setDirectionalVariable($this->useOneDirectionalVariables)
             ->setResolveOptions($this->resolveOptions)
-            ->setData($header);
-        $this->data['stock'][] = $stock;
+            ->setData($dto);
+        $this->data->stock[] = $stock;
 
         return $stock;
     }
@@ -176,66 +148,66 @@ class ListResponse extends AbstractAgenda
     public function getXML(): \SimpleXMLElement
     {
         // UserList is custom
-        if ('UserList' == $this->data['type']) {
-            $xml = $this->createXML()->addChild($this->data['namespace'] . ':listUserCodeResponse', '', $this->namespace(strval($this->data['namespace'])));
+        if ('UserList' == $this->data->type) {
+            $xml = $this->createXML()->addChild($this->data->namespace . ':listUserCodeResponse', '', $this->namespace(\strval($this->data->namespace)));
             $xml->addAttribute('version', '1.1');
             $xml->addAttribute('listVersion', '1.1');
         } else {
-            $xml = $this->createXML()->addChild($this->data['namespace'] . ':list' . $this->data['type'], '', $this->namespace(strval($this->data['namespace'])));
+            $xml = $this->createXML()->addChild($this->data->namespace . ':list' . $this->data->type, '', $this->namespace(\strval($this->data->namespace)));
             $xml->addAttribute('version', '2.0');
 
             // IntParam and Order doesn't have the version attribute
-            if (!in_array($this->data['type'], ['IntParam', 'Order'])) {
-                if (!isset($this->data['stock'])) {
+            if (!in_array($this->data->type, ['IntParam', 'Order'])) {
+                if (empty($this->data->stock)) {
                     $xml->addAttribute($this->getLcFirstType() . 'Version', '2.0');
                 }
             }
 
-            if (isset($this->data[$this->getLcFirstType() . 'Type'])) {
-                $xml->addAttribute($this->getLcFirstType() . 'Type', strval($this->data[$this->getLcFirstType() . 'Type']));
+            if (isset($this->data->{$this->getLcFirstType() . 'Type'})) {
+                $xml->addAttribute($this->getLcFirstType() . 'Type', \strval($this->data->{$this->getLcFirstType() . 'Type'}));
             }
 
-            if ('Order' == $this->data['type'] && (isset($this->data['order']))) {
-                foreach ($this->data['order'] as $orderElement) {
+            if ('Order' == $this->data->type && !empty($this->data->order)) {
+                foreach ($this->data->order as $orderElement) {
                     $this->appendNode($xml, $orderElement->getXML());
                 }
 
-            } elseif ('Stock' == $this->data['type'] && (isset($this->data['stock']))) {
-                foreach ($this->data['stock'] as $stockElement) {
+            } elseif ('Stock' == $this->data->type && !empty($this->data->stock)) {
+                foreach ($this->data->stock as $stockElement) {
                     // set namespace
                     $stockElement->setNamespace('lStk');
                     $this->appendNode($xml, $stockElement->getXML());
                 }
 
             } else {
-                $request = $xml->addChild($this->data['namespace'] . ':' . $this->whichDirection($this->directionAsResponse) . $this->data['type']);
+                $request = $xml->addChild($this->data->namespace . ':' . $this->whichDirection($this->directionAsResponse) . $this->data->type);
 
                 $this->addElements($request, ['limit', 'filter', 'userFilterName'], 'ftr');
             }
 
-            if (isset($this->data['restrictionData'])) {
+            if (isset($this->data->restrictionData)) {
                 $this->addElements($xml, ['restrictionData'], 'lst');
             }
         }
 
-        if (isset($this->data['timestamp'])) {
-            $date = $this->data['timestamp'];
+        if (isset($this->data->timestamp)) {
+            $date = $this->data->timestamp;
             if (is_object($date) && is_a($date, \DateTimeInterface::class)) {
                 $date = $date->format('Y-m-d\TH:i:s');
             }
-            $xml->addAttribute('dateTimeStamp', strval($date));
+            $xml->addAttribute('dateTimeStamp', \strval($date));
         }
 
-        if (isset($this->data['validFrom'])) {
-            $dateFrom = $this->data['validFrom'];
+        if (isset($this->data->validFrom)) {
+            $dateFrom = $this->data->validFrom;
             if (is_object($dateFrom) && is_a($dateFrom, \DateTimeInterface::class)) {
                 $dateFrom = $dateFrom->format('Y-m-d');
             }
-            $xml->addAttribute('dateValidFrom', strval($dateFrom));
+            $xml->addAttribute('dateValidFrom', \strval($dateFrom));
         }
 
-        if (isset($this->data['state'])) {
-            $xml->addAttribute('state', strval($this->data['state']));
+        if (isset($this->data->state)) {
+            $xml->addAttribute('state', \strval($this->data->state));
         }
 
 
@@ -253,7 +225,7 @@ class ListResponse extends AbstractAgenda
     protected function configureOptions(Common\OptionsResolver $resolver): void
     {
         // available options
-        $resolver->setDefined(['type', 'namespace', 'order', 'orderType', 'invoiceType', 'timestamp', 'validFrom', 'state']);
+        $resolver->setDefined($this->getDataElements());
 
         // validate / format options
         $resolver->setRequired('type');
@@ -311,10 +283,18 @@ class ListResponse extends AbstractAgenda
     protected function getLcFirstType(): string
     {
         // ActionPrice is custom
-        if ('ActionPrice' == $this->data['type']) {
+        if ('ActionPrice' == $this->data->type) {
             return 'actionPrices';
         }
 
-        return \lcfirst(strval($this->data['type']));
+        return \lcfirst(\strval($this->data->type));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getDefaultDto(): Common\Dtos\AbstractDto
+    {
+        return new ListResponse\ListResponseDto();
     }
 }

@@ -12,15 +12,10 @@ declare(strict_types=1);
 namespace Riesenia\Pohoda\PrintRequest;
 
 use Riesenia\Pohoda\AbstractAgenda;
-use Riesenia\Pohoda\Common\OptionsResolver;
+use Riesenia\Pohoda\Common;
 
 class Pdf extends AbstractAgenda
 {
-    /** @var string[] */
-    protected array $elements = [
-        'fileName',
-    ];
-
     /**
      * {@inheritdoc}
      */
@@ -28,7 +23,7 @@ class Pdf extends AbstractAgenda
     {
         $xml = $this->createXML()->addChild('prn:pdf', '', $this->namespace('prn'));
 
-        $this->addElements($xml, $this->elements, 'prn');
+        $this->addElements($xml, $this->getDataElements(), 'prn');
 
         return $xml;
     }
@@ -36,12 +31,20 @@ class Pdf extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    protected function configureOptions(OptionsResolver $resolver): void
+    protected function configureOptions(Common\OptionsResolver $resolver): void
     {
         // available options
-        $resolver->setDefined($this->elements);
+        $resolver->setDefined($this->getDataElements());
 
         // validate / format options
         $resolver->setRequired('fileName');
+    }
+
+    /**
+     * @{inheritDoc}
+     */
+    protected function getDefaultDto(): Common\Dtos\AbstractDto
+    {
+        return new PdfDto();
     }
 }

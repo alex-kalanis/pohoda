@@ -57,14 +57,21 @@ class Processing
      *
      * @param AbstractDto $class
      * @param bool $withAttributes
+     * @param bool $responseDirection
      *
      * @return string[]
      */
-    public static function getProperties(AbstractDto $class, bool $withAttributes): array
+    public static function getProperties(AbstractDto $class, bool $withAttributes, bool $responseDirection): array
     {
         $reflection = new \ReflectionClass($class);
         $props = [];
         foreach ($reflection->getProperties() as $prop) {
+            if (static::hasSkipAttribute($prop)) {
+                continue;
+            }
+            if (static::hasDirectionAttribute($prop) && !$responseDirection) {
+                continue;
+            }
             if (static::isJustAttribute($prop) && !$withAttributes) {
                 continue;
             }
@@ -115,7 +122,9 @@ class Processing
         $extraProperties = array_diff(array_keys((array) $class), $usedKeys);
         foreach ($extraProperties as $extraProperty) {
             // cannot determine their metadata, so just copy them
-            $clonedInstance->{$extraProperty} = $data[$extraProperty];
+            if (isset($data[$extraProperty])) {
+                $clonedInstance->{$extraProperty} = $data[$extraProperty];
+            }
         }
         return $clonedInstance;
     }
@@ -239,7 +248,7 @@ class Processing
     protected static function getPropertyParentInstances(string $name): array
     {
         $reflectionClass = new ReflectionClass($name);
-        $usedClasses = [$name] + $reflectionClass->getInterfaceNames();
+        $usedClasses = array_merge([$name], $reflectionClass->getInterfaceNames());
         while ($parentClass = $reflectionClass->getParentClass()) {
             $usedClasses[] = $parentClass->getName();
             $usedClasses = $usedClasses + $reflectionClass->getInterfaceNames();
@@ -268,7 +277,7 @@ class Processing
     ): void {
         $clonedInstance->{$key} = match ($propertyType) {
             'iterable', 'array' => (array) $value,
-            'bool' => is_string($value) ? 'true' == $value : boolval(intval($value)),
+            'bool' => is_bool($value) ? $value : (is_string($value) ? ('true' == $value) : boolval(intval($value))),
             'float' => floatval($value),
             'int' => intval($value),
             'null' => null,

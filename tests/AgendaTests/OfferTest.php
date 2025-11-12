@@ -22,45 +22,52 @@ class OfferTest extends CommonTestClass
 
     public function testSetSummary(): void
     {
+        $foreign = new Pohoda\Type\Dtos\CurrencyForeignDto();
+        $foreign->currency = 'EUR';
+        $foreign->rate = '20.232';
+        $foreign->amount = 1;
+        $foreign->priceSum = 580;
+
+        $summary = new Pohoda\Offer\SummaryDto();
+        $summary->roundingDocument = 'math2one';
+        $summary->foreignCurrency = $foreign;
+
         $lib = $this->getLib();
-        $lib->addSummary([
-            'roundingDocument' => 'math2one',
-            'foreignCurrency' => [
-                'currency' => 'EUR',
-                'rate' => '20.232',
-                'amount' => 1,
-                'priceSum' => 580,
-            ],
-        ]);
+        $lib->addSummary($summary);
 
         $this->assertEquals('<ofr:offer version="2.0"><ofr:offerHeader>' . $this->defaultHeader() . '</ofr:offerHeader><ofr:offerSummary><ofr:roundingDocument>math2one</ofr:roundingDocument><ofr:foreignCurrency><typ:currency><typ:ids>EUR</typ:ids></typ:currency><typ:rate>20.232</typ:rate><typ:amount>1</typ:amount><typ:priceSum>580</typ:priceSum></ofr:foreignCurrency></ofr:offerSummary></ofr:offer>', $lib->getXML()->asXML());
     }
 
     public function testSetItem(): void
     {
-        $lib = $this->getLib();
-        $lib->addItem([
-            'text' => 'NAME 1',
-            'quantity' => 1,
-            'rateVAT' => 'high',
-            'homeCurrency' => [
-                'unitPrice' => 200,
-            ],
-        ]);
+        $home1 = new Pohoda\Type\Dtos\CurrencyItemDto();
+        $home1->unitPrice = 200;
 
-        $lib->addItem([
-            'quantity' => 1,
-            'payVAT' => 1,
-            'rateVAT' => 'high',
-            'homeCurrency' => [
-                'unitPrice' => 198,
-            ],
-            'stockItem' => [
-                'stockItem' => [
-                    'ids' => 'STM',
-                ],
-            ],
-        ]);
+        $item1 = new Pohoda\Offer\ItemDto();
+        $item1->text = 'NAME 1';
+        $item1->quantity = 1;
+        $item1->rateVAT = 'high';
+        $item1->homeCurrency = $home1;
+
+        $lib = $this->getLib();
+        $lib->addItem($item1);
+
+        $home2 = new Pohoda\Type\Dtos\CurrencyItemDto();
+        $home2->unitPrice = 198;
+
+        $stock2 = new Pohoda\Type\Dtos\StockItemDto();
+        $stock2->stockItem = [
+            'ids' => 'STM',
+        ];
+
+        $item2 = new Pohoda\Offer\ItemDto();
+        $item2->quantity = 1;
+        $item2->payVAT = 1;
+        $item2->rateVAT = 'high';
+        $item2->homeCurrency = $home2;
+        $item2->stockItem = $stock2;
+
+        $lib->addItem($item2);
 
         $this->assertEquals('<ofr:offer version="2.0"><ofr:offerHeader>' . $this->defaultHeader() . '</ofr:offerHeader><ofr:offerDetail><ofr:offerItem><ofr:text>NAME 1</ofr:text><ofr:quantity>1</ofr:quantity><ofr:rateVAT>high</ofr:rateVAT><ofr:homeCurrency><typ:unitPrice>200</typ:unitPrice></ofr:homeCurrency></ofr:offerItem><ofr:offerItem><ofr:quantity>1</ofr:quantity><ofr:payVAT>true</ofr:payVAT><ofr:rateVAT>high</ofr:rateVAT><ofr:homeCurrency><typ:unitPrice>198</typ:unitPrice></ofr:homeCurrency><ofr:stockItem><typ:stockItem><typ:ids>STM</typ:ids></typ:stockItem></ofr:stockItem></ofr:offerItem></ofr:offerDetail></ofr:offer>', $lib->getXML()->asXML());
     }
@@ -83,19 +90,26 @@ class OfferTest extends CommonTestClass
 
     protected function getLib(): Pohoda\Offer
     {
+        $myAddress = new Pohoda\Type\Dtos\AddressInternetTypeDto();
+        $myAddress->name = 'NAME';
+        $myAddress->ico = '123';
+
+        $myIdentity = new Pohoda\Type\Dtos\MyAddressDto();
+        $myIdentity->address = $myAddress;
+
+        $partner = new Pohoda\Type\Dtos\AddressDto();
+        $partner->id = 25;
+
+        $header = new Pohoda\Offer\HeaderDto();
+        $header->date = '2015-01-10';
+        $header->intNote = 'Note';
+        $header->partnerIdentity = $partner;
+        $header->myIdentity = $myIdentity;
+
+        $dto = new Pohoda\Offer\OfferDto();
+        $dto->header = $header;
+
         $lib = new Pohoda\Offer($this->getBasicDi());
-        return $lib->setData([
-            'partnerIdentity' => [
-                'id' => 25,
-            ],
-            'myIdentity' => [
-                'address' => [
-                    'name' => 'NAME',
-                    'ico' => '123',
-                ],
-            ],
-            'date' => '2015-01-10',
-            'intNote' => 'Note',
-        ]);
+        return $lib->setData($dto);
     }
 }

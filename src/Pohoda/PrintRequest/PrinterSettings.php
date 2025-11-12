@@ -16,42 +16,34 @@ use Riesenia\Pohoda\Common;
 
 class PrinterSettings extends AbstractAgenda
 {
-    /** @var string[] */
-    protected array $elements = [
-        'report',
-        'printer',
-        'pdf',
-        'parameters',
-    ];
-
     /**
      * {@inheritdoc}
      */
-    public function setData(array $data): parent
+    public function setData(?Common\Dtos\AbstractDto $data): parent
     {
         // process report
-        if (isset($data['report'])) {
+        if (isset($data->report)) {
             $report = new Report($this->dependenciesFactory);
-            $data['report'] = $report
+            $data->report = $report
                 ->setDirectionalVariable($this->useOneDirectionalVariables)
                 ->setResolveOptions($this->resolveOptions)
-                ->setData($data['report']);
+                ->setData($data->report);
         }
         // process pdf
-        if (isset($data['pdf'])) {
+        if (isset($data->pdf)) {
             $pdf = new Pdf($this->dependenciesFactory);
-            $data['pdf'] = $pdf
+            $data->pdf = $pdf
                 ->setDirectionalVariable($this->useOneDirectionalVariables)
                 ->setResolveOptions($this->resolveOptions)
-                ->setData($data['pdf']);
+                ->setData($data->pdf);
         }
         // process parameters
-        if (isset($data['parameters'])) {
+        if (isset($data->parameters)) {
             $parameters = new Parameters($this->dependenciesFactory);
-            $data['parameters'] = $parameters
+            $data->parameters = $parameters
                 ->setDirectionalVariable($this->useOneDirectionalVariables)
                 ->setResolveOptions($this->resolveOptions)
-                ->setData($data['parameters']);
+                ->setData($data->parameters);
         }
 
         return parent::setData($data);
@@ -64,7 +56,7 @@ class PrinterSettings extends AbstractAgenda
     {
         $xml = $this->createXML()->addChild('prn:printerSettings', '', $this->namespace('prn'));
 
-        $this->addElements($xml, $this->elements, 'prn');
+        $this->addElements($xml, $this->getDataElements(), 'prn');
 
         return $xml;
     }
@@ -75,6 +67,14 @@ class PrinterSettings extends AbstractAgenda
     protected function configureOptions(Common\OptionsResolver $resolver): void
     {
         // available options
-        $resolver->setDefined($this->elements);
+        $resolver->setDefined($this->getDataElements());
+    }
+
+    /**
+     * @{inheritDoc}
+     */
+    protected function getDefaultDto(): Common\Dtos\AbstractDto
+    {
+        return new PrinterSettingsDto();
     }
 }

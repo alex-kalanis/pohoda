@@ -12,15 +12,10 @@ declare(strict_types=1);
 namespace Riesenia\Pohoda\ListRequest;
 
 use Riesenia\Pohoda\AbstractAgenda;
-use Riesenia\Pohoda\Common\OptionsResolver;
+use Riesenia\Pohoda\Common;
 
 class RestrictionData extends AbstractAgenda
 {
-    /** @var string[] */
-    protected array $elements = [
-        'liquidations',
-    ];
-
     /**
      * {@inheritdoc}
      */
@@ -28,7 +23,7 @@ class RestrictionData extends AbstractAgenda
     {
         $xml = $this->createXML()->addChild('lst:restrictionData', '', $this->namespace('lst'));
 
-        $this->addElements($xml, $this->elements, 'lst');
+        $this->addElements($xml, $this->getDataElements(), 'lst');
 
         return $xml;
     }
@@ -36,12 +31,20 @@ class RestrictionData extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    protected function configureOptions(OptionsResolver $resolver): void
+    protected function configureOptions(Common\OptionsResolver $resolver): void
     {
         // available options
-        $resolver->setDefined($this->elements);
+        $resolver->setDefined($this->getDataElements());
 
         // validate / format options
         $resolver->setNormalizer('liquidations', $this->dependenciesFactory->getNormalizerFactory()->getClosure('bool'));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getDefaultDto(): Common\Dtos\AbstractDto
+    {
+        return new RestrictionDataDto();
     }
 }

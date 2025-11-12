@@ -25,9 +25,9 @@ class Picture extends AbstractAgenda
     public function getXML(): \SimpleXMLElement
     {
         $xml = $this->createXML()->addChild('stk:picture', '', $this->namespace('stk'));
-        $xml->addAttribute('default', $this->data->default ? 'true' : 'false');
+        $xml->addAttribute('default', $this->data->default);
 
-        $this->addElements($xml, \array_diff($this->getDataElements(), ['default']), 'stk');
+        $this->addElements($xml, $this->getDataElements(), 'stk');
 
         return $xml;
     }
@@ -38,7 +38,7 @@ class Picture extends AbstractAgenda
     protected function configureOptions(Common\OptionsResolver $resolver): void
     {
         // available options
-        $resolver->setDefined($this->getDataElements());
+        $resolver->setDefined($this->getDataElements(true));
 
         // validate / format options
         $resolver->setRequired('filepath');

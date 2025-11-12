@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\Invoice;
 
-use Riesenia\Pohoda\Common\OptionsResolver;
+use Riesenia\Pohoda\Common;
 
 class AdvancePaymentItem extends Item
 {
@@ -26,25 +26,6 @@ class AdvancePaymentItem extends Item
         'contract',
     ];
 
-    /** @var string[] */
-    protected array $elements = [
-        'sourceDocument',
-        'quantity',
-        'payVAT',
-        'rateVAT',
-        'discountPercentage',
-        'homeCurrency',
-        'foreignCurrency',
-        'note',
-        'accounting',
-        'classificationVAT',
-        'classificationKVDPH',
-        'centre',
-        'activity',
-        'contract',
-        'symPar',
-    ];
-
     /**
      * {@inheritdoc}
      */
@@ -52,7 +33,7 @@ class AdvancePaymentItem extends Item
     {
         $xml = $this->createXML()->addChild('inv:invoiceAdvancePaymentItem', '', $this->namespace('inv'));
 
-        $this->addElements($xml, \array_merge($this->elements, ['parameters']), 'inv');
+        $this->addElements($xml, $this->getDataElements(), 'inv');
 
         return $xml;
     }
@@ -60,10 +41,10 @@ class AdvancePaymentItem extends Item
     /**
      * {@inheritdoc}
      */
-    protected function configureOptions(OptionsResolver $resolver): void
+    protected function configureOptions(Common\OptionsResolver $resolver): void
     {
         // available options
-        $resolver->setDefined($this->elements);
+        $resolver->setDefined($this->getDataElements());
 
         // validate / format options
         $resolver->setNormalizer('quantity', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
@@ -71,5 +52,13 @@ class AdvancePaymentItem extends Item
         $resolver->setAllowedValues('rateVAT', ['none', 'third', 'low', 'high']);
         $resolver->setNormalizer('discountPercentage', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
         $resolver->setNormalizer('note', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string90'));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getDefaultDto(): Common\Dtos\AbstractDto
+    {
+        return new AdvancePaymentItemDto();
     }
 }

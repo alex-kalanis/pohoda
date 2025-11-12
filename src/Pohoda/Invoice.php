@@ -12,10 +12,7 @@ declare(strict_types=1);
 namespace Riesenia\Pohoda;
 
 /**
- * @property array{
- *     links?: iterable<Type\Link>,
- *     invoiceDetail?: iterable<Invoice\AdvancePaymentItem>,
- * } $data
+ * @property Invoice\InvoiceDto $data
  */
 class Invoice extends AbstractDocument
 {
@@ -27,27 +24,18 @@ class Invoice extends AbstractDocument
     /**
      * Add link.
      *
-     * @param array<string,mixed> $data
+     * @param Type\Dtos\LinkDto $data
      *
      * @return $this
      */
-    public function addLink(array $data): self
+    public function addLink(Type\Dtos\LinkDto $data): self
     {
-        if (!isset($this->data['links'])
-            || !(
-                is_array($this->data['links'])
-                || (is_a($this->data['links'], \ArrayAccess::class))
-            )
-        ) {
-            $this->data['links'] = [];
-        }
-
         $link = new Type\Link($this->dependenciesFactory);
         $link
             ->setDirectionalVariable($this->useOneDirectionalVariables)
             ->setResolveOptions($this->resolveOptions)
             ->setData($data);
-        $this->data['links'][] = $link;
+        $this->data->links[] = $link;
 
         return $this;
     }
@@ -55,37 +43,20 @@ class Invoice extends AbstractDocument
     /**
      * Add advance payment item.
      *
-     * @param array<string,mixed> $data
+     * @param Invoice\AdvancePaymentItemDto $data
      *
      * @return $this
      */
-    public function addAdvancePaymentItem(array $data): self
+    public function addAdvancePaymentItem(Invoice\AdvancePaymentItemDto $data): self
     {
-        if (!isset($this->data['invoiceDetail'])
-            || !(
-                is_array($this->data['invoiceDetail'])
-                || (is_a($this->data['invoiceDetail'], \ArrayAccess::class))
-            )
-        ) {
-            $this->data['invoiceDetail'] = [];
-        }
-
         $invoiceDetail = new Invoice\AdvancePaymentItem($this->dependenciesFactory);
         $invoiceDetail
             ->setDirectionalVariable($this->useOneDirectionalVariables)
             ->setResolveOptions($this->resolveOptions)
             ->setData($data);
-        $this->data['invoiceDetail'][] = $invoiceDetail;
+        $this->data->invoiceDetail[] = $invoiceDetail;
 
         return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getDocumentElements(): array
-    {
-        return \array_merge(parent::getDocumentElements(), ['links']);
     }
 
     /**
@@ -102,5 +73,13 @@ class Invoice extends AbstractDocument
     protected function getDocumentName(): string
     {
         return 'invoice';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getDefaultDto(): Common\Dtos\AbstractDto
+    {
+        return new Invoice\InvoiceDto();
     }
 }

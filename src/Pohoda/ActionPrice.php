@@ -11,8 +11,6 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda;
 
-use Riesenia\Pohoda\Common\OptionsResolver;
-
 class ActionPrice extends AbstractAgenda
 {
     public function getImportRoot(): string
@@ -31,5 +29,5 @@ class ActionPrice extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    protected function configureOptions(OptionsResolver $resolver): void {}
+    protected function configureOptions(Common\OptionsResolver $resolver): void {}
 }

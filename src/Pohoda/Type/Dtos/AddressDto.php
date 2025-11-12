@@ -5,7 +5,6 @@ namespace Riesenia\Pohoda\Type\Dtos;
 use Riesenia\Pohoda\Common\Dtos\AbstractDto;
 use Riesenia\Pohoda\Type;
 
-
 class AddressDto extends AbstractDto
 {
     public ?int $id = null;

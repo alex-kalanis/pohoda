@@ -12,16 +12,10 @@ declare(strict_types=1);
 namespace Riesenia\Pohoda\ListRequest;
 
 use Riesenia\Pohoda\AbstractAgenda;
-use Riesenia\Pohoda\Common\OptionsResolver;
+use Riesenia\Pohoda\Common;
 
 class QueryFilter extends AbstractAgenda
 {
-    /** @var string[] */
-    protected array $elements = [
-        'filter',
-        'textName',
-    ];
-
     /**
      * {@inheritdoc}
      */
@@ -29,7 +23,7 @@ class QueryFilter extends AbstractAgenda
     {
         $xml = $this->createXML()->addChild('ftr:queryFilter', '', $this->namespace('ftr'));
 
-        $this->addElements($xml, $this->elements, 'ftr');
+        $this->addElements($xml, $this->getDataElements(), 'ftr');
 
         return $xml;
     }
@@ -37,13 +31,21 @@ class QueryFilter extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    protected function configureOptions(OptionsResolver $resolver): void
+    protected function configureOptions(Common\OptionsResolver $resolver): void
     {
         // available options
-        $resolver->setDefined($this->elements);
+        $resolver->setDefined($this->getDataElements());
 
         // validate / format options
         $resolver->setNormalizer('filter', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string'));
         $resolver->setNormalizer('textName', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string200'));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getDefaultDto(): Common\Dtos\AbstractDto
+    {
+        return new QueryFilterDto();
     }
 }

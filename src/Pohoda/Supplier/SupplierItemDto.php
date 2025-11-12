@@ -2,25 +2,29 @@
 
 namespace Riesenia\Pohoda\Supplier;
 
+use Riesenia\Pohoda\Common\Attributes;
 use Riesenia\Pohoda\Common\Dtos\AbstractItemDto;
 
 class SupplierItemDto extends AbstractItemDto
 {
-    public ?string $default = null;
+    public bool|string|null $default = null;
+    #[Attributes\RefElement]
     public string|array|null $refAd = null;
     public ?string $orderCode = null;
     public ?string $orderName = null;
-    public ?string $purchasingPrice = null;
+    public int|string|null $purchasingPrice = null;
+    #[Attributes\RefElement]
     public ?string $currency = null;
-    public ?string $rate = null;
-    public ?string $payVAT = null;
+    public float|string|null $rate = null;
+    public bool|string|null $payVAT = null;
     public ?string $ean = null;
-    public ?string $printEAN = null;
+    public bool|string|null $printEAN = null;
     public ?string $unitEAN = null;
-    public ?string $unitCoefEAN = null;
-    public ?string $deliveryTime = null;
+    public float|string|null $unitCoefEAN = null;
+    public int|string|null $deliveryTime = null;
+    #[Attributes\RefElement]
     public ?string $deliveryPeriod = null;
-    public ?string $minQuantity = null;
+    public float|string|null $minQuantity = null;
     public ?string $unit = null;
     public ?string $note = null;
 }

@@ -11,9 +11,8 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda;
 
-use Riesenia\Pohoda;
-use Riesenia\Pohoda\Common\Dtos;
-use Riesenia\Pohoda\ValueTransformer\ValueTransformerInterface;
+use InvalidArgumentException;
+use ReflectionException;
 use SimpleXMLElement;
 
 /**
@@ -24,12 +23,12 @@ use SimpleXMLElement;
  */
 abstract class AbstractAgenda
 {
-    use Pohoda\Common\OneDirectionalVariablesTrait;
-    use Pohoda\Common\ResolveOptionsTrait;
-    use Pohoda\Common\DirectionAsResponseTrait;
+    use Common\OneDirectionalVariablesTrait;
+    use Common\ResolveOptionsTrait;
+    use Common\DirectionAsResponseTrait;
 
-    /** @var Dtos\AbstractDto|null */
-    protected ?Dtos\AbstractDto $data = null;
+    /** @var Common\Dtos\AbstractDto|null */
+    protected ?Common\Dtos\AbstractDto $data = null;
 
     /** @var string[] */
     protected array $refElements = [];
@@ -43,10 +42,10 @@ abstract class AbstractAgenda
     /**
      * Construct agenda using provided data.
      *
-     * @param Pohoda\DI\DependenciesFactory $dependenciesFactory
+     * @param DI\DependenciesFactory $dependenciesFactory
      */
     public function __construct(
-        protected readonly Pohoda\DI\DependenciesFactory $dependenciesFactory,
+        protected readonly DI\DependenciesFactory $dependenciesFactory,
     ) {
         $this->data = $this->getDefaultDto();
     }
@@ -77,13 +76,13 @@ abstract class AbstractAgenda
      * Set & resolve data options
      * Necessary for late setting when there is more options available
      *
-     * @param Dtos\AbstractDto|null $data
+     * @param Common\Dtos\AbstractDto|null $data
      *
-     * @throws \ReflectionException
+     * @throws ReflectionException
      *
      * @return $this
      */
-    public function setData(?Dtos\AbstractDto $data): self
+    public function setData(?Common\Dtos\AbstractDto $data): self
     {
         // resolve options
         if ($data) {
@@ -277,7 +276,7 @@ abstract class AbstractAgenda
         return \htmlspecialchars(
             \array_reduce(
                 $sanitizeEncoding->getListing()->getTransformers(),
-                function (string $value, ValueTransformerInterface $transformer): string {
+                function (string $value, ValueTransformer\ValueTransformerInterface $transformer): string {
                     return $transformer->transform($value);
                 },
                 strval($value),
@@ -300,7 +299,7 @@ abstract class AbstractAgenda
 
         if (!$dom->ownerDocument) {
             // @codeCoverageIgnoreStart
-            throw new \InvalidArgumentException('Invalid XML.');
+            throw new InvalidArgumentException('Invalid XML.');
         }
         // @codeCoverageIgnoreEnd
 
@@ -316,7 +315,7 @@ abstract class AbstractAgenda
      */
     protected function resolveOptions(array $data): array
     {
-        $resolver = Pohoda\Common\SharedResolver::getResolver($this, $this->useOneDirectionalVariables, $data);
+        $resolver = Common\SharedResolver::getResolver($this, $this->useOneDirectionalVariables, $data);
         $this->configureOptions($resolver);
         return $resolver->resolve($data);
     }
@@ -373,7 +372,7 @@ abstract class AbstractAgenda
      */
     protected function getAllDataProperties(bool $withAttributes): array
     {
-        return Common\Dtos\Processing::getProperties($this->data ?: $this->getDefaultDto(), $withAttributes);
+        return Common\Dtos\Processing::getProperties($this->data ?: $this->getDefaultDto(), $withAttributes, $this->useOneDirectionalVariables);
     }
 
     /**
@@ -391,12 +390,12 @@ abstract class AbstractAgenda
     /**
      * Get DTO which has defined elements for the agenda
      *
-     * @return Dtos\AbstractDto
+     * @return Common\Dtos\AbstractDto
      */
-    // abstract protected function getDefaultDto(): Dtos\AbstractDto;
-    protected function getDefaultDto(): Dtos\AbstractDto
+    // abstract protected function getDefaultDto(): Common\Dtos\AbstractDto;
+    protected function getDefaultDto(): Common\Dtos\AbstractDto
     {
-        return new Dtos\AgendaDto();
+        return new Common\Dtos\AgendaDto();
     }
 
     /**

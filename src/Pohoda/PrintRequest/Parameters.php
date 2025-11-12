@@ -16,33 +16,34 @@ use Riesenia\Pohoda\Common;
 
 class Parameters extends AbstractAgenda
 {
-    /** @var string[] */
-    protected array $elements = [
-        'copy',
-        'datePrint',
-    ];
-
     /**
      * {@inheritdoc}
      */
-    public function setData(array $data): parent
+    public function setData(?Common\Dtos\AbstractDto $data): parent
     {
         $parameterFactory = $this->dependenciesFactory->getParametersFactory();
         $parameterInstances = $this->dependenciesFactory->getParameterInstances();
 
         foreach ($parameterInstances->getKeys() as $key) {
-            // fill elements from factory
-            $this->elements[] = $key;
             // add instance to data
-            if (isset($data[$key])) {
-                $data[$key] = $parameterFactory
+            if (isset($data->$key)) {
+                $data->$key = $parameterFactory
                     ->getByClassName($parameterInstances->getByKey($key))
                     ->setDirectionalVariable($this->useOneDirectionalVariables)
                     ->setResolveOptions($this->resolveOptions)
-                    ->setData($data[$key]);
+                    ->setData($data->$key);
             }
         }
 
+        // skip undefined - that which stays as AbstractDto class
+        $dataKeys = array_keys((array) $data);
+        foreach ($dataKeys as $dataKey) {
+            if (is_a($data->$dataKey, Common\Dtos\AbstractDto::class)) {
+                unset($data->$dataKey);
+            }
+        }
+
+        $this->data = $this->resolveOptions ? $data : null; // necessary due having dynamic properties
         return parent::setData($data);
     }
 
@@ -53,7 +54,7 @@ class Parameters extends AbstractAgenda
     {
         $xml = $this->createXML()->addChild('prn:parameters', '', $this->namespace('prn'));
 
-        $this->addElements($xml, $this->elements, 'prn');
+        $this->addElements($xml, $this->getAllDataProperties(false), 'prn');
 
         return $xml;
     }
@@ -64,9 +65,22 @@ class Parameters extends AbstractAgenda
     protected function configureOptions(Common\OptionsResolver $resolver): void
     {
         // available options
-        $resolver->setDefined($this->elements);
+        $resolver->setDefined($this->getAllDataProperties(true));
 
         $resolver->setNormalizer('copy', $this->dependenciesFactory->getNormalizerFactory()->getClosure('int'));
         $resolver->setNormalizer('datePrint', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string'));
+    }
+
+    protected function getAllDataProperties(bool $withAttributes): array
+    {
+        return $this->data ? array_keys((array) $this->data) : Common\Dtos\Processing::getProperties($this->getDefaultDto(), $withAttributes, $this->useOneDirectionalVariables);
+    }
+
+    /**
+     * @{inheritDoc}
+     */
+    protected function getDefaultDto(): Common\Dtos\AbstractDto
+    {
+        return new ParametersDto();
     }
 }

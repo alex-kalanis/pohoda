@@ -12,15 +12,10 @@ declare(strict_types=1);
 namespace Riesenia\Pohoda\PrintRequest;
 
 use Riesenia\Pohoda\AbstractAgenda;
-use Riesenia\Pohoda\Common\OptionsResolver;
+use Riesenia\Pohoda\Common;
 
 class Filter extends AbstractAgenda
 {
-    /** @var string[] */
-    protected array $elements = [
-        'id',
-    ];
-
     /**
      * {@inheritdoc}
      */
@@ -28,7 +23,7 @@ class Filter extends AbstractAgenda
     {
         $xml = $this->createXML()->addChild('ftr:filter', '', $this->namespace('ftr'));
 
-        $this->addElements($xml, $this->elements, 'ftr');
+        $this->addElements($xml, $this->getDataElements(), 'ftr');
 
         return $xml;
     }
@@ -36,12 +31,20 @@ class Filter extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    protected function configureOptions(OptionsResolver $resolver): void
+    protected function configureOptions(Common\OptionsResolver $resolver): void
     {
         // available options
-        $resolver->setDefined($this->elements);
+        $resolver->setDefined($this->getDataElements());
 
         // validate / format options
         $resolver->setNormalizer('id', $this->dependenciesFactory->getNormalizerFactory()->getClosure('int'));
+    }
+
+    /**
+     * @{inheritDoc}
+     */
+    protected function getDefaultDto(): Common\Dtos\AbstractDto
+    {
+        return new FilterDto();
     }
 }

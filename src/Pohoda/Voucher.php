@@ -2,6 +2,9 @@
 
 namespace Riesenia\Pohoda;
 
+/**
+ * @property Voucher\VoucherDto $data
+ */
 class Voucher extends AbstractDocument
 {
     public function getImportRoot(): string

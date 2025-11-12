@@ -12,7 +12,7 @@ declare(strict_types=1);
 namespace Riesenia\Pohoda\ListRequest;
 
 use Riesenia\Pohoda\AbstractAgenda;
-use Riesenia\Pohoda\Common\OptionsResolver;
+use Riesenia\Pohoda\Common;
 
 class UserFilterName extends AbstractAgenda
 {
@@ -21,7 +21,7 @@ class UserFilterName extends AbstractAgenda
      */
     public function getXML(): \SimpleXMLElement
     {
-        $filterName = $this->data['userFilterName'] ?? null;
+        $filterName = $this->data->userFilterName ?? null;
         return $this->createXML()->addChild(
             'ftr:userFilterName',
             is_null($filterName) ? null : strval($filterName),
@@ -32,13 +32,21 @@ class UserFilterName extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    protected function configureOptions(OptionsResolver $resolver): void
+    protected function configureOptions(Common\OptionsResolver $resolver): void
     {
         // available options
-        $resolver->setDefined(['userFilterName']);
+        $resolver->setDefined($this->getDataElements());
 
         // validate / format options
         $resolver->setRequired('userFilterName');
         $resolver->setNormalizer('userFilterName', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string100'));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getDefaultDto(): Common\Dtos\AbstractDto
+    {
+        return new UserFilterNameDto();
     }
 }

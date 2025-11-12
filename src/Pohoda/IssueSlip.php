@@ -12,9 +12,7 @@ declare(strict_types=1);
 namespace Riesenia\Pohoda;
 
 /**
- * @property array{
- *     links?: iterable<Type\Link>,
- * } $data
+ * @property IssueSlip\IssueSlipDto $data
  */
 class IssueSlip extends AbstractDocument
 {
@@ -26,37 +24,20 @@ class IssueSlip extends AbstractDocument
     /**
      * Add link.
      *
-     * @param array<string,mixed> $data
+     * @param Type\Dtos\LinkDto $data
      *
      * @return $this
      */
-    public function addLink(array $data): self
+    public function addLink(Type\Dtos\LinkDto $data): self
     {
-        if (!isset($this->data['links'])
-            || !(
-                is_array($this->data['links'])
-                || (is_a($this->data['links'], \ArrayAccess::class))
-            )
-        ) {
-            $this->data['links'] = [];
-        }
-
         $link = new Type\Link($this->dependenciesFactory);
         $link
             ->setDirectionalVariable($this->useOneDirectionalVariables)
             ->setResolveOptions($this->resolveOptions)
             ->setData($data);
-        $this->data['links'][] = $link;
+        $this->data->links[] = $link;
 
         return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getDocumentElements(): array
-    {
-        return \array_merge(parent::getDocumentElements(), ['links']);
     }
 
     /**
@@ -73,5 +54,13 @@ class IssueSlip extends AbstractDocument
     protected function getDocumentName(): string
     {
         return 'vydejka';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getDefaultDto(): Common\Dtos\AbstractDto
+    {
+        return new IssueSlip\IssueSlipDto();
     }
 }

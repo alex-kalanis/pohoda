@@ -131,8 +131,8 @@ class StockTest extends CommonTestClass
         $header = new Pohoda\Stock\HeaderDto();
         $header->code = 'CODE';
         $header->name = 'NAME';
-        $header->isSales = '0';
-        $header->isSerialNumber = 'false';
+        $header->isSales = false;
+        $header->isSerialNumber = false;
         $header->isInternet = true;
         $header->storage = 'STORAGE';
         $header->typePrice = ['id' => 1];
@@ -173,8 +173,8 @@ class StockTest extends CommonTestClass
         $header = new Pohoda\Stock\HeaderDto();
         $header->code = 'CODE';
         $header->name = 'NAME';
-        $header->isSales = '0';
-        $header->isSerialNumber = 'false';
+        $header->isSales = false;
+        $header->isSerialNumber = false;
         $header->isInternet = true;
         $header->storage = 'STORAGE';
         $header->typePrice = ['id' => 1];

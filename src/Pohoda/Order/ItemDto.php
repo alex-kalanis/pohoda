@@ -8,8 +8,6 @@ use Riesenia\Pohoda\Type;
 
 class ItemDto extends AbstractItemDto
 {
-    #[Attributes\ResponseDirection]
-    public ?string $id = null;
     public ?string $text = null;
     public float|string|null $quantity = null;
     public float|string|null $delivered = null;
@@ -34,5 +32,7 @@ class ItemDto extends AbstractItemDto
     #[Attributes\RefElement]
     public ?string $contract = null;
     public bool|string|null $PDP = null;
+    #[Attributes\ResponseDirection]
+    public ?string $id = null;
     public \ArrayAccess|array $parameters = [];
 }

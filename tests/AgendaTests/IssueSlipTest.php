@@ -22,45 +22,52 @@ class IssueSlipTest extends CommonTestClass
 
     public function testAddItems(): void
     {
-        $lib = $this->getLib();
-        $lib->addItem([
-            'text' => 'NAME 1',
-            'quantity' => 1,
-            'rateVAT' => 'high',
-            'homeCurrency' => [
-                'unitPrice' => 200,
-            ],
-        ]);
+        $home1 = new Pohoda\Type\Dtos\CurrencyItemDto();
+        $home1->unitPrice = 200;
 
-        $lib->addItem([
-            'quantity' => 1,
-            'payVAT' => 1,
-            'rateVAT' => 'high',
-            'homeCurrency' => [
-                'unitPrice' => 198,
-            ],
-            'stockItem' => [
-                'stockItem' => [
-                    'ids' => 'STM',
-                ],
-            ],
-        ]);
+        $item1 = new Pohoda\IssueSlip\ItemDto();
+        $item1->text = 'NAME 1';
+        $item1->quantity = 1;
+        $item1->rateVAT = 'high';
+        $item1->homeCurrency = $home1;
+
+        $lib = $this->getLib();
+        $lib->addItem($item1);
+
+        $home2 = new Pohoda\Type\Dtos\CurrencyItemDto();
+        $home2->unitPrice = 198;
+
+        $stock = new Pohoda\Type\Dtos\StockItemDto();
+        $stock->stockItem = [
+            'ids' => 'STM',
+        ];
+
+        $item2 = new Pohoda\IssueSlip\ItemDto();
+        $item2->quantity = 1;
+        $item2->payVAT = true;
+        $item2->rateVAT = 'high';
+        $item2->homeCurrency = $home2;
+        $item2->stockItem = $stock;
+
+        $lib->addItem($item2);
 
         $this->assertEquals('<vyd:vydejka version="2.0"><vyd:vydejkaHeader>' . $this->defaultHeader() . '</vyd:vydejkaHeader><vyd:vydejkaDetail><vyd:vydejkaItem><vyd:text>NAME 1</vyd:text><vyd:quantity>1</vyd:quantity><vyd:rateVAT>high</vyd:rateVAT><vyd:homeCurrency><typ:unitPrice>200</typ:unitPrice></vyd:homeCurrency></vyd:vydejkaItem><vyd:vydejkaItem><vyd:quantity>1</vyd:quantity><vyd:payVAT>true</vyd:payVAT><vyd:rateVAT>high</vyd:rateVAT><vyd:homeCurrency><typ:unitPrice>198</typ:unitPrice></vyd:homeCurrency><vyd:stockItem><typ:stockItem><typ:ids>STM</typ:ids></typ:stockItem></vyd:stockItem></vyd:vydejkaItem></vyd:vydejkaDetail></vyd:vydejka>', $lib->getXML()->asXML());
     }
 
     public function testSetSummary(): void
     {
+        $foreign = new Pohoda\Type\Dtos\CurrencyForeignDto();
+        $foreign->currency = 'EUR';
+        $foreign->rate = '20.232';
+        $foreign->amount = 1;
+        $foreign->priceSum = 580;
+
+        $summary = new Pohoda\IssueSlip\SummaryDto();
+        $summary->roundingDocument = 'math2one';
+        $summary->foreignCurrency = $foreign;
+
         $lib = $this->getLib();
-        $lib->addSummary([
-            'roundingDocument' => 'math2one',
-            'foreignCurrency' => [
-                'currency' => 'EUR',
-                'rate' => '20.232',
-                'amount' => 1,
-                'priceSum' => 580,
-            ],
-        ]);
+        $lib->addSummary($summary);
 
         $this->assertEquals('<vyd:vydejka version="2.0"><vyd:vydejkaHeader>' . $this->defaultHeader() . '</vyd:vydejkaHeader><vyd:vydejkaSummary><vyd:roundingDocument>math2one</vyd:roundingDocument><vyd:foreignCurrency><typ:currency><typ:ids>EUR</typ:ids></typ:currency><typ:rate>20.232</typ:rate><typ:amount>1</typ:amount><typ:priceSum>580</typ:priceSum></vyd:foreignCurrency></vyd:vydejkaSummary></vyd:vydejka>', $lib->getXML()->asXML());
     }
@@ -78,13 +85,14 @@ class IssueSlipTest extends CommonTestClass
 
     public function testLinkOrder(): void
     {
+        $link = new Pohoda\Type\Dtos\LinkDto();
+        $link->sourceAgenda = 'receivedOrder';
+        $link->sourceDocument = [
+            'number' => '142100003',
+        ];
+
         $lib = $this->getLib();
-        $lib->addLink([
-            'sourceAgenda' => 'receivedOrder',
-            'sourceDocument' => [
-                'number' => '142100003',
-            ],
-        ]);
+        $lib->addLink($link);
 
         $this->assertEquals('<vyd:vydejka version="2.0"><vyd:vydejkaHeader>' . $this->defaultHeader() . '</vyd:vydejkaHeader><vyd:links><typ:link><typ:sourceAgenda>receivedOrder</typ:sourceAgenda><typ:sourceDocument><typ:number>142100003</typ:number></typ:sourceDocument></typ:link></vyd:links></vyd:vydejka>', $lib->getXML()->asXML());
     }
@@ -96,18 +104,24 @@ class IssueSlipTest extends CommonTestClass
 
     protected function getLib(): Pohoda\IssueSlip
     {
+        $address = new Pohoda\Type\Dtos\AddressTypeDto();
+        $address->name = 'NAME';
+        $address->ico = '123';
+
+        $partner = new Pohoda\Type\Dtos\AddressDto();
+        $partner->address = $address;
+
+        $header = new Pohoda\IssueSlip\HeaderDto();
+        $header->date = '2015-01-10';
+        $header->dateOrder = '2015-01-04';
+        $header->text = 'Vyd';
+        $header->intNote = 'Note';
+        $header->partnerIdentity = $partner;
+
+        $dto = new Pohoda\IssueSlip\IssueSlipDto();
+        $dto->header = $header;
+
         $lib = new Pohoda\IssueSlip($this->getBasicDi());
-        return $lib->setData([
-            'date' => '2015-01-10',
-            'dateOrder' => '2015-01-04',
-            'text' => 'Vyd',
-            'partnerIdentity' => [
-                'address' => [
-                    'name' => 'NAME',
-                    'ico' => '123',
-                ],
-            ],
-            'intNote' => 'Note',
-        ]);
+        return $lib->setData($dto);
     }
 }

@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\Offer;
 
-use Riesenia\Pohoda\Common\OptionsResolver;
+use Riesenia\Pohoda\Common;
 use Riesenia\Pohoda\Document\AbstractHeader;
 
 class Header extends AbstractHeader
@@ -28,34 +28,10 @@ class Header extends AbstractHeader
         'evidentiaryResourcesMOSS',
     ];
 
-    /** @var string[] */
-    protected array $elements = [
-        'offerType',
-        'number',
-        'date',
-        'validTill',
-        'text',
-        'partnerIdentity',
-        'myIdentity',
-        'priceLevel',
-        'centre',
-        'activity',
-        'contract',
-        'regVATinEU',
-        'MOSS',
-        'evidentiaryResourcesMOSS',
-        'accountingPeriodMOSS',
-        'isExecuted',
-        'details',
-        'note',
-        'intNote',
-        'markRecord',
-    ];
-
     /**
      * {@inheritdoc}
      */
-    protected function configureOptions(OptionsResolver $resolver): void
+    protected function configureOptions(Common\OptionsResolver $resolver): void
     {
         parent::configureOptions($resolver);
 
@@ -67,5 +43,13 @@ class Header extends AbstractHeader
         $resolver->setNormalizer('text', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string240'));
         $resolver->setNormalizer('isExecuted', $this->dependenciesFactory->getNormalizerFactory()->getClosure('bool'));
         $resolver->setNormalizer('markRecord', $this->dependenciesFactory->getNormalizerFactory()->getClosure('bool'));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getDefaultDto(): Common\Dtos\AbstractDto
+    {
+        return new HeaderDto();
     }
 }

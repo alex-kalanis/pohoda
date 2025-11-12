@@ -28,47 +28,18 @@ class Item extends AbstractItem
         'contract',
     ];
 
-    /** @var string[] */
-    protected array $elements = [
-        'text',
-        'quantity',
-        'unit',
-        'coefficient',
-        'payVAT',
-        'rateVAT',
-        'percentVAT',
-        'discountPercentage',
-        'homeCurrency',
-        'foreignCurrency',
-        'typeServiceMOSS',
-        'note',
-        'code',
-        'guarantee',
-        'guaranteeType',
-        'stockItem',
-        'accounting',
-        'classificationVAT',
-        'classificationKVDPH',
-        'centre',
-        'activity',
-        'contract',
-        'expirationDate',
-        'PDP',
-        'recyclingContrib',
-    ];
-
     /**
      * @inheritdoc
      */
-    public function setData(array $data): parent
+    public function setData(?Common\Dtos\AbstractDto $data): parent
     {
-        if (isset($data['recyclingContrib'])) {
+        if (isset($data->recyclingContrib)) {
             $recyclingContrib = new RecyclingContrib($this->dependenciesFactory);
             $recyclingContrib
                 ->setDirectionalVariable($this->useOneDirectionalVariables)
                 ->setResolveOptions($this->resolveOptions)
-                ->setData($data['recyclingContrib']);
-            $data['recyclingContrib'] = $recyclingContrib;
+                ->setData($data->recyclingContrib);
+            $data->recyclingContrib = $recyclingContrib;
         }
 
         return parent::setData($data);
@@ -96,5 +67,13 @@ class Item extends AbstractItem
         $resolver->setAllowedValues('guaranteeType', ['none', 'hour', 'day', 'month', 'year', 'life']);
         $resolver->setNormalizer('expirationDate', $this->dependenciesFactory->getNormalizerFactory()->getClosure('date'));
         $resolver->setNormalizer('PDP', $this->dependenciesFactory->getNormalizerFactory()->getClosure('bool'));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getDefaultDto(): Common\Dtos\AbstractDto
+    {
+        return new ItemDto();
     }
 }

@@ -11,6 +11,9 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda;
 
+/**
+ * @property Receipt\ReceiptDto $data
+ */
 class Receipt extends AbstractDocument
 {
     public function getImportRoot(): string

@@ -11,6 +11,9 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda;
 
+/**
+ * @property Offer\OfferDto $data
+ */
 class Offer extends AbstractDocument
 {
     public function getImportRoot(): string
@@ -32,5 +35,13 @@ class Offer extends AbstractDocument
     protected function getDocumentName(): string
     {
         return 'offer';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getDefaultDto(): Common\Dtos\AbstractDto
+    {
+        return new Offer\OfferDto();
     }
 }

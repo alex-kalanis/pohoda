@@ -17,11 +17,6 @@ use Riesenia\Pohoda\Document\AbstractSummary;
 
 class Summary extends AbstractSummary
 {
-    /** @var string[] */
-    protected array $additionalElements = [
-        'typeCalculateVATInclusivePrice',
-    ];
-
     /**
      * {@inheritdoc}
      */
@@ -37,7 +32,7 @@ class Summary extends AbstractSummary
 
         $xml = $this->createXML()->addChild($this->namespace . ':' . $this->nodePrefix . 'Summary', '', $this->namespace($this->namespace));
 
-        $this->addElements($xml, \array_merge($this->getDataElements(), ($this->useOneDirectionalVariables ? $this->additionalElements : [])), $this->namespace);
+        $this->addElements($xml, $this->getDataElements(), $this->namespace);
 
         return $xml;
     }
@@ -47,7 +42,7 @@ class Summary extends AbstractSummary
      */
     protected function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefined(array_merge($this->getDataElements(), ($this->useOneDirectionalVariables ? $this->additionalElements : [])));
+        $resolver->setDefined($this->getDataElements());
 
         // validate / format options
         $resolver->setAllowedValues('roundingDocument', ['none', 'math2one', 'math2half', 'math2tenth', 'math5cent', 'up2one', 'up2half', 'up2tenth', 'down2one', 'down2half', 'down2tenth']);

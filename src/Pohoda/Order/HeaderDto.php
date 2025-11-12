@@ -8,13 +8,11 @@ use Riesenia\Pohoda\Type;
 
 class HeaderDto extends AbstractHeaderDto
 {
-    #[Attributes\ResponseDirection]
-    public ?int $id = null;
     #[Attributes\RefElement]
     public ?string $extId = null;
     public ?string $orderType = null;
     #[Attributes\RefElement]
-    public ?string $number = null;
+    public array|string|null $number = null;
     public ?string $numberOrder = null;
     public \DateTimeInterface|string|null $date = null;
     public \DateTimeInterface|string|null $dateDelivery = null;
@@ -29,8 +27,6 @@ class HeaderDto extends AbstractHeaderDto
     public ?string $priceLevel = null;
     public bool|string|null $isExecuted = null;
     public bool|string|null $isReserved = null;
-    #[Attributes\ResponseDirection]
-    public bool|string|null $isDelivered = null;
     #[Attributes\RefElement]
     public ?string $centre = null;
     #[Attributes\RefElement]
@@ -50,6 +46,10 @@ class HeaderDto extends AbstractHeaderDto
     public ?string $intNote = null;
     public ?string $markRecord = null;
     public ?string $histRate = null;
+    #[Attributes\ResponseDirection]
+    public ?int $id = null;
+    #[Attributes\ResponseDirection]
+    public bool|string|null $isDelivered = null;
     #[Attributes\ResponseDirection]
     public bool|string|null $permanentDocument = null;
     public \ArrayAccess|array $parameters = [];

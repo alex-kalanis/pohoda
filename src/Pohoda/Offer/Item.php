@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\Offer;
 
-use Riesenia\Pohoda\Common\OptionsResolver;
+use Riesenia\Pohoda\Common;
 use Riesenia\Pohoda\Document\AbstractItem;
 
 class Item extends AbstractItem
@@ -24,32 +24,10 @@ class Item extends AbstractItem
         'contract',
     ];
 
-    /** @var string[] */
-    protected array $elements = [
-        'text',
-        'quantity',
-        'unit',
-        'coefficient',
-        'payVAT',
-        'rateVAT',
-        'percentVAT',
-        'discountPercentage',
-        'homeCurrency',
-        'foreignCurrency',
-        'typeServiceMOSS',
-        'note',
-        'code',
-        'stockItem',
-        'centre',
-        'activity',
-        'contract',
-        'PDP',
-    ];
-
     /**
      * {@inheritdoc}
      */
-    protected function configureOptions(OptionsResolver $resolver): void
+    protected function configureOptions(Common\OptionsResolver $resolver): void
     {
         parent::configureOptions($resolver);
 
@@ -65,5 +43,13 @@ class Item extends AbstractItem
         $resolver->setNormalizer('note', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string90'));
         $resolver->setNormalizer('code', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string64'));
         $resolver->setNormalizer('PDP', $this->dependenciesFactory->getNormalizerFactory()->getClosure('bool'));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getDefaultDto(): Common\Dtos\AbstractDto
+    {
+        return new ItemDto();
     }
 }

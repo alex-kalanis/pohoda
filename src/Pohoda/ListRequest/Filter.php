@@ -12,7 +12,7 @@ declare(strict_types=1);
 namespace Riesenia\Pohoda\ListRequest;
 
 use Riesenia\Pohoda\AbstractAgenda;
-use Riesenia\Pohoda\Common\OptionsResolver;
+use Riesenia\Pohoda\Common;
 
 class Filter extends AbstractAgenda
 {
@@ -26,27 +26,6 @@ class Filter extends AbstractAgenda
         'selectedIco',
     ];
 
-    /** @var string[] */
-    protected array $elements = [
-        'id',
-        'extId',
-        'code',
-        'EAN',
-        'name',
-        'storage',
-        'store',
-        'internet',
-        'company',
-        'ico',
-        'dic',
-        'lastChanges',
-        'dateFrom',
-        'dateTill',
-        'selectedNumbers',
-        'selectedCompanys',
-        'selectedIco',
-    ];
-
     /**
      * {@inheritdoc}
      */
@@ -54,7 +33,7 @@ class Filter extends AbstractAgenda
     {
         $xml = $this->createXML()->addChild('ftr:filter', '', $this->namespace('ftr'));
 
-        $this->addElements($xml, $this->elements, 'ftr');
+        $this->addElements($xml, $this->getDataElements(), 'ftr');
 
         return $xml;
     }
@@ -62,10 +41,10 @@ class Filter extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    protected function configureOptions(OptionsResolver $resolver): void
+    protected function configureOptions(Common\OptionsResolver $resolver): void
     {
         // available options
-        $resolver->setDefined($this->elements);
+        $resolver->setDefined($this->getDataElements());
 
         // validate / format options
         $resolver->setNormalizer('id', $this->dependenciesFactory->getNormalizerFactory()->getClosure('int'));
@@ -73,5 +52,13 @@ class Filter extends AbstractAgenda
         $resolver->setNormalizer('lastChanges', $this->dependenciesFactory->getNormalizerFactory()->getClosure('datetime'));
         $resolver->setNormalizer('dateFrom', $this->dependenciesFactory->getNormalizerFactory()->getClosure('date'));
         $resolver->setNormalizer('dateTill', $this->dependenciesFactory->getNormalizerFactory()->getClosure('date'));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getDefaultDto(): Common\Dtos\AbstractDto
+    {
+        return new FilterDto();
     }
 }

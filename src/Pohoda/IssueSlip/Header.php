@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\IssueSlip;
 
-use Riesenia\Pohoda\Common\OptionsResolver;
+use Riesenia\Pohoda\Common;
 use Riesenia\Pohoda\Document\AbstractHeader;
 
 class Header extends AbstractHeader
@@ -30,37 +30,10 @@ class Header extends AbstractHeader
         'evidentiaryResourcesMOSS',
     ];
 
-    /** @var string[] */
-    protected array $elements = [
-        'number',
-        'date',
-        'numberOrder',
-        'dateOrder',
-        'text',
-        'partnerIdentity',
-        'acc',
-        'symPar',
-        'priceLevel',
-        'paymentType',
-        'isExecuted',
-        'isDelivered',
-        'centre',
-        'activity',
-        'contract',
-        'carrier',
-        'regVATinEU',
-        'MOSS',
-        'evidentiaryResourcesMOSS',
-        'accountingPeriodMOSS',
-        'note',
-        'intNote',
-        'histRate',
-    ];
-
     /**
      * {@inheritdoc}
      */
-    protected function configureOptions(OptionsResolver $resolver): void
+    protected function configureOptions(Common\OptionsResolver $resolver): void
     {
         parent::configureOptions($resolver);
 
@@ -74,5 +47,13 @@ class Header extends AbstractHeader
         $resolver->setNormalizer('isExecuted', $this->dependenciesFactory->getNormalizerFactory()->getClosure('bool'));
         $resolver->setNormalizer('isDelivered', $this->dependenciesFactory->getNormalizerFactory()->getClosure('bool'));
         $resolver->setNormalizer('histRate', $this->dependenciesFactory->getNormalizerFactory()->getClosure('bool'));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getDefaultDto(): Common\Dtos\AbstractDto
+    {
+        return new HeaderDto();
     }
 }
