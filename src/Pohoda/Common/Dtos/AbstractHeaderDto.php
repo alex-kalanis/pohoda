@@ -15,5 +15,5 @@ abstract class AbstractHeaderDto extends AbstractDto
     #[Common\Attributes\OnlyInternal]
     public Type\Dtos\MyAddressDto|Type\MyAddress|null $myIdentity = null;
     #[Common\Attributes\OnlyInternal]
-    public \ArrayAccess|array $parameters = [];
+    public array $parameters = [];
 }

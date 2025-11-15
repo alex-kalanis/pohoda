@@ -15,7 +15,9 @@ use Riesenia\Pohoda\Common;
 use Riesenia\Pohoda\Type;
 
 /**
- * @property Common\Dtos\AbstractDto $data
+ * @property object{
+ *     parameters: array
+ * } $data
  */
 trait AddParameterTrait
 {

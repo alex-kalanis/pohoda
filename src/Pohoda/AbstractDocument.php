@@ -74,7 +74,11 @@ abstract class AbstractDocument extends AbstractAgenda
         );
         $xml->addAttribute('version', '2.0');
 
-        $this->addElements($xml, $this->getDataElements(), $this->getDocumentNamespace());
+        $this->addElements(
+            $xml,
+            $this->getDataElements(),
+            $this->getDocumentNamespace(),
+        );
 
         return $xml;
     }

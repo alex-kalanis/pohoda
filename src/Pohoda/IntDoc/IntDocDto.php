@@ -9,7 +9,7 @@ class IntDocDto extends Dtos\AbstractDto
 {
     public Type\TaxDocument|Type\Dtos\TaxDocumentDto|null $taxDocument = null;
     public Header|HeaderDto|null $header = null;
-    /** @var \ArrayAccess<Item|ItemDto>|array<Item|ItemDto> */
-    public \ArrayAccess|array $details = [];
+    /** @var array<Item|ItemDto> */
+    public array $details = [];
     public Summary|SummaryDto|null $summary = null;
 }

@@ -22,16 +22,6 @@ class Header extends AbstractAgenda
 {
     use Common\AddParameterTrait;
 
-    /** @var string[] */
-    protected array $refElements = [
-        'number',
-        'store',
-        'centreSource',
-        'centreDestination',
-        'activity',
-        'contract',
-    ];
-
     /**
      * {@inheritdoc}
      */

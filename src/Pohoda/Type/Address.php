@@ -22,11 +22,6 @@ class Address extends AbstractAgenda
 {
     use Common\SetNamespaceTrait;
 
-    /** @var string[] */
-    protected array $refElements = [
-        'extId',
-    ];
-
     /**
      * {@inheritdoc}
      */

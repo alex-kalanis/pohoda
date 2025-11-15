@@ -2,6 +2,7 @@
 
 namespace Riesenia\Pohoda\Type\Dtos;
 
+use Riesenia\Pohoda\Common\Attributes;
 use Riesenia\Pohoda\Common\Dtos\AbstractDto;
 
 class AddressTypeDto extends AbstractDto
@@ -16,7 +17,8 @@ class AddressTypeDto extends AbstractDto
     public ?string $dic = null;
     public ?string $VATPayerType = null;
     public ?string $icDph = null;
-    public ?string $country = null;
+    #[Attributes\RefElement]
+    public array|string|null $country = null;
     public ?string $phone = null;
     public ?string $mobilPhone = null;
     public ?string $fax = null;

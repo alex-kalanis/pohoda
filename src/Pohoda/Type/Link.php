@@ -16,12 +16,6 @@ use Riesenia\Pohoda\Common;
 
 class Link extends AbstractAgenda
 {
-    /** @var string[] */
-    protected array $refElements = [
-        'sourceDocument',
-        'settingsSourceDocument',
-    ];
-
     /**
      * {@inheritdoc}
      */

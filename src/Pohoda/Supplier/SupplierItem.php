@@ -19,13 +19,6 @@ use Riesenia\Pohoda\Common;
  */
 class SupplierItem extends AbstractAgenda
 {
-    /** @var string[] */
-    protected array $refElements = [
-        'refAd',
-        'currency',
-        'deliveryPeriod',
-    ];
-
     /**
      * {@inheritdoc}
      */

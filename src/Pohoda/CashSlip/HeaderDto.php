@@ -18,6 +18,7 @@ class HeaderDto extends AbstractHeaderDto
     public Type\Dtos\AddressDto|Type\Address|null $partnerIdentity = null;
     #[Attributes\RefElement]
     public ?string $paymentType = null;
+    #[Attributes\RefElement]
     public ?string $priceLevel = null;
     #[Attributes\RefElement]
     public ?string $centre = null;
@@ -29,5 +30,5 @@ class HeaderDto extends AbstractHeaderDto
     public ?string $kasa = null;
     public ?string $note = null;
     public ?string $intNote = null;
-    public \ArrayAccess|array $parameters = [];
+    public array $parameters = [];
 }

@@ -17,5 +17,5 @@ abstract class AbstractItemDto extends AbstractDto
     #[Common\Attributes\OnlyInternal]
     public Type\Dtos\StockItemDto|Type\StockItem|null $stockItem = null;
     #[Common\Attributes\OnlyInternal]
-    public \ArrayAccess|array $parameters = [];
+    public array $parameters = [];
 }

@@ -16,12 +16,6 @@ use Riesenia\Pohoda\Common;
 
 class StockItem extends AbstractAgenda
 {
-    /** @var string[] */
-    protected array $refElements = [
-        'stockInfo',
-        'storage',
-    ];
-
     /**
      * {@inheritdoc}
      */

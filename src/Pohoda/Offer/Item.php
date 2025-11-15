@@ -16,14 +16,6 @@ use Riesenia\Pohoda\Document\AbstractItem;
 
 class Item extends AbstractItem
 {
-    /** @var string[] */
-    protected array $refElements = [
-        'typeServiceMOSS',
-        'centre',
-        'activity',
-        'contract',
-    ];
-
     /**
      * {@inheritdoc}
      */

@@ -12,7 +12,7 @@ class ItemDto extends AbstractItemDto
     public float|string|null $quantity = null;
     public ?string $unit = null;
     public float|string|null $coefficient = null;
-    public string|bool|null $payVAT = null;
+    public bool|string|null $payVAT = null;
     public ?string $rateVAT = null;
     public float|string|null $percentVAT = null;
     public float|string|null $discountPercentage = null;
@@ -29,5 +29,5 @@ class ItemDto extends AbstractItemDto
     public ?string $activity = null;
     #[Attributes\RefElement]
     public ?string $contract = null;
-    public string|bool|null $PDP = null;
+    public bool|string|null $PDP = null;
 }

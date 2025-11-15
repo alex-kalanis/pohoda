@@ -97,12 +97,12 @@ class HeaderDto extends Dtos\AbstractHeaderDto
     public ?string $service = null;
 
     // contains extra elements
-    /** @var \ArrayAccess<Category|CategoryDto>|array<Category|CategoryDto> */
-    public \ArrayAccess|array $categories = [];
-    /** @var \ArrayAccess<Picture|PictureDto>|array<Picture|PictureDto> */
-    public \ArrayAccess|array $pictures = [];
-    /** @var \ArrayAccess<Type\Parameter|Type\Dtos\ParameterDto>|array<Type\Parameter|Type\Dtos\ParameterDto> */
-    public \ArrayAccess|array $parameters = [];
-    /** @var \ArrayAccess<IntParameter|IntParameterDto>|array<IntParameter|IntParameterDto> */
-    public \ArrayAccess|array $intParameters = [];
+    /** @var array<Category|CategoryDto> */
+    public array $categories = [];
+    /** @var array<Picture|PictureDto> */
+    public array $pictures = [];
+    /** @var array<Type\Parameter|Type\Dtos\ParameterDto> */
+    public array $parameters = [];
+    /** @var array<IntParameter|IntParameterDto> */
+    public array $intParameters = [];
 }

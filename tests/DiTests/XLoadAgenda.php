@@ -12,6 +12,11 @@ class XAgenda extends AbstractAgenda
     }
 
     protected function configureOptions(Common\OptionsResolver $resolver): void {}
+
+    protected function getDefaultDto(): Common\Dtos\AbstractDto
+    {
+        return new Common\Dtos\EmptyDto();
+    }
 }
 
 namespace tests\DiTests;

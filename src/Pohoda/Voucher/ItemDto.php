@@ -41,5 +41,5 @@ class ItemDto extends AbstractItemDto
     #[Attributes\RefElement]
     public ?string $contract = null;
     public ?string $EETItem = null;
-    public \ArrayAccess|array $parameters = [];
+    public array $parameters = [];
 }

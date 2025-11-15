@@ -9,10 +9,10 @@ use Riesenia\Pohoda\Common\Dtos\AbstractDto;
 #[AllowDynamicProperties]
 class ListRequestDto extends AbstractDto
 {
-    public ?string $type = null;//
-    public ?string $namespace = null;//
-    public ?string $orderType = null;//
-    public ?string $invoiceType = null;//
+    public ?string $type = null;
+    public ?string $namespace = null;
+    public ?string $orderType = null;
+    public ?string $invoiceType = null;
     #[Attributes\JustAttribute]
     public Limit|LimitDto|null $limit = null;
     #[Attributes\JustAttribute]

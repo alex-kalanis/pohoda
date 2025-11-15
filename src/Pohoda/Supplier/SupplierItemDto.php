@@ -9,10 +9,10 @@ class SupplierItemDto extends AbstractItemDto
 {
     public bool|string|null $default = null;
     #[Attributes\RefElement]
-    public string|array|null $refAd = null;
+    public array|string|null $refAd = null;
     public ?string $orderCode = null;
     public ?string $orderName = null;
-    public int|string|null $purchasingPrice = null;
+    public float|string|null $purchasingPrice = null;
     #[Attributes\RefElement]
     public ?string $currency = null;
     public float|string|null $rate = null;

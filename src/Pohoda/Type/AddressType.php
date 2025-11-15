@@ -19,11 +19,6 @@ use Riesenia\Pohoda\Common;
  */
 class AddressType extends AbstractAgenda
 {
-    /** @var string[] */
-    protected array $refElements = [
-        'country',
-    ];
-
     /**
      * {@inheritdoc}
      */

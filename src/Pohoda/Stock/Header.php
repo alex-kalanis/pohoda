@@ -22,44 +22,6 @@ class Header extends AbstractAgenda
 {
     use Common\AddParameterTrait;
 
-    /** @var string[] */
-    protected array $refElements = [
-        'storage',
-        'typePrice',
-        'typeRP',
-        'supplier',
-        'typeServiceMOSS',
-    ];
-
-    /** @var string[] */
-    protected array $additionalElements = [
-        'id',
-        'weightedPurchasePrice',
-        'count',
-        'countIssue',
-        'countReceivedOrders',
-        'reservation',
-        'countIssuedOrders',
-        'clearanceSale',
-        'controlLimitTaxLiability',
-        'discount',
-        'fixation',
-        'markRecord',
-        'news',
-        'prepare',
-        'recommended',
-        'sale',
-        'reclamation',
-        'service',
-    ];
-
-    protected array $extraGroups = [
-        'categories',
-        'pictures',
-        'parameters',
-        'intParameters',
-    ];
-
     protected int $imagesCounter = 0;
 
     /**
@@ -177,14 +139,7 @@ class Header extends AbstractAgenda
     {
         $xml = $this->createXML()->addChild('stk:stockHeader', '', $this->namespace('stk'));
 
-        $this->addElements($xml,
-            $this->useOneDirectionalVariables
-                ? $this->getAllDataProperties(false)
-                : \array_diff(
-                    $this->getAllDataProperties(false),
-                    $this->additionalElements,
-                )
-        , 'stk');
+        $this->addElements($xml, $this->getDataElements(), 'stk');
 
         return $xml;
     }
@@ -256,16 +211,5 @@ class Header extends AbstractAgenda
     protected function getDefaultDto(): Common\Dtos\AbstractDto
     {
         return new HeaderDto();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function skipElements(): array
-    {
-        return array_merge(
-            $this->extraGroups,
-            $this->useOneDirectionalVariables ? [] : $this->additionalElements,
-        );
     }
 }

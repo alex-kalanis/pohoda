@@ -101,12 +101,4 @@ class UserList extends AbstractAgenda
     {
         return new UserList\UserListDto();
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function skipElements(): array
-    {
-        return ['itemUserCodes'];
-    }
 }

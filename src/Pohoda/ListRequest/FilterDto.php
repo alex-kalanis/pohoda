@@ -15,6 +15,7 @@ class FilterDto extends AbstractDto
     public ?string $name = null;
     #[Attributes\RefElement]
     public array|string|null $storage = null;
+    #[Attributes\RefElement]
     public ?string $store = null;
     public bool|string|null $internet = null;
     public ?string $company = null;

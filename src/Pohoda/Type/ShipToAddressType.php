@@ -16,11 +16,6 @@ use Riesenia\Pohoda\Common;
 
 class ShipToAddressType extends AbstractAgenda
 {
-    /** @var string[] */
-    protected array $refElements = [
-        'country',
-    ];
-
     /**
      * {@inheritdoc}
      */

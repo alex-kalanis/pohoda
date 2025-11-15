@@ -30,12 +30,6 @@ abstract class AbstractAgenda
     /** @var Common\Dtos\AbstractDto|null */
     protected ?Common\Dtos\AbstractDto $data = null;
 
-    /** @var string[] */
-    protected array $refElements = [];
-
-    /** @var string[] */
-    protected array $directionalRefElements = [];
-
     /** @var array<string, Common\ElementAttributes> */
     protected array $elementsAttributesMapper = [];
 
@@ -150,20 +144,18 @@ abstract class AbstractAgenda
      */
     protected function addElements(SimpleXMLElement $xml, array $elements, ?string $namespace = null): void
     {
+        $refElements = Common\Dtos\Processing::getRefAttributes($this->data, $this->useOneDirectionalVariables);
         foreach ($elements as $element) {
             $nodeKey = $this->getNodeKey($element);
 
             if (!isset($this->data->{$element})) {
                 continue;
             }
+            $subElement = $this->data->{$element};
 
             // ref element
-            if (\in_array($nodeKey, $this->refElements)) {
-                $this->addRefElement($xml, ($namespace ? $namespace . ':' : '') . $nodeKey, $this->data->{$element}, $namespace);
-                continue;
-            }
-            if ($this->useOneDirectionalVariables && \in_array($nodeKey, $this->directionalRefElements)) {
-                $this->addRefElement($xml, ($namespace ? $namespace . ':' : '') . $nodeKey, $this->data->{$element}, $namespace);
+            if (\in_array($nodeKey, $refElements)) {
+                $this->addRefElement($xml, ($namespace ? $namespace . ':' : '') . $nodeKey, $subElement, $namespace);
                 continue;
             }
 
@@ -174,7 +166,7 @@ abstract class AbstractAgenda
                 // get element
                 $attrElement = $namespace ? $xml->children($namespace, true)->{$attrs->attrElement} : $xml->{$attrs->attrElement};
 
-                $sanitized = $this->sanitize($this->data->{$element});
+                $sanitized = $this->sanitize($subElement);
                 $attrs->attrNamespace ? $attrElement->addAttribute(
                     $attrs->attrNamespace . ':' . $attrs->attrName,
                     $sanitized,
@@ -186,39 +178,52 @@ abstract class AbstractAgenda
             }
 
             // Agenda object
-            if ($this->data->{$element} instanceof self) {
+            if ($subElement instanceof self) {
                 // set namespace
-                if ($namespace && \method_exists($this->data->{$element}, 'setNamespace')) {
-                    $this->data->{$element}->setNamespace($namespace);
+                if ($namespace && \method_exists($subElement, 'setNamespace')) {
+                    $subElement->setNamespace($namespace);
                 }
 
                 // set node name
-                if (\method_exists($this->data->{$element}, 'setNodeName')) {
-                    $this->data->{$element}->setNodeName($nodeKey);
+                if (\method_exists($subElement, 'setNodeName')) {
+                    $subElement->setNodeName($nodeKey);
                 }
 
-                $this->appendNode($xml, $this->data->{$element}->getXML());
+                $this->appendNode(
+                    $xml,
+                    $subElement->getXML(),
+                );
 
                 continue;
             }
 
             // array of Agenda objects
-            if (\is_array($this->data->{$element})) {
-                if (empty($this->data->{$element})) {
+            if (\is_array($subElement)) {
+                if (empty($subElement)) {
                     continue;
                 }
 
                 $child = $namespace ? $xml->addChild($namespace . ':' . $nodeKey, '', $this->namespace($namespace)) : $xml->addChild($nodeKey);
 
-                foreach ($this->data->{$element} as $node) {
-                    $this->appendNode($child, $node->getXML());
+                foreach ($subElement as $node) {
+                    if (is_a($node, self::class)) {
+                        $this->appendNode(
+                            $child,
+                            $node->getXML(),
+                        );
+                    }
                 }
 
                 continue;
             }
 
-            $sanitized = $this->sanitize($this->data->{$element});
-            $namespace ? $xml->addChild($namespace . ':' . $nodeKey, $sanitized, $this->namespace($namespace)) : $xml->addChild($nodeKey, $sanitized);
+            $sanitized = $this->sanitize($subElement);
+            $namespace ? $xml->addChild(
+                    $namespace . ':' . $nodeKey,
+                    $sanitized,
+                    $this->namespace($namespace)
+                )
+                : $xml->addChild($nodeKey, $sanitized);
         }
     }
 
@@ -360,19 +365,11 @@ abstract class AbstractAgenda
      */
     protected function getDataElements(bool $withAttributes = false): array
     {
-        return array_diff($this->getAllDataProperties($withAttributes), $this->skipElements());
-    }
-
-    /**
-     * Get inner properties of Dtos - All
-     *
-     * @param bool $withAttributes
-     *
-     * @return string[]
-     */
-    protected function getAllDataProperties(bool $withAttributes): array
-    {
-        return Common\Dtos\Processing::getProperties($this->data ?: $this->getDefaultDto(), $withAttributes, $this->useOneDirectionalVariables);
+        return Common\Dtos\Processing::getProperties(
+            $this->data ?: $this->getDefaultDto(),
+            $withAttributes,
+            $this->useOneDirectionalVariables,
+        );
     }
 
     /**
@@ -392,19 +389,5 @@ abstract class AbstractAgenda
      *
      * @return Common\Dtos\AbstractDto
      */
-    // abstract protected function getDefaultDto(): Common\Dtos\AbstractDto;
-    protected function getDefaultDto(): Common\Dtos\AbstractDto
-    {
-        return new Common\Dtos\AgendaDto();
-    }
-
-    /**
-     * Skip defined data elements - not need to use everything
-     *
-     * @return string[]
-     */
-    protected function skipElements(): array
-    {
-        return [];
-    }
+    abstract protected function getDefaultDto(): Common\Dtos\AbstractDto;
 }

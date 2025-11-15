@@ -16,11 +16,6 @@ use Riesenia\Pohoda\Common;
 
 class Settings extends AbstractAgenda
 {
-    /** @var string[] */
-    protected array $refElements = [
-        'currency',
-    ];
-
     /**
      * {@inheritdoc}
      */

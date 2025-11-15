@@ -67,7 +67,7 @@ class StockTransfer extends AbstractAgenda
         $xml = $this->createXML()->addChild('pre:prevodka', '', $this->namespace('pre'));
         $xml->addAttribute('version', '2.0');
 
-        $this->addElements($xml, ['header', 'prevodkaDetail'], 'pre');
+        $this->addElements($xml, $this->getDataElements(), 'pre');
 
         return $xml;
     }
@@ -87,13 +87,5 @@ class StockTransfer extends AbstractAgenda
     protected function getDefaultDto(): Common\Dtos\AbstractDto
     {
         return new StockTransfer\StockTransferDto();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function skipElements(): array
-    {
-        return ['prevodkaDetail'];
     }
 }

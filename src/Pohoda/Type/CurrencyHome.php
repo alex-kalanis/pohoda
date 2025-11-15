@@ -19,11 +19,6 @@ class CurrencyHome extends AbstractAgenda
 {
     use Common\SetNamespaceTrait;
 
-    /** @var string[] */
-    protected array $refElements = [
-        'round',
-    ];
-
     public function __construct(
         DependenciesFactory $dependenciesFactory,
     ) {

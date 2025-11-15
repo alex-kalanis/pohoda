@@ -31,10 +31,10 @@ class HeaderDto extends AbstractHeaderDto
     #[Attributes\RefElement]
     public ?string $evidentiaryResourcesMOSS = null;
     public ?string $accountingPeriodMOSS = null;
-    public ?string $isExecuted = null;
+    public bool|string|null $isExecuted = null;
     public ?string $details = null;
     public ?string $note = null;
     public ?string $intNote = null;
-    public ?string $markRecord = null;
-    public \ArrayAccess|array $parameters = [];
+    public bool|string|null $markRecord = null;
+    public array $parameters = [];
 }

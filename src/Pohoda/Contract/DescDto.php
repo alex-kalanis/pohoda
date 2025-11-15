@@ -20,5 +20,5 @@ class DescDto extends AbstractHeaderDto
     #[Attributes\RefElement]
     public array|string|null $responsiblePerson = null;
     public ?string $note = null;
-    public \ArrayAccess|array $parameters = [];
+    public array $parameters = [];
 }

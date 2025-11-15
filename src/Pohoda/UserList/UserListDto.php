@@ -2,6 +2,7 @@
 
 namespace Riesenia\Pohoda\UserList;
 
+use Riesenia\Pohoda\Common\Attributes;
 use Riesenia\Pohoda\Common\Dtos\AbstractItemDto;
 
 class UserListDto extends AbstractItemDto
@@ -12,6 +13,7 @@ class UserListDto extends AbstractItemDto
     public \DateTimeInterface|string|null $dateTimeStamp = null;
     public \DateTimeInterface|string|null $dateValidFrom = null;
     public ?string $submenu = null;
-    /** @var \ArrayAccess<ItemUserCode>|array<ItemUserCode> */
-    public \ArrayAccess|array $itemUserCodes = [];
+    /** @var array<ItemUserCode> */
+    #[Attributes\JustAttribute]
+    public array $itemUserCodes = [];
 }

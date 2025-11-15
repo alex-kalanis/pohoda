@@ -15,17 +15,6 @@ use Riesenia\Pohoda\Common;
 
 class AdvancePaymentItem extends Item
 {
-    /** @var string[] */
-    protected array $refElements = [
-        'sourceDocument',
-        'accounting',
-        'classificationVAT',
-        'classificationKVDPH',
-        'centre',
-        'activity',
-        'contract',
-    ];
-
     /**
      * {@inheritdoc}
      */

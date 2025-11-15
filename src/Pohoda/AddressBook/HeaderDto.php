@@ -62,5 +62,5 @@ class HeaderDto extends AbstractHeaderDto
     #[Attributes\RefElement]
     public ?string $contract = null;
     public ?string $adGroup = null;
-    public \ArrayAccess|array $parameters = [];
+    public array $parameters = [];
 }

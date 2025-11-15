@@ -19,23 +19,6 @@ class Header extends AbstractAgenda
 {
     use Common\AddParameterTrait;
 
-    /** @var string[] */
-    protected array $refElements = [
-        'paymentType',
-        'centre',
-        'activity',
-        'contract',
-        'number',
-        'accountingReceivedInvoice',
-        'accountingIssuedInvoice',
-        'classificationVATReceivedInvoice',
-        'classificationVATIssuedInvoice',
-        'classificationKVDPHReceivedInvoice',
-        'classificationKVDPHIssuedInvoice',
-        'accountForInvoicing',
-        'foreignCurrency',
-    ];
-
     /**
      * {@inheritdoc}
      */

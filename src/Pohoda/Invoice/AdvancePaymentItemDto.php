@@ -11,7 +11,7 @@ class AdvancePaymentItemDto extends AbstractDto
     #[Attributes\RefElement]
     public array|string|null $sourceDocument = null;
     public float|string|null $quantity = null;
-    public string|bool|null $payVAT = null;
+    public bool|string|null $payVAT = null;
     public ?string $rateVAT = null;
     public float|string|null $discountPercentage = null;
     public Type\Dtos\CurrencyItemDto|Type\CurrencyItem|null $homeCurrency = null;
@@ -30,5 +30,5 @@ class AdvancePaymentItemDto extends AbstractDto
     #[Attributes\RefElement]
     public ?string $contract = null;
     public ?string $symPar = null;
-    public \ArrayAccess|array $parameters = [];
+    public array $parameters = [];
 }

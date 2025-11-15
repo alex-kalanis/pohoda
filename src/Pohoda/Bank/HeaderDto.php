@@ -42,5 +42,5 @@ class HeaderDto extends AbstractHeaderDto
     public ?string $accountingPeriodMOSS = null;
     public ?string $note = null;
     public ?string $intNote = null;
-    public \ArrayAccess|array $parameters = [];
+    public array $parameters = [];
 }

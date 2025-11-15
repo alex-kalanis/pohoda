@@ -19,12 +19,6 @@ class StockItem extends AbstractAgenda
 {
     use Common\SetNamespaceTrait;
 
-    /** @var string[] */
-    protected array $refElements = [
-        'store',
-        'stockItem',
-    ];
-
     public function __construct(
         DependenciesFactory $dependenciesFactory,
     ) {

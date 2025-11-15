@@ -12,4 +12,9 @@ class XDocPartNotInit extends Pohoda\Document\AbstractPart
     }
 
     protected function configureOptions(Pohoda\Common\OptionsResolver $resolver): void {}
+
+    protected function getDefaultDto(): Pohoda\Common\Dtos\AbstractDto
+    {
+        return new Pohoda\Common\Dtos\EmptyDto();
+    }
 }

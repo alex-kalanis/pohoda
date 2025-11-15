@@ -19,12 +19,6 @@ class Desc extends AbstractAgenda
 {
     use Common\AddParameterTrait;
 
-    /** @var string[] */
-    protected array $refElements = [
-        'number',
-        'responsiblePerson',
-    ];
-
     /**
      * {@inheritdoc}
      */

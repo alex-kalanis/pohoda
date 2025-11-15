@@ -17,17 +17,6 @@ use Riesenia\Pohoda\Type\RecyclingContrib;
 
 class Item extends AbstractItem
 {
-    /** @var string[] */
-    protected array $refElements = [
-        'typeServiceMOSS',
-        'accounting',
-        'classificationVAT',
-        'classificationKVDPH',
-        'centre',
-        'activity',
-        'contract',
-    ];
-
     /**
      * @inheritdoc
      */

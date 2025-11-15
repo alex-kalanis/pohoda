@@ -8,11 +8,11 @@ use Riesenia\Pohoda\Type;
 class InvoiceDto extends Dtos\AbstractDto
 {
     public Header|HeaderDto|null $header = null;
-    /** @var \ArrayAccess<Item|ItemDto>|array<Item|ItemDto> */
-    public \ArrayAccess|array $details = [];
-    /** @var \ArrayAccess<Type\Link|Type\Dtos\LinkDto>|array<Type\Link|Type\Dtos\LinkDto> */
-    public \ArrayAccess|array $links = [];
-    /** @var \ArrayAccess<AdvancePaymentItem|AdvancePaymentItemDto>|array<AdvancePaymentItem|AdvancePaymentItemDto> */
-    public \ArrayAccess|array $invoiceDetail = [];
+    /** @var array<Item|ItemDto> */
+    public array $details = [];
+    /** @var array<Type\Link|Type\Dtos\LinkDto> */
+    public array $links = [];
+    /** @var array<AdvancePaymentItem|AdvancePaymentItemDto> */
+    public array $invoiceDetail = [];
     public Summary|SummaryDto|null $summary = null;
 }

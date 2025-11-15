@@ -44,13 +44,13 @@ class HeaderDto extends AbstractHeaderDto
     #[Attributes\RefElement]
     public ?string $carrier = null;
     public ?string $intNote = null;
-    public ?string $markRecord = null;
-    public ?string $histRate = null;
+    public bool|string|null $markRecord = null;
+    public bool|string|null $histRate = null;
     #[Attributes\ResponseDirection]
     public ?int $id = null;
     #[Attributes\ResponseDirection]
     public bool|string|null $isDelivered = null;
     #[Attributes\ResponseDirection]
     public bool|string|null $permanentDocument = null;
-    public \ArrayAccess|array $parameters = [];
+    public array $parameters = [];
 }

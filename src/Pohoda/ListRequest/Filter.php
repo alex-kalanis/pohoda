@@ -16,16 +16,6 @@ use Riesenia\Pohoda\Common;
 
 class Filter extends AbstractAgenda
 {
-    /** @var string[] */
-    protected array $refElements = [
-        'extId',
-        'storage',
-        'store',
-        'selectedNumbers',
-        'selectedCompanys',
-        'selectedIco',
-    ];
-
     /**
      * {@inheritdoc}
      */

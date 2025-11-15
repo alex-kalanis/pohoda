@@ -26,20 +26,20 @@ class Parameters extends AbstractAgenda
 
         foreach ($parameterInstances->getKeys() as $key) {
             // add instance to data
-            if (isset($data->$key)) {
-                $data->$key = $parameterFactory
+            if (isset($data->{$key})) {
+                $data->{$key} = $parameterFactory
                     ->getByClassName($parameterInstances->getByKey($key))
                     ->setDirectionalVariable($this->useOneDirectionalVariables)
                     ->setResolveOptions($this->resolveOptions)
-                    ->setData($data->$key);
+                    ->setData($data->{$key});
             }
         }
 
         // skip undefined - that which stays as AbstractDto class
         $dataKeys = array_keys((array) $data);
         foreach ($dataKeys as $dataKey) {
-            if (is_a($data->$dataKey, Common\Dtos\AbstractDto::class)) {
-                unset($data->$dataKey);
+            if (is_a($data->{$dataKey}, Common\Dtos\AbstractDto::class)) {
+                unset($data->{$dataKey});
             }
         }
 
@@ -54,7 +54,7 @@ class Parameters extends AbstractAgenda
     {
         $xml = $this->createXML()->addChild('prn:parameters', '', $this->namespace('prn'));
 
-        $this->addElements($xml, $this->getAllDataProperties(false), 'prn');
+        $this->addElements($xml, $this->getDataElements(), 'prn');
 
         return $xml;
     }
@@ -65,15 +65,21 @@ class Parameters extends AbstractAgenda
     protected function configureOptions(Common\OptionsResolver $resolver): void
     {
         // available options
-        $resolver->setDefined($this->getAllDataProperties(true));
+        $resolver->setDefined($this->getDataElements(true));
 
         $resolver->setNormalizer('copy', $this->dependenciesFactory->getNormalizerFactory()->getClosure('int'));
         $resolver->setNormalizer('datePrint', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string'));
     }
 
-    protected function getAllDataProperties(bool $withAttributes): array
+    protected function getDataElements(bool $withAttributes = false): array
     {
-        return $this->data ? array_keys((array) $this->data) : Common\Dtos\Processing::getProperties($this->getDefaultDto(), $withAttributes, $this->useOneDirectionalVariables);
+        return $this->data
+            ? array_keys((array) $this->data)
+            : Common\Dtos\Processing::getProperties(
+                $this->getDefaultDto(),
+                $withAttributes,
+                $this->useOneDirectionalVariables,
+            );
     }
 
     /**

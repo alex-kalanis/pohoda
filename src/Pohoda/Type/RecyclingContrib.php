@@ -18,11 +18,6 @@ class RecyclingContrib extends AbstractAgenda
 {
     use Common\SetNamespaceTrait;
 
-    /** @var string[] */
-    protected array $refElements = [
-        'recyclingContribType',
-    ];
-
     /**
      * {@inheritdoc}
      */

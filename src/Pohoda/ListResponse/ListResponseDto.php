@@ -25,10 +25,10 @@ class ListResponseDto extends AbstractDto
     public ListRequest\RestrictionData|ListRequest\RestrictionDataDto|null $restrictionData = null;
     #[Attributes\JustAttribute]
     public ListRequest\UserFilterName|ListRequest\UserFilterNameDto|null $userFilterName = null;
-    /** @var \ArrayAccess<Order>|array<Order> */
-    public \ArrayAccess|array $order = [];
-    /** @var \ArrayAccess<Stock>|array<Stock> */
-    public \ArrayAccess|array $stock = [];
+    /** @var array<Order> */
+    public array $order = [];
+    /** @var array<Stock> */
+    public array $stock = [];
     public \DateTimeInterface|string|null $timestamp = null;
     public \DateTimeInterface|string|null $validFrom = null;
 }

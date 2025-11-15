@@ -16,11 +16,6 @@ use Riesenia\Pohoda\Common;
 
 class RecyclingContrib extends AbstractAgenda
 {
-    /** @var string[] */
-    protected array $refElements = [
-        'recyclingContribType',
-    ];
-
     /**
      * {@inheritdoc}
      */

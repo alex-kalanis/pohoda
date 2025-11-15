@@ -7,7 +7,7 @@ use Riesenia\Pohoda\Common\Dtos;
 class CashSlipDto extends Dtos\AbstractDto
 {
     public Header|HeaderDto|null $header = null;
-    /** @var \ArrayAccess<Item|ItemDto>|array<Item|ItemDto> */
-    public \ArrayAccess|array $details = [];
+    /** @var array<Item|ItemDto> */
+    public array $details = [];
     public Summary|SummaryDto|null $summary = null;
 }

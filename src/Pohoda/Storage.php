@@ -92,12 +92,4 @@ class Storage extends AbstractAgenda
     {
         return new Storage\StorageDto();
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function skipElements(): array
-    {
-        return ['subStorages'];
-    }
 }

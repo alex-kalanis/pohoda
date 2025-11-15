@@ -17,6 +17,11 @@ class XAgendaNotInit extends AbstractAgenda
     {
         return new \SimpleXMLElement('nop');
     }
+
+    protected function getDefaultDto(): Common\Dtos\AbstractDto
+    {
+        return new Common\Dtos\EmptyDto();
+    }
 }
 
 
