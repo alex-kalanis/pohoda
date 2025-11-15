@@ -36,55 +36,66 @@ $pohoda = new Pohoda('ICO');
 // create file
 $pohoda->open($filename, 'i_obj1', 'Import orders');
 
+$partnerIdentityAddress = new Pohoda\Type\Dtos\AddressTypeDto();
+$partnerIdentityAddress->name = $billing_name;
+$partnerIdentityAddress->street => $billing_street;
+$partnerIdentityAddress->city => $billing_city;
+$partnerIdentityAddress->zip => $billing_zip;
+$partnerIdentityAddress->email => $email;
+$partnerIdentityAddress->phone => $phone;
+
+$partnerIdentityAddress = new Pohoda\Type\Dtos\ShipToAddressDto();
+$partnerIdentityAddress->name = $shipping_name;
+$partnerIdentityAddress->street => $shipping_street;
+$partnerIdentityAddress->city => $shipping_city;
+$partnerIdentityAddress->zip => $shipping_zip;
+$partnerIdentityAddress->email => $email;
+$partnerIdentityAddress->phone => $phone;
+
+$partnerIdentity = new Pohoda\Type\Dtos\AddressDto();
+$partnerIdentity->address = $partnerIdentityAddress;
+$partnerIdentity->shipToAddress = $partnerIdentityAddress;
+
+$orderHeaderDto = new Pohoda\Order\HeaderDto();
+$orderHeaderDto->numberOrder = $order_number;
+$orderHeaderDto->isReserved = true;
+$orderHeaderDto->date = $created;
+$orderHeaderDto->text = '...';
+$orderHeaderDto->partnerIdentity = $partnerIdentity;
+
+$orderDto = new Pohoda\Order\OrderDto();
+$orderDto->header = $orderHeaderDto;
+
 // create order
-$order = $pohoda->createOrder([
-    'numberOrder' => $order_number,
-    'isReserved' => true,
-    'date' => $created,
-    'text' => '...',
-    'partnerIdentity' => [
-        'address' => [
-            'name' => $billing_name,
-            'street' => $billing_street,
-            'city' => $billing_city,
-            'zip' => $billing_zip,
-            'email' => $email,
-            'phone' => $phone
-        ],
-        'shipToAddress' => [
-            'name' => $shipping_name,
-            'street' => $shipping_street,
-            'city' => $shipping_city,
-            'zip' => $shipping_zip,
-            'email' => $email,
-            'phone' => $phone
-        ]
-    ]
-]);
+$order = $pohoda->createOrder($orderDto);
 
 // add items
 foreach ($items as $item) {
-    $order->addItem([
-        'code' => $item->code,
-        'text' => $item->text,
-        'quantity' => $item->quantity,
-        'payVAT' => false,
-        'rateVAT' => $item->rate,
-        'homeCurrency' => [
-            'unitPrice' => $item->unit_price
-        ],
-        'stockItem' => [
-            'stockItem' => [
-                'id' => $item->pohoda_id
-            ]
-        ]
-    ]);
+
+    $homeCurrency = new Pohoda\Type\Dtos\CurrencyItemDto();
+    $homeCurrency->unitPrice = $item->unit_price;
+    
+    $stockItem = new Pohoda\Type\Dtos\StockItemDto();
+    $stockItem->stockItem = [
+        'id' => $item->pohoda_id
+    ];
+
+    $itemDto = new Pohoda\Order\ItemDto();
+    $itemDto->code => $item->code;
+    $itemDto->text => $item->text;
+    $itemDto->quantity => $item->quantity;
+    $itemDto->payVAT => false;
+    $itemDto->rateVAT => $item->rate;
+    $itemDto->homeCurrency = $homeCurrency;
+    $itemDto->stockItem = $stockItem;
+
+    $order->addItem($itemDto);
 }
 
 // add summary
-$order->addSummary([
-    'roundingDocument' => 'none'
-]);
+$summaryDto = new Riesenia\Pohoda\Order\SummaryDto();
+$summaryDto->roundingDocument = 'none';
+$order->addSummary($summaryDto);
 
 // add order to import (identified by $order_number)
 $pohoda->addItem($order_number, $order);
@@ -105,13 +116,15 @@ $pohoda = new Pohoda('ICO');
 // create request for export
 $pohoda->open($filename, 'e_zas1', 'Export stock');
 
-$request = $pohoda->createListRequest([
-    'type' => 'Stock'
-]);
+$requestDto = new Pohoda\ListRequest\ListRequestDto();
+$requestDto->type = 'Stock';
+
+$request = $pohoda->createListRequest($requestDto);
 
 // optional filter
-$request->addUserFilterName('MyFilter');
-
+$request->addUserFilterName(
+    Pohoda\ListRequest\UserFilterNameDto::init('MyFilter')
+);
 $pohoda->addItem('Export 001', $request);
 
 $pohoda->close();
@@ -143,7 +156,7 @@ $pohoda = new Pohoda('ICO');
 // create request for deletion
 $pohoda->open($filename, 'd_zas1', 'Delete stock');
 
-$stock = $pohoda->createStock([]);
+$stock = $pohoda->createStock(null);
 
 $stock->addActionType('delete', [
     'code' => $code

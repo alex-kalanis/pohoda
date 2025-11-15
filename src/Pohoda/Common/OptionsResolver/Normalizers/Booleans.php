@@ -13,7 +13,7 @@ final class Booleans extends AbstractNormalizer
             return $this->whichResult($value);
         }
         if (\is_string($value)) {
-            return $this->whichResult('false' !== \strtolower($value));
+            return $this->whichResult(!empty($value) && 'false' !== \strtolower($value));
         }
         return $this->whichResult(!empty($value));
     }

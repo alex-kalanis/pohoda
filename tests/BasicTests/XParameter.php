@@ -2,21 +2,21 @@
 
 namespace tests\BasicTests;
 
-use Riesenia\Pohoda\Common\AddParameterTrait;
-use Riesenia\Pohoda\Common\OneDirectionalVariablesTrait;
+use Riesenia\Pohoda\Common;
 use Riesenia\Pohoda\DI\DependenciesFactory;
 
 class XParameter
 {
-    use AddParameterTrait;
-    use OneDirectionalVariablesTrait;
+    use Common\AddParameterTrait;
+    use Common\OneDirectionalVariablesTrait;
 
-    public array $data = [];
+    public Common\Dtos\AbstractDto $data;
     protected bool $resolveOptions = false;
     protected readonly DependenciesFactory $dependenciesFactory;
 
     public function __construct()
     {
         $this->dependenciesFactory = new DependenciesFactory();
+        $this->data = new XParameterDto();
     }
 }

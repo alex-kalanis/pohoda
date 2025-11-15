@@ -32,25 +32,31 @@ class PohodaTest extends CommonTestClass
 
     public function testCreateExistingObject(): void
     {
+        $stockHeaderDto = new Pohoda\Stock\HeaderDto();
+        $stockHeaderDto->code = 'CODE';
+        $stockHeaderDto->name = 'NAME';
+        $stockHeaderDto->storage = 'STORAGE';
+        $stockHeaderDto->typePrice = ['id' => 1];
+        $stockDto = new Pohoda\Stock\StockDto();
+        $stockDto->header = $stockHeaderDto;
+
         $lib = $this->getLib();
-        $result = $lib->create('Stock', [
-            'code' => 'CODE',
-            'name' => 'NAME',
-            'storage' => 'STORAGE',
-            'typePrice' => ['id' => 1],
-        ]);
+        $result = $lib->create('Stock', $stockDto);
         $this->assertInstanceOf(Pohoda\Stock::class, $result);
     }
 
     public function testSomeCreateByMethod(): void
     {
+        $stockHeaderDto = new Pohoda\Stock\HeaderDto();
+        $stockHeaderDto->code = 'CODE';
+        $stockHeaderDto->name = 'NAME';
+        $stockHeaderDto->storage = 'STORAGE';
+        $stockHeaderDto->typePrice = ['id' => 1];
+        $stockDto = new Pohoda\Stock\StockDto();
+        $stockDto->header = $stockHeaderDto;
+
         $lib = $this->getLib();
-        $result = $lib->createStock([
-            'code' => 'CODE',
-            'name' => 'NAME',
-            'storage' => 'STORAGE',
-            'typePrice' => ['id' => 1],
-        ]);
+        $result = $lib->createStock($stockDto);
         $this->assertInstanceOf(Pohoda\Stock::class, $result);
     }
 
@@ -72,14 +78,16 @@ class PohodaTest extends CommonTestClass
     {
         $this->tempFile = \tempnam(\sys_get_temp_dir(), 'xml');
 
-        $data = [
-            'code' => 'CODE',
-            'name' => 'NAME',
-            'storage' => 'STORAGE',
-            'typePrice' => ['id' => 1],
-        ];
+        $stockHeaderDto = new Pohoda\Stock\HeaderDto();
+        $stockHeaderDto->code = 'CODE';
+        $stockHeaderDto->name = 'NAME';
+        $stockHeaderDto->storage = 'STORAGE';
+        $stockHeaderDto->typePrice = ['id' => 1];
+        $stockDto = new Pohoda\Stock\StockDto();
+        $stockDto->header = $stockHeaderDto;
+
         $stock = new Pohoda\Stock($this->getBasicDi());
-        $stock->setData($data);
+        $stock->setData($stockDto);
 
         $lib = $this->getLib();
         $this->assertTrue($lib->open($this->tempFile, 'ABC'));
@@ -113,14 +121,16 @@ class PohodaTest extends CommonTestClass
 
     public function testCanWriteToMemory(): void
     {
-        $data = [
-            'code' => 'CODE',
-            'name' => 'NAME',
-            'storage' => 'STORAGE',
-            'typePrice' => ['id' => 1],
-        ];
+        $stockHeaderDto = new Pohoda\Stock\HeaderDto();
+        $stockHeaderDto->code = 'CODE';
+        $stockHeaderDto->name = 'NAME';
+        $stockHeaderDto->storage = 'STORAGE';
+        $stockHeaderDto->typePrice = ['id' => 1];
+        $stockDto = new Pohoda\Stock\StockDto();
+        $stockDto->header = $stockHeaderDto;
+
         $stock = new Pohoda\Stock($this->getBasicDi());
-        $stock->setData($data);
+        $stock->setData($stockDto);
 
         $lib = $this->getLib();
         $this->assertTrue($lib->open(null, 'ABC'));
@@ -285,14 +295,16 @@ class PohodaTest extends CommonTestClass
     {
         $di = $this->getBasicDi(); // MUST be connected
 
-        $data = [
-            'code' => 'code1',
-            'name' => 'name2',
-            'storage' => 'storage3',
-            'typePrice' => ['id' => 4],
-        ];
+        $stockHeaderDto = new Pohoda\Stock\HeaderDto();
+        $stockHeaderDto->code = 'code1';
+        $stockHeaderDto->name = 'name2';
+        $stockHeaderDto->storage = 'storage3';
+        $stockHeaderDto->typePrice = ['id' => 4];
+        $stockDto = new Pohoda\Stock\StockDto();
+        $stockDto->header = $stockHeaderDto;
+
         $stock = new Pohoda\Stock($di);
-        $stock->setData($data);
+        $stock->setData($stockDto);
 
         $lib = new Pohoda('123', $di);
         // set for each run
@@ -323,14 +335,16 @@ class PohodaTest extends CommonTestClass
             new Pohoda\PrintRequest\ParameterInstances(),
         );
 
-        $data = [
-            'code' => 'code1',
-            'name' => 'name2',
-            'storage' => 'storage3',
-            'typePrice' => ['id' => 4],
-        ];
+        $stockHeaderDto = new Pohoda\Stock\HeaderDto();
+        $stockHeaderDto->code = 'code1';
+        $stockHeaderDto->name = 'name2';
+        $stockHeaderDto->storage = 'storage3';
+        $stockHeaderDto->typePrice = ['id' => 4];
+        $stockDto = new Pohoda\Stock\StockDto();
+        $stockDto->header = $stockHeaderDto;
+
         $stock = new Pohoda\Stock($di);
-        $stock->setData($data);
+        $stock->setData($stockDto);
 
         $sanitization->willBeSanitized(true);
 
