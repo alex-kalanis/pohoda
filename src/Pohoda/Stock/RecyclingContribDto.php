@@ -2,10 +2,12 @@
 
 namespace Riesenia\Pohoda\Stock;
 
+use Riesenia\Pohoda\Common\Attributes;
 use Riesenia\Pohoda\Common\Dtos;
 
 class RecyclingContribDto extends Dtos\AbstractDto
 {
+    #[Attributes\RefElement]
     public ?string $recyclingContribType = null;
-    public ?string $coefficientOfRecyclingContrib = null;
+    public float|string|null $coefficientOfRecyclingContrib = null;
 }

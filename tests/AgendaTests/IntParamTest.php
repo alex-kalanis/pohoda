@@ -22,22 +22,31 @@ class IntParamTest extends CommonTestClass
 
     public function testCreateList(): void
     {
+        $paramsSett = new Pohoda\IntParam\SettingsDto();
+        $paramsSett->length = 40;
+
+        $dto = new Pohoda\IntParam\IntParamDto();
+        $dto->name = 'NAME';
+        $dto->parameterType = 'listValue';
+        $dto->parameterSettings = $paramsSett;
+
         $lib = new Pohoda\IntParam($this->getBasicDi());
-        $lib->setData([
-            'name' => 'NAME',
-            'parameterType' => 'listValue',
-        ]);
+        $lib->setData($dto);
 
         $this->assertEquals('<ipm:intParamDetail version="2.0"><ipm:intParam><ipm:name>NAME</ipm:name><ipm:parameterType>textValue</ipm:parameterType><ipm:parameterSettings><ipm:length>40</ipm:length></ipm:parameterSettings></ipm:intParam></ipm:intParamDetail>', $this->getLib()->getXML()->asXML());
     }
 
     protected function getLib(): Pohoda\IntParam
     {
+        $paramsSett = new Pohoda\IntParam\SettingsDto();
+        $paramsSett->length = 40;
+
+        $dto = new Pohoda\IntParam\IntParamDto();
+        $dto->name = 'NAME';
+        $dto->parameterType = 'textValue';
+        $dto->parameterSettings = $paramsSett;
+
         $lib = new Pohoda\IntParam($this->getBasicDi());
-        return $lib->setData([
-            'name' => 'NAME',
-            'parameterType' => 'textValue',
-            'parameterSettings' => ['length' => 40],
-        ]);
+        return $lib->setData($dto);
     }
 }

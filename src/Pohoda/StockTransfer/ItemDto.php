@@ -7,7 +7,7 @@ use Riesenia\Pohoda\Type;
 
 class ItemDto extends AbstractItemDto
 {
-    public ?string $quantity = null;
+    public float|string|null $quantity = null;
     public Type\Dtos\StockItemDto|Type\StockItem|null $stockItem = null;
     public ?string $note = null;
 }

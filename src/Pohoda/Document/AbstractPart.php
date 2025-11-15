@@ -20,9 +20,6 @@ abstract class AbstractPart extends AbstractAgenda
 
     protected ?string $nodePrefix = null;
 
-    /** @var string[] */
-    protected array $elements = [];
-
     /**
      * Set node name prefix.
      *

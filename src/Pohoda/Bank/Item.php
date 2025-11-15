@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\Bank;
 
-use Riesenia\Pohoda\Common\OptionsResolver;
+use Riesenia\Pohoda\Common;
 use Riesenia\Pohoda\Document\AbstractItem;
 
 class Item extends AbstractItem
@@ -27,32 +27,10 @@ class Item extends AbstractItem
         'contract',
     ];
 
-    /** @var string[] */
-    protected array $elements = [
-        'text',
-        'quantity',
-        'unit',
-        'coefficient',
-        'payVAT',
-        'rateVAT',
-        'discountPercentage',
-        'homeCurrency',
-        'foreignCurrency',
-        'typeServiceMOSS',
-        'note',
-        'symPar',
-        'accounting',
-        'classificationVAT',
-        'classificationKVDPH',
-        'centre',
-        'activity',
-        'contract',
-    ];
-
     /**
      * {@inheritdoc}
      */
-    protected function configureOptions(OptionsResolver $resolver): void
+    protected function configureOptions(Common\OptionsResolver $resolver): void
     {
         parent::configureOptions($resolver);
 
@@ -66,5 +44,13 @@ class Item extends AbstractItem
         $resolver->setNormalizer('discountPercentage', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
         $resolver->setNormalizer('note', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string90'));
         $resolver->setNormalizer('symPar', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string20'));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getDefaultDto(): Common\Dtos\AbstractDto
+    {
+        return new ItemDto();
     }
 }

@@ -15,12 +15,7 @@ use Riesenia\Pohoda\Common;
 use Riesenia\Pohoda\Type;
 
 /**
- * @property object{
- *     parameters?: iterable<Type\Parameter>,
- *     homeCurrency?: Type\CurrencyItem,
- *     foreignCurrency?: Type\CurrencyItem,
- *     stockItem?: Type\StockItem,
- * } $data
+ * @property Common\Dtos\AbstractItemDto $data
  */
 abstract class AbstractItem extends AbstractPart
 {
@@ -79,7 +74,7 @@ abstract class AbstractItem extends AbstractPart
 
         $xml = $this->createXML()->addChild($this->namespace . ':' . $this->nodePrefix . 'Item', '', $this->namespace($this->namespace));
 
-        $this->addElements($xml, \array_merge($this->getDataElements(), ['parameters']), $this->namespace);
+        $this->addElements($xml, $this->getDataElements(), $this->namespace);
 
         return $xml;
     }

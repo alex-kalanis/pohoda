@@ -23,51 +23,59 @@ class CashSlipTest extends CommonTestClass
     public function testAddItems(): void
     {
         $lib = $this->getLib();
-        $lib->addItem([
-            'text' => 'NAME 1',
-            'quantity' => 1,
-            'rateVAT' => 'high',
-            'homeCurrency' => [
-                'unitPrice' => 200,
-            ],
-        ]);
 
-        $lib->addItem([
-            'quantity' => 1,
-            'payVAT' => 1,
-            'rateVAT' => 'high',
-            'homeCurrency' => [
-                'unitPrice' => 198,
-            ],
-            'stockItem' => [
-                'stockItem' => [
-                    'ids' => 'STM',
-                ],
-            ],
-        ]);
+        $home1 = new Pohoda\Type\Dtos\CurrencyItemDto();
+        $home1->unitPrice = 200;
+
+        $item1 = new Pohoda\CashSlip\ItemDto();
+        $item1->text = 'NAME 1';
+        $item1->quantity = 1;
+        $item1->rateVAT = 'high';
+        $item1->homeCurrency = $home1;
+
+        $lib->addItem($item1);
+
+        $home2 = new Pohoda\Type\Dtos\CurrencyItemDto();
+        $home2->unitPrice = 198;
+
+        $stock = new Pohoda\Type\Dtos\StockItemDto();
+        $stock->stockItem = [
+            'ids' => 'STM',
+        ];
+
+        $item2 = new Pohoda\CashSlip\ItemDto();
+        $item2->quantity = 1;
+        $item2->payVAT = true;
+        $item2->rateVAT = 'high';
+        $item2->homeCurrency = $home2;
+        $item2->stockItem = $stock;
+
+        $lib->addItem($item2);
 
         $this->assertEquals('<pro:prodejka version="2.0"><pro:prodejkaHeader>' . $this->defaultHeader() . '</pro:prodejkaHeader><pro:prodejkaDetail><pro:prodejkaItem><pro:text>NAME 1</pro:text><pro:quantity>1</pro:quantity><pro:rateVAT>high</pro:rateVAT><pro:homeCurrency><typ:unitPrice>200</typ:unitPrice></pro:homeCurrency></pro:prodejkaItem><pro:prodejkaItem><pro:quantity>1</pro:quantity><pro:payVAT>true</pro:payVAT><pro:rateVAT>high</pro:rateVAT><pro:homeCurrency><typ:unitPrice>198</typ:unitPrice></pro:homeCurrency><pro:stockItem><typ:stockItem><typ:ids>STM</typ:ids></typ:stockItem></pro:stockItem></pro:prodejkaItem></pro:prodejkaDetail></pro:prodejka>', $lib->getXML()->asXML());
     }
 
     public function testSetSummary(): void
     {
+        $home = new Pohoda\Type\Dtos\CurrencyHomeDto();
+        $home->priceNone = '0.0000';
+        $home->priceLow = '0.0000';
+        $home->priceLowVAT = '0.0000';
+        $home->priceLowVatRate = '12';
+        $home->priceHigh = '156.0000';
+        $home->priceHighVAT = '31.2000';
+        $home->price3 = '0.0000';
+        $home->price3VAT = '0.0000';
+        $home->round = [
+            'priceRound' => '0.0000',
+        ];
+
+        $summary = new Pohoda\CashSlip\SummaryDto();
+        $summary->roundingDocument = 'math2one';
+        $summary->homeCurrency = $home;
+
         $lib = $this->getLib();
-        $lib->addSummary([
-            'roundingDocument' => 'math2one',
-            'homeCurrency' => [
-                'priceNone' => '0.0000',
-                'priceLow' => '0.0000',
-                'priceLowVAT' => '0.0000',
-                'priceLowVatRate' => '12',
-                'priceHigh' => '156.0000',
-                'priceHighVAT' => '31.2000',
-                'price3' => '0.0000',
-                'price3VAT' => '0.0000',
-                'round' => [
-                    'priceRound' => '0.0000',
-                ],
-            ],
-        ]);
+        $lib->addSummary($summary);
 
         $this->assertEquals('<pro:prodejka version="2.0"><pro:prodejkaHeader>' . $this->defaultHeader() . '</pro:prodejkaHeader><pro:prodejkaSummary><pro:roundingDocument>math2one</pro:roundingDocument><pro:homeCurrency><typ:priceNone>0</typ:priceNone><typ:price3>0</typ:price3><typ:price3VAT>0</typ:price3VAT><typ:priceLow>0</typ:priceLow><typ:priceLowVAT rate="12">0</typ:priceLowVAT><typ:priceHigh>156</typ:priceHigh><typ:priceHighVAT>31.2</typ:priceHighVAT><typ:round><typ:priceRound>0.0000</typ:priceRound></typ:round></pro:homeCurrency></pro:prodejkaSummary></pro:prodejka>', $lib->getXML()->asXML());
     }
@@ -90,17 +98,23 @@ class CashSlipTest extends CommonTestClass
 
     protected function getLib(): Pohoda\CashSlip
     {
+        $address = new Pohoda\Type\Dtos\AddressTypeDto();
+        $address->name = 'NAME';
+        $address->ico = '123';
+
+        $partner = new Pohoda\Type\Dtos\AddressDto();
+        $partner->address = $address;
+
+        $header = new Pohoda\CashSlip\HeaderDto();
+        $header->date = '2015-01-10';
+        $header->text = 'Prod';
+        $header->intNote = 'Note';
+        $header->partnerIdentity = $partner;
+
+        $dto = new Pohoda\CashSlip\CashSlipDto();
+        $dto->header = $header;
+
         $lib = new Pohoda\CashSlip($this->getBasicDi());
-        return $lib->setData([
-            'date' => '2015-01-10',
-            'text' => 'Prod',
-            'partnerIdentity' => [
-                'address' => [
-                    'name' => 'NAME',
-                    'ico' => '123',
-                ],
-            ],
-            'intNote' => 'Note',
-        ]);
+        return $lib->setData($dto);
     }
 }

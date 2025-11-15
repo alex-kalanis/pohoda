@@ -3,18 +3,19 @@
 namespace tests\AgendaTests\Type;
 
 use tests\CommonTestClass;
-use Riesenia\Pohoda\Type\Address;
+use Riesenia\Pohoda\Type;
 
 class AddressTest extends CommonTestClass
 {
     public function testUpdateParams(): void
     {
-        $lib = new Address($this->getBasicDi());
-        $lib->setData([
-            'shipToAddress' => [
-                'name' => 'example',
-            ],
-        ]);
+        $shipTo = new Type\Dtos\ShipToAddressDto();
+        $shipTo->name = 'example';
+        $dto = new Type\Dtos\AddressDto();
+        $dto->shipToAddress = $shipTo;
+
+        $lib = new Type\Address($this->getBasicDi());
+        $lib->setData($dto);
         $lib->setNamespace('lst');
         $lib->setNodeName('bar');
         $this->assertEquals('', $lib->getXML());

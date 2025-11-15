@@ -25,33 +25,19 @@ class Desc extends AbstractAgenda
         'responsiblePerson',
     ];
 
-    /** @var string[] */
-    protected array $elements = [
-        'number',
-        'datePlanStart',
-        'datePlanDelivery',
-        'dateStart',
-        'dateDelivery',
-        'dateWarranty',
-        'text',
-        'partnerIdentity',
-        'responsiblePerson',
-        'note',
-    ];
-
     /**
      * {@inheritdoc}
      */
-    public function setData(array $data): parent
+    public function setData(?Common\Dtos\AbstractDto $data): parent
     {
         // process partner identity
-        if (isset($data['partnerIdentity'])) {
+        if (isset($data->partnerIdentity)) {
             $partnerIdentity = new Address($this->dependenciesFactory);
             $partnerIdentity
                 ->setDirectionalVariable($this->useOneDirectionalVariables)
                 ->setResolveOptions($this->resolveOptions)
-                ->setData($data['partnerIdentity']);
-            $data['partnerIdentity'] = $partnerIdentity;
+                ->setData($data->partnerIdentity);
+            $data->partnerIdentity = $partnerIdentity;
         }
 
         return parent::setData($data);
@@ -64,7 +50,7 @@ class Desc extends AbstractAgenda
     {
         $xml = $this->createXML()->addChild('con:contractDesc', '', $this->namespace('con'));
 
-        $this->addElements($xml, \array_merge($this->elements, ['parameters']), 'con');
+        $this->addElements($xml, $this->getDataElements(), 'con');
 
         return $xml;
     }
@@ -75,7 +61,7 @@ class Desc extends AbstractAgenda
     protected function configureOptions(Common\OptionsResolver $resolver): void
     {
         // available options
-        $resolver->setDefined($this->elements);
+        $resolver->setDefined($this->getDataElements());
 
         $resolver->setNormalizer('datePlanStart', $this->dependenciesFactory->getNormalizerFactory()->getClosure('date'));
         $resolver->setNormalizer('datePlanDelivery', $this->dependenciesFactory->getNormalizerFactory()->getClosure('date'));
@@ -84,5 +70,13 @@ class Desc extends AbstractAgenda
         $resolver->setNormalizer('dateWarranty', $this->dependenciesFactory->getNormalizerFactory()->getClosure('date'));
         $resolver->setRequired('text');
         $resolver->setNormalizer('text', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string90'));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getDefaultDto(): Common\Dtos\AbstractDto
+    {
+        return new DescDto();
     }
 }

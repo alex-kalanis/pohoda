@@ -30,22 +30,25 @@ class ContractTest extends CommonTestClass
 
     public function testDiffPartner(): void
     {
+        $partnerAddr = new Pohoda\Type\Dtos\AddressTypeDto();
+        $partnerAddr->company = 'Access';
+        $partnerAddr->name = 'Someone';
+        $partnerAddr->city = 'Capital';
+        $partnerAddr->street = 'King\'s';
+        $partnerAddr->country = 'Tonga';
+        $partnerAddr->phone = '+9999123456789';
+        $partnerAddr->email = 'fooz@example.com';
+
+        $partner = new Pohoda\Type\Dtos\AddressDto();
+        $partner->address = $partnerAddr;
+
+        $header = new Pohoda\Contract\DescDto();
+        $header->text = 'zakazka1337';
+        $header->responsiblePerson = ['ids' => 'Z0005'];
+        $header->partnerIdentity = $partner;
+
         $lib = new Pohoda\Contract($this->getBasicDi());
-        $lib->setData([
-            'text' => 'zakazka1337',
-            'responsiblePerson' => ['ids' => 'Z0005'],
-            'partnerIdentity' => [
-                'address' => [
-                    'company' => 'Access',
-                    'name' => 'Someone',
-                    'city' => 'Capital',
-                    'street' => 'King\'s',
-                    'country' => 'Tonga',
-                    'phone' => '+9999123456789',
-                    'email' => 'fooz@example.com',
-                ],
-            ],
-        ]);
+        $lib->setData($header);
         $lib->addParameter('VPrNum', 'number', 10.43);
 
         $this->assertEquals('<con:contract version="2.0"><con:contractDesc><con:text>zakazka1337</con:text><con:partnerIdentity><typ:address><typ:company>Access</typ:company><typ:name>Someone</typ:name><typ:city>Capital</typ:city><typ:street>King\'s</typ:street><typ:country><typ:ids>Tonga</typ:ids></typ:country><typ:phone>+9999123456789</typ:phone><typ:email>fooz@example.com</typ:email></typ:address></con:partnerIdentity><con:responsiblePerson><typ:ids>Z0005</typ:ids></con:responsiblePerson><con:parameters><typ:parameter><typ:name>VPrNum</typ:name><typ:numberValue>10.43</typ:numberValue></typ:parameter></con:parameters></con:contractDesc></con:contract>', $lib->getXML()->asXML());
@@ -58,10 +61,11 @@ class ContractTest extends CommonTestClass
 
     protected function getLib(): Pohoda\Contract
     {
+        $header = new Pohoda\Contract\DescDto();
+        $header->text = 'zakazka15';
+        $header->responsiblePerson = ['ids' => 'Z0005'];
+
         $lib = new Pohoda\Contract($this->getBasicDi());
-        return $lib->setData([
-            'text' => 'zakazka15',
-            'responsiblePerson' => ['ids' => 'Z0005'],
-        ]);
+        return $lib->setData($header);
     }
 }

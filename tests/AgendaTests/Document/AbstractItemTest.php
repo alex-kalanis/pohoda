@@ -4,6 +4,7 @@ namespace tests\AgendaTests\Document;
 
 use tests\CommonTestClass;
 use LogicException;
+use Riesenia\Pohoda\Type;
 
 class AbstractItemTest extends CommonTestClass
 {
@@ -24,21 +25,26 @@ class AbstractItemTest extends CommonTestClass
 
     public function testInitParamsRun(): void
     {
-        $data = [
-            'homeCurrency' => [
-                'unitPrice' => 198,
-            ],
-            'foreignCurrency' => [
-                'unitPrice' => 7591,
-            ],
+        $homeCurr = new Type\Dtos\CurrencyItemDto();
+        $homeCurr->unitPrice = 198;
+
+        $foreignCurr = new Type\Dtos\CurrencyItemDto();
+        $foreignCurr->unitPrice = 7591;
+
+        $stock = new Type\Dtos\StockItemDto();
+        $stock->stockItem = [
             'stockItem' => [
-                'stockItem' => [
                     'ids' => 'STM',
-                ],
-            ],
+            ]
         ];
+
+        $dto = new XDocumentItemDto();
+        $dto->homeCurrency = $homeCurr;
+        $dto->foreignCurrency = $foreignCurr;
+        $dto->stockItem = $stock;
+
         $lib = new XDocumentItem($this->getBasicDi());
-        $lib->setData($data);
+        $lib->setData($dto);
         $lib->setNamespace('lst');
         $lib->setNodePrefix('test');
         $this->assertEmpty($lib->getXML());

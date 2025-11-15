@@ -33,4 +33,12 @@ class Bank extends AbstractDocument
     {
         return 'bank';
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getDefaultDto(): Common\Dtos\AbstractDto
+    {
+        return new Bank\BankDto();
+    }
 }

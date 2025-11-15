@@ -63,7 +63,7 @@ class Processing
      */
     public static function getProperties(AbstractDto $class, bool $withAttributes, bool $responseDirection): array
     {
-        $reflection = new \ReflectionClass($class);
+        $reflection = new ReflectionClass($class);
         $props = [];
         foreach ($reflection->getProperties() as $prop) {
             if (static::hasSkipAttribute($prop)) {

@@ -2,9 +2,9 @@
 
 namespace Riesenia\Pohoda\Supplier;
 
-use Riesenia\Pohoda\Common\Dtos\AbstractItemDto;
+use Riesenia\Pohoda\Common\Dtos\AbstractDto;
 
-class SupplierDto extends AbstractItemDto
+class SupplierDto extends AbstractDto
 {
     public StockItem|StockItemDto|null $stockItem = null;
     /** @var \ArrayAccess<SupplierItem|SupplierItemDto>|array<SupplierItem|SupplierItemDto> */

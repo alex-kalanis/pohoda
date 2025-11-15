@@ -12,14 +12,11 @@ declare(strict_types=1);
 namespace Riesenia\Pohoda;
 
 /**
- * @property array{
- *     header: Contract\Desc,
- * } $data
+ * @property Contract\ContractDto $data
  */
 class Contract extends AbstractAgenda
 {
     use Common\AddParameterToHeaderTrait;
-
 
     public function getImportRoot(): string
     {
@@ -29,7 +26,7 @@ class Contract extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    public function setData(array $data): parent
+    public function setData(?Common\Dtos\AbstractDto $data): parent
     {
         // pass to header
         $desc = new Contract\Desc($this->dependenciesFactory);
@@ -37,9 +34,10 @@ class Contract extends AbstractAgenda
             ->setDirectionalVariable($this->useOneDirectionalVariables)
             ->setResolveOptions($this->resolveOptions)
             ->setData($data);
-        $data = ['header' => $desc];
+        $dto = new Contract\ContractDto();
+        $dto->header = $desc;
 
-        return parent::setData($data);
+        return parent::setData($dto);
     }
 
     /**
@@ -50,7 +48,7 @@ class Contract extends AbstractAgenda
         $xml = $this->createXML()->addChild('con:contract', '', $this->namespace('con'));
         $xml->addAttribute('version', '2.0');
 
-        $this->addElements($xml, ['header'], 'con');
+        $this->addElements($xml, $this->getDataElements(), 'con');
 
         return $xml;
     }
@@ -61,6 +59,14 @@ class Contract extends AbstractAgenda
     protected function configureOptions(Common\OptionsResolver $resolver): void
     {
         // available options
-        $resolver->setDefined(['header']);
+        $resolver->setDefined($this->getDataElements());
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getDefaultDto(): Common\Dtos\AbstractDto
+    {
+        return new Contract\ContractDto();
     }
 }

@@ -27,8 +27,8 @@ class HeaderDto extends AbstractHeaderDto
     public ?string $classificationVAT = null;
     public ?string $classificationKVDPH = null;
     public ?string $text = null;
-    public Type\Dtos\AddressDto|Type\MyAddress|null $partnerIdentity = null;
-    public AbstractDto|AbstractAgenda|null $myIdentity = null;
+    public Type\Dtos\AddressDto|Type\Address|null $partnerIdentity = null;
+    public Type\Dtos\MyAddressDto|Type\MyAddress|null $myIdentity = null;
     public ?string $symPar = null;
     public ?string $priceLevel = null;
     #[Attributes\RefElement]
@@ -49,5 +49,4 @@ class HeaderDto extends AbstractHeaderDto
     public ?string $labels = null;
     public \ArrayAccess|array $parameters = [];
     public ?string $validate = null;
-
 }

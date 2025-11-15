@@ -22,12 +22,14 @@ class BankTest extends CommonTestClass
 
     public function testSetSummary(): void
     {
+        $home = new Pohoda\Type\Dtos\CurrencyHomeDto();
+        $home->priceNone = 500;
+
+        $summary = new Pohoda\Bank\SummaryDto();
+        $summary->homeCurrency = $home;
+
         $lib = $this->getLib();
-        $lib->addSummary([
-            'homeCurrency' => [
-                'priceNone' => 500,
-            ],
-        ]);
+        $lib->addSummary($summary);
 
         $this->assertEquals('<bnk:bank version="2.0"><bnk:bankHeader>' . $this->defaultHeader() . '</bnk:bankHeader><bnk:bankSummary><bnk:homeCurrency><typ:priceNone>500</typ:priceNone></bnk:homeCurrency></bnk:bankSummary></bnk:bank>', $lib->getXML()->asXML());
     }
@@ -35,24 +37,30 @@ class BankTest extends CommonTestClass
     public function testSetItem(): void
     {
         $lib = $this->getLib();
-        $lib->addItem([
-            'text' => 'test one',
-            'quantity' => 369,
-            'unit' => 2,
-            'homeCurrency' => [
-                'unitPrice' => 153,
-            ],
-            'note' => 'testing one',
-        ]);
-        $lib->addItem([
-            'text' => 'test two',
-            'quantity' => 42,
-            'unit' => 816,
-            'homeCurrency' => [
-                'price' => 816,
-            ],
-            'note' => 'testing two',
-        ]);
+
+        $home1 = new Pohoda\Type\Dtos\CurrencyItemDto();
+        $home1->unitPrice = 153;
+
+        $item1 = new Pohoda\Bank\ItemDto();
+        $item1->text = 'test one';
+        $item1->quantity = 369;
+        $item1->unit = 2;
+        $item1->note = 'testing one';
+        $item1->homeCurrency = $home1;
+
+        $lib->addItem($item1);
+
+        $home2 = new Pohoda\Type\Dtos\CurrencyItemDto();
+        $home2->price = 816;
+
+        $item2 = new Pohoda\Bank\ItemDto();
+        $item2->text = 'test two';
+        $item2->quantity = 42;
+        $item2->unit = 816;
+        $item2->note = 'testing two';
+        $item2->homeCurrency = $home2;
+
+        $lib->addItem($item2);
 
         $this->assertEquals('<bnk:bank version="2.0"><bnk:bankHeader>' . $this->defaultHeader() . '</bnk:bankHeader><bnk:bankDetail><bnk:bankItem><bnk:text>test one</bnk:text><bnk:quantity>369</bnk:quantity><bnk:unit>2</bnk:unit><bnk:homeCurrency><typ:unitPrice>153</typ:unitPrice></bnk:homeCurrency><bnk:note>testing one</bnk:note></bnk:bankItem><bnk:bankItem><bnk:text>test two</bnk:text><bnk:quantity>42</bnk:quantity><bnk:unit>816</bnk:unit><bnk:homeCurrency><typ:price>816</typ:price></bnk:homeCurrency><bnk:note>testing two</bnk:note></bnk:bankItem></bnk:bankDetail></bnk:bank>', $lib->getXML()->asXML());
     }
@@ -75,40 +83,46 @@ class BankTest extends CommonTestClass
 
     protected function getLib(): Pohoda\Bank
     {
+        $statement = new Pohoda\Bank\StatementNumberDto();
+        $statement->statementNumber = '004';
+        $statement->numberMovement = '0002';
+
+        $header = new Pohoda\Bank\HeaderDto();
+        $header->bankType = 'receipt';
+        $header->account = 'KB';
+        $header->symVar = '456';
+        $header->symConst = '555';
+        $header->symSpec = '666';
+        $header->dateStatement = '2021-12-20';
+        $header->datePayment = '2021-11-22';
+        $header->text = 'STORMWARE s.r.o.';
+        $header->statementNumber = $statement;
+        $header->paymentAccount = [
+            'accountNo' => '4660550217',
+            'bankCode' => '5500',
+        ];
+
+        $dto = new Pohoda\Bank\BankDto();
+        $dto->header = $header;
+
         $lib = new Pohoda\Bank($this->getBasicDi());
-        return $lib->setData([
-            'bankType' => 'receipt',
-            'account' => 'KB',
-            'statementNumber' => [
-                'statementNumber' => '004',
-                'numberMovement' => '0002',
-            ],
-            'symVar' => '456',
-            'symConst' => '555',
-            'symSpec' => '666',
-            'dateStatement' => '2021-12-20',
-            'datePayment' => '2021-11-22',
-            'text' => 'STORMWARE s.r.o.',
-            'paymentAccount' => [
-                'accountNo' => '4660550217',
-                'bankCode' => '5500',
-            ],
-        ]);
+        return $lib->setData($dto);
     }
 
     // testing RefItem in AbstractAgenda
     public function testItem1(): void
     {
-        $lib = new Pohoda\Bank\Item($this->getBasicDi());
-        $lib->setData([
-            'accounting' => [
-                'which' => [ // deeper, list
-                    '123',
-                    '456',
-                    '789',
-                ],
+        $item = new Pohoda\Bank\ItemDto();
+        $item->accounting = [
+            'which' => [ // deeper, items
+                '123',
+                '456',
+                '789',
             ],
-        ]);
+        ];
+
+        $lib = new Pohoda\Bank\Item($this->getBasicDi());
+        $lib->setData($item);
         $lib->setNamespace('lst');
         $lib->setNodePrefix('test');
         $this->assertEquals('<lst:testItem><lst:accounting><lst:which>123</lst:which><lst:which>456</lst:which><lst:which>789</lst:which></lst:accounting></lst:testItem>', $lib->getXML()->asXML());
@@ -116,16 +130,17 @@ class BankTest extends CommonTestClass
 
     public function testItem2(): void
     {
-        $lib = new Pohoda\Bank\Item($this->getBasicDi());
-        $lib->setData([
-            'accounting' => [
-                'which' => [ // deeper, items
-                    'foo' => '123',
-                    'bar' => '456',
-                    'baz' => '789',
-                ],
+        $item = new Pohoda\Bank\ItemDto();
+        $item->accounting = [
+            'which' => [ // deeper, items
+                'foo' => '123',
+                'bar' => '456',
+                'baz' => '789',
             ],
-        ]);
+        ];
+
+        $lib = new Pohoda\Bank\Item($this->getBasicDi());
+        $lib->setData($item);
         $lib->setNamespace('lst');
         $lib->setNodePrefix('test');
         $this->assertEquals('<lst:testItem><lst:accounting><lst:which><typ:foo>123</typ:foo><typ:bar>456</typ:bar><typ:baz>789</typ:baz></lst:which></lst:accounting></lst:testItem>', $lib->getXML()->asXML());

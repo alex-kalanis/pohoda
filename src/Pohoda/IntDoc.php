@@ -12,9 +12,7 @@ declare(strict_types=1);
 namespace Riesenia\Pohoda;
 
 /**
- * @property array{
- *     taxDocument?: Type\TaxDocument,
- * } $data
+ * @property IntDoc\IntDocDto $data
  */
 class IntDoc extends AbstractDocument
 {
@@ -26,28 +24,20 @@ class IntDoc extends AbstractDocument
     /**
      * Add tax document.
      *
-     * @param array<string,mixed> $data
+     * @param Type\Dtos\TaxDocumentDto $data
      *
      * @return $this
      */
-    public function addTaxDocument(array $data): self
+    public function addTaxDocument(Type\Dtos\TaxDocumentDto $data): self
     {
         $taxDocument = new Type\TaxDocument($this->dependenciesFactory);
         $taxDocument
             ->setDirectionalVariable($this->useOneDirectionalVariables)
             ->setResolveOptions($this->resolveOptions)
             ->setData($data);
-        $this->data['taxDocument'] = $taxDocument;
+        $this->data->taxDocument = $taxDocument;
 
         return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getDocumentElements(): array
-    {
-        return \array_merge(['taxDocument'], parent::getDocumentElements());
     }
 
     /**
@@ -64,5 +54,13 @@ class IntDoc extends AbstractDocument
     protected function getDocumentName(): string
     {
         return 'intDoc';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getDefaultDto(): Common\Dtos\AbstractDto
+    {
+        return new IntDoc\IntDocDto();
     }
 }

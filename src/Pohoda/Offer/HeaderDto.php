@@ -36,4 +36,5 @@ class HeaderDto extends AbstractHeaderDto
     public ?string $note = null;
     public ?string $intNote = null;
     public ?string $markRecord = null;
+    public \ArrayAccess|array $parameters = [];
 }

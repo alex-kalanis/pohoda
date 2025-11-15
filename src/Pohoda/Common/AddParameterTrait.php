@@ -11,12 +11,11 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\Common;
 
+use Riesenia\Pohoda\Common;
 use Riesenia\Pohoda\Type;
 
 /**
- * @property object{
- *     parameters?: iterable<Type\Parameter>|null
- * } $data
+ * @property Common\Dtos\AbstractDto $data
  */
 trait AddParameterTrait
 {

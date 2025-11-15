@@ -107,16 +107,6 @@ abstract class AbstractDocument extends AbstractAgenda
     }
 
     /**
-     * Get defined elements.
-     *
-     * @return string[]
-     */
-    protected function getDocumentElements(): array
-    {
-        return ['header', 'details', 'summary'];
-    }
-
-    /**
      * @{inheritDoc}
      */
     protected function getNodeKey(string $key): string

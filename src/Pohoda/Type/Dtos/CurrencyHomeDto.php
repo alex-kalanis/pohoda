@@ -18,5 +18,5 @@ class CurrencyHomeDto extends AbstractDto
     public ?string $priceHighVAT = null;
     public ?string $priceHighVatRate = null;
     public ?string $priceHighSum = null;
-    public ?string $round = null;
+    public array|string|null $round = null;
 }

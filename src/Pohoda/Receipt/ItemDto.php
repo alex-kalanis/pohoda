@@ -8,12 +8,12 @@ use Riesenia\Pohoda\Type;
 
 class ItemDto extends AbstractItemDto
 {
-    public ?string $quantity = null;
+    public float|string|null $quantity = null;
     public ?string $unit = null;
-    public ?string $coefficient = null;
-    public ?string $payVAT = null;
+    public float|string|null $coefficient = null;
+    public bool|string|null $payVAT = null;
     public ?string $rateVAT = null;
-    public ?string $discountPercentage = null;
+    public float|string|null $discountPercentage = null;
     public Type\Dtos\CurrencyItemDto|Type\CurrencyItem|null $homeCurrency = null;
     public Type\Dtos\CurrencyItemDto|Type\CurrencyItem|null $foreignCurrency = null;
     public ?string $code = null;

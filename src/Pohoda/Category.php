@@ -14,28 +14,10 @@ namespace Riesenia\Pohoda;
 use Riesenia\Pohoda\Common\OptionsResolver;
 
 /**
- * @property array{
- *     name: string,
- *     description?: string,
- *     sequence?: int,
- *     displayed?: bool,
- *     picture?: string,
- *     note?: string,
- *     subCategories?: iterable<Category>,
- * } $data
+ * @property Category\CategoryDto $data
  */
 class Category extends AbstractAgenda
 {
-    /** @var string[] */
-    protected array $elements = [
-        'name',
-        'description',
-        'sequence',
-        'displayed',
-        'picture',
-        'note',
-    ];
-
     public function getImportRoot(): string
     {
         return 'ctg:category';
@@ -49,22 +31,13 @@ class Category extends AbstractAgenda
     /**
      * Add subcategory.
      *
-     * @param self $category
+     * @param self|Category\CategoryDto $category
      *
      * @return $this
      */
-    public function addSubcategory(self $category): self
+    public function addSubcategory(self|Category\CategoryDto $category): self
     {
-        if (!isset($this->data['subCategories'])
-            || !(
-                is_array($this->data['subCategories'])
-                || (is_a($this->data['subCategories'], \ArrayAccess::class))
-            )
-        ) {
-            $this->data['subCategories'] = [];
-        }
-
-        $this->data['subCategories'][] = $category;
+        $this->data->subCategories[] = $category;
 
         return $this;
     }
@@ -93,12 +66,12 @@ class Category extends AbstractAgenda
     {
         $category = $xml->addChild('ctg:category', '', $this->namespace('ctg'));
 
-        $this->addElements($category, $this->elements, 'ctg');
+        $this->addElements($category, $this->getDataElements(), 'ctg');
 
-        if (isset($this->data['subCategories'])) {
+        if (!empty($this->data->subCategories)) {
             $subCategories = $category->addChild('ctg:subCategories', '', $this->namespace('ctg'));
 
-            foreach ($this->data['subCategories'] as $subCategory) {
+            foreach ((array) $this->data->subCategories as $subCategory) {
                 $subCategory->categoryXML($subCategories);
             }
         }
@@ -110,12 +83,20 @@ class Category extends AbstractAgenda
     protected function configureOptions(OptionsResolver $resolver): void
     {
         // available options
-        $resolver->setDefined($this->elements);
+        $resolver->setDefined($this->getDataElements());
 
         // validate / format options
         $resolver->setRequired('name');
         $resolver->setNormalizer('name', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string48'));
         $resolver->setNormalizer('sequence', $this->dependenciesFactory->getNormalizerFactory()->getClosure('int'));
         $resolver->setNormalizer('displayed', $this->dependenciesFactory->getNormalizerFactory()->getClosure('bool'));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getDefaultDto(): Common\Dtos\AbstractDto
+    {
+        return new Category\CategoryDto();
     }
 }

@@ -12,21 +12,13 @@ declare(strict_types=1);
 namespace Riesenia\Pohoda\IntParam;
 
 use Riesenia\Pohoda\AbstractAgenda;
-use Riesenia\Pohoda\Common\OptionsResolver;
+use Riesenia\Pohoda\Common;
 
 class Settings extends AbstractAgenda
 {
     /** @var string[] */
     protected array $refElements = [
         'currency',
-    ];
-
-    /** @var string[] */
-    protected array $elements = [
-        'unit',
-        'length',
-        'currency',
-        'parameterList',
     ];
 
     /**
@@ -36,7 +28,7 @@ class Settings extends AbstractAgenda
     {
         $xml = $this->createXML()->addChild('ipm:parameterSettings', '', $this->namespace('ipm'));
 
-        $this->addElements($xml, $this->elements, 'ipm');
+        $this->addElements($xml, $this->getDataElements(), 'ipm');
 
         return $xml;
     }
@@ -44,12 +36,20 @@ class Settings extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    protected function configureOptions(OptionsResolver $resolver): void
+    protected function configureOptions(Common\OptionsResolver $resolver): void
     {
         // available options
-        $resolver->setDefined($this->elements);
+        $resolver->setDefined($this->getDataElements());
 
         // validate / format options
         $resolver->setNormalizer('length', $this->dependenciesFactory->getNormalizerFactory()->getClosure('int'));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getDefaultDto(): Common\Dtos\AbstractDto
+    {
+        return new SettingsDto();
     }
 }

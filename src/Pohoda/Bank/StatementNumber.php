@@ -12,16 +12,10 @@ declare(strict_types=1);
 namespace Riesenia\Pohoda\Bank;
 
 use Riesenia\Pohoda\AbstractAgenda;
-use Riesenia\Pohoda\Common\OptionsResolver;
+use Riesenia\Pohoda\Common;
 
 class StatementNumber extends AbstractAgenda
 {
-    /** @var string[] */
-    protected array $elements = [
-        'statementNumber',
-        'numberMovement',
-    ];
-
     /**
      * {@inheritdoc}
      */
@@ -29,7 +23,7 @@ class StatementNumber extends AbstractAgenda
     {
         $xml = $this->createXML()->addChild('bnk:statementNumber', '', $this->namespace('bnk'));
 
-        $this->addElements($xml, $this->elements, 'bnk');
+        $this->addElements($xml, $this->getDataElements(), 'bnk');
 
         return $xml;
     }
@@ -37,13 +31,21 @@ class StatementNumber extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    protected function configureOptions(OptionsResolver $resolver): void
+    protected function configureOptions(Common\OptionsResolver $resolver): void
     {
         // available options
-        $resolver->setDefined($this->elements);
+        $resolver->setDefined($this->getDataElements());
 
         // validate / format options
         $resolver->setNormalizer('statementNumber', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string10'));
         $resolver->setNormalizer('numberMovement', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string6'));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getDefaultDto(): Common\Dtos\AbstractDto
+    {
+        return new StatementNumberDto();
     }
 }

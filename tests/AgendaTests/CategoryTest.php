@@ -22,28 +22,28 @@ class CategoryTest extends CommonTestClass
 
     public function testAddSubCategories(): void
     {
+        $subDto = new Pohoda\Category\CategoryDto();
+        $subDto->name = 'Sub';
+        $subDto->sequence = 1;
+        $subDto->displayed = true;
         $sub = new Pohoda\Category($this->getBasicDi());
-        $sub->setData([
-            'name' => 'Sub',
-            'sequence' => 1,
-            'displayed' => true,
-        ]);
+        $sub->setData($subDto);
 
+        $subSubDto = new Pohoda\Category\CategoryDto();
+        $subSubDto->name = 'SubSub';
+        $subSubDto->sequence = 1;
+        $subSubDto->displayed = false;
         $subSub = new Pohoda\Category($this->getBasicDi());
-        $subSub->setData([
-            'name' => 'SubSub',
-            'sequence' => 1,
-            'displayed' => false,
-        ]);
+        $subSub->setData($subSubDto);
 
         $sub->addSubcategory($subSub);
 
+        $sub2Dto = new Pohoda\Category\CategoryDto();
+        $sub2Dto->name = 'Sub2';
+        $sub2Dto->sequence = '2';
+        $sub2Dto->displayed = true;
         $sub2 = new Pohoda\Category($this->getBasicDi());
-        $sub2->setData([
-            'name' => 'Sub2',
-            'sequence' => '2',
-            'displayed' => true,
-        ]);
+        $sub2->setData($sub2Dto);
 
         $lib = $this->getLib();
         $lib->addSubcategory($sub);
@@ -54,11 +54,12 @@ class CategoryTest extends CommonTestClass
 
     protected function getLib(): Pohoda\Category
     {
+        $dto = new Pohoda\Category\CategoryDto();
+        $dto->name = 'Main';
+        $dto->sequence = 1;
+        $dto->displayed = true;
+
         $lib = new Pohoda\Category($this->getBasicDi());
-        return $lib->setData([
-            'name' => 'Main',
-            'sequence' => 1,
-            'displayed' => true,
-        ]);
+        return $lib->setData($dto);
     }
 }

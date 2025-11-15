@@ -30,34 +30,6 @@ class Header extends AbstractHeader
         'evidentiaryResourcesMOSS',
     ];
 
-    /** @var string[] */
-    protected array $elements = [
-        'bankType',
-        'account',
-        'statementNumber',
-        'symVar',
-        'dateStatement',
-        'datePayment',
-        'accounting',
-        'classificationVAT',
-        'classificationKVDPH',
-        'text',
-        'partnerIdentity',
-        'myIdentity',
-        'paymentAccount',
-        'symConst',
-        'symSpec',
-        'symPar',
-        'centre',
-        'activity',
-        'contract',
-        'MOSS',
-        'evidentiaryResourcesMOSS',
-        'accountingPeriodMOSS',
-        'note',
-        'intNote',
-    ];
-
     /**
      * {@inheritdoc}
      */
@@ -93,5 +65,13 @@ class Header extends AbstractHeader
         $resolver->setNormalizer('symSpec', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string16'));
         $resolver->setNormalizer('symPar', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string20'));
         $resolver->setNormalizer('accountingPeriodMOSS', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string7'));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getDefaultDto(): Common\Dtos\AbstractDto
+    {
+        return new HeaderDto();
     }
 }

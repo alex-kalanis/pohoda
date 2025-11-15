@@ -20,13 +20,6 @@ use Riesenia\Pohoda\Type\StockItem;
  */
 class Item extends AbstractAgenda
 {
-    /** @var string[] */
-    protected array $elements = [
-        'quantity',
-        'stockItem',
-        'note',
-    ];
-
     /**
      * {@inheritdoc}
      */

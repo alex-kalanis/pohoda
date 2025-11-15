@@ -12,41 +12,30 @@ declare(strict_types=1);
 namespace Riesenia\Pohoda;
 
 /**
- * @property array{
- *     name: string,
- *     description?: string,
- *     parameterType: string,
- *     parameterSettings?: IntParam\Settings,
- * } $data
+ * @property IntParam\IntParamDto $data
  */
 class IntParam extends AbstractAgenda
 {
-    /** @var string[] */
-    protected array $elements = [
-        'name',
-        'description',
-        'parameterType',
-        'parameterSettings',
-    ];
-
     /**
      * {@inheritdoc}
      */
-    public function setData(array $data): parent
+    public function setData(?Common\Dtos\AbstractDto $data): parent
     {
-        // prepare empty parameter list for list
-        if ('listValue' == $data['parameterType']) {
-            $data['parameterSettings'] = ['parameterList' => []];
-        }
-
         // process settings
-        if (isset($data['parameterSettings'])) {
+        if (isset($data->parameterSettings)) {
+            // prepare empty parameter list for list
+            if ('listValue' == $data->parameterType) {
+                if (!isset($data->parameterSettings->parameterList)) {
+                    $data->parameterSettings->parameterList = [];
+                }
+            }
+
             $parameterSettings = new IntParam\Settings($this->dependenciesFactory);
             $parameterSettings
                 ->setDirectionalVariable($this->useOneDirectionalVariables)
                 ->setResolveOptions($this->resolveOptions)
-                ->setData($data['parameterSettings']);
-            $data['parameterSettings'] = $parameterSettings;
+                ->setData($data->parameterSettings);
+            $data->parameterSettings = $parameterSettings;
         }
 
         return parent::setData($data);
@@ -66,7 +55,7 @@ class IntParam extends AbstractAgenda
         $xml->addAttribute('version', '2.0');
 
         $param = $xml->addChild('ipm:intParam');
-        $this->addElements($param, $this->elements, 'ipm');
+        $this->addElements($param, $this->getDataElements(), 'ipm');
 
         return $xml;
     }
@@ -77,11 +66,19 @@ class IntParam extends AbstractAgenda
     protected function configureOptions(Common\OptionsResolver $resolver): void
     {
         // available options
-        $resolver->setDefined($this->elements);
+        $resolver->setDefined($this->getDataElements());
 
         // validate / format options
         $resolver->setRequired('name');
         $resolver->setRequired('parameterType');
         $resolver->setAllowedValues('parameterType', ['textValue', 'currencyValue', 'booleanValue', 'numberValue', 'integerValue', 'datetimeValue', 'unit', 'listValue']);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getDefaultDto(): Common\Dtos\AbstractDto
+    {
+        return new IntParam\IntParamDto();
     }
 }

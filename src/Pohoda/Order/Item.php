@@ -25,11 +25,6 @@ class Item extends AbstractItem
         'contract',
     ];
 
-    /** @var string[] */
-    protected array $additionalElements = [
-        'id',
-    ];
-
     public function __construct(
         DependenciesFactory $dependenciesFactory,
     ) {

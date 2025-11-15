@@ -22,43 +22,49 @@ class IntDocTest extends CommonTestClass
 
     public function testAddItems(): void
     {
+        $home1 = new Pohoda\Type\Dtos\CurrencyItemDto();
+        $home1->unitPrice = 200;
+
+        $item1 = new Pohoda\IssueSlip\ItemDto();
+        $item1->text = 'NAME 1';
+        $item1->quantity = 1;
+        $item1->rateVAT = 'high';
+        $item1->homeCurrency = $home1;
+
         $lib = $this->getLib();
-        $lib->addItem([
-            'text' => 'NAME 1',
-            'quantity' => 1,
-            'rateVAT' => 'high',
-            'homeCurrency' => [
-                'unitPrice' => 200,
-            ],
-        ]);
+        $lib->addItem($item1);
 
         $this->assertEquals('<int:intDoc version="2.0"><int:intDocHeader>' . $this->defaultHeader() . '</int:intDocHeader><int:intDocDetail><int:intDocItem><int:text>NAME 1</int:text><int:quantity>1</int:quantity><int:rateVAT>high</int:rateVAT><int:homeCurrency><typ:unitPrice>200</typ:unitPrice></int:homeCurrency></int:intDocItem></int:intDocDetail></int:intDoc>', $lib->getXML()->asXML());
     }
 
     public function testSetSummary(): void
     {
+        $foreign = new Pohoda\Type\Dtos\CurrencyForeignDto();
+        $foreign->currency = 'EUR';
+        $foreign->rate = '20.232';
+        $foreign->amount = 1;
+        $foreign->priceSum = 580;
+
+        $summary = new Pohoda\IntDoc\SummaryDto();
+        $summary->roundingDocument = 'math2one';
+        $summary->foreignCurrency = $foreign;
+
         $lib = $this->getLib();
-        $lib->addSummary([
-            'roundingDocument' => 'math2one',
-            'foreignCurrency' => [
-                'currency' => 'EUR',
-                'rate' => '20.232',
-                'amount' => 1,
-                'priceSum' => 580,
-            ],
-        ]);
+        $lib->addSummary($summary);
 
         $this->assertEquals('<int:intDoc version="2.0"><int:intDocHeader>' . $this->defaultHeader() . '</int:intDocHeader><int:intDocSummary><int:roundingDocument>math2one</int:roundingDocument><int:foreignCurrency><typ:currency><typ:ids>EUR</typ:ids></typ:currency><typ:rate>20.232</typ:rate><typ:amount>1</typ:amount><typ:priceSum>580</typ:priceSum></int:foreignCurrency></int:intDocSummary></int:intDoc>', $lib->getXML()->asXML());
     }
 
     public function testTaxDocument(): void
     {
+        $sourceLiquidation = new Pohoda\Type\Dtos\SourceLiquidationDto();
+        $sourceLiquidation->sourceItemId = '0123456879';
+
+        $taxDoc = new Pohoda\Type\Dtos\TaxDocumentDto();
+        $taxDoc->sourceLiquidation = $sourceLiquidation;
+
         $lib = $this->getLib();
-        $lib->addTaxDocument([
-            'sourceLiquidation' => [
-                'sourceItemId' => '0123456879',
-            ],
-        ]);
+        $lib->addTaxDocument($taxDoc);
 
         $this->assertEquals('<int:intDoc version="2.0"><int:taxDocument><int:sourceLiquidation><typ:sourceItemId>123456879</typ:sourceItemId></int:sourceLiquidation></int:taxDocument><int:intDocHeader>' . $this->defaultHeader() . '</int:intDocHeader></int:intDoc>', $lib->getXML()->asXML());
     }
@@ -81,19 +87,26 @@ class IntDocTest extends CommonTestClass
 
     protected function getLib(): Pohoda\IntDoc
     {
+        $partner = new Pohoda\Type\Dtos\AddressDto();
+        $partner->id = 25;
+
+        $myAddr = new Pohoda\Type\Dtos\AddressInternetTypeDto();
+        $myAddr->name = 'NAME';
+        $myAddr->ico = '123';
+
+        $myIdent = new Pohoda\Type\Dtos\MyAddressDto();
+        $myIdent->address = $myAddr;
+
+        $header = new Pohoda\IntDoc\HeaderDto();
+        $header->partnerIdentity = $partner;
+        $header->myIdentity = $myIdent;
+        $header->date = '2015-01-10';
+        $header->intNote = 'Note';
+
+        $dto = new Pohoda\IntDoc\IntDocDto();
+        $dto->header = $header;
+
         $lib = new Pohoda\IntDoc($this->getBasicDi());
-        return $lib->setData([
-            'partnerIdentity' => [
-                'id' => 25,
-            ],
-            'myIdentity' => [
-                'address' => [
-                    'name' => 'NAME',
-                    'ico' => '123',
-                ],
-            ],
-            'date' => '2015-01-10',
-            'intNote' => 'Note',
-        ]);
+        return $lib->setData($dto);
     }
 }

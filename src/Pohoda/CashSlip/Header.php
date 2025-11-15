@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\CashSlip;
 
-use Riesenia\Pohoda\Common\OptionsResolver;
+use Riesenia\Pohoda\Common;
 use Riesenia\Pohoda\Document\AbstractHeader;
 
 class Header extends AbstractHeader
@@ -28,28 +28,10 @@ class Header extends AbstractHeader
         'kasa',
     ];
 
-    /** @var string[] */
-    protected array $elements = [
-        'prodejkaType',
-        'number',
-        'date',
-        'accounting',
-        'text',
-        'partnerIdentity',
-        'paymentType',
-        'priceLevel',
-        'centre',
-        'activity',
-        'contract',
-        'kasa',
-        'note',
-        'intNote',
-    ];
-
     /**
      * {@inheritdoc}
      */
-    protected function configureOptions(OptionsResolver $resolver): void
+    protected function configureOptions(Common\OptionsResolver $resolver): void
     {
         parent::configureOptions($resolver);
 
@@ -58,5 +40,13 @@ class Header extends AbstractHeader
         $resolver->setAllowedValues('prodejkaType', ['saleVoucher', 'deposit', 'withdrawal']);
         $resolver->setNormalizer('date', $this->dependenciesFactory->getNormalizerFactory()->getClosure('date'));
         $resolver->setNormalizer('text', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string240'));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getDefaultDto(): Common\Dtos\AbstractDto
+    {
+        return new HeaderDto();
     }
 }

@@ -15,11 +15,7 @@ use Riesenia\Pohoda\Common;
 use Riesenia\Pohoda\Type;
 
 /**
- * @property object{
- *     parameters?: iterable<Type\Parameter>,
- *     partnerIdentity?: Type\Address,
- *     myIdentity?: Type\MyAddress,
- * } $data
+ * @property Common\Dtos\AbstractHeaderDto $data
  */
 abstract class AbstractHeader extends AbstractPart
 {
@@ -68,7 +64,7 @@ abstract class AbstractHeader extends AbstractPart
 
         $xml = $this->createXML()->addChild($this->namespace . ':' . $this->nodePrefix . 'Header', '', $this->namespace($this->namespace));
 
-        $this->addElements($xml, \array_merge($this->getDataElements(), ['parameters']), $this->namespace);
+        $this->addElements($xml, $this->getDataElements(), $this->namespace);
 
         return $xml;
     }

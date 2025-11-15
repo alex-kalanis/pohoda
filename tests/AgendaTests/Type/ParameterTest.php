@@ -4,9 +4,8 @@ namespace tests\AgendaTests\Type;
 
 use tests\CommonTestClass;
 use Riesenia\Pohoda;
-use Riesenia\Pohoda\Type\Parameter;
-use Riesenia\Pohoda\ValueTransformer\Listing;
-use Riesenia\Pohoda\ValueTransformer\SanitizeEncoding;
+use Riesenia\Pohoda\Type;
+use Riesenia\Pohoda\ValueTransformer;
 
 class ParameterTest extends CommonTestClass
 {
@@ -14,73 +13,79 @@ class ParameterTest extends CommonTestClass
     {
         $lib = $this->getLib();
         $lib->setResolveOptions(false);
-        $this->assertInstanceOf(Parameter::class, $lib);
+        $this->assertInstanceOf(Type\Parameter::class, $lib);
         $this->assertInstanceOf(Pohoda\AbstractAgenda::class, $lib);
         $this->assertNull($lib->getImportRoot());
     }
 
     public function testCreateCorrectXml1(): void
     {
-        $this->assertEquals('<typ:parameter><typ:name>VPr_testing</typ:name><typ:textValue>foo_bar_baz</typ:textValue></typ:parameter>', $this->getLib()->setData(
-            [
-                'name' => 'VPr_testing',
-                'type' => 'text',
-                'value' => 'foo_bar_baz',
-            ],
-        )->getXML()->asXML());
+        $dto = new Type\Dtos\ParameterDto();
+        $dto->name = 'VPr_testing';
+        $dto->type = 'text';
+        $dto->value = 'foo_bar_baz';
+
+        $this->assertEquals(
+            '<typ:parameter><typ:name>VPr_testing</typ:name><typ:textValue>foo_bar_baz</typ:textValue></typ:parameter>',
+            $this->getLib()->setData($dto)->getXML()->asXML()
+        );
     }
 
     public function testCreateCorrectXml2(): void
     {
-        $this->assertEquals('<typ:parameter><typ:name>RefVPrtesting</typ:name><typ:listValueRef><typ:ids>456</typ:ids></typ:listValueRef><typ:list><typ:0>statementNumber</typ:0><typ:1>numberMovement</typ:1></typ:list></typ:parameter>', $this->getLib()->setData(
-            [
-                'name' => 'testing',
-                'type' => 'list',
-                'value' => '456',
-                'list' => [
-                    'statementNumber',
-                    'numberMovement',
-                ],
-            ],
-        )->getXML()->asXML());
+        $dto = new Type\Dtos\ParameterDto();
+        $dto->name = 'testing';
+        $dto->type = 'list';
+        $dto->value = '456';
+        $dto->list = [
+            'statementNumber',
+            'numberMovement',
+        ];
+
+        $this->assertEquals(
+            '<typ:parameter><typ:name>RefVPrtesting</typ:name><typ:listValueRef><typ:ids>456</typ:ids></typ:listValueRef><typ:list><typ:0>statementNumber</typ:0><typ:1>numberMovement</typ:1></typ:list></typ:parameter>',
+            $this->getLib()->setData($dto)->getXML()->asXML()
+        );
     }
 
     public function testCreateCorrectXml3(): void
     {
-        $sanitize = new SanitizeEncoding(new Listing());
+        $dto = new Type\Dtos\ParameterDto();
+        $dto->name = 'testing';
+        $dto->type = 'list';
+        $dto->value = '456';
+        $dto->list = [
+            '123',
+            '456',
+            '789',
+        ];
+
+        $sanitize = new ValueTransformer\SanitizeEncoding(new ValueTransformer\Listing());
         $sanitize->willBeSanitized(true);
-        $lib = new Parameter(new Pohoda\DI\DependenciesFactory(
+        $lib = new Type\Parameter(new Pohoda\DI\DependenciesFactory(
             new Pohoda\Common\NamespacesPaths(),
             $sanitize,
             new Pohoda\Common\OptionsResolver\Normalizers\NormalizerFactory(),
             null,
             new Pohoda\PrintRequest\ParameterInstances(),
         ));
-        $lib->setData([
-            'name' => 'testing',
-            'type' => 'list',
-            'value' => '456',
-            'list' => [
-                '123',
-                '456',
-                '789',
-            ],
-        ]);
+        $lib->setData($dto);
         $this->assertEquals('<typ:parameter><typ:name>RefVPrtesting</typ:name><typ:listValueRef><typ:ids>456</typ:ids></typ:listValueRef><typ:list><typ:0>123</typ:0><typ:1>456</typ:1><typ:2>789</typ:2></typ:list></typ:parameter>', $lib->getXML()->asXML());
     }
 
     public function testParamDateTime(): void
     {
-        $lib = $this->getLib()->setData([
-            'name' => 'bar',
-            'type' => 'datetime',
-            'value' => '2024-05-25',
-        ]);
+        $dto = new Type\Dtos\ParameterDto();
+        $dto->name = 'bar';
+        $dto->type = 'datetime';
+        $dto->value = '2024-05-25';
+
+        $lib = $this->getLib()->setData($dto);
         $this->assertEquals('', $lib->getXML());
     }
 
-    protected function getLib(): Parameter
+    protected function getLib(): Type\Parameter
     {
-        return new Parameter($this->getBasicDi());
+        return new Type\Parameter($this->getBasicDi());
     }
 }

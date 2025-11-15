@@ -6,7 +6,7 @@ use Riesenia\Pohoda\Common\Dtos;
 
 class IntParameterDto extends Dtos\AbstractDto
 {
-    public ?string $intParameterID = null;
+    public int|string|null $intParameterID = null;
     public ?string $intParameterName = null;
     public ?string $intParameterOrder = null;
     public ?string $intParameterType = null;

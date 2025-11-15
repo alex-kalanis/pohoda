@@ -33,4 +33,12 @@ class CashSlip extends AbstractDocument
     {
         return 'prodejka';
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getDefaultDto(): Common\Dtos\AbstractDto
+    {
+        return new CashSlip\CashSlipDto();
+    }
 }

@@ -15,10 +15,7 @@ use Riesenia\Pohoda\Common;
 use Riesenia\Pohoda\Type;
 
 /**
- * @property array{
- *     homeCurrency?: Type\CurrencyHome,
- *     foreignCurrency?: Type\CurrencyForeign,
- * } $data
+ * @property Common\Dtos\AbstractSummaryDto $data
  */
 abstract class AbstractSummary extends AbstractPart
 {
