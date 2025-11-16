@@ -17,11 +17,13 @@ class HeaderDto extends AbstractHeaderDto
     public ?string $symPar = null;
     #[Attributes\RefElement]
     public ?string $centre = null;
+    /** @var array<string, string|int|float|bool|array<string, string|int|float|bool>>|string|null */
     #[Attributes\RefElement]
     public array|string|null $activity = null;
     #[Attributes\RefElement]
     public ?string $contract = null;
     public ?string $note = null;
     public ?string $intNote = null;
+    /** @var array<Type\Parameter|Type\Dtos\ParameterDto> */
     public array $parameters = [];
 }

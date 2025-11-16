@@ -37,7 +37,7 @@ class ActionType extends AbstractAgenda
             $action->addAttribute('update', 'true');
         }
 
-        if (!is_null($this->data->filter)) {
+        if (!empty($this->data->filter)) {
             $filter = $action->addChild('ftr:filter', '', $this->namespace('ftr'));
 
             if (!empty($this->data->agenda)) {
@@ -45,11 +45,11 @@ class ActionType extends AbstractAgenda
             }
 
             foreach ($this->data->filter as $property => $value) {
-                $ftr = $filter->addChild('ftr:' . $property, \is_array($value) ? null : strval($value));
+                $ftr = $filter->addChild('ftr:' . $property, \is_array($value) ? null : \strval($value));
 
                 if (\is_array($value)) {
                     foreach ($value as $tProperty => $tValue) {
-                        $ftr->addChild('typ:' . $tProperty, $tValue, $this->namespace('typ'));
+                        $ftr->addChild('typ:' . $tProperty, \strval($tValue), $this->namespace('typ'));
                     }
                 }
             }

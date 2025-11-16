@@ -22,7 +22,7 @@ class TaxDocument extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    public function setData(?Common\Dtos\AbstractDto $data): parent
+    public function setData(Common\Dtos\AbstractDto $data): parent
     {
         // process source liquidation
         if (isset($data->sourceLiquidation)) {

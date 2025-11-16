@@ -71,8 +71,10 @@ class Category extends AbstractAgenda
         if (!empty($this->data->subCategories)) {
             $subCategories = $category->addChild('ctg:subCategories', '', $this->namespace('ctg'));
 
-            foreach ((array) $this->data->subCategories as $subCategory) {
-                $subCategory->categoryXML($subCategories);
+            foreach ($this->data->subCategories as $subCategory) {
+                if (\is_a($subCategory, self::class)) {
+                    $subCategory->categoryXML($subCategories);
+                }
             }
         }
     }

@@ -2,6 +2,7 @@
 
 namespace Riesenia\Pohoda\Category;
 
+use Riesenia\Pohoda\Category;
 use Riesenia\Pohoda\Common\Attributes;
 use Riesenia\Pohoda\Common\Dtos;
 
@@ -13,6 +14,7 @@ class CategoryDto extends Dtos\AbstractDto
     public bool|string|null $displayed = null;
     public ?string $picture = null;
     public ?string $note = null;
+    /** @var array<self|Category> */
     #[Attributes\OnlyInternal]
-    public array|string|null $subCategories = [];
+    public array $subCategories = [];
 }

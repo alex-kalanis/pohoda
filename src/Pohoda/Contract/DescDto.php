@@ -17,8 +17,10 @@ class DescDto extends AbstractHeaderDto
     public \DateTimeInterface|string|null $dateWarranty = null;
     public ?string $text = null;
     public Type\Dtos\AddressDto|Type\Address|null $partnerIdentity = null;
+    /** @var array<string, string>|string|null */
     #[Attributes\RefElement]
     public array|string|null $responsiblePerson = null;
     public ?string $note = null;
+    /** @var array<Type\Parameter|Type\Dtos\ParameterDto> */
     public array $parameters = [];
 }

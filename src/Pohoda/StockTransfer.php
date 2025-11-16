@@ -21,7 +21,7 @@ class StockTransfer extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    public function setData(?Common\Dtos\AbstractDto $data): parent
+    public function setData(Common\Dtos\AbstractDto $data): parent
     {
         // pass to header
         $header = new StockTransfer\Header($this->dependenciesFactory);

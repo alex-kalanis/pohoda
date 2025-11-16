@@ -2,9 +2,9 @@
 
 namespace Riesenia\Pohoda\Bank;
 
-use Riesenia\Pohoda\Common\Dtos;
+use Riesenia\Pohoda\Document;
 
-class BankDto extends Dtos\AbstractDto
+class BankDto extends Document\AbstractDocumentDto
 {
     public Header|HeaderDto|null $header = null;
     /** @var array<Item|ItemDto> */

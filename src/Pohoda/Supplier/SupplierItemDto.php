@@ -8,6 +8,7 @@ use Riesenia\Pohoda\Common\Dtos\AbstractItemDto;
 class SupplierItemDto extends AbstractItemDto
 {
     public bool|string|null $default = null;
+    /** @var array<string, string|int|float|bool|array<string, string|int|float|bool>>|string|null */
     #[Attributes\RefElement]
     public array|string|null $refAd = null;
     public ?string $orderCode = null;

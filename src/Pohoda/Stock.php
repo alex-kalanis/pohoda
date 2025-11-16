@@ -23,7 +23,7 @@ class Stock extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    public function setData(?Common\Dtos\AbstractDto $data): parent
+    public function setData(Common\Dtos\AbstractDto $data): parent
     {
         // pass to header
         if (!empty($data->header)) {
@@ -102,7 +102,9 @@ class Stock extends AbstractAgenda
     public function addImage(string $filepath, string $description = '', int $order = null, bool $default = false): self
     {
         $object = $this->data->header;
-        $object->addImage($filepath, $description, $order, $default);
+        if (\is_object($object) && \is_a($object, AbstractAgenda::class)) {
+            $object->addImage($filepath, $description, $order, $default);
+        }
 
         return $this;
     }
@@ -117,7 +119,9 @@ class Stock extends AbstractAgenda
     public function addCategory(int $categoryId): self
     {
         $object = $this->data->header;
-        $object->addCategory($categoryId);
+        if (\is_object($object) && \is_a($object, AbstractAgenda::class)) {
+            $object->addCategory($categoryId);
+        }
 
         return $this;
     }
@@ -132,7 +136,9 @@ class Stock extends AbstractAgenda
     public function addIntParameter(Stock\IntParameterDto $data): self
     {
         $object = $this->data->header;
-        $object->addIntParameter($data);
+        if (\is_object($object) && \is_a($object, AbstractAgenda::class)) {
+            $object->addIntParameter($data);
+        }
 
         return $this;
     }

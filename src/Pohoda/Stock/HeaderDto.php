@@ -28,8 +28,10 @@ class HeaderDto extends Dtos\AbstractHeaderDto
     public ?string $unit3 = null;
     public float|string|null $coefficient2 = null;
     public float|string|null $coefficient3 = null;
+    /** @var array<string, string|int|float|bool|array<string, string|int|float|bool>>|string|null */
     #[Attributes\RefElement]
     public array|string|null $storage = null;
+    /** @var array<string, string|int|float|bool|array<string, string|int|float|bool>>|string|null */
     #[Attributes\RefElement]
     public array|string|null $typePrice = null;
     public float|string|null $purchasingPrice = null;
@@ -40,6 +42,7 @@ class HeaderDto extends Dtos\AbstractHeaderDto
     public float|string|null $limitMax = null;
     public float|string|null $mass = null;
     public float|string|null $volume = null;
+    /** @var array<string, string|int|float|bool|array<string, string|int|float|bool>>|string|null */
     #[Attributes\RefElement]
     public array|string|null $supplier = null;
     public ?string $orderName = null;

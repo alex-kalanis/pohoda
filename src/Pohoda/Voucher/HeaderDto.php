@@ -47,6 +47,7 @@ class HeaderDto extends AbstractHeaderDto
     public ?string $lock2 = null;
     public ?string $markRecord = null;
     public ?string $labels = null;
+    /** @var array<Type\Parameter|Type\Dtos\ParameterDto> */
     public array $parameters = [];
     public ?string $validate = null;
 }

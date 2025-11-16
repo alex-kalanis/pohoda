@@ -16,7 +16,7 @@ class PrintRequest extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    public function setData(?Common\Dtos\AbstractDto $data): parent
+    public function setData(Common\Dtos\AbstractDto $data): parent
     {
         if (!empty($data->record)) {
             // process record

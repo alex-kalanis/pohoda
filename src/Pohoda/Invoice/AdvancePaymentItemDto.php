@@ -8,6 +8,7 @@ use Riesenia\Pohoda\Type;
 
 class AdvancePaymentItemDto extends AbstractDto
 {
+    /** @var array<string, string>|string|null */
     #[Attributes\RefElement]
     public array|string|null $sourceDocument = null;
     public float|string|null $quantity = null;
@@ -30,5 +31,6 @@ class AdvancePaymentItemDto extends AbstractDto
     #[Attributes\RefElement]
     public ?string $contract = null;
     public ?string $symPar = null;
+    /** @var array<Type\Parameter|Type\Dtos\ParameterDto> */
     public array $parameters = [];
 }

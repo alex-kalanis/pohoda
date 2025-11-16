@@ -44,7 +44,7 @@ class Header extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    public function setData(?Common\Dtos\AbstractDto $data): parent
+    public function setData(Common\Dtos\AbstractDto $data): parent
     {
         // process intrastat
         if (isset($data->intrastat)) {

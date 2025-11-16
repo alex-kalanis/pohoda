@@ -34,5 +34,6 @@ class ItemDto extends AbstractItemDto
     public bool|string|null $PDP = null;
     #[Attributes\ResponseDirection]
     public ?string $id = null;
+    /** @var array<Type\Parameter|Type\Dtos\ParameterDto> */
     public array $parameters = [];
 }

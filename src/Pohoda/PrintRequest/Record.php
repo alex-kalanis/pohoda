@@ -22,7 +22,7 @@ class Record extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    public function setData(?Common\Dtos\AbstractDto $data): parent
+    public function setData(Common\Dtos\AbstractDto $data): parent
     {
         if (!empty($data->filter)) {
             // process filter

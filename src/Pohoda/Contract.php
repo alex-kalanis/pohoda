@@ -26,7 +26,7 @@ class Contract extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    public function setData(?Common\Dtos\AbstractDto $data): parent
+    public function setData(Common\Dtos\AbstractDto $data): parent
     {
         // pass to header
         $desc = new Contract\Desc($this->dependenciesFactory);

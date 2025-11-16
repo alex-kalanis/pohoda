@@ -19,12 +19,12 @@ class IntParam extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    public function setData(?Common\Dtos\AbstractDto $data): parent
+    public function setData(Common\Dtos\AbstractDto $data): parent
     {
         // process settings
         if (isset($data->parameterSettings)) {
             // prepare empty parameter list for list
-            if ('listValue' == $data->parameterType) {
+            if (!empty($data->parameterType) && ('listValue' == $data->parameterType)) {
                 if (!isset($data->parameterSettings->parameterList)) {
                     $data->parameterSettings->parameterList = [];
                 }

@@ -16,7 +16,7 @@ use Riesenia\Pohoda\Type;
 
 /**
  * @property object{
- *     parameters: array
+ *     parameters: array<Type\Parameter>
  * } $data
  */
 trait AddParameterTrait

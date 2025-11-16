@@ -24,7 +24,7 @@ abstract class AbstractHeader extends AbstractPart
     /**
      * {@inheritdoc}
      */
-    public function setData(?Common\Dtos\AbstractDto $data): parent
+    public function setData(Common\Dtos\AbstractDto $data): parent
     {
         // process partner identity
         if (isset($data->partnerIdentity)) {

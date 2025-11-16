@@ -25,7 +25,7 @@ class Picture extends AbstractAgenda
     public function getXML(): \SimpleXMLElement
     {
         $xml = $this->createXML()->addChild('stk:picture', '', $this->namespace('stk'));
-        $xml->addAttribute('default', $this->data->default);
+        $xml->addAttribute('default', \strval($this->data->default));
 
         $this->addElements($xml, $this->getDataElements(), 'stk');
 

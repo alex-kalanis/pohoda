@@ -15,6 +15,9 @@ use Riesenia\Pohoda\AbstractAgenda;
 use Riesenia\Pohoda\Common;
 use Riesenia\Pohoda\Type\Address;
 
+/**
+ * @property HeaderDto $data
+ */
 class Header extends AbstractAgenda
 {
     use Common\AddParameterTrait;
@@ -22,7 +25,7 @@ class Header extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    public function setData(?Common\Dtos\AbstractDto $data): parent
+    public function setData(Common\Dtos\AbstractDto $data): parent
     {
         // process identity
         if (isset($data->identity)) {

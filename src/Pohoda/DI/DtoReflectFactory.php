@@ -12,7 +12,7 @@ final class DtoReflectFactory implements DtoFactoryInterface
     /**
      * {@inheritDoc}
      */
-    public function getDto(string|object $name): AbstractDto
+    public function getDto(string|AbstractDto $name): AbstractDto
     {
         try {
             $reflection = new ReflectionClass($name);

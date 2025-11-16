@@ -23,7 +23,7 @@ class Item extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    public function setData(?Common\Dtos\AbstractDto $data): parent
+    public function setData(Common\Dtos\AbstractDto $data): parent
     {
         // process stock item
         if (isset($data->stockItem)) {

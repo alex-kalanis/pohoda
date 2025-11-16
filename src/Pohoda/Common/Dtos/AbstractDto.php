@@ -11,23 +11,4 @@ namespace Riesenia\Pohoda\Common\Dtos;
  * todo: typova kontrola prvku (int, varcharX, enum, date, ...)
  * todo: budou tu abstract DTOs podle obsahu - basic, header, body, summary, ... - a pak na ne navazane realne instance per agenda
  */
-abstract class AbstractDto
-{
-    /*
-    public function __set(string $name, mixed $value): void {}
-
-    public function __get(string $name): mixed
-    {
-        return null;
-    }
-
-    public function __unset(string $name): void {}
-
-    public function __isset(string|int $data): bool
-    {
-        // any variable not previously set as part of child class is non-existent
-        // this is due php8.1+ behavior with classes and need to check if the passed data are usable
-        return false;
-    }
-    */
-}
+abstract class AbstractDto {}

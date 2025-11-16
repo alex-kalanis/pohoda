@@ -58,17 +58,19 @@ class Storage extends AbstractAgenda
     public function storageXML(\SimpleXMLElement $xml): void
     {
         $storage = $xml->addChild('str:itemStorage', '', $this->namespace('str'));
-        $storage->addAttribute('code', strval($this->data->code));
+        $storage->addAttribute('code', \strval($this->data->code));
 
         if (isset($this->data->name)) {
-            $storage->addAttribute('name', strval($this->data->name));
+            $storage->addAttribute('name', \strval($this->data->name));
         }
 
         if (!empty($this->data->subStorages)) {
             $subStorages = $storage->addChild('str:subStorages', '', $this->namespace('str'));
 
             foreach ($this->data->subStorages as $subStorage) {
-                $subStorage->storageXML($subStorages);
+                if (\is_a($subStorage, self::class)) {
+                    $subStorage->storageXML($subStorages);
+                }
             }
         }
     }

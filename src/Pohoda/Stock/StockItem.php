@@ -14,15 +14,18 @@ namespace Riesenia\Pohoda\Stock;
 use Riesenia\Pohoda\AbstractAgenda;
 use Riesenia\Pohoda\Common;
 
+/**
+ * @property StockItemDto $data
+ */
 class StockItem extends AbstractAgenda
 {
     /**
      * {@inheritdoc}
      */
-    public function setData(?Common\Dtos\AbstractDto $data): parent
+    public function setData(Common\Dtos\AbstractDto $data): parent
     {
         // process stockPriceItem
-        if (is_array($data->stockPriceItem) && !empty($data->stockPriceItem)) {
+        if (!empty($data->stockPriceItem) && is_array($data->stockPriceItem)) {
             $data->stockPriceItem = \array_map(function (PriceDto $stockPriceItem) {
                 $price = new Price($this->dependenciesFactory);
                 $price->setDirectionalVariable($this->useOneDirectionalVariables)

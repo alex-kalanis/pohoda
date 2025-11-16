@@ -4,6 +4,7 @@ namespace Riesenia\Pohoda\Common\Dtos;
 
 use ReflectionClass;
 use ReflectionException;
+use ReflectionNamedType;
 use ReflectionProperty;
 use ReflectionUnionType;
 use Riesenia\Pohoda\Common\Attributes;
@@ -21,7 +22,7 @@ class Processing
         // throw nulls and empty arrays (unused values) out
         return array_filter(
             $data,
-            fn($in) => !(is_null($in) || (is_array($in) && empty($in)))
+            fn($in) => !(is_null($in) || (is_array($in) && empty($in))),
         );
     }
 
@@ -205,34 +206,42 @@ class Processing
      */
     protected static function getPropertyType(ReflectionProperty $property, mixed $value): ?string
     {
-        if (is_a($property->getType(), ReflectionUnionType::class)) {
-            return static::getPropertyTypeFromUnion($property, $value);
-        } else {
-            return $property->getType()->getName();
+        $type = $property->getType();
+        if (empty($type)) {
+            return null;
         }
+        if (is_a($type, ReflectionUnionType::class)) {
+            return static::getPropertyTypeFromUnion($type, $value);
+        }
+        if (\method_exists($type, 'getName')) {
+            return $type->getName();
+        }
+        return get_class($type);
     }
 
     /**
-     * @param ReflectionProperty $property
+     * @param ReflectionUnionType $unionType
      * @param mixed $value
      *
      * @throws ReflectionException
      *
      * @return string|null
      */
-    protected static function getPropertyTypeFromUnion(ReflectionProperty $property, mixed $value): ?string
+    protected static function getPropertyTypeFromUnion(ReflectionUnionType $unionType, mixed $value): ?string
     {
         // compare against different types - first one match, use it
         $variableType = gettype($value);
         $classType = is_object($value) ? get_class($value) : null;
         $parentInstances = $classType ? static::getPropertyParentInstances($classType) : [];
-        foreach ($property->getType()->getTypes() as $reflectedType) {
-            if (in_array($reflectedType->getName(), $parentInstances)) {
-                // objects are special in match
-                return 'object';
-            }
-            if ($reflectedType->getName() == $variableType) {
-                return $reflectedType->getName();
+        foreach ($unionType->getTypes() as $reflectedType) {
+            if (is_a($reflectedType, ReflectionNamedType::class)) {
+                if (in_array($reflectedType->getName(), $parentInstances)) {
+                    // objects are special in match
+                    return 'object';
+                }
+                if ($reflectedType->getName() == $variableType) {
+                    return $reflectedType->getName();
+                }
             }
         }
         return null;

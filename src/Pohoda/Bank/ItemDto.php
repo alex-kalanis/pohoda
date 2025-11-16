@@ -21,6 +21,7 @@ class ItemDto extends AbstractItemDto
     public ?string $typeServiceMOSS = null;
     public ?string $note = null;
     public ?string $symPar = null;
+    /** @var array<int|string, string|int|float>|string|null */
     #[Attributes\RefElement]
     public array|string|null $accounting = null;
     #[Attributes\RefElement]

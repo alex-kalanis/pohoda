@@ -18,27 +18,27 @@ use Riesenia\Pohoda\Common\OneDirectionalVariablesTrait;
 /**
  * Factory for Pohoda objects.
  *
- * @method Pohoda\AddressBook   createAddressBook(Pohoda\Common\Dtos\AbstractDto|null $data = null)
- * @method Pohoda\Bank          createBank(Pohoda\Common\Dtos\AbstractDto|null $data = null)
- * @method Pohoda\CashSlip      createCashSlip(Pohoda\Common\Dtos\AbstractDto|null $data = null)
- * @method Pohoda\Category      createCategory(Pohoda\Common\Dtos\AbstractDto|null $data = null)
- * @method Pohoda\Contract      createContract(Pohoda\Common\Dtos\AbstractDto|null $data = null)
- * @method Pohoda\IntDoc        createIntDoc(Pohoda\Common\Dtos\AbstractDto|null $data = null)
- * @method Pohoda\IntParam      createIntParam(Pohoda\Common\Dtos\AbstractDto|null $data = null)
- * @method Pohoda\Invoice       createInvoice(Pohoda\Common\Dtos\AbstractDto|null $data = null)
- * @method Pohoda\IssueSlip     createIssueSlip(Pohoda\Common\Dtos\AbstractDto|null $data = null)
- * @method Pohoda\ListRequest   createListRequest(Pohoda\Common\Dtos\AbstractDto|null $data = null)
- * @method Pohoda\ListResponse  createListResponse(Pohoda\Common\Dtos\AbstractDto|null $data = null)
- * @method Pohoda\Offer         createOffer(Pohoda\Common\Dtos\AbstractDto|null $data = null)
- * @method Pohoda\Order         createOrder(Pohoda\Common\Dtos\AbstractDto|null $data = null)
- * @method Pohoda\PrintRequest  createPrintRequest(Pohoda\Common\Dtos\AbstractDto|null $data = null)
- * @method Pohoda\Receipt       createReceipt(Pohoda\Common\Dtos\AbstractDto|null $data = null)
- * @method Pohoda\Stock         createStock(Pohoda\Common\Dtos\AbstractDto|null $data = null)
- * @method Pohoda\StockTransfer createStockTransfer(Pohoda\Common\Dtos\AbstractDto|null $data = null)
- * @method Pohoda\Storage       createStorage(Pohoda\Common\Dtos\AbstractDto|null $data = null)
- * @method Pohoda\Supplier      createSupplier(Pohoda\Common\Dtos\AbstractDto|null $data = null)
- * @method Pohoda\UserList      createUserList(Pohoda\Common\Dtos\AbstractDto|null $data = null)
- * @method Pohoda\Voucher       createVoucher(Pohoda\Common\Dtos\AbstractDto|null $data = null)
+ * @method Pohoda\AddressBook   createAddressBook(Pohoda\Common\Dtos\AbstractDto $data)
+ * @method Pohoda\Bank          createBank(Pohoda\Common\Dtos\AbstractDto $data)
+ * @method Pohoda\CashSlip      createCashSlip(Pohoda\Common\Dtos\AbstractDto $data)
+ * @method Pohoda\Category      createCategory(Pohoda\Common\Dtos\AbstractDto $data)
+ * @method Pohoda\Contract      createContract(Pohoda\Common\Dtos\AbstractDto $data)
+ * @method Pohoda\IntDoc        createIntDoc(Pohoda\Common\Dtos\AbstractDto $data)
+ * @method Pohoda\IntParam      createIntParam(Pohoda\Common\Dtos\AbstractDto $data)
+ * @method Pohoda\Invoice       createInvoice(Pohoda\Common\Dtos\AbstractDto $data)
+ * @method Pohoda\IssueSlip     createIssueSlip(Pohoda\Common\Dtos\AbstractDto $data)
+ * @method Pohoda\ListRequest   createListRequest(Pohoda\Common\Dtos\AbstractDto $data)
+ * @method Pohoda\ListResponse  createListResponse(Pohoda\Common\Dtos\AbstractDto $data)
+ * @method Pohoda\Offer         createOffer(Pohoda\Common\Dtos\AbstractDto $data)
+ * @method Pohoda\Order         createOrder(Pohoda\Common\Dtos\AbstractDto $data)
+ * @method Pohoda\PrintRequest  createPrintRequest(Pohoda\Common\Dtos\AbstractDto $data)
+ * @method Pohoda\Receipt       createReceipt(Pohoda\Common\Dtos\AbstractDto $data)
+ * @method Pohoda\Stock         createStock(Pohoda\Common\Dtos\AbstractDto $data)
+ * @method Pohoda\StockTransfer createStockTransfer(Pohoda\Common\Dtos\AbstractDto $data)
+ * @method Pohoda\Storage       createStorage(Pohoda\Common\Dtos\AbstractDto $data)
+ * @method Pohoda\Supplier      createSupplier(Pohoda\Common\Dtos\AbstractDto $data)
+ * @method Pohoda\UserList      createUserList(Pohoda\Common\Dtos\AbstractDto $data)
+ * @method Pohoda\Voucher       createVoucher(Pohoda\Common\Dtos\AbstractDto $data)
  * @method \bool loadAddressBook(string $filename)
  * @method \bool loadBank(string $filename)
  * @method \bool loadCashSlip(string $filename)
@@ -125,11 +125,11 @@ class Pohoda
      * Create and return instance of requested agenda.
      *
      * @param string              $name
-     * @param Pohoda\Common\Dtos\AbstractDto|null $data
+     * @param Pohoda\Common\Dtos\AbstractDto $data
      *
      * @return AbstractAgenda
      */
-    public function create(string $name, ?Pohoda\Common\Dtos\AbstractDto $data = null): AbstractAgenda
+    public function create(string $name, Pohoda\Common\Dtos\AbstractDto $data = new Pohoda\Common\Dtos\EmptyDto()): AbstractAgenda
     {
         return $this->dependenciesFactory
             ->getAgendaFactory()

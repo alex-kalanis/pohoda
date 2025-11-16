@@ -13,6 +13,7 @@ class ShipToAddressDto extends AbstractDto
     public ?string $city = null;
     public ?string $street = null;
     public ?string $zip = null;
+    /** @var array<string|int, string>|string|null */
     #[Attributes\RefElement]
     public array|string|null $country = null;
     public ?string $phone = null;

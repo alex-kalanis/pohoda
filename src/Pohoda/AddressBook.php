@@ -27,7 +27,7 @@ class AddressBook extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    public function setData(?Common\Dtos\AbstractDto $data): parent
+    public function setData(Common\Dtos\AbstractDto $data): parent
     {
         // pass to header
         if (!empty($data->header)) {

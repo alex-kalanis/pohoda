@@ -52,11 +52,11 @@ class UserList extends AbstractAgenda
         $xml->addAttribute('code', strval($this->data->code));
         $xml->addAttribute('name', strval($this->data->name));
 
-        if (isset($this->data->dateTimeStamp)) {
+        if (!empty($this->data->dateTimeStamp) && is_string($this->data->dateTimeStamp)) {
             $xml->addAttribute('dateTimeStamp', $this->data->dateTimeStamp);
         }
 
-        if (isset($this->data->dateValidFrom)) {
+        if (!empty($this->data->dateValidFrom) && is_string($this->data->dateValidFrom)) {
             $xml->addAttribute('dateValidFrom', $this->data->dateValidFrom);
         }
 

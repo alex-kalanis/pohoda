@@ -34,8 +34,8 @@ class AbstractItemTest extends CommonTestClass
         $stock = new Type\Dtos\StockItemDto();
         $stock->stockItem = [
             'stockItem' => [
-                    'ids' => 'STM',
-            ]
+                'ids' => 'STM',
+            ],
         ];
 
         $dto = new XDocumentItemDto();

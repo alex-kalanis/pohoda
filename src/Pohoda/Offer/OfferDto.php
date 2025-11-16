@@ -2,9 +2,9 @@
 
 namespace Riesenia\Pohoda\Offer;
 
-use Riesenia\Pohoda\Common\Dtos;
+use Riesenia\Pohoda\Document;
 
-class OfferDto extends Dtos\AbstractDto
+class OfferDto extends Document\AbstractDocumentDto
 {
     public Header|HeaderDto|null $header = null;
     /** @var array<Item|ItemDto> */

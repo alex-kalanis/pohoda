@@ -18,7 +18,7 @@ final class Booleans extends AbstractNormalizer
         return $this->whichResult(!empty($value));
     }
 
-    protected function whichResult(bool $value) : string
+    protected function whichResult(bool $value): string
     {
         return $value ? 'true' : 'false';
     }

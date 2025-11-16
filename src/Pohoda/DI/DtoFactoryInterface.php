@@ -11,9 +11,9 @@ use Riesenia\Pohoda\Common\Dtos\AbstractDto;
 interface DtoFactoryInterface
 {
     /**
-     * @param string|object $name
+     * @param class-string<AbstractDto>|AbstractDto $name
      * @throws DomainException
      * @return AbstractDto
      */
-    public function getDto(string|object $name): AbstractDto;
+    public function getDto(string|AbstractDto $name): AbstractDto;
 }

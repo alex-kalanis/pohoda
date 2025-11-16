@@ -2,7 +2,6 @@
 
 namespace Riesenia\Pohoda\Voucher;
 
-use Riesenia\Pohoda\AbstractAgenda;
 use Riesenia\Pohoda\Common\Attributes;
 use Riesenia\Pohoda\Common\Dtos\AbstractItemDto;
 use Riesenia\Pohoda\Type;
@@ -41,5 +40,6 @@ class ItemDto extends AbstractItemDto
     #[Attributes\RefElement]
     public ?string $contract = null;
     public ?string $EETItem = null;
+    /** @var array<Type\Parameter|Type\Dtos\ParameterDto> */
     public array $parameters = [];
 }

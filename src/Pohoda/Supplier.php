@@ -24,7 +24,7 @@ class Supplier extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    public function setData(?Common\Dtos\AbstractDto $data): parent
+    public function setData(Common\Dtos\AbstractDto $data): parent
     {
         // process stockItem
         if (isset($data->stockItem)) {

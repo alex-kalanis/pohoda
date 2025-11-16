@@ -24,14 +24,14 @@ trait AddActionTypeTrait
      * Add action type.
      *
      * @param string      $type
-     * @param mixed|null  $filter
+     * @param array<string, string|int|float|bool|array<string, string|int|float|bool>>  $filter
      * @param string|null $agenda
      *
      * @return self
      */
-    public function addActionType(string $type, mixed $filter = null, ?string $agenda = null): self
+    public function addActionType(string $type, array $filter = [], ?string $agenda = null): self
     {
-        if (isset($this->data->actionType)) {
+        if (!empty($this->data->actionType)) {
             throw new \LogicException('Duplicate action type.');
         }
 

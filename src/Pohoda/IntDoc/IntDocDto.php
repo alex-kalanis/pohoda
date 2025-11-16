@@ -2,10 +2,10 @@
 
 namespace Riesenia\Pohoda\IntDoc;
 
-use Riesenia\Pohoda\Common\Dtos;
+use Riesenia\Pohoda\Document;
 use Riesenia\Pohoda\Type;
 
-class IntDocDto extends Dtos\AbstractDto
+class IntDocDto extends Document\AbstractDocumentDto
 {
     public Type\TaxDocument|Type\Dtos\TaxDocumentDto|null $taxDocument = null;
     public Header|HeaderDto|null $header = null;

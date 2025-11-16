@@ -13,6 +13,11 @@ namespace Riesenia\Pohoda\Common;
 
 use Riesenia\Pohoda\AbstractAgenda;
 
+/**
+ * @property object{
+ *     header: AbstractAgenda
+ * } $data
+ */
 trait AddParameterToHeaderTrait
 {
     /**

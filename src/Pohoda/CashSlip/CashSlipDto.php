@@ -2,9 +2,9 @@
 
 namespace Riesenia\Pohoda\CashSlip;
 
-use Riesenia\Pohoda\Common\Dtos;
+use Riesenia\Pohoda\Document;
 
-class CashSlipDto extends Dtos\AbstractDto
+class CashSlipDto extends Document\AbstractDocumentDto
 {
     public Header|HeaderDto|null $header = null;
     /** @var array<Item|ItemDto> */

@@ -27,8 +27,7 @@ abstract class AbstractAgenda
     use Common\ResolveOptionsTrait;
     use Common\DirectionAsResponseTrait;
 
-    /** @var Common\Dtos\AbstractDto|null */
-    protected ?Common\Dtos\AbstractDto $data = null;
+    protected Common\Dtos\AbstractDto $data;
 
     /** @var array<string, Common\ElementAttributes> */
     protected array $elementsAttributesMapper = [];
@@ -70,23 +69,21 @@ abstract class AbstractAgenda
      * Set & resolve data options
      * Necessary for late setting when there is more options available
      *
-     * @param Common\Dtos\AbstractDto|null $data
+     * @param Common\Dtos\AbstractDto $data
      *
      * @throws ReflectionException
      *
      * @return $this
      */
-    public function setData(?Common\Dtos\AbstractDto $data): self
+    public function setData(Common\Dtos\AbstractDto $data): self
     {
         // resolve options
-        if ($data) {
-            if ($this->resolveOptions) {
-                $filteredData = Common\Dtos\Processing::filterUnusableData((array) $data);
-                $resolvedData = $this->resolveOptions($filteredData);
-                $this->data = Common\Dtos\Processing::hydrate($data, $resolvedData, $this->useOneDirectionalVariables);
-            } else {
-                $this->data = $data;
-            }
+        if ($this->resolveOptions) {
+            $filteredData = Common\Dtos\Processing::filterUnusableData((array) $data);
+            $resolvedData = $this->resolveOptions($filteredData);
+            $this->data = Common\Dtos\Processing::hydrate($data, $resolvedData, $this->useOneDirectionalVariables);
+        } else {
+            $this->data = $data;
         }
 
         return $this;
@@ -145,6 +142,7 @@ abstract class AbstractAgenda
     protected function addElements(SimpleXMLElement $xml, array $elements, ?string $namespace = null): void
     {
         $refElements = Common\Dtos\Processing::getRefAttributes($this->data, $this->useOneDirectionalVariables);
+        //$elementsAttributesMapper = Common\Dtos\Processing::getAttributesReferencingElements($this->data);
         foreach ($elements as $element) {
             $nodeKey = $this->getNodeKey($element);
 
@@ -155,7 +153,12 @@ abstract class AbstractAgenda
 
             // ref element
             if (\in_array($nodeKey, $refElements)) {
-                $this->addRefElement($xml, ($namespace ? $namespace . ':' : '') . $nodeKey, $subElement, $namespace);
+                $this->addRefElement(
+                    $xml,
+                    ($namespace ? $namespace . ':' : '') . $nodeKey,
+                    $subElement,
+                    $namespace,
+                );
                 continue;
             }
 
@@ -167,11 +170,12 @@ abstract class AbstractAgenda
                 $attrElement = $namespace ? $xml->children($namespace, true)->{$attrs->attrElement} : $xml->{$attrs->attrElement};
 
                 $sanitized = $this->sanitize($subElement);
-                $attrs->attrNamespace ? $attrElement->addAttribute(
-                    $attrs->attrNamespace . ':' . $attrs->attrName,
-                    $sanitized,
-                    $this->namespace($attrs->attrNamespace),
-                )
+                $attrs->attrNamespace
+                    ? $attrElement->addAttribute(
+                        $attrs->attrNamespace . ':' . $attrs->attrName,
+                        $sanitized,
+                        $this->namespace($attrs->attrNamespace),
+                    )
                     : $attrElement->addAttribute($attrs->attrName, $sanitized);
 
                 continue;
@@ -219,10 +223,10 @@ abstract class AbstractAgenda
 
             $sanitized = $this->sanitize($subElement);
             $namespace ? $xml->addChild(
-                    $namespace . ':' . $nodeKey,
-                    $sanitized,
-                    $this->namespace($namespace)
-                )
+                $namespace . ':' . $nodeKey,
+                $sanitized,
+                $this->namespace($namespace),
+            )
                 : $xml->addChild($nodeKey, $sanitized);
         }
     }
@@ -239,7 +243,13 @@ abstract class AbstractAgenda
      */
     protected function addRefElement(SimpleXMLElement $xml, string $name, mixed $value, ?string $namespace = null): SimpleXMLElement
     {
-        $node = $namespace ? $xml->addChild($name, '', $this->namespace($namespace)) : $xml->addChild($name);
+        $node = $namespace ?
+            $xml->addChild(
+                $name,
+                '',
+                $this->namespace($namespace),
+            )
+            : $xml->addChild($name);
 
         if (!\is_array($value)) {
             $value = ['ids' => $value];
@@ -249,17 +259,33 @@ abstract class AbstractAgenda
             if (\is_array($value1)) {
                 if (array_is_list($value1)) {
                     foreach ($value1 as $value2) {
-                        $node->addChild($namespace . ':' . $key, $this->sanitize($value2), $this->namespace(strval($namespace)));
+                        $node->addChild(
+                            $namespace . ':' . $key,
+                            $this->sanitize($value2),
+                            $this->namespace(\strval($namespace)),
+                        );
                     }
                 } else {
-                    $node = $node->addChild($namespace . ':' . $key, '', $this->namespace(strval($namespace)));
+                    $node = $node->addChild(
+                        $namespace . ':' . $key,
+                        '',
+                        $this->namespace(\strval($namespace)),
+                    );
 
                     foreach ($value1 as $key2 => $value2) {
-                        $node->addChild('typ:' . $key2, $this->sanitize($value2), $this->namespace('typ'));
+                        $node->addChild(
+                            'typ:' . $key2,
+                            $this->sanitize($value2),
+                            $this->namespace('typ'),
+                        );
                     }
                 }
             } else {
-                $node->addChild('typ:' . $key, $this->sanitize($value1), $this->namespace('typ'));
+                $node->addChild(
+                    'typ:' . $key,
+                    $this->sanitize($value1),
+                    $this->namespace('typ'),
+                );
             }
         }
 
@@ -366,7 +392,7 @@ abstract class AbstractAgenda
     protected function getDataElements(bool $withAttributes = false): array
     {
         return Common\Dtos\Processing::getProperties(
-            $this->data ?: $this->getDefaultDto(),
+            $this->data,
             $withAttributes,
             $this->useOneDirectionalVariables,
         );

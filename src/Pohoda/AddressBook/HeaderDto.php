@@ -55,6 +55,7 @@ class HeaderDto extends AbstractHeaderDto
     public ?string $accountForInvoicing = null;
     #[Attributes\RefElement]
     public ?string $foreignCurrency = null;
+    /** @var array<string, string|int|float|bool|array<string, string|int|float|bool>>|string|null */
     #[Attributes\RefElement]
     public array|string|null $centre = null;
     #[Attributes\RefElement]
@@ -62,5 +63,6 @@ class HeaderDto extends AbstractHeaderDto
     #[Attributes\RefElement]
     public ?string $contract = null;
     public ?string $adGroup = null;
+    /** @var array<Type\Parameter|Type\Dtos\ParameterDto> */
     public array $parameters = [];
 }

@@ -2,10 +2,10 @@
 
 namespace Riesenia\Pohoda\Order;
 
-use Riesenia\Pohoda\Common\Dtos;
+use Riesenia\Pohoda\Document;
 use Riesenia\Pohoda\Type;
 
-class OrderDto extends Dtos\AbstractDto
+class OrderDto extends Document\AbstractDocumentDto
 {
     public Header|HeaderDto|null $header = null;
     /** @var array<Item|ItemDto> */

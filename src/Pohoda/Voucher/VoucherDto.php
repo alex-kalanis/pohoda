@@ -2,10 +2,9 @@
 
 namespace Riesenia\Pohoda\Voucher;
 
-use Riesenia\Pohoda\Common\Dtos;
-use Riesenia\Pohoda\Type;
+use Riesenia\Pohoda\Document;
 
-class VoucherDto extends Dtos\AbstractDto
+class VoucherDto extends Document\AbstractDocumentDto
 {
     public Header|HeaderDto|null $header = null;
     /** @var array<Item|ItemDto> */

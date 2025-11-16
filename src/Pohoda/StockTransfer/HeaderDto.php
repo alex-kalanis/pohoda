@@ -15,6 +15,7 @@ class HeaderDto extends Dtos\AbstractHeaderDto
     public \DateTimeInterface|string|null $dateOfReceipt = null;
     public \DateTimeInterface|string|null $timeOfReceipt = null;
     public ?string $symPar = null;
+    /** @var array<string, string|int|float|bool|array<string, string|int|float|bool>>|string|null */
     #[Attributes\RefElement]
     public array|string|null $store = null;
     public ?string $text = null;
@@ -22,6 +23,7 @@ class HeaderDto extends Dtos\AbstractHeaderDto
     #[Attributes\RefElement]
     public ?string $centreSource = null;
     public ?string $centreDestination = null;
+    /** @var array<string, string|int|float|bool|array<string, string|int|float|bool>>|string|null */
     #[Attributes\RefElement]
     public array|string|null $activity = null;
     #[Attributes\RefElement]

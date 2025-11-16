@@ -19,7 +19,7 @@ class Parameters extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    public function setData(?Common\Dtos\AbstractDto $data): parent
+    public function setData(Common\Dtos\AbstractDto $data): parent
     {
         $parameterFactory = $this->dependenciesFactory->getParametersFactory();
         $parameterInstances = $this->dependenciesFactory->getParameterInstances();
@@ -43,7 +43,7 @@ class Parameters extends AbstractAgenda
             }
         }
 
-        $this->data = $this->resolveOptions ? $data : null; // necessary due having dynamic properties
+        $this->data = $this->resolveOptions ? $data : new Common\Dtos\EmptyDto(); // necessary due having dynamic properties
         return parent::setData($data);
     }
 
@@ -73,13 +73,7 @@ class Parameters extends AbstractAgenda
 
     protected function getDataElements(bool $withAttributes = false): array
     {
-        return $this->data
-            ? array_keys((array) $this->data)
-            : Common\Dtos\Processing::getProperties(
-                $this->getDefaultDto(),
-                $withAttributes,
-                $this->useOneDirectionalVariables,
-            );
+        return array_keys((array) $this->data);
     }
 
     /**

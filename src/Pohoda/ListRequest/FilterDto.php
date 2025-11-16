@@ -13,6 +13,7 @@ class FilterDto extends AbstractDto
     public ?string $code = null;
     public ?string $EAN = null;
     public ?string $name = null;
+    /** @var array<string, string|int|float|bool>|string|null */
     #[Attributes\RefElement]
     public array|string|null $storage = null;
     #[Attributes\RefElement]

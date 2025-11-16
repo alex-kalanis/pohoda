@@ -11,6 +11,7 @@ class HeaderDto extends AbstractHeaderDto
     #[Attributes\RefElement]
     public ?string $extId = null;
     public ?string $orderType = null;
+    /** @var array<string, string|int|float|bool>|string|null */
     #[Attributes\RefElement]
     public array|string|null $number = null;
     public ?string $numberOrder = null;
@@ -29,6 +30,7 @@ class HeaderDto extends AbstractHeaderDto
     public bool|string|null $isReserved = null;
     #[Attributes\RefElement]
     public ?string $centre = null;
+    /** @var array<string, string|int|float|bool|array<string, string|int|float|bool>>|string|null */
     #[Attributes\RefElement]
     public array|string|null $activity = null;
     #[Attributes\RefElement]
@@ -52,5 +54,6 @@ class HeaderDto extends AbstractHeaderDto
     public bool|string|null $isDelivered = null;
     #[Attributes\ResponseDirection]
     public bool|string|null $permanentDocument = null;
+    /** @var array<Type\Parameter|Type\Dtos\ParameterDto> */
     public array $parameters = [];
 }

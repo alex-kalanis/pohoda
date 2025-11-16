@@ -19,6 +19,7 @@ class CurrencyHomeDto extends AbstractDto
     public float|string|null $priceHighVAT = null;
     public float|string|null $priceHighVatRate = null;
     public float|string|null $priceHighSum = null;
+    /** @var array<string, string|float>|string|null */
     #[Attributes\RefElement]
     public array|string|null $round = null;
 }

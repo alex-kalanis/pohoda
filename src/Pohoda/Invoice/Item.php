@@ -20,7 +20,7 @@ class Item extends AbstractItem
     /**
      * @inheritdoc
      */
-    public function setData(?Common\Dtos\AbstractDto $data): parent
+    public function setData(Common\Dtos\AbstractDto $data): parent
     {
         if (isset($data->recyclingContrib)) {
             $recyclingContrib = new RecyclingContrib($this->dependenciesFactory);

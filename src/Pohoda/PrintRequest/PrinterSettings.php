@@ -19,7 +19,7 @@ class PrinterSettings extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    public function setData(?Common\Dtos\AbstractDto $data): parent
+    public function setData(Common\Dtos\AbstractDto $data): parent
     {
         // process report
         if (isset($data->report)) {

@@ -16,6 +16,7 @@ abstract class AbstractItemDto extends AbstractDto
     public Type\Dtos\CurrencyItemDto|Type\CurrencyItem|null $foreignCurrency = null;
     #[Common\Attributes\OnlyInternal]
     public Type\Dtos\StockItemDto|Type\StockItem|null $stockItem = null;
+    /** @var array<Type\Parameter|Type\Dtos\ParameterDto> */
     #[Common\Attributes\OnlyInternal]
     public array $parameters = [];
 }

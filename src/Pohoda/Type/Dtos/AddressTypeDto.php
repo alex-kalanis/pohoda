@@ -17,6 +17,7 @@ class AddressTypeDto extends AbstractDto
     public ?string $dic = null;
     public ?string $VATPayerType = null;
     public ?string $icDph = null;
+    /** @var array<string|int, string>|string|null */
     #[Attributes\RefElement]
     public array|string|null $country = null;
     public ?string $phone = null;

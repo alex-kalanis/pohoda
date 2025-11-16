@@ -10,6 +10,7 @@ class StockItemDto extends AbstractDto
 {
     #[Attributes\RefElement]
     public ?string $store = null;
+    /** @var string|AbstractAgenda|array<string, string|int|float|bool|array<string, string|int|float|bool>>|null */
     #[Attributes\RefElement]
     public string|AbstractAgenda|array|null $stockItem = null;
     public bool|string|null $insertAttachStock = null;

@@ -2,10 +2,10 @@
 
 namespace Riesenia\Pohoda\IssueSlip;
 
-use Riesenia\Pohoda\Common\Dtos;
+use Riesenia\Pohoda\Document;
 use Riesenia\Pohoda\Type;
 
-class IssueSlipDto extends Dtos\AbstractDto
+class IssueSlipDto extends Document\AbstractDocumentDto
 {
     public Header|HeaderDto|null $header = null;
     /** @var array<Item|ItemDto> */

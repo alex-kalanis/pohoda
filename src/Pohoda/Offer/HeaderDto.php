@@ -20,6 +20,7 @@ class HeaderDto extends AbstractHeaderDto
     public ?string $priceLevel = null;
     #[Attributes\RefElement]
     public ?string $centre = null;
+    /** @var array<string, string|int|float|bool|array<string, string|int|float|bool>>|string|null */
     #[Attributes\RefElement]
     public array|string|null $activity = null;
     #[Attributes\RefElement]
@@ -36,5 +37,6 @@ class HeaderDto extends AbstractHeaderDto
     public ?string $note = null;
     public ?string $intNote = null;
     public bool|string|null $markRecord = null;
+    /** @var array<Type\Parameter|Type\Dtos\ParameterDto> */
     public array $parameters = [];
 }

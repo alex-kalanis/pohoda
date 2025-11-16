@@ -27,7 +27,7 @@ class ParameterTest extends CommonTestClass
 
         $this->assertEquals(
             '<typ:parameter><typ:name>VPr_testing</typ:name><typ:textValue>foo_bar_baz</typ:textValue></typ:parameter>',
-            $this->getLib()->setData($dto)->getXML()->asXML()
+            $this->getLib()->setData($dto)->getXML()->asXML(),
         );
     }
 
@@ -44,7 +44,7 @@ class ParameterTest extends CommonTestClass
 
         $this->assertEquals(
             '<typ:parameter><typ:name>RefVPrtesting</typ:name><typ:listValueRef><typ:ids>456</typ:ids></typ:listValueRef><typ:list><typ:0>statementNumber</typ:0><typ:1>numberMovement</typ:1></typ:list></typ:parameter>',
-            $this->getLib()->setData($dto)->getXML()->asXML()
+            $this->getLib()->setData($dto)->getXML()->asXML(),
         );
     }
 

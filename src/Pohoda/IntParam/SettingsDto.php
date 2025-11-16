@@ -11,5 +11,6 @@ class SettingsDto extends AbstractItemDto
     public int|string|null $length = null;
     #[Attributes\RefElement]
     public ?string $currency = null;
+    /** @var array<string, string|int|float|bool|array<string, string|int|float|bool>>|string|null */
     public array|string|null $parameterList = null;
 }

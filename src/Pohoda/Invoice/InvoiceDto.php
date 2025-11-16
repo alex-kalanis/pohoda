@@ -2,10 +2,10 @@
 
 namespace Riesenia\Pohoda\Invoice;
 
-use Riesenia\Pohoda\Common\Dtos;
+use Riesenia\Pohoda\Document;
 use Riesenia\Pohoda\Type;
 
-class InvoiceDto extends Dtos\AbstractDto
+class InvoiceDto extends Document\AbstractDocumentDto
 {
     public Header|HeaderDto|null $header = null;
     /** @var array<Item|ItemDto> */

@@ -24,7 +24,7 @@ abstract class AbstractItem extends AbstractPart
     /**
      * {@inheritdoc}
      */
-    public function setData(?Common\Dtos\AbstractDto $data): parent
+    public function setData(Common\Dtos\AbstractDto $data): parent
     {
         // process home currency
         if (isset($data->homeCurrency)) {

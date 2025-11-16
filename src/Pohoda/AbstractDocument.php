@@ -11,6 +11,9 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda;
 
+/**
+ * @property Document\AbstractDocumentDto $data
+ */
 abstract class AbstractDocument extends AbstractAgenda
 {
     use Common\AddParameterToHeaderTrait;
@@ -18,16 +21,18 @@ abstract class AbstractDocument extends AbstractAgenda
     /**
      * Add document item.
      *
-     * @param Common\Dtos\AbstractItemDto|null $data
+     * @param Common\Dtos\AbstractItemDto $data
      *
      * @return Document\AbstractPart
      */
-    public function addItem(?Common\Dtos\AbstractItemDto $data): Document\AbstractPart
+    public function addItem(Common\Dtos\AbstractItemDto $data): Document\AbstractPart
     {
-        $part = $this->getDocumentPart('Item')
-            ->setDirectionalVariable($this->useOneDirectionalVariables)
-            ->setData($data);
-        $this->data->details[] = $part;
+        $part = $this->getDocumentPart('Item');
+        $part->setDirectionalVariable($this->useOneDirectionalVariables);
+        $part->setData($data);
+        if (is_a($part, Document\AbstractItem::class)) {
+            $this->data->details[] = $part;
+        }
 
         return $part;
     }
@@ -35,15 +40,18 @@ abstract class AbstractDocument extends AbstractAgenda
     /**
      * Add document summary.
      *
-     * @param Common\Dtos\AbstractSummaryDto|null $data
+     * @param Common\Dtos\AbstractSummaryDto $data
      *
      * @return $this
      */
-    public function addSummary(?Common\Dtos\AbstractSummaryDto $data): self
+    public function addSummary(Common\Dtos\AbstractSummaryDto $data): self
     {
-        $this->data->summary = $this->getDocumentPart('Summary')
-            ->setDirectionalVariable($this->useOneDirectionalVariables)
-            ->setData($data);
+        $summary = $this->getDocumentPart('Summary');
+        $summary->setDirectionalVariable($this->useOneDirectionalVariables);
+        $summary->setData($data);
+        if (is_a($summary, Document\AbstractSummary::class)) {
+            $this->data->summary = $summary;
+        }
 
         return $this;
     }
@@ -51,7 +59,7 @@ abstract class AbstractDocument extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    public function setData(?Common\Dtos\AbstractDto $data): parent
+    public function setData(Common\Dtos\AbstractDto $data): parent
     {
         // pass to header
         if (!empty($data->header)) {
