@@ -11,8 +11,6 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda;
 
-use Symfony\Component\OptionsResolver\Options;
-
 /**
  * @property ListRequest\ListRequestDto $data
  */
@@ -147,46 +145,6 @@ class ListRequest extends AbstractAgenda
         }
 
         return $xml;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function configureOptions(Common\OptionsResolver $resolver): void
-    {
-        // available options
-        $resolver->setDefined($this->getDataElements());
-
-        // validate / format options
-        $resolver->setRequired('type');
-        $resolver->setNormalizer('type', $this->dependenciesFactory->getNormalizerFactory()->getClosure('list_request_type'));
-        $resolver->setDefault('namespace', function (Options $options) {
-            if ('Stock' == $options['type']) {
-                return 'lStk';
-            }
-
-            if ('AddressBook' == $options['type']) {
-                return 'lAdb';
-            }
-
-            return 'lst';
-        });
-        $resolver->setAllowedValues('orderType', [null, 'receivedOrder', 'issuedOrder']);
-        $resolver->setDefault('orderType', function (Options $options) {
-            if ('Order' == $options['type']) {
-                return 'receivedOrder';
-            }
-
-            return null;
-        });
-        $resolver->setAllowedValues('invoiceType', [null, 'issuedInvoice', 'issuedCreditNotice', 'issuedDebitNote', 'issuedAdvanceInvoice', 'receivable', 'issuedProformaInvoice', 'penalty', 'issuedCorrectiveTax', 'receivedInvoice', 'receivedCreditNotice', 'receivedDebitNote', 'receivedAdvanceInvoice', 'commitment', 'receivedProformaInvoice', 'receivedCorrectiveTax']);
-        $resolver->setDefault('invoiceType', function (Options $options) {
-            if ('Invoice' == $options['type']) {
-                return 'issuedInvoice';
-            }
-
-            return null;
-        });
     }
 
     /**

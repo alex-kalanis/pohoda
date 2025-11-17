@@ -8,9 +8,6 @@ use Riesenia\Pohoda\Common;
 
 class NormalizerFactory
 {
-    /** @var array<string, AbstractNormalizer> */
-    protected array $loadedNormalizers = [];
-
     public static function loadNormalizersFromDto(
         Common\OptionsResolver $resolver,
         Common\Dtos\AbstractDto $dto,
@@ -28,7 +25,7 @@ class NormalizerFactory
                             static::fillAsRequired($resolver, $propertyName);
                             break;
                         case Common\OptionsResolver\ActionsEnum::NORMALIZER:
-                            static::fillNormalizers($resolver, $option, $propertyName);
+                            static::fillNormalizers($resolver, $option, $propertyName, $dto);
                             break;
                         case Common\OptionsResolver\ActionsEnum::ALLOWED_VALUES:
                             static::fillAllowedValues($resolver, $option, $propertyName);
@@ -50,7 +47,11 @@ class NormalizerFactory
         Common\Attributes\Options\AbstractOption $option,
         string $propertyName,
     ): void {
-        $resolver->setDefault($propertyName, $option->value);
+        if (\is_callable($option->value)) {
+            $resolver->setDefault($propertyName, Closure::fromCallable($option->value));
+        } else {
+            $resolver->setDefault($propertyName, $option->value);
+        }
     }
 
     protected static function fillAsRequired(
@@ -64,13 +65,16 @@ class NormalizerFactory
         Common\OptionsResolver $resolver,
         Common\Attributes\Options\AbstractOption $option,
         string $propertyName,
+        Common\Dtos\AbstractDto $dto,
     ): void {
         $reflect = new \ReflectionClass($option->getNormalizer());
         $instance = $reflect->newInstance();
         if (is_a($instance, AbstractNormalizer::class)) {
             $instance->setParams(
-                \is_null($option->value) ? null : \intval($option->value),
+                \is_null($option->value) ? null : (\is_numeric($option->value) || \is_string($option->value) ? \intval($option->value) : null),
                 $option->isNullable,
+                $option->value,
+                $dto,
             );
             $resolver->setNormalizer($propertyName, $instance->normalize(...));
         }
@@ -97,52 +101,6 @@ class NormalizerFactory
     // @codeCoverageIgnoreEnd
 
     /**
-     * @deprecated since 2025-11-17 v6.0.0
-     * @use Common\Attributes\Options\AbstractOption attributes instead
-     */
-    public function getClosure(string $name): Closure
-    {
-        return $this->getNormalizer($name)->normalize(...);
-    }
-
-    /**
-     * Get normalizer.
-     *
-     * @param string $type
-     *
-     * @throws DomainException
-     * @return AbstractNormalizer
-     */
-    public function getNormalizer(string $type): AbstractNormalizer
-    {
-        if (isset($this->loadedNormalizers[$type])) {
-            return $this->loadedNormalizers[$type];
-        }
-
-        if (str_starts_with($type, '?string')) {
-            // strings can be nullable and have length
-            $normalizer = $this->createNormalizer('string')->setParams(\intval(\substr($type, 7)), true);
-        } elseif (str_starts_with($type, '?str')) {
-            // short strings can be nullable and have length
-            $normalizer = $this->createNormalizer('string')->setParams(\intval(\substr($type, 4)), true);
-        } elseif (str_starts_with($type, 'string')) {
-            // strings have length
-            $normalizer = $this->createNormalizer('string')->setParams(\intval(\substr($type, 6)));
-        } elseif (str_starts_with($type, 'str')) {
-            // short strings have length
-            $normalizer = $this->createNormalizer('string')->setParams(\intval(\substr($type, 3)));
-        } elseif (str_starts_with($type, '?')) {
-            // types can be nullable
-            $normalizer = $this->createNormalizer(\substr($type, 1))->setParams(null, true);
-        } else {
-            $normalizer = $this->createNormalizer($type);
-        }
-
-        $this->loadedNormalizers[$type] = $normalizer;
-        return $this->loadedNormalizers[$type];
-    }
-
-    /**
      * Create normalizer.
      *
      * @param string   $type
@@ -150,7 +108,7 @@ class NormalizerFactory
      * @return AbstractNormalizer
      * @see vendor/symfony/options-resolver/OptionsResolver.php:1128
      */
-    protected function createNormalizer(string $type): AbstractNormalizer
+    public static function createNormalizer(string $type): AbstractNormalizer
     {
         return match ($type) {
             'str', 'string' => new Strings(),

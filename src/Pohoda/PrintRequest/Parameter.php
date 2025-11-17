@@ -34,22 +34,10 @@ class Parameter extends AbstractAgenda
     }
 
     /**
-     * {@inheritdoc}
-     */
-    protected function configureOptions(Common\OptionsResolver $resolver): void
-    {
-        // available options
-        $resolver->setDefined($this->getDataElements());
-
-        // validate / format options
-        $resolver->setNormalizer('value', $this->dependenciesFactory->getNormalizerFactory()->getClosure($this->valueType));
-    }
-
-    /**
      * @{inheritDoc}
      */
     protected function getDefaultDto(): Common\Dtos\AbstractDto
     {
-        return new ParameterDto();
+        return ParameterDto::init(null, $this->valueType);
     }
 }

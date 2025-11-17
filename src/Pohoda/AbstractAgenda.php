@@ -314,7 +314,7 @@ abstract class AbstractAgenda
                 function (string $value, ValueTransformer\ValueTransformerInterface $transformer): string {
                     return $transformer->transform($value);
                 },
-                strval($value),
+                \strval($value),
             ),
         );
     }

@@ -21,6 +21,6 @@ final class ListRequestType extends AbstractNormalizer
             return 'Prodejka';
         }
 
-        return strval($value);
+        return \strval($value);
     }
 }

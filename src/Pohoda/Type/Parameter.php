@@ -27,7 +27,7 @@ class Parameter extends AbstractAgenda
         $xml = $this->createXML()->addChild('typ:parameter', '', $this->namespace('typ'));
 
         $child = $this->data->name ?? null;
-        $xml->addChild('typ:name', is_null($child) ? null : strval($child));
+        $xml->addChild('typ:name', is_null($child) ? null : \strval($child));
 
         if ('list' == $this->data->type) {
             $this->addRefElement($xml, 'typ:listValueRef', $this->data->value);
@@ -40,52 +40,10 @@ class Parameter extends AbstractAgenda
             $xml->addChild('typ:' . $this->data->type . 'Value', $this->data->value ? 'true' : 'false');
 
         } else {
-            $xml->addChild('typ:' . $this->data->type . 'Value', \htmlspecialchars(strval($this->data->value)));
+            $xml->addChild('typ:' . $this->data->type . 'Value', \htmlspecialchars(\strval($this->data->value)));
         }
 
         return $xml;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function configureOptions(Common\OptionsResolver $resolver): void
-    {
-        // available options
-        $resolver->setDefined($this->getDataElements());
-
-        // validate / format options
-        $resolver->setRequired('name');
-        $resolver->setNormalizer('name', function (Common\OptionsResolver $options, mixed $value): string {
-            $prefix = 'VPr';
-            $value = \strval($value);
-
-            if ('list' == $options['type']) {
-                $prefix = 'RefVPr';
-            }
-
-            if (str_starts_with($value, $prefix)) {
-                return $value;
-            }
-
-            return $prefix . $value;
-        });
-        $resolver->setRequired('type');
-        $resolver->setAllowedValues('type', ['text', 'memo', 'currency', 'boolean', 'number', 'datetime', 'integer', 'list']);
-        $resolver->setNormalizer('value', function ($options, $value) {
-            $normalizer = $options['type'];
-
-            // date for datetime
-            if ('datetime' == $normalizer) {
-                $normalizer = 'date';
-            }
-
-            try {
-                return \call_user_func($this->dependenciesFactory->getNormalizerFactory()->getClosure($normalizer), [], $value);
-            } catch (\Exception) {
-                return \is_array($value) ? $value : \strval($value);
-            }
-        });
     }
 
     /**

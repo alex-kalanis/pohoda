@@ -8,14 +8,19 @@ use Riesenia\Pohoda\Common\Dtos\AbstractDto;
 use Riesenia\Pohoda\ListRequest;
 use Riesenia\Pohoda\Order;
 use Riesenia\Pohoda\Stock;
+use Symfony\Component\OptionsResolver\Options;
 
 #[AllowDynamicProperties]
 class ListResponseDto extends AbstractDto
 {
+    #[Attributes\Options\ListRequestTypeOption, Attributes\Options\RequiredOption]
     public ?string $type = null;
     public ?string $state = null;
+    #[Attributes\Options\DefaultOption(['\Riesenia\Pohoda\ListResponse\ListResponseDto', 'normalizeNamespace'])]
     public ?string $namespace = null;
+    #[Attributes\Options\DefaultOption(['\Riesenia\Pohoda\ListResponse\ListResponseDto', 'normalizeOrderType']), Attributes\Options\ListOption([null, 'receivedOrder', 'issuedOrder'])]
     public ?string $orderType = null;
+    #[Attributes\Options\DefaultOption(['\Riesenia\Pohoda\ListResponse\ListResponseDto', 'normalizeInvoiceType']), Attributes\Options\ListOption([null, 'issuedInvoice', 'issuedCreditNotice', 'issuedDebitNote', 'issuedAdvanceInvoice', 'receivable', 'issuedProformaInvoice', 'penalty', 'issuedCorrectiveTax', 'receivedInvoice', 'receivedCreditNotice', 'receivedDebitNote', 'receivedAdvanceInvoice', 'commitment', 'receivedProformaInvoice', 'receivedCorrectiveTax'])]
     public ?string $invoiceType = null;
     #[Attributes\JustAttribute]
     public ListRequest\Limit|ListRequest\LimitDto|null $limit = null;
@@ -31,4 +36,51 @@ class ListResponseDto extends AbstractDto
     public array $stock = [];
     public \DateTimeInterface|string|null $timestamp = null;
     public \DateTimeInterface|string|null $validFrom = null;
+
+    public static function normalizeNamespace(Options $options): string
+    {
+        if ('Stock' == $options['type']) {
+            return 'lStk';
+        }
+
+        if ('AddressBook' == $options['type']) {
+            return 'lAdb';
+        }
+        /*
+        if ('AccountingUnit' == $options['type']) {
+            return 'acu';
+        }
+        */
+        if ('Contract' == $options['type']) {
+            return 'lCon';
+        }
+        /*
+        if ('Centre' == $options['type']) {
+            return 'lCen';
+        }
+
+        if ('Activity' == $options['type']) {
+            return 'lAcv';
+        }
+        */
+        return 'lst';
+    }
+
+    public static function normalizeOrderType(Options $options): ?string
+    {
+        if ('Order' == $options['type']) {
+            return 'receivedOrder';
+        }
+
+        return null;
+    }
+
+    public static function normalizeInvoiceType(Options $options): ?string
+    {
+        if ('Invoice' == $options['type']) {
+            return 'issuedInvoice';
+        }
+
+        return null;
+    }
 }
