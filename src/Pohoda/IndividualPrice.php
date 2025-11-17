@@ -31,11 +31,6 @@ class IndividualPrice extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    protected function configureOptions(OptionsResolver $resolver): void {}
-
-    /**
-     * {@inheritdoc}
-     */
     protected function getDefaultDto(): Common\Dtos\AbstractDto
     {
         return new Common\Dtos\EmptyDto();

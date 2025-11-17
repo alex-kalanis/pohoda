@@ -65,19 +65,6 @@ class Address extends AbstractAgenda
     }
 
     /**
-     * {@inheritdoc}
-     */
-    protected function configureOptions(Common\OptionsResolver $resolver): void
-    {
-        // available options
-        $resolver->setDefined($this->getDataElements());
-
-        // validate / format options
-        $resolver->setNormalizer('id', $this->dependenciesFactory->getNormalizerFactory()->getClosure('int'));
-        $resolver->setNormalizer('addressLinkToAddress', $this->dependenciesFactory->getNormalizerFactory()->getClosure('bool'));
-    }
-
-    /**
      * {@inheritDoc}
      */
     protected function getDefaultDto(): Common\Dtos\AbstractDto

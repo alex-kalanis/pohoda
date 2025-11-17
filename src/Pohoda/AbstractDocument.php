@@ -92,15 +92,6 @@ abstract class AbstractDocument extends AbstractAgenda
     }
 
     /**
-     * {@inheritdoc}
-     */
-    protected function configureOptions(Common\OptionsResolver $resolver): void
-    {
-        // available options
-        $resolver->setDefined(['header']);
-    }
-
-    /**
      * Document part factory.
      * This code is the loader for things like "Header", "Summary", "Item"
      *

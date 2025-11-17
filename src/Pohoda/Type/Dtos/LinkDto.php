@@ -7,6 +7,7 @@ use Riesenia\Pohoda\Common\Dtos\AbstractDto;
 
 class LinkDto extends AbstractDto
 {
+    #[Attributes\Options\ListOption(['issuedInvoice', 'receivedInvoice', 'receivable', 'commitment', 'issuedAdvanceInvoice', 'receivedAdvanceInvoice', 'offer', 'enquiry', 'receivedOrder', 'issuedOrder'])]
     public ?string $sourceAgenda = null;
     /** @var array<string, string>|string|null */
     #[Attributes\RefElement]

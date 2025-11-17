@@ -29,18 +29,6 @@ class SourceLiquidation extends AbstractAgenda
     }
 
     /**
-     * {@inheritdoc}
-     */
-    protected function configureOptions(Common\OptionsResolver $resolver): void
-    {
-        // available options
-        $resolver->setDefined($this->getDataElements());
-
-        // validate / format options
-        $resolver->setNormalizer('sourceItemId', $this->dependenciesFactory->getNormalizerFactory()->getClosure('int'));
-    }
-
-    /**
      * {@inheritDoc}
      */
     protected function getDefaultDto(): Common\Dtos\AbstractDto

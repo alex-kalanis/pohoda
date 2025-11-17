@@ -59,19 +59,6 @@ class ActionType extends AbstractAgenda
     }
 
     /**
-     * {@inheritdoc}
-     */
-    protected function configureOptions(Common\OptionsResolver $resolver): void
-    {
-        // available options
-        $resolver->setDefined($this->getDataElements());
-
-        // validate / format options
-        $resolver->setRequired('type');
-        $resolver->setAllowedValues('type', ['add', 'add/update', 'update', 'delete']);
-    }
-
-    /**
      * {@inheritDoc}
      */
     protected function getDefaultDto(): Common\Dtos\AbstractDto

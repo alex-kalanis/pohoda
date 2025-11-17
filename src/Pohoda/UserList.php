@@ -80,23 +80,6 @@ class UserList extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    protected function configureOptions(Common\OptionsResolver $resolver): void
-    {
-        // available options
-        $resolver->setDefined($this->getDataElements());
-
-        // validate / format options
-        $resolver->setRequired('code');
-        $resolver->setRequired('name');
-        $resolver->setNormalizer('constants', $this->dependenciesFactory->getNormalizerFactory()->getClosure('bool'));
-        $resolver->setNormalizer('dateTimeStamp', $this->dependenciesFactory->getNormalizerFactory()->getClosure('datetime'));
-        $resolver->setNormalizer('dateValidFrom', $this->dependenciesFactory->getNormalizerFactory()->getClosure('date'));
-        $resolver->setNormalizer('submenu', $this->dependenciesFactory->getNormalizerFactory()->getClosure('boolean'));
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     protected function getDefaultDto(): Common\Dtos\AbstractDto
     {
         return new UserList\UserListDto();

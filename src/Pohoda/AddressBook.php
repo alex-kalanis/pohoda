@@ -56,15 +56,6 @@ class AddressBook extends AbstractAgenda
     }
 
     /**
-     * {@inheritdoc}
-     */
-    protected function configureOptions(Common\OptionsResolver $resolver): void
-    {
-        // available options
-        $resolver->setDefined($this->getDataElements());
-    }
-
-    /**
      * @{inheritDoc}
      */
     protected function getDefaultDto(): Common\Dtos\AbstractDto

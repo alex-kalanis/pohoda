@@ -38,20 +38,6 @@ class ItemUserCode extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    protected function configureOptions(Common\OptionsResolver $resolver): void
-    {
-        // available options
-        $resolver->setDefined($this->getDataElements());
-
-        // validate / format options
-        $resolver->setRequired('code');
-        $resolver->setRequired('name');
-        $resolver->setNormalizer('constant', $this->dependenciesFactory->getNormalizerFactory()->getClosure('int'));
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     protected function getDefaultDto(): Common\Dtos\AbstractDto
     {
         return new ItemUserCodeDto();

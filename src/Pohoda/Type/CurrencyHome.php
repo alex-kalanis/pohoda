@@ -32,29 +32,6 @@ class CurrencyHome extends AbstractAgenda
     }
 
     /**
-     * {@inheritdoc}
-     */
-    protected function configureOptions(Common\OptionsResolver $resolver): void
-    {
-        // available options
-        $resolver->setDefined($this->getDataElements());
-
-        // validate / format options
-        $resolver->setNormalizer('priceNone', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
-        $resolver->setNormalizer('price3', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
-        $resolver->setNormalizer('price3VAT', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
-        $resolver->setNormalizer('price3Sum', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
-        $resolver->setNormalizer('priceLow', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
-        $resolver->setNormalizer('priceLowVAT', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
-        $resolver->setNormalizer('priceLowVatRate', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
-        $resolver->setNormalizer('priceLowSum', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
-        $resolver->setNormalizer('priceHigh', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
-        $resolver->setNormalizer('priceHighVAT', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
-        $resolver->setNormalizer('priceHighVatRate', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
-        $resolver->setNormalizer('priceHighSum', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
-    }
-
-    /**
      * {@inheritDoc}
      */
     protected function getDefaultDto(): Common\Dtos\AbstractDto

@@ -10,19 +10,30 @@ class HeaderDto extends AbstractHeaderDto
 {
     #[Attributes\RefElement]
     public ?string $extId = null;
+    #[Attributes\Options\ListOption(['issuedInvoice', 'issuedCreditNotice', 'issuedDebitNote', 'issuedAdvanceInvoice', 'receivable', 'issuedProformaInvoice', 'penalty', 'issuedCorrectiveTax', 'receivedInvoice', 'receivedCreditNotice', 'receivedDebitNote', 'receivedAdvanceInvoice', 'commitment', 'receivedProformaInvoice', 'receivedCorrectiveTax']), Attributes\Options\DefaultOption('issuedInvoice')]
     public ?string $invoiceType = null;
     #[Attributes\RefElement]
     public ?string $number = null;
+    #[Attributes\Options\StringOption(20)]
     public ?string $symVar = null;
+    #[Attributes\Options\StringOption(32)]
     public ?string $originalDocument = null;
     public ?string $originalDocumentNumber = null;
+    #[Attributes\Options\StringOption(20)]
     public ?string $symPar = null;
+    #[Attributes\Options\DateOption]
     public \DateTimeInterface|string|null $date = null;
+    #[Attributes\Options\DateOption]
     public \DateTimeInterface|string|null $dateTax = null;
+    #[Attributes\Options\DateOption]
     public \DateTimeInterface|string|null $dateAccounting = null;
+    #[Attributes\Options\DateOption]
     public \DateTimeInterface|string|null $dateKHDPH = null;
+    #[Attributes\Options\DateOption]
     public \DateTimeInterface|string|null $dateDue = null;
+    #[Attributes\Options\DateOption]
     public \DateTimeInterface|string|null $dateApplicationVAT = null;
+    #[Attributes\Options\DateOption]
     public \DateTimeInterface|string|null $dateDelivery = null;
     #[Attributes\RefElement]
     public ?string $accounting = null;
@@ -30,13 +41,17 @@ class HeaderDto extends AbstractHeaderDto
     public ?string $classificationVAT = null;
     #[Attributes\RefElement]
     public ?string $classificationKVDPH = null;
+    #[Attributes\Options\StringOption(32)]
     public ?string $numberKHDPH = null;
+    #[Attributes\Options\StringOption(240)]
     public ?string $text = null;
     public Type\Dtos\AddressDto|Type\Address|null $partnerIdentity = null;
     public Type\Dtos\MyAddressDto|Type\MyAddress|null $myIdentity = null;
     #[Attributes\RefElement]
     public ?string $order = null;
+    #[Attributes\Options\StringOption(32)]
     public ?string $numberOrder = null;
+    #[Attributes\Options\DateOption]
     public \DateTimeInterface|string|null $dateOrder = null;
     #[Attributes\RefElement]
     public ?string $paymentType = null;
@@ -44,10 +59,13 @@ class HeaderDto extends AbstractHeaderDto
     public ?string $priceLevel = null;
     #[Attributes\RefElement]
     public ?string $account = null;
+    #[Attributes\Options\StringOption(4)]
     public ?string $symConst = null;
+    #[Attributes\Options\StringOption(16)]
     public ?string $symSpec = null;
     #[Attributes\RefElement]
     public ?string $paymentAccount = null;
+    #[Attributes\Options\BooleanOption]
     public bool|string|null $paymentTerminal = null;
     #[Attributes\RefElement]
     public ?string $centre = null;
@@ -63,12 +81,15 @@ class HeaderDto extends AbstractHeaderDto
     #[Attributes\RefElement]
     public ?string $evidentiaryResourcesMOSS = null;
     public ?string $accountingPeriodMOSS = null;
+    #[Attributes\Options\DateOption]
     public \DateTimeInterface|string|null $dateTaxOriginalDocumentMOSS = null;
     public ?string $note = null;
     #[Attributes\RefElement]
     public ?string $carrier = null;
     public ?string $intNote = null;
+    #[Attributes\Options\BooleanOption]
     public bool|string|null $postponedIssue = null;
+    #[Attributes\Options\BooleanOption]
     public bool|string|null $histRate = null;
     /** @var array<Type\Parameter|Type\Dtos\ParameterDto> */
     public array $parameters = [];

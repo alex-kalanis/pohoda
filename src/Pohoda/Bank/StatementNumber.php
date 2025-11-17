@@ -31,19 +31,6 @@ class StatementNumber extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    protected function configureOptions(Common\OptionsResolver $resolver): void
-    {
-        // available options
-        $resolver->setDefined($this->getDataElements());
-
-        // validate / format options
-        $resolver->setNormalizer('statementNumber', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string10'));
-        $resolver->setNormalizer('numberMovement', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string6'));
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     protected function getDefaultDto(): Common\Dtos\AbstractDto
     {
         return new StatementNumberDto();

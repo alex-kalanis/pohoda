@@ -31,23 +31,6 @@ class Intrastat extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    protected function configureOptions(Common\OptionsResolver $resolver): void
-    {
-        // available options
-        $resolver->setDefined($this->getDataElements());
-
-        // validate / format options
-        $resolver->setNormalizer('goodsCode', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string8'));
-        $resolver->setNormalizer('description', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string255'));
-        $resolver->setNormalizer('statistic', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string2'));
-        $resolver->setNormalizer('unit', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string10'));
-        $resolver->setNormalizer('coefficient', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
-        $resolver->setNormalizer('country', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string2'));
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     protected function getDefaultDto(): Common\Dtos\AbstractDto
     {
         return new IntrastatDto();

@@ -19,20 +19,6 @@ class CurrencyForeign extends AbstractAgenda
     use Common\SetNamespaceTrait;
 
     /**
-     * {@inheritdoc}
-     */
-    protected function configureOptions(Common\OptionsResolver $resolver): void
-    {
-        // available options
-        $resolver->setDefined($this->getDataElements());
-
-        // validate / format options
-        $resolver->setNormalizer('rate', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
-        $resolver->setNormalizer('amount', $this->dependenciesFactory->getNormalizerFactory()->getClosure('int'));
-        $resolver->setNormalizer('priceSum', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
-    }
-
-    /**
      * {@inheritDoc}
      */
     protected function getDefaultDto(): Common\Dtos\AbstractDto

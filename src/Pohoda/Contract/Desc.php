@@ -55,23 +55,6 @@ class Desc extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    protected function configureOptions(Common\OptionsResolver $resolver): void
-    {
-        // available options
-        $resolver->setDefined($this->getDataElements());
-
-        $resolver->setNormalizer('datePlanStart', $this->dependenciesFactory->getNormalizerFactory()->getClosure('date'));
-        $resolver->setNormalizer('datePlanDelivery', $this->dependenciesFactory->getNormalizerFactory()->getClosure('date'));
-        $resolver->setNormalizer('dateStart', $this->dependenciesFactory->getNormalizerFactory()->getClosure('date'));
-        $resolver->setNormalizer('dateDelivery', $this->dependenciesFactory->getNormalizerFactory()->getClosure('date'));
-        $resolver->setNormalizer('dateWarranty', $this->dependenciesFactory->getNormalizerFactory()->getClosure('date'));
-        $resolver->setRequired('text');
-        $resolver->setNormalizer('text', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string90'));
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     protected function getDefaultDto(): Common\Dtos\AbstractDto
     {
         return new DescDto();

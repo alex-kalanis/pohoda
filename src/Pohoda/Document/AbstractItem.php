@@ -78,13 +78,4 @@ abstract class AbstractItem extends AbstractPart
 
         return $xml;
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function configureOptions(Common\OptionsResolver $resolver): void
-    {
-        // available options
-        $resolver->setDefined($this->getDataElements());
-    }
 }

@@ -8,6 +8,7 @@ use Riesenia\Pohoda\Storage;
 
 class StorageDto extends AbstractItemDto
 {
+    #[Attributes\Options\RequiredOption]
     public ?string $code = null;
     public ?string $name = null;
     /** @var array<Storage|self> */

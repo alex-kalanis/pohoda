@@ -9,5 +9,6 @@ class RecyclingContribDto extends Dtos\AbstractDto
 {
     #[Attributes\RefElement]
     public ?string $recyclingContribType = null;
+    #[Attributes\Options\FloatOption]
     public float|string|null $coefficientOfRecyclingContrib = null;
 }

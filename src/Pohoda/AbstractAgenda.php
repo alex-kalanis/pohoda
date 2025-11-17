@@ -105,7 +105,7 @@ abstract class AbstractAgenda
      */
     protected function configureOptions(Common\OptionsResolver $resolver): void
     {
-        $resolver->setDefined($this->getDataElements());
+        $resolver->setDefined($this->getDataElements(true));
         Common\OptionsResolver\Normalizers\NormalizerFactory::loadNormalizersFromDto($resolver, $this->data, $this->useOneDirectionalVariables);
     }
 

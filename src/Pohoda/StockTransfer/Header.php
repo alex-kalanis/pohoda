@@ -47,26 +47,9 @@ class Header extends AbstractAgenda
     {
         $xml = $this->createXML()->addChild('pre:prevodkaHeader', '', $this->namespace('pre'));
 
-        $this->addElements($xml, \array_merge($this->getDataElements(), ['parameters']), 'pre');
+        $this->addElements($xml, $this->getDataElements(), 'pre');
 
         return $xml;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function configureOptions(Common\OptionsResolver $resolver): void
-    {
-        // available options
-        $resolver->setDefined($this->getDataElements());
-
-        // validate / format options
-        $resolver->setNormalizer('date', $this->dependenciesFactory->getNormalizerFactory()->getClosure('date'));
-        $resolver->setNormalizer('time', $this->dependenciesFactory->getNormalizerFactory()->getClosure('time'));
-        $resolver->setNormalizer('dateOfReceipt', $this->dependenciesFactory->getNormalizerFactory()->getClosure('date'));
-        $resolver->setNormalizer('timeOfReceipt', $this->dependenciesFactory->getNormalizerFactory()->getClosure('time'));
-        $resolver->setNormalizer('symPar', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string20'));
-        $resolver->setNormalizer('text', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string48'));
     }
 
     /**

@@ -35,21 +35,6 @@ class Picture extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    protected function configureOptions(Common\OptionsResolver $resolver): void
-    {
-        // available options
-        $resolver->setDefined($this->getDataElements(true));
-
-        // validate / format options
-        $resolver->setRequired('filepath');
-        $resolver->setNormalizer('order', $this->dependenciesFactory->getNormalizerFactory()->getClosure('int'));
-        $resolver->setDefault('default', 'false');
-        $resolver->setNormalizer('default', $this->dependenciesFactory->getNormalizerFactory()->getClosure('bool'));
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     protected function getDefaultDto(): Common\Dtos\AbstractDto
     {
         return new PictureDto();

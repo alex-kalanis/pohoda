@@ -31,22 +31,6 @@ class Filter extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    protected function configureOptions(Common\OptionsResolver $resolver): void
-    {
-        // available options
-        $resolver->setDefined($this->getDataElements());
-
-        // validate / format options
-        $resolver->setNormalizer('id', $this->dependenciesFactory->getNormalizerFactory()->getClosure('int'));
-        $resolver->setNormalizer('internet', $this->dependenciesFactory->getNormalizerFactory()->getClosure('bool'));
-        $resolver->setNormalizer('lastChanges', $this->dependenciesFactory->getNormalizerFactory()->getClosure('datetime'));
-        $resolver->setNormalizer('dateFrom', $this->dependenciesFactory->getNormalizerFactory()->getClosure('date'));
-        $resolver->setNormalizer('dateTill', $this->dependenciesFactory->getNormalizerFactory()->getClosure('date'));
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     protected function getDefaultDto(): Common\Dtos\AbstractDto
     {
         return new FilterDto();

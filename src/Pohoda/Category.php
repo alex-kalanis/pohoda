@@ -11,8 +11,6 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda;
 
-use Riesenia\Pohoda\Common\OptionsResolver;
-
 /**
  * @property Category\CategoryDto $data
  */
@@ -77,21 +75,6 @@ class Category extends AbstractAgenda
                 }
             }
         }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function configureOptions(OptionsResolver $resolver): void
-    {
-        // available options
-        $resolver->setDefined($this->getDataElements());
-
-        // validate / format options
-        $resolver->setRequired('name');
-        $resolver->setNormalizer('name', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string48'));
-        $resolver->setNormalizer('sequence', $this->dependenciesFactory->getNormalizerFactory()->getClosure('int'));
-        $resolver->setNormalizer('displayed', $this->dependenciesFactory->getNormalizerFactory()->getClosure('bool'));
     }
 
     /**

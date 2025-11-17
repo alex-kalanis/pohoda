@@ -59,18 +59,6 @@ class Parameters extends AbstractAgenda
         return $xml;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function configureOptions(Common\OptionsResolver $resolver): void
-    {
-        // available options
-        $resolver->setDefined($this->getDataElements(true));
-
-        $resolver->setNormalizer('copy', $this->dependenciesFactory->getNormalizerFactory()->getClosure('int'));
-        $resolver->setNormalizer('datePrint', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string'));
-    }
-
     protected function getDataElements(bool $withAttributes = false): array
     {
         return array_keys((array) $this->data);

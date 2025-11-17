@@ -49,33 +49,6 @@ class Item extends AbstractItem
     }
 
     /**
-     * {@inheritdoc}
-     */
-    protected function configureOptions(Common\OptionsResolver $resolver): void
-    {
-        $resolver->setDefined($this->getDataElements());
-
-        // validate / format options
-        $resolver->setNormalizer('text', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string90'));
-        $resolver->setNormalizer('quantity', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
-        $resolver->setNormalizer('delivered', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
-        $resolver->setNormalizer('unit', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string10'));
-        $resolver->setNormalizer('coefficient', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
-        $resolver->setNormalizer('payVAT', $this->dependenciesFactory->getNormalizerFactory()->getClosure('bool'));
-        $resolver->setAllowedValues('rateVAT', ['none', 'high', 'low', 'third', 'historyHigh', 'historyLow', 'historyThird']);
-        $resolver->setNormalizer('rateVatValue', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
-        $resolver->setNormalizer('percentVAT', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
-        $resolver->setNormalizer('discountPercentage', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
-        $resolver->setNormalizer('note', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string90'));
-        $resolver->setNormalizer('code', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string64'));
-        $resolver->setNormalizer('PDP', $this->dependenciesFactory->getNormalizerFactory()->getClosure('bool'));
-
-        if ($this->useOneDirectionalVariables) {
-            $resolver->setNormalizer('id', $this->dependenciesFactory->getNormalizerFactory()->getClosure('int'));
-        }
-    }
-
-    /**
      * @{inheritDoc}
      */
     protected function getDefaultDto(): Common\Dtos\AbstractDto

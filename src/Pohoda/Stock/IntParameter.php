@@ -43,22 +43,6 @@ class IntParameter extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    protected function configureOptions(Common\OptionsResolver $resolver): void
-    {
-        // available options
-        $resolver->setDefined($this->getDataElements());
-
-        // validate / format options
-        $resolver->setRequired('intParameterID');
-        $resolver->setNormalizer('intParameterID', $this->dependenciesFactory->getNormalizerFactory()->getClosure('int'));
-        $resolver->setRequired('intParameterType');
-        $resolver->setAllowedValues('intParameterType', ['textValue', 'currencyValue', 'booleanValue', 'numberValue', 'integerValue', 'datetimeValue', 'unit', 'listValue']);
-        $resolver->setRequired('value');
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     protected function getDefaultDto(): Common\Dtos\AbstractDto
     {
         return new IntParameterDto();

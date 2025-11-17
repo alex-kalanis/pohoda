@@ -29,18 +29,6 @@ class Pdf extends AbstractAgenda
     }
 
     /**
-     * {@inheritdoc}
-     */
-    protected function configureOptions(Common\OptionsResolver $resolver): void
-    {
-        // available options
-        $resolver->setDefined($this->getDataElements());
-
-        // validate / format options
-        $resolver->setRequired('fileName');
-    }
-
-    /**
      * @{inheritDoc}
      */
     protected function getDefaultDto(): Common\Dtos\AbstractDto

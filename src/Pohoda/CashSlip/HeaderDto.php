@@ -8,12 +8,15 @@ use Riesenia\Pohoda\Type;
 
 class HeaderDto extends AbstractHeaderDto
 {
+    #[Attributes\Options\ListOption(['saleVoucher', 'deposit', 'withdrawal']), Attributes\Options\DefaultOption('saleVoucher')]
     public ?string $prodejkaType = null;
     #[Attributes\RefElement]
     public ?string $number = null;
+    #[Attributes\Options\DateOption]
     public \DateTimeInterface|string|null $date = null;
     #[Attributes\RefElement]
     public ?string $accounting = null;
+    #[Attributes\Options\StringOption(240)]
     public ?string $text = null;
     public Type\Dtos\AddressDto|Type\Address|null $partnerIdentity = null;
     #[Attributes\RefElement]

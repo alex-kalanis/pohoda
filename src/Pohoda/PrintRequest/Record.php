@@ -51,18 +51,6 @@ class Record extends AbstractAgenda
     }
 
     /**
-     * {@inheritdoc}
-     */
-    protected function configureOptions(Common\OptionsResolver $resolver): void
-    {
-        // available options
-        $resolver->setDefined($this->getDataElements(true));
-
-        $resolver->setRequired('agenda');
-        $resolver->setRequired('filter');
-    }
-
-    /**
      * @{inheritDoc}
      */
     protected function getDefaultDto(): Common\Dtos\AbstractDto

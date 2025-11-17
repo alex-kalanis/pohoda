@@ -29,33 +29,6 @@ class AddressInternetType extends AbstractAgenda
     }
 
     /**
-     * {@inheritdoc}
-     */
-    protected function configureOptions(Common\OptionsResolver $resolver): void
-    {
-        // available options
-        $resolver->setDefined($this->getDataElements());
-
-        // validate / format options
-        $resolver->setNormalizer('company', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string255'));
-        $resolver->setNormalizer('title', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string7'));
-        $resolver->setNormalizer('surname', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string32'));
-        $resolver->setNormalizer('name', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string32'));
-        $resolver->setNormalizer('city', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string45'));
-        $resolver->setNormalizer('street', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string45'));
-        $resolver->setNormalizer('number', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string10'));
-        $resolver->setNormalizer('zip', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string15'));
-        $resolver->setNormalizer('ico', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string15'));
-        $resolver->setNormalizer('dic', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string18'));
-        $resolver->setNormalizer('icDph', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string18'));
-        $resolver->setNormalizer('phone', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string40'));
-        $resolver->setNormalizer('mobilPhone', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string24'));
-        $resolver->setNormalizer('fax', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string24'));
-        $resolver->setNormalizer('email', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string64'));
-        $resolver->setNormalizer('www', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string32'));
-    }
-
-    /**
      * {@inheritDoc}
      */
     protected function getDefaultDto(): Common\Dtos\AbstractDto

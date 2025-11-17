@@ -147,67 +147,6 @@ class Header extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    protected function configureOptions(Common\OptionsResolver $resolver): void
-    {
-        // available options
-        $resolver->setDefined($this->getDataElements());
-
-        // validate / format options
-        $resolver->setDefault('stockType', 'card');
-        $resolver->setAllowedValues('stockType', ['card', 'text', 'service', 'package', 'set', 'product']);
-        $resolver->setNormalizer('isSales', $this->dependenciesFactory->getNormalizerFactory()->getClosure('bool'));
-        $resolver->setNormalizer('isSerialNumber', $this->dependenciesFactory->getNormalizerFactory()->getClosure('bool'));
-        $resolver->setNormalizer('isInternet', $this->dependenciesFactory->getNormalizerFactory()->getClosure('bool'));
-        $resolver->setNormalizer('isBatch', $this->dependenciesFactory->getNormalizerFactory()->getClosure('bool'));
-        $resolver->setAllowedValues('purchasingRateVAT', ['none', 'third', 'low', 'high']);
-        $resolver->setAllowedValues('sellingRateVAT', ['none', 'third', 'low', 'high']);
-        $resolver->setNormalizer('name', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string90'));
-        $resolver->setNormalizer('nameComplement', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string90'));
-        $resolver->setNormalizer('unit', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string10'));
-        $resolver->setNormalizer('unit2', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string10'));
-        $resolver->setNormalizer('unit3', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string10'));
-        $resolver->setNormalizer('coefficient2', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
-        $resolver->setNormalizer('coefficient3', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
-        $resolver->setNormalizer('purchasingPrice', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
-        $resolver->setNormalizer('purchasingPricePayVAT', $this->dependenciesFactory->getNormalizerFactory()->getClosure('bool'));
-        $resolver->setNormalizer('sellingPrice', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
-        $resolver->setNormalizer('sellingPricePayVAT', $this->dependenciesFactory->getNormalizerFactory()->getClosure('bool'));
-        $resolver->setNormalizer('limitMin', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
-        $resolver->setNormalizer('limitMax', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
-        $resolver->setNormalizer('mass', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
-        $resolver->setNormalizer('volume', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
-        $resolver->setNormalizer('orderName', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string90'));
-        $resolver->setNormalizer('orderQuantity', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
-        $resolver->setNormalizer('shortName', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string24'));
-        $resolver->setAllowedValues('guaranteeType', ['none', 'hour', 'day', 'month', 'year', 'life']);
-        $resolver->setNormalizer('guarantee', $this->dependenciesFactory->getNormalizerFactory()->getClosure('int'));
-        $resolver->setNormalizer('producer', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string90'));
-        $resolver->setNormalizer('description', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string240'));
-
-        if ($this->useOneDirectionalVariables) {
-            $resolver->setNormalizer('weightedPurchasePrice', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
-            $resolver->setNormalizer('count', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
-            $resolver->setNormalizer('countIssue', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
-            $resolver->setNormalizer('countReceivedOrders', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
-            $resolver->setNormalizer('reservation', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
-            $resolver->setNormalizer('countIssuedOrders', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
-            $resolver->setNormalizer('reclamation', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
-            $resolver->setNormalizer('service', $this->dependenciesFactory->getNormalizerFactory()->getClosure('float'));
-            $resolver->setNormalizer('clearanceSale', $this->dependenciesFactory->getNormalizerFactory()->getClosure('bool'));
-            $resolver->setNormalizer('controlLimitTaxLiability', $this->dependenciesFactory->getNormalizerFactory()->getClosure('bool'));
-            $resolver->setNormalizer('discount', $this->dependenciesFactory->getNormalizerFactory()->getClosure('bool'));
-            $resolver->setNormalizer('fixation', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string90'));
-            $resolver->setNormalizer('markRecord', $this->dependenciesFactory->getNormalizerFactory()->getClosure('bool'));
-            $resolver->setNormalizer('news', $this->dependenciesFactory->getNormalizerFactory()->getClosure('bool'));
-            $resolver->setNormalizer('prepare', $this->dependenciesFactory->getNormalizerFactory()->getClosure('bool'));
-            $resolver->setNormalizer('recommended', $this->dependenciesFactory->getNormalizerFactory()->getClosure('bool'));
-            $resolver->setNormalizer('sale', $this->dependenciesFactory->getNormalizerFactory()->getClosure('bool'));
-        }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     protected function getDefaultDto(): Common\Dtos\AbstractDto
     {
         return new HeaderDto();

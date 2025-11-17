@@ -12,7 +12,6 @@ declare(strict_types=1);
 namespace Riesenia\Pohoda\Order;
 
 use Riesenia\Pohoda\Common\Dtos;
-use Riesenia\Pohoda\Common\OptionsResolver;
 use Riesenia\Pohoda\Document\AbstractSummary;
 
 class Summary extends AbstractSummary
@@ -35,22 +34,6 @@ class Summary extends AbstractSummary
         $this->addElements($xml, $this->getDataElements(), $this->namespace);
 
         return $xml;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function configureOptions(OptionsResolver $resolver): void
-    {
-        $resolver->setDefined($this->getDataElements());
-
-        // validate / format options
-        $resolver->setAllowedValues('roundingDocument', ['none', 'math2one', 'math2half', 'math2tenth', 'math5cent', 'up2one', 'up2half', 'up2tenth', 'down2one', 'down2half', 'down2tenth']);
-        $resolver->setAllowedValues('roundingVAT', ['none', 'noneEveryRate', 'up2tenthEveryItem', 'up2tenthEveryRate', 'math2tenthEveryItem', 'math2tenthEveryRate', 'math2halfEveryItem', 'math2halfEveryRate', 'math2intEveryItem', 'math2intEveryRate']);
-
-        if ($this->useOneDirectionalVariables) {
-            $resolver->setNormalizer('typeCalculateVATInclusivePrice', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string'));
-        }
     }
 
     protected function getDefaultDto(): Dtos\AbstractDto

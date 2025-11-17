@@ -2,9 +2,7 @@
 
 namespace Riesenia\Pohoda\Voucher;
 
-use Riesenia\Pohoda\AbstractAgenda;
 use Riesenia\Pohoda\Common\Attributes;
-use Riesenia\Pohoda\Common\Dtos\AbstractDto;
 use Riesenia\Pohoda\Common\Dtos\AbstractHeaderDto;
 use Riesenia\Pohoda\Type;
 
@@ -12,6 +10,7 @@ class HeaderDto extends AbstractHeaderDto
 {
     public ?int $id = null;
     public ?string $extId = null;
+    #[Attributes\Options\ListOption(['expense', 'receipt'])]
     public ?string $voucherType = null;
     public ?string $storno = null;
     #[Attributes\RefElement]
@@ -19,16 +18,22 @@ class HeaderDto extends AbstractHeaderDto
     #[Attributes\RefElement]
     public ?string $number = null;
     public ?string $originalDocument = null;
+    #[Attributes\Options\DateOption]
     public \DateTimeInterface|string|null $date = null;
+    #[Attributes\Options\DateOption]
     public \DateTimeInterface|string|null $datePayment = null;
+    #[Attributes\Options\DateOption]
     public \DateTimeInterface|string|null $dateTax = null;
+    #[Attributes\Options\DateOption]
     public \DateTimeInterface|string|null $dateKHDPH = null;
     public ?string $accounting = null;
     public ?string $classificationVAT = null;
     public ?string $classificationKVDPH = null;
+    #[Attributes\Options\StringOption(240)]
     public ?string $text = null;
     public Type\Dtos\AddressDto|Type\Address|null $partnerIdentity = null;
     public Type\Dtos\MyAddressDto|Type\MyAddress|null $myIdentity = null;
+    #[Attributes\Options\StringOption(20)]
     public ?string $symPar = null;
     public ?string $priceLevel = null;
     #[Attributes\RefElement]

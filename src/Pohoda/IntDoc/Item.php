@@ -11,20 +11,11 @@ declare(strict_types=1);
 
 namespace Riesenia\Pohoda\IntDoc;
 
-use Riesenia\Pohoda\AbstractAgenda;
 use Riesenia\Pohoda\Common;
 use Riesenia\Pohoda\Document\AbstractItem;
 
 class Item extends AbstractItem
 {
-    /**
-     * {@inheritdoc}
-     */
-    protected function configureOptions(Common\OptionsResolver $resolver): void
-    {
-        AbstractAgenda::configureOptions($resolver);
-    }
-
     /**
      * {@inheritdoc}
      */

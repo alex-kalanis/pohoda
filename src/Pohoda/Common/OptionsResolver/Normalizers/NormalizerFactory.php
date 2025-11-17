@@ -33,12 +33,12 @@ class NormalizerFactory
                         case Common\OptionsResolver\ActionsEnum::ALLOWED_VALUES:
                             static::fillAllowedValues($resolver, $option, $propertyName);
                             break;
-                        // @codeCoverageIgnoreStart
-                        // okay, I do not know what might happen when I will want to use check by types
+                            // @codeCoverageIgnoreStart
+                            // okay, I do not know what might happen when I will want to use check by types
                         case Common\OptionsResolver\ActionsEnum::ALLOWED_TYPES:
                             static::fillAllowedTypes($resolver, $option, $propertyName);
                             break;
-                        // @codeCoverageIgnoreEnd
+                            // @codeCoverageIgnoreEnd
                     };
                 }
             }

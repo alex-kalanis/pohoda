@@ -55,18 +55,6 @@ class PrintRequest extends AbstractAgenda
     }
 
     /**
-     * {@inheritdoc}
-     */
-    protected function configureOptions(Common\OptionsResolver $resolver): void
-    {
-        // available options
-        $resolver->setDefined($this->getDataElements());
-
-        $resolver->setRequired('record');
-        $resolver->setRequired('printerSettings');
-    }
-
-    /**
      * @{inheritDoc}
      */
     protected function getDefaultDto(): Common\Dtos\AbstractDto

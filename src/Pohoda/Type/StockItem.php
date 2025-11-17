@@ -32,20 +32,6 @@ class StockItem extends AbstractAgenda
     }
 
     /**
-     * {@inheritdoc}
-     */
-    protected function configureOptions(Common\OptionsResolver $resolver): void
-    {
-        // available options
-        $resolver->setDefined($this->getDataElements());
-
-        // validate / format options
-        $resolver->setNormalizer('insertAttachStock', $this->dependenciesFactory->getNormalizerFactory()->getClosure('bool'));
-        $resolver->setNormalizer('applyUserSettingsFilterOnTheStore', $this->dependenciesFactory->getNormalizerFactory()->getClosure('bool'));
-        $resolver->setNormalizer('serialNumber', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string40'));
-    }
-
-    /**
      * {@inheritDoc}
      */
     protected function getDefaultDto(): Common\Dtos\AbstractDto

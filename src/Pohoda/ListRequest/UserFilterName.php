@@ -32,19 +32,6 @@ class UserFilterName extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    protected function configureOptions(Common\OptionsResolver $resolver): void
-    {
-        // available options
-        $resolver->setDefined($this->getDataElements());
-
-        // validate / format options
-        $resolver->setRequired('userFilterName');
-        $resolver->setNormalizer('userFilterName', $this->dependenciesFactory->getNormalizerFactory()->getClosure('string100'));
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     protected function getDefaultDto(): Common\Dtos\AbstractDto
     {
         return new UserFilterNameDto();

@@ -28,12 +28,4 @@ abstract class AbstractOption
     {
         return ActionsEnum::NORMALIZER;
     }
-
-    public function getName(): string
-    {
-        return ($this->isNullable ? '?' : '')
-            . \get_class($this)
-            . (\is_numeric($this->value) || \is_string($this->value) ? \strval($this->value) : '')
-        ;
-    }
 }

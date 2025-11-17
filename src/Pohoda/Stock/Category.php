@@ -32,19 +32,6 @@ class Category extends AbstractAgenda
     /**
      * {@inheritdoc}
      */
-    protected function configureOptions(Common\OptionsResolver $resolver): void
-    {
-        // available options
-        $resolver->setDefined($this->getDataElements());
-
-        // validate / format options
-        $resolver->setRequired('idCategory');
-        $resolver->setNormalizer('idCategory', $this->dependenciesFactory->getNormalizerFactory()->getClosure('int'));
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     protected function getDefaultDto(): Common\Dtos\AbstractDto
     {
         return new CategoryDto();

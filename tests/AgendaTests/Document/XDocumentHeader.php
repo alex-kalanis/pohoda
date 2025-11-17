@@ -9,6 +9,6 @@ class XDocumentHeader extends AbstractHeader
 {
     protected function getDefaultDto(): Dtos\AbstractDto
     {
-        return new Dtos\EmptyDto();
+        return new XDocumentHeaderDto();
     }
 }

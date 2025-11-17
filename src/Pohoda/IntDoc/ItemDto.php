@@ -50,4 +50,6 @@ class ItemDto extends AbstractItemDto
     public ?string $activity = null;
     #[Attributes\RefElement]
     public ?string $contract = null;
+    /** @var array<Type\Parameter|Type\Dtos\ParameterDto> */
+    public array $parameters = [];
 }
