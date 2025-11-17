@@ -20,16 +20,18 @@ class XSimpleDto extends AbstractDto
     public int|string|null $integer = null;
     #[Attributes\Options\FloatOption]
     public float|string|null $float = null;
-    #[Attributes\Options\StringOption(20)]
+    #[Attributes\Options\StringOption(10)]
     public ?string $shortString = null;
     #[Attributes\Options\StringOption(180)]
     public ?string $longString = null;
     #[Attributes\Options\DateOption]
     public \DateTimeInterface|string|null $someDate = null;
-    #[Attributes\Options\BooleanOption, Attributes\Options\RequiredOption]
+    #[Attributes\Options\BooleanOption(null, true)]
     public bool|string|null $someBoolean = null;
     #[Attributes\Options\ListOption(['none', 'high', 'low', 'third'])]
     public ?string $listOfOptions = null;
+    #[Attributes\Options\ListOption(['none', 'high', 'low', 'third']), Attributes\Options\DefaultOption('low')]
+    public ?string $listOfOptionsWithDefault = null;
     #[Attributes\RefElement]
     public ?string $referenceAsString = null;
 
@@ -46,8 +48,14 @@ class XSimpleDto extends AbstractDto
     public int|string|null $justAttribute = null;
 
     // combined ones - response direction
-    #[Attributes\Options\IntegerOption, Attributes\ResponseDirection]
+    #[Attributes\Options\IntegerOption(null, true), Attributes\ResponseDirection]
     public int|string|null $responseInteger = null;
+    #[Attributes\Options\FloatOption(null, true), Attributes\ResponseDirection]
+    public int|string|null $responseFloat = null;
+    #[Attributes\Options\DateTimeOption(null, true), Attributes\ResponseDirection]
+    public \DateTimeInterface|string|null $responseDate = null;
+    #[Attributes\Options\TimeOption(null, true), Attributes\ResponseDirection]
+    public \DateTimeInterface|string|null $responseTime = null;
     #[Attributes\RefElement, Attributes\ResponseDirection]
     public ?string $referencedResponse = null;
 

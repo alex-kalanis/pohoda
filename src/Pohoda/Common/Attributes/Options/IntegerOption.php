@@ -6,7 +6,7 @@ use Attribute;
 use Riesenia\Pohoda\Common\OptionsResolver\Normalizers\Integers;
 
 /**
- * Property will be formatted as interger
+ * Property will be formatted as integer number
  */
 #[Attribute(Attribute::TARGET_PROPERTY)]
 final class IntegerOption extends AbstractOption

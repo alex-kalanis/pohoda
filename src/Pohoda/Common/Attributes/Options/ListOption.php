@@ -11,6 +11,10 @@ use Riesenia\Pohoda\Common\OptionsResolver;
 #[Attribute(Attribute::TARGET_PROPERTY)]
 final class ListOption extends AbstractOption
 {
+    /**
+     * @codeCoverageIgnore just implements interface, not need in processing
+     * @return string
+     */
     public function getNormalizer(): string
     {
         return OptionsResolver\Normalizers\Strings::class;

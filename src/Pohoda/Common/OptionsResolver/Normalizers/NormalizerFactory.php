@@ -11,7 +11,7 @@ class NormalizerFactory
     /** @var array<string, AbstractNormalizer> */
     protected array $loadedNormalizers = [];
 
-    public function loadNormalizersFromDto(
+    public static function loadNormalizersFromDto(
         Common\OptionsResolver $resolver,
         Common\Dtos\AbstractDto $dto,
         bool $useOneDirectionalVariables,
@@ -22,27 +22,30 @@ class NormalizerFactory
                 if (is_a($option, Common\Attributes\Options\AbstractOption::class)) {
                     switch ($option->getAction()) {
                         case Common\OptionsResolver\ActionsEnum::DEFAULT_VALUES:
-                            $this->fillDefaultValues($resolver, $option, $propertyName);
+                            static::fillDefaultValues($resolver, $option, $propertyName);
                             break;
                         case Common\OptionsResolver\ActionsEnum::IS_REQUIRED:
-                            $this->fillAsRequired($resolver, $propertyName);
+                            static::fillAsRequired($resolver, $propertyName);
                             break;
                         case Common\OptionsResolver\ActionsEnum::NORMALIZER:
-                            $this->fillNormalizers($resolver, $option, $propertyName);
+                            static::fillNormalizers($resolver, $option, $propertyName);
                             break;
                         case Common\OptionsResolver\ActionsEnum::ALLOWED_VALUES:
-                            $this->fillAllowedValues($resolver, $option, $propertyName);
+                            static::fillAllowedValues($resolver, $option, $propertyName);
                             break;
+                        // @codeCoverageIgnoreStart
+                        // okay, I do not know what might happen when I will want to use check by types
                         case Common\OptionsResolver\ActionsEnum::ALLOWED_TYPES:
-                            $this->fillAllowedTypes($resolver, $option, $propertyName);
+                            static::fillAllowedTypes($resolver, $option, $propertyName);
                             break;
+                        // @codeCoverageIgnoreEnd
                     };
                 }
             }
         }
     }
 
-    protected function fillDefaultValues(
+    protected static function fillDefaultValues(
         Common\OptionsResolver $resolver,
         Common\Attributes\Options\AbstractOption $option,
         string $propertyName,
@@ -50,14 +53,14 @@ class NormalizerFactory
         $resolver->setDefault($propertyName, $option->value);
     }
 
-    protected function fillAsRequired(
+    protected static function fillAsRequired(
         Common\OptionsResolver $resolver,
         string $propertyName,
     ): void {
         $resolver->setRequired($propertyName);
     }
 
-    protected function fillNormalizers(
+    protected static function fillNormalizers(
         Common\OptionsResolver $resolver,
         Common\Attributes\Options\AbstractOption $option,
         string $propertyName,
@@ -73,7 +76,7 @@ class NormalizerFactory
         }
     }
 
-    protected function fillAllowedValues(
+    protected static function fillAllowedValues(
         Common\OptionsResolver $resolver,
         Common\Attributes\Options\AbstractOption $option,
         string $propertyName,
@@ -81,7 +84,9 @@ class NormalizerFactory
         $resolver->setAllowedValues($propertyName, $option->value);
     }
 
-    protected function fillAllowedTypes(
+    // @codeCoverageIgnoreStart
+    // okay, I do not know what might happen when I will want to use check by types
+    protected static function fillAllowedTypes(
         Common\OptionsResolver $resolver,
         Common\Attributes\Options\AbstractOption $option,
         string $propertyName,
@@ -89,6 +94,7 @@ class NormalizerFactory
         $values = array_map(fn($v) => \strval($v), (array) $option->value);
         $resolver->setAllowedTypes($propertyName, $values);
     }
+    // @codeCoverageIgnoreEnd
 
     /**
      * @deprecated since 2025-11-17 v6.0.0

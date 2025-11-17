@@ -6,18 +6,14 @@ use Attribute;
 use Riesenia\Pohoda\Common\OptionsResolver;
 
 /**
- * Property will have default value
+ * Property will be formatted as string and selected just from predefined list
  */
 #[Attribute(Attribute::TARGET_PROPERTY)]
-final class DefaultOption extends AbstractOption
+final class ListRequestTypeOption extends AbstractOption
 {
-    /**
-     * @codeCoverageIgnore just implements interface, not need in processing
-     * @return string
-     */
     public function getNormalizer(): string
     {
-        return OptionsResolver\Normalizers\Strings::class;
+        return OptionsResolver\Normalizers\ListRequestType::class;
     }
 
     /**
@@ -25,6 +21,6 @@ final class DefaultOption extends AbstractOption
      */
     public function getAction(): OptionsResolver\ActionsEnum
     {
-        return OptionsResolver\ActionsEnum::DEFAULT_VALUES;
+        return OptionsResolver\ActionsEnum::NORMALIZER;
     }
 }
