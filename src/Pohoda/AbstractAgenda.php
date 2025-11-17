@@ -103,7 +103,11 @@ abstract class AbstractAgenda
      *
      * @return void
      */
-    abstract protected function configureOptions(Common\OptionsResolver $resolver): void;
+    protected function configureOptions(Common\OptionsResolver $resolver): void
+    {
+        $resolver->setDefined($this->getDataElements());
+        $this->dependenciesFactory->getNormalizerFactory()->loadNormalizersFromDto($resolver, $this->data, $this->useOneDirectionalVariables);
+    }
 
     /**
      * Create XML.

@@ -7,10 +7,17 @@ namespace Riesenia\Pohoda\Common\OptionsResolver\Normalizers;
  */
 abstract class AbstractNormalizer
 {
-    public function __construct(
-        protected readonly int|null $length,
-        protected readonly bool $nullable,
-    ) {}
+    protected int|null $length = null;
+    protected bool $nullable = false;
+
+    public function setParams(
+        int|null $length = null,
+        bool $nullable = false,
+    ): self {
+        $this->length = $length;
+        $this->nullable = $nullable;
+        return $this;
+    }
 
     /**
      * Normalize that content

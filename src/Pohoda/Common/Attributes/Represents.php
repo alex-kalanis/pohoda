@@ -10,7 +10,10 @@ use Attribute;
 #[Attribute(Attribute::TARGET_PROPERTY)]
 final class Represents
 {
+    /**
+     * @param string|string[] $differentVariable
+     */
     public function __construct(
-        public readonly string $differentVariable,
+        public readonly string|array $differentVariable,
     ) {}
 }

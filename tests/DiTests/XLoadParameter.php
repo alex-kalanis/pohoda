@@ -10,8 +10,6 @@ class XParameter extends PrintRequest\Parameter
     {
         return new \SimpleXMLElement('mock');
     }
-
-    protected function configureOptions(Common\OptionsResolver $resolver): void {}
 }
 
 namespace tests\DiTests;

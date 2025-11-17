@@ -11,8 +11,6 @@ class XDocument extends Document\AbstractPart
         return new \SimpleXMLElement('mock');
     }
 
-    protected function configureOptions(Common\OptionsResolver $resolver): void {}
-
     protected function getDefaultDto(): Common\Dtos\AbstractDto
     {
         return new Common\Dtos\EmptyDto();

@@ -4,12 +4,96 @@ namespace Riesenia\Pohoda\Common\OptionsResolver\Normalizers;
 
 use Closure;
 use DomainException;
+use Riesenia\Pohoda\Common;
 
 class NormalizerFactory
 {
     /** @var array<string, AbstractNormalizer> */
     protected array $loadedNormalizers = [];
 
+    public function loadNormalizersFromDto(
+        Common\OptionsResolver $resolver,
+        Common\Dtos\AbstractDto $dto,
+        bool $useOneDirectionalVariables,
+    ): void {
+        $propertyOptions = Common\Dtos\Processing::getOptions($dto, $useOneDirectionalVariables);
+        foreach ($propertyOptions as $propertyName => $allOptions) {
+            foreach ($allOptions as $option) {
+                if (is_a($option, Common\Attributes\Options\AbstractOption::class)) {
+                    switch ($option->getAction()) {
+                        case Common\OptionsResolver\ActionsEnum::DEFAULT_VALUES:
+                            $this->fillDefaultValues($resolver, $option, $propertyName);
+                            break;
+                        case Common\OptionsResolver\ActionsEnum::IS_REQUIRED:
+                            $this->fillAsRequired($resolver, $propertyName);
+                            break;
+                        case Common\OptionsResolver\ActionsEnum::NORMALIZER:
+                            $this->fillNormalizers($resolver, $option, $propertyName);
+                            break;
+                        case Common\OptionsResolver\ActionsEnum::ALLOWED_VALUES:
+                            $this->fillAllowedValues($resolver, $option, $propertyName);
+                            break;
+                        case Common\OptionsResolver\ActionsEnum::ALLOWED_TYPES:
+                            $this->fillAllowedTypes($resolver, $option, $propertyName);
+                            break;
+                    };
+                }
+            }
+        }
+    }
+
+    protected function fillDefaultValues(
+        Common\OptionsResolver $resolver,
+        Common\Attributes\Options\AbstractOption $option,
+        string $propertyName,
+    ): void {
+        $resolver->setDefault($propertyName, $option->value);
+    }
+
+    protected function fillAsRequired(
+        Common\OptionsResolver $resolver,
+        string $propertyName,
+    ): void {
+        $resolver->setRequired($propertyName);
+    }
+
+    protected function fillNormalizers(
+        Common\OptionsResolver $resolver,
+        Common\Attributes\Options\AbstractOption $option,
+        string $propertyName,
+    ): void {
+        $reflect = new \ReflectionClass($option->getNormalizer());
+        $instance = $reflect->newInstance();
+        if (is_a($instance, AbstractNormalizer::class)) {
+            $instance->setParams(
+                \is_null($option->value) ? null : \intval($option->value),
+                $option->isNullable,
+            );
+            $resolver->setNormalizer($propertyName, $instance->normalize(...));
+        }
+    }
+
+    protected function fillAllowedValues(
+        Common\OptionsResolver $resolver,
+        Common\Attributes\Options\AbstractOption $option,
+        string $propertyName,
+    ): void {
+        $resolver->setAllowedValues($propertyName, $option->value);
+    }
+
+    protected function fillAllowedTypes(
+        Common\OptionsResolver $resolver,
+        Common\Attributes\Options\AbstractOption $option,
+        string $propertyName,
+    ): void {
+        $values = array_map(fn($v) => \strval($v), (array) $option->value);
+        $resolver->setAllowedTypes($propertyName, $values);
+    }
+
+    /**
+     * @deprecated since 2025-11-17 v6.0.0
+     * @use Common\Attributes\Options\AbstractOption attributes instead
+     */
     public function getClosure(string $name): Closure
     {
         return $this->getNormalizer($name)->normalize(...);
@@ -31,19 +115,19 @@ class NormalizerFactory
 
         if (str_starts_with($type, '?string')) {
             // strings can be nullable and have length
-            $normalizer = $this->createNormalizer('string', \intval(\substr($type, 7)), true);
+            $normalizer = $this->createNormalizer('string')->setParams(\intval(\substr($type, 7)), true);
         } elseif (str_starts_with($type, '?str')) {
             // short strings can be nullable and have length
-            $normalizer = $this->createNormalizer('string', \intval(\substr($type, 4)), true);
+            $normalizer = $this->createNormalizer('string')->setParams(\intval(\substr($type, 4)), true);
         } elseif (str_starts_with($type, 'string')) {
             // strings have length
-            $normalizer = $this->createNormalizer('string', \intval(\substr($type, 6)));
+            $normalizer = $this->createNormalizer('string')->setParams(\intval(\substr($type, 6)));
         } elseif (str_starts_with($type, 'str')) {
             // short strings have length
-            $normalizer = $this->createNormalizer('string', \intval(\substr($type, 3)));
+            $normalizer = $this->createNormalizer('string')->setParams(\intval(\substr($type, 3)));
         } elseif (str_starts_with($type, '?')) {
             // types can be nullable
-            $normalizer = $this->createNormalizer(\substr($type, 1), null, true);
+            $normalizer = $this->createNormalizer(\substr($type, 1))->setParams(null, true);
         } else {
             $normalizer = $this->createNormalizer($type);
         }
@@ -56,23 +140,21 @@ class NormalizerFactory
      * Create normalizer.
      *
      * @param string   $type
-     * @param int|null $length
-     * @param bool     $nullable
      * @throws DomainException
      * @return AbstractNormalizer
      * @see vendor/symfony/options-resolver/OptionsResolver.php:1128
      */
-    protected function createNormalizer(string $type, ?int $length = null, bool $nullable = false): AbstractNormalizer
+    protected function createNormalizer(string $type): AbstractNormalizer
     {
         return match ($type) {
-            'str', 'string' => new Strings($length, $nullable),
-            'float', 'number' => new Numbers($length, $nullable),
-            'int', 'integer' => new Integers($length, $nullable),
-            'bool', 'boolean' => new Booleans($length, $nullable),
-            'date' => new Dates($length, $nullable),
-            'datetime' => new DateTimes($length, $nullable),
-            'time' => new Times($length, $nullable),
-            'list_request_type' => new ListRequestType($length, $nullable),
+            'str', 'string' => new Strings(),
+            'float', 'number' => new Numbers(),
+            'int', 'integer' => new Integers(),
+            'bool', 'boolean' => new Booleans(),
+            'date' => new Dates(),
+            'datetime' => new DateTimes(),
+            'time' => new Times(),
+            'list_request_type' => new ListRequestType(),
             default => throw new DomainException('Not a valid normalizer type: ' . $type),
         };
     }

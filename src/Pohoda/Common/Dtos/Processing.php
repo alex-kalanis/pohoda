@@ -2,6 +2,7 @@
 
 namespace Riesenia\Pohoda\Common\Dtos;
 
+use ReflectionAttribute;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionNamedType;
@@ -27,6 +28,38 @@ class Processing
     }
 
     /**
+     * Get all options as set in classes set for available attributes
+     *
+     * @param AbstractDto $class
+     * @param bool $responseDirection
+     *
+     * @return array<string, object[]>
+     */
+    public static function getOptions(AbstractDto $class, bool $responseDirection): array
+    {
+        $reflection = new ReflectionClass($class);
+        $allProperties = $reflection->getProperties();
+        $ref = [];
+        foreach ($allProperties as $property) {
+            if (static::hasInternalAttribute($property)) {
+                continue;
+            }
+            if (static::hasDirectionAttribute($property) && !$responseDirection) {
+                continue;
+            }
+            $options = static::getOptionAttributes($property);
+            foreach ($options as $option) {
+                $propName = $property->getName();
+                if (!isset($ref[$propName])) {
+                    $ref[$propName] = [];
+                }
+                $ref[$propName][] = $option->newInstance();
+            }
+        }
+        return $ref;
+    }
+
+    /**
      * Get all referenced attributes from DTOs
      *
      * @param AbstractDto $class
@@ -40,7 +73,7 @@ class Processing
         $allProperties = $reflection->getProperties();
         $ref = [];
         foreach ($allProperties as $property) {
-            if (static::hasSkipAttribute($property)) {
+            if (static::hasInternalAttribute($property)) {
                 continue;
             }
             if (static::hasDirectionAttribute($property) && !$responseDirection) {
@@ -67,7 +100,7 @@ class Processing
         $reflection = new ReflectionClass($class);
         $props = [];
         foreach ($reflection->getProperties() as $prop) {
-            if (static::hasSkipAttribute($prop)) {
+            if (static::hasInternalAttribute($prop)) {
                 continue;
             }
             if (static::hasDirectionAttribute($prop) && !$responseDirection) {
@@ -100,33 +133,29 @@ class Processing
         // regular defined properties
         $allProperties = $reflection->getProperties();
         foreach ($allProperties as $property) {
-            if (static::hasSkipAttribute($property)) {
+            $usedKeys[] = $property->getName();
+            if (static::hasInternalAttribute($property)) {
                 continue;
             }
             if (static::hasDirectionAttribute($property) && !$responseDirection) {
                 continue;
             }
 
-            $key = static::getRepresentsAttribute($property) ?? $property->getName();
-            if (isset($data[$key])) {
-                $value = $data[$key];
+            if (isset($data[$property->getName()])) {
+                $value = $data[$property->getName()];
                 $propertyType = static::getPropertyType($property, $value);
 
                 if (!empty($propertyType)) {
-                    // need to know what type will be used
-                    static::hydrateClonedInstance($clonedInstance, $key, $propertyType, $value, $property);
+                    // need to know what type will be used; there can be multiple targets, so it need to behave correctly
+                    foreach (static::getRepresentsAttributes($property) as $key) {
+                        static::hydrateClonedInstance($clonedInstance, $key, $propertyType, $value, $property);
+                    }
                 }
             }
-            $usedKeys[] = $property->getName();
         }
+
         // now dynamically added ones
-        $extraProperties = array_diff(array_keys((array) $class), $usedKeys);
-        foreach ($extraProperties as $extraProperty) {
-            // cannot determine their metadata, so just copy them
-            if (isset($data[$extraProperty])) {
-                $clonedInstance->{$extraProperty} = $data[$extraProperty];
-            }
-        }
+        static::hydrateDynamicallySetProperties($clonedInstance, $class, $usedKeys, $data);
         return $clonedInstance;
     }
 
@@ -137,7 +166,7 @@ class Processing
      *
      * @return bool
      */
-    protected static function hasSkipAttribute(ReflectionProperty $property): bool
+    protected static function hasInternalAttribute(ReflectionProperty $property): bool
     {
         return !empty($property->getAttributes(Attributes\OnlyInternal::class));
     }
@@ -183,17 +212,36 @@ class Processing
      *
      * @param ReflectionProperty $property
      *
-     * @return string|null
+     * @return iterable<string>
      */
-    protected static function getRepresentsAttribute(ReflectionProperty $property): ?string
+    protected static function getRepresentsAttributes(ReflectionProperty $property): iterable
     {
         $attrs = $property->getAttributes(Attributes\Represents::class);
+        $anyDefined = false;
         foreach ($attrs as $attr) {
-            $arguments = $attr->getArguments();
-            $argument = reset($arguments);
-            return !empty($argument) ? strval($argument) : null;
+            $instance = $attr->newInstance();
+            if (\is_a($instance, Attributes\Represents::class)) {
+                foreach ((array) $instance->differentVariable as $variable) {
+                    $anyDefined = true;
+                    yield $variable;
+                }
+            }
         }
-        return null;
+        if (!$anyDefined) {
+            yield $property->getName();
+        }
+    }
+
+    /**
+     * Use different attribute as target instead of the one now processed
+     *
+     * @param ReflectionProperty $property
+     *
+     * @return ReflectionAttribute<object>[]
+     */
+    protected static function getOptionAttributes(ReflectionProperty $property): array
+    {
+        return $property->getAttributes(Attributes\Options\AbstractOption::class, ReflectionAttribute::IS_INSTANCEOF);
     }
 
     /**
@@ -208,15 +256,21 @@ class Processing
     {
         $type = $property->getType();
         if (empty($type)) {
+            // @codeCoverageIgnoreStart
+            // cannot find the case, but the definition says there is at least one
             return null;
         }
-        if (is_a($type, ReflectionUnionType::class)) {
+        // @codeCoverageIgnoreEnd
+        if (\is_a($type, ReflectionUnionType::class)) {
             return static::getPropertyTypeFromUnion($type, $value);
         }
         if (\method_exists($type, 'getName')) {
             return $type->getName();
         }
-        return get_class($type);
+        // @codeCoverageIgnoreStart
+        // last fallback when everything else fails
+        return \get_class($type);
+        // @codeCoverageIgnoreEnd
     }
 
     /**
@@ -229,9 +283,20 @@ class Processing
      */
     protected static function getPropertyTypeFromUnion(ReflectionUnionType $unionType, mixed $value): ?string
     {
+        $mapTypes = [
+            'str' => 'string',
+            'string' => 'string',
+            'bool' => 'boolean',
+            'boolean' => 'boolean',
+            'int' => 'integer',
+            'integer' => 'integer',
+            'float' => 'float',
+            'double' => 'float',
+        ];
+
         // compare against different types - first one match, use it
-        $variableType = gettype($value);
-        $classType = is_object($value) ? get_class($value) : null;
+        $variableType = \gettype($value);
+        $classType = \is_object($value) ? \get_class($value) : null;
         $parentInstances = $classType ? static::getPropertyParentInstances($classType) : [];
         foreach ($unionType->getTypes() as $reflectedType) {
             if (is_a($reflectedType, ReflectionNamedType::class)) {
@@ -239,12 +304,20 @@ class Processing
                     // objects are special in match
                     return 'object';
                 }
+                // in map
+                if (isset($mapTypes[$reflectedType->getName()])) {
+                    return $mapTypes[$reflectedType->getName()];
+                }
+                // direct
                 if ($reflectedType->getName() == $variableType) {
                     return $reflectedType->getName();
                 }
             }
         }
+        // @codeCoverageIgnoreStart
+        // last fallback when \ReflectionUnionType pass some unrecognizable shit
         return null;
+        // @codeCoverageIgnoreEnd
     }
 
     /**
@@ -286,15 +359,47 @@ class Processing
     ): void {
         $clonedInstance->{$key} = match ($propertyType) {
             'iterable', 'array' => (array) $value,
-            'bool' => is_bool($value) ? $value : (is_string($value) ? ('true' == $value) : boolval(intval($value))),
-            'float' => floatval($value),
-            'int' => intval($value),
+            'bool' => \is_bool($value) ? $value : (\is_string($value) ? ('true' == $value) : \boolval(\intval($value))),
+            'float', 'double' => \floatval($value),
+            'int' => \intval($value),
             'null' => null,
             'object', 'mixed' => $value,
-            'string' => strval($value),
+            'string' => \strval($value),
             'false' => false,
             'true' => true,
             default => $property->getDefaultValue(),
         };
+    }
+
+    /**
+     * Hydrate properties which has been set dynamically
+     *
+     * @param AbstractDto $clonedInstance
+     * @param AbstractDto $sourceClass
+     * @param string[] $usedKeys
+     * @param array<string, mixed> $data
+     *
+     * @return void
+     */
+    protected static function hydrateDynamicallySetProperties(
+        AbstractDto & $clonedInstance,
+        AbstractDto $sourceClass,
+        array       $usedKeys,
+        array       $data,
+    ): void {
+        $properties = \array_diff(\array_keys((array) $sourceClass), $usedKeys);
+        $filledProperties = [];
+        foreach ($properties as $property) {
+            // cannot determine their metadata, so just copy them
+            if (isset($data[$property])) {
+                $filledProperties[] = $property;
+                $clonedInstance->{$property} = $data[$property];
+            }
+        }
+        // the rest which has not been affected - copy values from the source
+        $unaffectedPropertyKeys = \array_diff($properties, $filledProperties);
+        foreach ($unaffectedPropertyKeys as $unaffectedPropertyKey) {
+            $clonedInstance->{$unaffectedPropertyKey} = $sourceClass->{$unaffectedPropertyKey};
+        }
     }
 }

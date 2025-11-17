@@ -11,8 +11,6 @@ class XAgendaNotInit extends AbstractAgenda
         // this one will kill the init - cannot initialize protected
     }
 
-    protected function configureOptions(Common\OptionsResolver $resolver): void {}
-
     public function getXML(): \SimpleXMLElement
     {
         return new \SimpleXMLElement('nop');
