@@ -1,20 +1,14 @@
 <?php
 
-/**
- * This file is part of riesenia/pohoda package.
- *
- * Licensed under the MIT License
- * (c) RIESENIA.com
- */
-
 declare(strict_types=1);
 
-namespace spec\Riesenia\Pohoda;
+namespace spec\kalanis\Pohoda;
 
 require_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'DiTrait.php';
 
+use kalanis\Pohoda;
 use PhpSpec\ObjectBehavior;
-use spec\Riesenia\DiTrait;
+use spec\kalanis\DiTrait;
 
 class IssueSlipSpec extends ObjectBehavior
 {
@@ -22,25 +16,31 @@ class IssueSlipSpec extends ObjectBehavior
 
     public function let(): void
     {
+        $address = new Pohoda\Type\Dtos\AddressTypeDto();
+        $address->name = 'NAME';
+        $address->ico = '123';
+
+        $partner = new Pohoda\Type\Dtos\AddressDto();
+        $partner->address = $address;
+
+        $header = new Pohoda\IssueSlip\HeaderDto();
+        $header->date = '2015-01-10';
+        $header->dateOrder = '2015-01-04';
+        $header->text = 'Vyd';
+        $header->intNote = 'Note';
+        $header->partnerIdentity = $partner;
+
+        $dto = new Pohoda\IssueSlip\IssueSlipDto();
+        $dto->header = $header;
+
         $this->beConstructedWith($this->getBasicDi());
-        $this->setData([
-            'date' => '2015-01-10',
-            'dateOrder' => '2015-01-04',
-            'text' => 'Vyd',
-            'partnerIdentity' => [
-                'address' => [
-                    'name' => 'NAME',
-                    'ico' => '123',
-                ],
-            ],
-            'intNote' => 'Note',
-        ]);
+        $this->setData($dto);
     }
 
     public function it_is_initializable_and_extends_agenda(): void
     {
-        $this->shouldHaveType('Riesenia\Pohoda\IssueSlip');
-        $this->shouldHaveType('Riesenia\Pohoda\AbstractAgenda');
+        $this->shouldHaveType('kalanis\Pohoda\IssueSlip');
+        $this->shouldHaveType('kalanis\Pohoda\AbstractAgenda');
     }
 
     public function it_creates_correct_xml(): void
@@ -50,43 +50,49 @@ class IssueSlipSpec extends ObjectBehavior
 
     public function it_can_add_items(): void
     {
-        $this->addItem([
-            'text' => 'NAME 1',
-            'quantity' => 1,
-            'rateVAT' => 'high',
-            'homeCurrency' => [
-                'unitPrice' => 200,
-            ],
-        ]);
+        $home1 = new Pohoda\Type\Dtos\CurrencyItemDto();
+        $home1->unitPrice = 200;
 
-        $this->addItem([
-            'quantity' => 1,
-            'payVAT' => 1,
-            'rateVAT' => 'high',
-            'homeCurrency' => [
-                'unitPrice' => 198,
-            ],
-            'stockItem' => [
-                'stockItem' => [
-                    'ids' => 'STM',
-                ],
-            ],
-        ]);
+        $item1 = new Pohoda\IssueSlip\ItemDto();
+        $item1->text = 'NAME 1';
+        $item1->quantity = 1;
+        $item1->rateVAT = 'high';
+        $item1->homeCurrency = $home1;
+
+        $home2 = new Pohoda\Type\Dtos\CurrencyItemDto();
+        $home2->unitPrice = 198;
+
+        $stock = new Pohoda\Type\Dtos\StockItemDto();
+        $stock->stockItem = [
+            'ids' => 'STM',
+        ];
+
+        $item2 = new Pohoda\IssueSlip\ItemDto();
+        $item2->quantity = 1;
+        $item2->payVAT = true;
+        $item2->rateVAT = 'high';
+        $item2->homeCurrency = $home2;
+        $item2->stockItem = $stock;
+
+        $this->addItem($item1);
+        $this->addItem($item2);
 
         $this->getXML()->asXML()->shouldReturn('<vyd:vydejka version="2.0"><vyd:vydejkaHeader>' . $this->defaultHeader() . '</vyd:vydejkaHeader><vyd:vydejkaDetail><vyd:vydejkaItem><vyd:text>NAME 1</vyd:text><vyd:quantity>1</vyd:quantity><vyd:rateVAT>high</vyd:rateVAT><vyd:homeCurrency><typ:unitPrice>200</typ:unitPrice></vyd:homeCurrency></vyd:vydejkaItem><vyd:vydejkaItem><vyd:quantity>1</vyd:quantity><vyd:payVAT>true</vyd:payVAT><vyd:rateVAT>high</vyd:rateVAT><vyd:homeCurrency><typ:unitPrice>198</typ:unitPrice></vyd:homeCurrency><vyd:stockItem><typ:stockItem><typ:ids>STM</typ:ids></typ:stockItem></vyd:stockItem></vyd:vydejkaItem></vyd:vydejkaDetail></vyd:vydejka>');
     }
 
     public function it_can_set_summary(): void
     {
-        $this->addSummary([
-            'roundingDocument' => 'math2one',
-            'foreignCurrency' => [
-                'currency' => 'EUR',
-                'rate' => '20.232',
-                'amount' => 1,
-                'priceSum' => 580,
-            ],
-        ]);
+        $foreign = new Pohoda\Type\Dtos\CurrencyForeignDto();
+        $foreign->currency = 'EUR';
+        $foreign->rate = '20.232';
+        $foreign->amount = 1;
+        $foreign->priceSum = 580;
+
+        $summary = new Pohoda\IssueSlip\SummaryDto();
+        $summary->roundingDocument = 'math2one';
+        $summary->foreignCurrency = $foreign;
+
+        $this->addSummary($summary);
 
         $this->getXML()->asXML()->shouldReturn('<vyd:vydejka version="2.0"><vyd:vydejkaHeader>' . $this->defaultHeader() . '</vyd:vydejkaHeader><vyd:vydejkaSummary><vyd:roundingDocument>math2one</vyd:roundingDocument><vyd:foreignCurrency><typ:currency><typ:ids>EUR</typ:ids></typ:currency><typ:rate>20.232</typ:rate><typ:amount>1</typ:amount><typ:priceSum>580</typ:priceSum></vyd:foreignCurrency></vyd:vydejkaSummary></vyd:vydejka>');
     }
@@ -103,12 +109,13 @@ class IssueSlipSpec extends ObjectBehavior
 
     public function it_can_link_to_order(): void
     {
-        $this->addLink([
-            'sourceAgenda' => 'receivedOrder',
-            'sourceDocument' => [
-                'number' => '142100003',
-            ],
-        ]);
+        $link = new Pohoda\Type\Dtos\LinkDto();
+        $link->sourceAgenda = 'receivedOrder';
+        $link->sourceDocument = [
+            'number' => '142100003',
+        ];
+
+        $this->addLink($link);
 
         $this->getXML()->asXML()->shouldReturn('<vyd:vydejka version="2.0"><vyd:vydejkaHeader>' . $this->defaultHeader() . '</vyd:vydejkaHeader><vyd:links><typ:link><typ:sourceAgenda>receivedOrder</typ:sourceAgenda><typ:sourceDocument><typ:number>142100003</typ:number></typ:sourceDocument></typ:link></vyd:links></vyd:vydejka>');
     }

@@ -1,20 +1,14 @@
 <?php
 
-/**
- * This file is part of riesenia/pohoda package.
- *
- * Licensed under the MIT License
- * (c) RIESENIA.com
- */
-
 declare(strict_types=1);
 
-namespace spec\Riesenia\Pohoda;
+namespace spec\kalanis\Pohoda;
 
 require_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'DiTrait.php';
 
+use kalanis\Pohoda;
 use PhpSpec\ObjectBehavior;
-use spec\Riesenia\DiTrait;
+use spec\kalanis\DiTrait;
 
 class ContractSpec extends ObjectBehavior
 {
@@ -22,17 +16,18 @@ class ContractSpec extends ObjectBehavior
 
     public function let(): void
     {
+        $header = new Pohoda\Contract\DescDto();
+        $header->text = 'zakazka15';
+        $header->responsiblePerson = ['ids' => 'Z0005'];
+
         $this->beConstructedWith($this->getBasicDi());
-        $this->setData([
-            'text' => 'zakazka15',
-            'responsiblePerson' => ['ids' => 'Z0005'],
-        ]);
+        $this->setData($header);
     }
 
     public function it_is_initializable_and_extends_agenda(): void
     {
-        $this->shouldHaveType('Riesenia\Pohoda\Contract');
-        $this->shouldHaveType('Riesenia\Pohoda\AbstractAgenda');
+        $this->shouldHaveType('kalanis\Pohoda\Contract');
+        $this->shouldHaveType('kalanis\Pohoda\AbstractAgenda');
     }
 
     public function it_creates_correct_xml(): void

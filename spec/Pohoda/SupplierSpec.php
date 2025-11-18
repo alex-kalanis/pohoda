@@ -1,20 +1,14 @@
 <?php
 
-/**
- * This file is part of riesenia/pohoda package.
- *
- * Licensed under the MIT License
- * (c) RIESENIA.com
- */
-
 declare(strict_types=1);
 
-namespace spec\Riesenia\Pohoda;
+namespace spec\kalanis\Pohoda;
 
 require_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'DiTrait.php';
 
+use kalanis\Pohoda;
 use PhpSpec\ObjectBehavior;
-use spec\Riesenia\DiTrait;
+use spec\kalanis\DiTrait;
 
 class SupplierSpec extends ObjectBehavior
 {
@@ -22,62 +16,62 @@ class SupplierSpec extends ObjectBehavior
 
     public function let(): void
     {
+        $supplier1 = new Pohoda\Supplier\SupplierItemDto();
+        $supplier1->default = true;
+        $supplier1->refAd = [
+            'id' => 2,
+        ];
+        $supplier1->orderCode = 'A1';
+        $supplier1->orderName = 'A-zasoba';
+        $supplier1->purchasingPrice = 1968;
+        $supplier1->rate = 0;
+        $supplier1->payVAT = false;
+        $supplier1->ean = '11112228';
+        $supplier1->printEAN = true;
+        $supplier1->unitEAN = 'ks';
+        $supplier1->unitCoefEAN = 1;
+        $supplier1->deliveryTime = 12;
+        $supplier1->minQuantity = 2;
+        $supplier1->note = 'fdf';
+
+        $supplier2 = new Pohoda\Supplier\SupplierItemDto();
+        $supplier2->default = false;
+        $supplier2->refAd = [
+            'ids' => 'INTEAK spol. s r. o.',
+        ];
+        $supplier2->orderCode = 'I1';
+        $supplier2->orderName = 'I-zasoba';
+        $supplier2->purchasingPrice = 500;
+        $supplier2->rate = 0;
+        $supplier2->payVAT = false;
+        $supplier2->ean = '212121212';
+        $supplier2->printEAN = true;
+        $supplier2->unitEAN = 'ks';
+        $supplier2->unitCoefEAN = 1;
+        $supplier2->deliveryTime = 12;
+        $supplier2->minQuantity = 2;
+        $supplier2->note = 'aasn';
+
+        $stockItem = new Pohoda\Supplier\StockItemDto();
+        $stockItem->stockItem = [
+            'ids' => 'B04',
+        ];
+
+        $supplier = new Pohoda\Supplier\SupplierDto();
+        $supplier->stockItem = $stockItem;
+        $supplier->suppliers = [
+            $supplier1,
+            $supplier2,
+        ];
+
         $this->beConstructedWith($this->getBasicDi());
-        $this->setData([
-            'stockItem' => [
-                'stockItem' => [
-                    'ids' => 'B04',
-                ],
-            ],
-            'suppliers' => [
-                [
-                    'supplierItem' => [
-                        'default' => true,
-                        'refAd' => [
-                            'id' => 2,
-                        ],
-                        'orderCode' => 'A1',
-                        'orderName' => 'A-zasoba',
-                        'purchasingPrice' => 1968,
-                        'rate' => 0,
-                        'payVAT' => false,
-                        'ean' => '11112228',
-                        'printEAN' => true,
-                        'unitEAN' => 'ks',
-                        'unitCoefEAN' => 1,
-                        'deliveryTime' => 12,
-                        'minQuantity' => 2,
-                        'note' => 'fdf',
-                    ],
-                ],
-                [
-                    'supplierItem' => [
-                        'default' => false,
-                        'refAd' => [
-                            'ids' => 'INTEAK spol. s r. o.',
-                        ],
-                        'orderCode' => 'I1',
-                        'orderName' => 'I-zasoba',
-                        'purchasingPrice' => 500,
-                        'rate' => 0,
-                        'payVAT' => false,
-                        'ean' => '212121212',
-                        'printEAN' => true,
-                        'unitEAN' => 'ks',
-                        'unitCoefEAN' => 1,
-                        'deliveryTime' => 12,
-                        'minQuantity' => 2,
-                        'note' => 'aasn',
-                    ],
-                ],
-            ],
-        ]);
+        $this->setData($supplier);
     }
 
     public function it_is_initializable_and_extends_agenda(): void
     {
-        $this->shouldHaveType('Riesenia\Pohoda\Supplier');
-        $this->shouldHaveType('Riesenia\Pohoda\AbstractAgenda');
+        $this->shouldHaveType('kalanis\Pohoda\Supplier');
+        $this->shouldHaveType('kalanis\Pohoda\AbstractAgenda');
     }
 
     public function it_creates_correct_xml(): void

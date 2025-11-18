@@ -1,22 +1,15 @@
 <?php
 
-/**
- * This file is part of riesenia/pohoda package.
- *
- * Licensed under the MIT License
- * (c) RIESENIA.com
- */
-
 declare(strict_types=1);
 
-namespace spec\Riesenia;
+namespace spec\kalanis;
 
 require_once __DIR__ . DIRECTORY_SEPARATOR . 'DiTrait.php';
 require_once __DIR__ . DIRECTORY_SEPARATOR . 'Capitalize.php';
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use Riesenia\Pohoda;
+use kalanis\Pohoda;
 
 class PohodaSpec extends ObjectBehavior
 {
@@ -32,7 +25,7 @@ class PohodaSpec extends ObjectBehavior
 
     public function it_is_initializable(): void
     {
-        $this->shouldHaveType('Riesenia\Pohoda');
+        $this->shouldHaveType('kalanis\Pohoda');
     }
 
     public function it_throws_exception_on_wrong_agenda_name(): void
@@ -42,26 +35,31 @@ class PohodaSpec extends ObjectBehavior
 
     public function it_creates_existing_objects(): void
     {
-        $this->create('Stock', [
-            'code' => 'CODE',
-            'name' => 'NAME',
-            'storage' => 'STORAGE',
-            'typePrice' => ['id' => 1],
-        ])->shouldBeAnInstanceOf('Riesenia\Pohoda\Stock');
+        $stockHeaderDto = new Pohoda\Stock\HeaderDto();
+        $stockHeaderDto->code = 'CODE';
+        $stockHeaderDto->name = 'NAME';
+        $stockHeaderDto->storage = 'STORAGE';
+        $stockHeaderDto->typePrice = ['id' => 1];
+        $stockDto = new Pohoda\Stock\StockDto();
+        $stockDto->header = $stockHeaderDto;
+
+        $this->create('Stock', $stockDto)->shouldBeAnInstanceOf('kalanis\Pohoda\Stock');
     }
 
     public function it_can_write_file(): void
     {
         $tmpFile = \tempnam(\sys_get_temp_dir(), 'xml');
 
-        $data = [
-            'code' => 'CODE',
-            'name' => 'NAME',
-            'storage' => 'STORAGE',
-            'typePrice' => ['id' => 1],
-        ];
+        $stockHeaderDto = new Pohoda\Stock\HeaderDto();
+        $stockHeaderDto->code = 'CODE';
+        $stockHeaderDto->name = 'NAME';
+        $stockHeaderDto->storage = 'STORAGE';
+        $stockHeaderDto->typePrice = ['id' => 1];
+        $stockDto = new Pohoda\Stock\StockDto();
+        $stockDto->header = $stockHeaderDto;
+
         $stock = new Pohoda\Stock($this->getBasicDi());
-        $stock->setData($data);
+        $stock->setData($stockDto);
 
         $this->open($tmpFile, 'ABC')->shouldReturn(true);
         $this->addItem('ITEM_ID', $stock);
@@ -82,14 +80,16 @@ class PohodaSpec extends ObjectBehavior
 
     public function it_can_write_to_memory(): void
     {
-        $data = [
-            'code' => 'CODE',
-            'name' => 'NAME',
-            'storage' => 'STORAGE',
-            'typePrice' => ['id' => 1],
-        ];
+        $stockHeaderDto = new Pohoda\Stock\HeaderDto();
+        $stockHeaderDto->code = 'CODE';
+        $stockHeaderDto->name = 'NAME';
+        $stockHeaderDto->storage = 'STORAGE';
+        $stockHeaderDto->typePrice = ['id' => 1];
+        $stockDto = new Pohoda\Stock\StockDto();
+        $stockDto->header = $stockHeaderDto;
+
         $stock = new Pohoda\Stock($this->getBasicDi());
-        $stock->setData($data);
+        $stock->setData($stockDto);
 
         $this->open(null, 'ABC')->shouldReturn(true);
         $this->addItem('ITEM_ID', $stock);
@@ -182,14 +182,16 @@ class PohodaSpec extends ObjectBehavior
 
     public function it_runs_transformers_properly(): void
     {
-        $data = [
-            'code' => 'code1',
-            'name' => 'name2',
-            'storage' => 'storage3',
-            'typePrice' => ['id' => 4],
-        ];
+        $stockHeaderDto = new Pohoda\Stock\HeaderDto();
+        $stockHeaderDto->code = 'code1';
+        $stockHeaderDto->name = 'name2';
+        $stockHeaderDto->storage = 'storage3';
+        $stockHeaderDto->typePrice = ['id' => 4];
+        $stockDto = new Pohoda\Stock\StockDto();
+        $stockDto->header = $stockHeaderDto;
+
         $stock = new Pohoda\Stock($this->getBasicDi($this->sanitization));
-        $stock->setData($data);
+        $stock->setData($stockDto);
 
         // set for each run
         $this->getTransformerListing()->clear();
@@ -210,14 +212,16 @@ class PohodaSpec extends ObjectBehavior
 
     public function it_handles_static_arrays_correctly(): void
     {
-        $data = [
-            'code' => 'code1',
-            'name' => 'name2',
-            'storage' => 'storage3',
-            'typePrice' => ['id' => 4],
-        ];
+        $stockHeaderDto = new Pohoda\Stock\HeaderDto();
+        $stockHeaderDto->code = 'code1';
+        $stockHeaderDto->name = 'name2';
+        $stockHeaderDto->storage = 'storage3';
+        $stockHeaderDto->typePrice = ['id' => 4];
+        $stockDto = new Pohoda\Stock\StockDto();
+        $stockDto->header = $stockHeaderDto;
+
         $stock = new Pohoda\Stock($this->getBasicDi($this->sanitization));
-        $stock->setData($data);
+        $stock->setData($stockDto);
 
         $this->sanitization->willBeSanitized(true);
 

@@ -1,20 +1,14 @@
 <?php
 
-/**
- * This file is part of riesenia/pohoda package.
- *
- * Licensed under the MIT License
- * (c) RIESENIA.com
- */
-
 declare(strict_types=1);
 
-namespace spec\Riesenia\Pohoda;
+namespace spec\kalanis\Pohoda;
 
 require_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'DiTrait.php';
 
+use kalanis\Pohoda;
 use PhpSpec\ObjectBehavior;
-use spec\Riesenia\DiTrait;
+use spec\kalanis\DiTrait;
 
 class BankSpec extends ObjectBehavior
 {
@@ -22,31 +16,36 @@ class BankSpec extends ObjectBehavior
 
     public function let(): void
     {
+        $statement = new Pohoda\Bank\StatementNumberDto();
+        $statement->statementNumber = '004';
+        $statement->numberMovement = '0002';
+
+        $header = new Pohoda\Bank\HeaderDto();
+        $header->bankType = 'receipt';
+        $header->account = 'KB';
+        $header->symVar = '456';
+        $header->symConst = '555';
+        $header->symSpec = '666';
+        $header->dateStatement = '2021-12-20';
+        $header->datePayment = '2021-11-22';
+        $header->text = 'STORMWARE s.r.o.';
+        $header->statementNumber = $statement;
+        $header->paymentAccount = [
+            'accountNo' => '4660550217',
+            'bankCode' => '5500',
+        ];
+
+        $dto = new Pohoda\Bank\BankDto();
+        $dto->header = $header;
+
         $this->beConstructedWith($this->getBasicDi());
-        $this->setData([
-            'bankType' => 'receipt',
-            'account' => 'KB',
-            'statementNumber' => [
-                'statementNumber' => '004',
-                'numberMovement' => '0002',
-            ],
-            'symVar' => '456',
-            'symConst' => '555',
-            'symSpec' => '666',
-            'dateStatement' => '2021-12-20',
-            'datePayment' => '2021-11-22',
-            'text' => 'STORMWARE s.r.o.',
-            'paymentAccount' => [
-                'accountNo' => '4660550217',
-                'bankCode' => '5500',
-            ],
-        ]);
+        $this->setData($dto);
     }
 
     public function it_is_initializable_and_extends_agenda(): void
     {
-        $this->shouldHaveType('Riesenia\Pohoda\Bank');
-        $this->shouldHaveType('Riesenia\Pohoda\AbstractAgenda');
+        $this->shouldHaveType('kalanis\Pohoda\Bank');
+        $this->shouldHaveType('kalanis\Pohoda\AbstractAgenda');
     }
 
     public function it_creates_correct_xml(): void
@@ -56,11 +55,13 @@ class BankSpec extends ObjectBehavior
 
     public function it_can_set_summary(): void
     {
-        $this->addSummary([
-            'homeCurrency' => [
-                'priceNone' => 500,
-            ],
-        ]);
+        $home = new Pohoda\Type\Dtos\CurrencyHomeDto();
+        $home->priceNone = 500;
+
+        $summary = new Pohoda\Bank\SummaryDto();
+        $summary->homeCurrency = $home;
+
+        $this->addSummary($summary);
 
         $this->getXML()->asXML()->shouldReturn('<bnk:bank version="2.0"><bnk:bankHeader>' . $this->defaultHeader() . '</bnk:bankHeader><bnk:bankSummary><bnk:homeCurrency><typ:priceNone>500</typ:priceNone></bnk:homeCurrency></bnk:bankSummary></bnk:bank>');
     }

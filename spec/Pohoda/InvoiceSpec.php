@@ -1,20 +1,14 @@
 <?php
 
-/**
- * This file is part of riesenia/pohoda package.
- *
- * Licensed under the MIT License
- * (c) RIESENIA.com
- */
-
 declare(strict_types=1);
 
-namespace spec\Riesenia\Pohoda;
+namespace spec\kalanis\Pohoda;
 
 require_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'DiTrait.php';
 
+use kalanis\Pohoda;
 use PhpSpec\ObjectBehavior;
-use spec\Riesenia\DiTrait;
+use spec\kalanis\DiTrait;
 
 class InvoiceSpec extends ObjectBehavior
 {
@@ -22,26 +16,33 @@ class InvoiceSpec extends ObjectBehavior
 
     public function let(): void
     {
+        $myAddr = new Pohoda\Type\Dtos\AddressInternetTypeDto();
+        $myAddr->name = 'NAME';
+        $myAddr->ico = '123';
+
+        $myIdentity = new Pohoda\Type\Dtos\MyAddressDto();
+        $myIdentity->address = $myAddr;
+
+        $partner = new Pohoda\Type\Dtos\AddressDto();
+        $partner->id = 25;
+
+        $header = new Pohoda\Invoice\HeaderDto();
+        $header->date = '2015-01-10';
+        $header->intNote = 'Note';
+        $header->partnerIdentity = $partner;
+        $header->myIdentity = $myIdentity;
+
+        $dto = new Pohoda\Invoice\InvoiceDto();
+        $dto->header = $header;
+
         $this->beConstructedWith($this->getBasicDi());
-        $this->setData([
-            'partnerIdentity' => [
-                'id' => 25,
-            ],
-            'myIdentity' => [
-                'address' => [
-                    'name' => 'NAME',
-                    'ico' => '123',
-                ],
-            ],
-            'date' => '2015-01-10',
-            'intNote' => 'Note',
-        ]);
+        $this->setData($dto);
     }
 
     public function it_is_initializable_and_extends_agenda(): void
     {
-        $this->shouldHaveType('Riesenia\Pohoda\Invoice');
-        $this->shouldHaveType('Riesenia\Pohoda\AbstractAgenda');
+        $this->shouldHaveType('kalanis\Pohoda\Invoice');
+        $this->shouldHaveType('kalanis\Pohoda\AbstractAgenda');
     }
 
     public function it_creates_correct_xml(): void
@@ -51,63 +52,71 @@ class InvoiceSpec extends ObjectBehavior
 
     public function it_can_add_items(): void
     {
-        $this->addItem([
-            'text' => 'NAME 1',
-            'quantity' => 1,
-            'rateVAT' => 'high',
-            'homeCurrency' => [
-                'unitPrice' => 200,
-            ],
-        ]);
+        $home1 = new Pohoda\Type\Dtos\CurrencyItemDto();
+        $home1->unitPrice = 200;
 
-        $this->addItem([
-            'quantity' => 1,
-            'payVAT' => 1,
-            'rateVAT' => 'high',
-            'homeCurrency' => [
-                'unitPrice' => 198,
-            ],
-            'stockItem' => [
-                'stockItem' => [
-                    'ids' => 'STM',
-                ],
-            ],
-        ]);
+        $item1 = new Pohoda\Invoice\ItemDto();
+        $item1->text = 'NAME 1';
+        $item1->quantity = 1;
+        $item1->rateVAT = 'high';
+        $item1->homeCurrency = $home1;
+
+        $home2 = new Pohoda\Type\Dtos\CurrencyItemDto();
+        $home2->unitPrice = 198;
+
+        $stock = new Pohoda\Type\Dtos\StockItemDto();
+        $stock->stockItem = [
+            'ids' => 'STM',
+        ];
+
+        $item2 = new Pohoda\Invoice\ItemDto();
+        $item2->quantity = 1;
+        $item2->payVAT = true;
+        $item2->rateVAT = 'high';
+        $item2->homeCurrency = $home2;
+        $item2->stockItem = $stock;
+
+        $this->addItem($item1);
+        $this->addItem($item2);
 
         $this->getXML()->asXML()->shouldReturn('<inv:invoice version="2.0"><inv:invoiceHeader>' . $this->defaultHeader() . '</inv:invoiceHeader><inv:invoiceDetail><inv:invoiceItem><inv:text>NAME 1</inv:text><inv:quantity>1</inv:quantity><inv:rateVAT>high</inv:rateVAT><inv:homeCurrency><typ:unitPrice>200</typ:unitPrice></inv:homeCurrency></inv:invoiceItem><inv:invoiceItem><inv:quantity>1</inv:quantity><inv:payVAT>true</inv:payVAT><inv:rateVAT>high</inv:rateVAT><inv:homeCurrency><typ:unitPrice>198</typ:unitPrice></inv:homeCurrency><inv:stockItem><typ:stockItem><typ:ids>STM</typ:ids></typ:stockItem></inv:stockItem></inv:invoiceItem></inv:invoiceDetail></inv:invoice>');
     }
 
     public function it_can_add_advance_payment_item(): void
     {
-        $this->addAdvancePaymentItem([
-            'sourceDocument' => [
-                'number' => '150800001',
-            ],
-            'quantity' => 1,
-            'payVAT' => false,
-            'rateVAT' => 'none',
-            'homeCurrency' => [
-                'unitPrice' => -3000,
-                'price' => -3000,
-                'priceVAT' => 0,
-                'priceSum' => -3000,
-            ],
-        ]);
+        $home = new Pohoda\Type\Dtos\CurrencyItemDto();
+        $home->unitPrice = -3000;
+        $home->price = -3000;
+        $home->priceVAT = 0;
+        $home->priceSum = -3000;
+
+        $advPayment = new Pohoda\Invoice\AdvancePaymentItemDto();
+        $advPayment->sourceDocument = [
+            'number' => '150800001',
+        ];
+        $advPayment->quantity = 1;
+        $advPayment->payVAT = false;
+        $advPayment->rateVAT = 'none';
+        $advPayment->homeCurrency = $home;
+
+        $this->addAdvancePaymentItem($advPayment);
 
         $this->getXML()->asXML()->shouldReturn('<inv:invoice version="2.0"><inv:invoiceHeader>' . $this->defaultHeader() . '</inv:invoiceHeader><inv:invoiceDetail><inv:invoiceAdvancePaymentItem><inv:sourceDocument><typ:number>150800001</typ:number></inv:sourceDocument><inv:quantity>1</inv:quantity><inv:payVAT>false</inv:payVAT><inv:rateVAT>none</inv:rateVAT><inv:homeCurrency><typ:unitPrice>-3000</typ:unitPrice><typ:price>-3000</typ:price><typ:priceVAT>0</typ:priceVAT><typ:priceSum>-3000</typ:priceSum></inv:homeCurrency></inv:invoiceAdvancePaymentItem></inv:invoiceDetail></inv:invoice>');
     }
 
     public function it_can_set_summary(): void
     {
-        $this->addSummary([
-            'roundingDocument' => 'math2one',
-            'foreignCurrency' => [
-                'currency' => 'EUR',
-                'rate' => '20.232',
-                'amount' => 1,
-                'priceSum' => 580,
-            ],
-        ]);
+        $foreign = new Pohoda\Type\Dtos\CurrencyForeignDto();
+        $foreign->currency = 'EUR';
+        $foreign->rate = '20.232';
+        $foreign->amount = 1;
+        $foreign->priceSum = 580;
+
+        $summary = new Pohoda\Invoice\SummaryDto();
+        $summary->roundingDocument = 'math2one';
+        $summary->foreignCurrency = $foreign;
+
+        $this->addSummary($summary);
 
         $this->getXML()->asXML()->shouldReturn('<inv:invoice version="2.0"><inv:invoiceHeader>' . $this->defaultHeader() . '</inv:invoiceHeader><inv:invoiceSummary><inv:roundingDocument>math2one</inv:roundingDocument><inv:foreignCurrency><typ:currency><typ:ids>EUR</typ:ids></typ:currency><typ:rate>20.232</typ:rate><typ:amount>1</typ:amount><typ:priceSum>580</typ:priceSum></inv:foreignCurrency></inv:invoiceSummary></inv:invoice>');
     }
@@ -124,12 +133,13 @@ class InvoiceSpec extends ObjectBehavior
 
     public function it_can_link_to_order(): void
     {
-        $this->addLink([
-            'sourceAgenda' => 'receivedOrder',
-            'sourceDocument' => [
-                'number' => '142100003',
-            ],
-        ]);
+        $link = new Pohoda\Type\Dtos\LinkDto();
+        $link->sourceAgenda = 'receivedOrder';
+        $link->sourceDocument = [
+            'number' => '142100003',
+        ];
+
+        $this->addLink($link);
 
         $this->getXML()->asXML()->shouldReturn('<inv:invoice version="2.0"><inv:invoiceHeader>' . $this->defaultHeader() . '</inv:invoiceHeader><inv:links><typ:link><typ:sourceAgenda>receivedOrder</typ:sourceAgenda><typ:sourceDocument><typ:number>142100003</typ:number></typ:sourceDocument></typ:link></inv:links></inv:invoice>');
     }

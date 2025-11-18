@@ -1,20 +1,14 @@
 <?php
 
-/**
- * This file is part of riesenia/pohoda package.
- *
- * Licensed under the MIT License
- * (c) RIESENIA.com
- */
-
 declare(strict_types=1);
 
-namespace spec\Riesenia\Pohoda;
+namespace spec\kalanis\Pohoda;
 
 require_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'DiTrait.php';
 
+use kalanis\Pohoda;
 use PhpSpec\ObjectBehavior;
-use spec\Riesenia\DiTrait;
+use spec\kalanis\DiTrait;
 
 class StockSpec extends ObjectBehavior
 {
@@ -22,34 +16,40 @@ class StockSpec extends ObjectBehavior
 
     public function let(): void
     {
+        $intrastat = new Pohoda\Stock\IntrastatDto();
+        $intrastat->goodsCode = '123';
+        $intrastat->unit = 'ZZZ';
+        $intrastat->coefficient = 0;
+        $intrastat->country = 'CN';
+
+        $recycling = new Pohoda\Stock\RecyclingContribDto();
+        $recycling->recyclingContribType = 'X';
+        $recycling->coefficientOfRecyclingContrib = 1;
+
+        $header = new Pohoda\Stock\HeaderDto();
+        $header->code = 'CODE';
+        $header->name = 'NAME';
+        $header->isSales = false;
+        $header->isSerialNumber = false;
+        $header->isInternet = true;
+        $header->storage = 'STORAGE';
+        $header->typePrice = ['id' => 1];
+        $header->sellingPrice = 12.7;
+        $header->sellingPricePayVAT = true;
+        $header->intrastat = $intrastat;
+        $header->recyclingContrib = $recycling;
+
+        $dto = new Pohoda\Stock\StockDto();
+        $dto->header = $header;
+
         $this->beConstructedWith($this->getBasicDi());
-        $this->setData([
-            'code' => 'CODE',
-            'name' => 'NAME',
-            'isSales' => '0',
-            'isSerialNumber' => 'false',
-            'isInternet' => true,
-            'storage' => 'STORAGE',
-            'typePrice' => ['id' => 1],
-            'sellingPrice' => 12.7,
-            'sellingPricePayVAT' => true,
-            'intrastat' => [
-                'goodsCode' => '123',
-                'unit' => 'ZZZ',
-                'coefficient' => 0,
-                'country' => 'CN',
-            ],
-            'recyclingContrib' => [
-                'recyclingContribType' => 'X',
-                'coefficientOfRecyclingContrib' => 1,
-            ],
-        ]);
+        $this->setData($dto);
     }
 
     public function it_is_initializable_and_extends_agenda(): void
     {
-        $this->shouldHaveType('Riesenia\Pohoda\Stock');
-        $this->shouldHaveType('Riesenia\Pohoda\AbstractAgenda');
+        $this->shouldHaveType('kalanis\Pohoda\Stock');
+        $this->shouldHaveType('kalanis\Pohoda\AbstractAgenda');
     }
 
     public function it_creates_correct_xml(): void
@@ -69,21 +69,22 @@ class StockSpec extends ObjectBehavior
 
     public function it_can_add_stock_items(): void
     {
-        $this->addStockItem([
-            'storage' => ['ids' => 'MATERIÁL'],
-            'code' => 'B03',
-            'name' => 'Spojovacia doska',
-            'count' => 88,
-            'quantity' => 1,
-            'stockPriceItem' => [
-                [
-                    'stockPrice' => ['ids' => 'Cena 1', 'price' => 294],
-                ],
-                [
-                    'stockPrice' => ['ids' => 'MOC', 'price' => 393.3],
-                ],
-            ],
-        ]);
+        $price1 = new Pohoda\Stock\PriceDto();
+        $price1->ids = 'Cena 1';
+        $price1->price = 294;
+        $price2 = new Pohoda\Stock\PriceDto();
+        $price2->ids = 'MOC';
+        $price2->price = 393.3;
+        $stock = new Pohoda\Stock\StockItemDto();
+        $stock->storage = ['ids' => 'MATERIÁL'];
+        $stock->code = 'B03';
+        $stock->name = 'Spojovacia doska';
+        $stock->count = 88;
+        $stock->quantity = 1;
+        $stock->stockPriceItem[] = $price1;
+        $stock->stockPriceItem[] = $price2;
+
+        $this->addStockItem($stock);
 
         $this->getXML()->asXML()->shouldReturn('<stk:stock version="2.0"><stk:stockHeader>' . $this->defaultHeader() . '</stk:stockHeader><stk:stockDetail><stk:stockItem><stk:storage><typ:ids>MATERIÁL</typ:ids></stk:storage><stk:code>B03</stk:code><stk:name>Spojovacia doska</stk:name><stk:count>88</stk:count><stk:quantity>1</stk:quantity><stk:stockPriceItem><stk:stockPrice><typ:ids>Cena 1</typ:ids><typ:price>294</typ:price></stk:stockPrice><stk:stockPrice><typ:ids>MOC</typ:ids><typ:price>393.3</typ:price></stk:stockPrice></stk:stockPriceItem></stk:stockItem></stk:stockDetail></stk:stock>');
     }
@@ -114,11 +115,12 @@ class StockSpec extends ObjectBehavior
 
     public function it_can_set_int_parameters(): void
     {
-        $this->addIntParameter([
-            'intParameterID' => 1,
-            'intParameterType' => 'numberValue',
-            'value' => 'VALUE1',
-        ]);
+        $intl = new Pohoda\Stock\IntParameterDto();
+        $intl->intParameterID = 1;
+        $intl->intParameterType = 'numberValue';
+        $intl->value = 'VALUE1';
+
+        $this->addIntParameter($intl);
 
         $this->getXML()->asXML()->shouldReturn('<stk:stock version="2.0"><stk:stockHeader>' . $this->defaultHeader() . '<stk:intParameters><stk:intParameter><stk:intParameterID>1</stk:intParameterID><stk:intParameterType>numberValue</stk:intParameterType><stk:intParameterValues><stk:intParameterValue><stk:parameterValue>VALUE1</stk:parameterValue></stk:intParameterValue></stk:intParameterValues></stk:intParameter></stk:intParameters></stk:stockHeader></stk:stock>');
     }

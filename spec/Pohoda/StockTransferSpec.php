@@ -1,20 +1,14 @@
 <?php
 
-/**
- * This file is part of riesenia/pohoda package.
- *
- * Licensed under the MIT License
- * (c) RIESENIA.com
- */
-
 declare(strict_types=1);
 
-namespace spec\Riesenia\Pohoda;
+namespace spec\kalanis\Pohoda;
 
 require_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'DiTrait.php';
 
+use kalanis\Pohoda;
 use PhpSpec\ObjectBehavior;
-use spec\Riesenia\DiTrait;
+use spec\kalanis\DiTrait;
 
 class StockTransferSpec extends ObjectBehavior
 {
@@ -22,30 +16,33 @@ class StockTransferSpec extends ObjectBehavior
 
     public function let(): void
     {
+        $partnerAddress = new Pohoda\Type\Dtos\AddressTypeDto();
+        $partnerAddress->name = 'NAME';
+        $partnerAddress->ico = '123';
+
+        $partnerIdentity = new Pohoda\Type\Dtos\AddressDto();
+        $partnerIdentity->address = $partnerAddress;
+
+        $stockHeader = new Pohoda\StockTransfer\HeaderDto();
+        $stockHeader->date = '2015-01-10';
+        $stockHeader->store = [
+            'ids' => 'MAIN',
+        ];
+        $stockHeader->text = 'Prevodka na MAIN';
+        $stockHeader->activity = [
+            'id' => 1,
+        ];
+        $stockHeader->intNote = 'Note';
+        $stockHeader->partnerIdentity = $partnerIdentity;
+
         $this->beConstructedWith($this->getBasicDi());
-        $this->setData([
-            'date' => '2015-01-10',
-            'store' => [
-                'ids' => 'MAIN',
-            ],
-            'text' => 'Prevodka na MAIN',
-            'partnerIdentity' => [
-                'address' => [
-                    'name' => 'NAME',
-                    'ico' => '123',
-                ],
-            ],
-            'activity' => [
-                'id' => 1,
-            ],
-            'intNote' => 'Note',
-        ]);
+        $this->setData($stockHeader);
     }
 
     public function it_is_initializable_and_extends_agenda(): void
     {
-        $this->shouldHaveType('Riesenia\Pohoda\StockTransfer');
-        $this->shouldHaveType('Riesenia\Pohoda\AbstractAgenda');
+        $this->shouldHaveType('kalanis\Pohoda\StockTransfer');
+        $this->shouldHaveType('kalanis\Pohoda\AbstractAgenda');
     }
 
     public function it_creates_correct_xml(): void
@@ -55,25 +52,26 @@ class StockTransferSpec extends ObjectBehavior
 
     public function it_can_add_items(): void
     {
-        $this->addItem([
-            'quantity' => 2,
-            'stockItem' => [
-                'stockItem' => [
-                    'ids' => 'model',
-                    'store' => 'X',
-                ],
-            ],
-        ]);
+        $stock1 = new Pohoda\Type\Dtos\StockItemDto();
+        $stock1->stockItem = [
+            'ids' => 'model',
+            'store' => 'X',
+        ];
+        $item1 = new Pohoda\StockTransfer\ItemDto();
+        $item1->quantity = 2;
+        $item1->stockItem = $stock1;
 
-        $this->addItem([
-            'quantity' => 1,
-            'stockItem' => [
-                'stockItem' => [
-                    'ids' => 'STM',
-                ],
-            ],
-            'note' => 'STM',
-        ]);
+        $stock2 = new Pohoda\Type\Dtos\StockItemDto();
+        $stock2->stockItem = [
+            'ids' => 'STM',
+        ];
+        $item2 = new Pohoda\StockTransfer\ItemDto();
+        $item2->quantity = 1;
+        $item2->note = 'STM';
+        $item2->stockItem = $stock2;
+
+        $this->addItem($item1);
+        $this->addItem($item2);
 
         $this->getXML()->asXML()->shouldReturn('<pre:prevodka version="2.0"><pre:prevodkaHeader>' . $this->defaultHeader() . '</pre:prevodkaHeader><pre:prevodkaDetail><pre:prevodkaItem><pre:quantity>2</pre:quantity><pre:stockItem><typ:stockItem><typ:ids>model</typ:ids><typ:store>X</typ:store></typ:stockItem></pre:stockItem></pre:prevodkaItem><pre:prevodkaItem><pre:quantity>1</pre:quantity><pre:stockItem><typ:stockItem><typ:ids>STM</typ:ids></typ:stockItem></pre:stockItem><pre:note>STM</pre:note></pre:prevodkaItem></pre:prevodkaDetail></pre:prevodka>');
     }

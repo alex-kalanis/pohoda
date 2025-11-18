@@ -1,20 +1,14 @@
 <?php
 
-/**
- * This file is part of riesenia/pohoda package.
- *
- * Licensed under the MIT License
- * (c) RIESENIA.com
- */
-
 declare(strict_types=1);
 
-namespace spec\Riesenia\Pohoda;
+namespace spec\kalanis\Pohoda;
 
 require_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'DiTrait.php';
 
+use kalanis\Pohoda;
 use PhpSpec\ObjectBehavior;
-use spec\Riesenia\DiTrait;
+use spec\kalanis\DiTrait;
 
 class UserListSpec extends ObjectBehavior
 {
@@ -22,25 +16,27 @@ class UserListSpec extends ObjectBehavior
 
     public function let(): void
     {
+        $list = new Pohoda\UserList\UserListDto();
+        $list->code = 'CODE';
+        $list->name = 'NAME';
+
         $this->beConstructedWith($this->getBasicDi());
-        $this->setData([
-            'code' => 'CODE',
-            'name' => 'NAME',
-        ]);
+        $this->setData($list);
     }
 
     public function it_is_initializable_and_extends_agenda(): void
     {
-        $this->shouldHaveType('Riesenia\Pohoda\UserList');
-        $this->shouldHaveType('Riesenia\Pohoda\AbstractAgenda');
+        $this->shouldHaveType('kalanis\Pohoda\UserList');
+        $this->shouldHaveType('kalanis\Pohoda\AbstractAgenda');
     }
 
     public function it_creates_correct_xml(): void
     {
-        $this->addItemUserCode([
-            'code' => 'CODE 2',
-            'name' => 'NAME 2',
-        ]);
+        $code = new Pohoda\UserList\ItemUserCodeDto();
+        $code->code = 'CODE 2';
+        $code->name = 'NAME 2';
+
+        $this->addItemUserCode($code);
 
         $this->getXML()->asXML()->shouldReturn('<lst:listUserCode version="1.1" code="CODE" name="NAME"><lst:itemUserCode code="CODE 2" name="NAME 2"/></lst:listUserCode>');
     }

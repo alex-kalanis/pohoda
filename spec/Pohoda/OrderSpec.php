@@ -1,20 +1,14 @@
 <?php
 
-/**
- * This file is part of riesenia/pohoda package.
- *
- * Licensed under the MIT License
- * (c) RIESENIA.com
- */
-
 declare(strict_types=1);
 
-namespace spec\Riesenia\Pohoda;
+namespace spec\kalanis\Pohoda;
 
 require_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'DiTrait.php';
 
+use kalanis\Pohoda;
 use PhpSpec\ObjectBehavior;
-use spec\Riesenia\DiTrait;
+use spec\kalanis\DiTrait;
 
 class OrderSpec extends ObjectBehavior
 {
@@ -22,27 +16,34 @@ class OrderSpec extends ObjectBehavior
 
     public function constructSelf(): void
     {
+        $partner = new Pohoda\Type\Dtos\AddressDto();
+        $partner->id = 25;
+
+        $mineAddr = new Pohoda\Type\Dtos\AddressInternetTypeDto();
+        $mineAddr->name = 'NAME';
+        $mineAddr->ico = '123';
+
+        $mine = new Pohoda\Type\Dtos\MyAddressDto();
+        $mine->address = $mineAddr;
+
+        $header = new Pohoda\Order\HeaderDto();
+        $header->date = '2015-01-10';
+        $header->intNote = 'Note';
+        $header->partnerIdentity = $partner;
+        $header->myIdentity = $mine;
+
+        $dto = new Pohoda\Order\OrderDto();
+        $dto->header = $header;
+
         $this->beConstructedWith($this->getBasicDi());
-        $this->setData([
-            'partnerIdentity' => [
-                'id' => 25,
-            ],
-            'myIdentity' => [
-                'address' => [
-                    'name' => 'NAME',
-                    'ico' => '123',
-                ],
-            ],
-            'date' => '2015-01-10',
-            'intNote' => 'Note',
-        ]);
+        $this->setData($dto);
     }
 
     public function it_is_initializable_and_extends_agenda(): void
     {
         $this->constructSelf();
-        $this->shouldHaveType('Riesenia\Pohoda\Order');
-        $this->shouldHaveType('Riesenia\Pohoda\AbstractAgenda');
+        $this->shouldHaveType('kalanis\Pohoda\Order');
+        $this->shouldHaveType('kalanis\Pohoda\AbstractAgenda');
     }
 
     public function it_creates_correct_xml(): void
@@ -64,31 +65,36 @@ class OrderSpec extends ObjectBehavior
     public function it_can_add_items(): void
     {
         $this->constructSelf();
-        $this->addItem([
-            'text' => 'NAME 1',
-            'quantity' => 1,
-            'delivered' => 0,
-            'rateVAT' => 'high',
-            'homeCurrency' => [
-                'unitPrice' => 200,
-            ],
-        ]);
 
-        $this->addItem([
-            'quantity' => 1,
-            'payVAT' => 1,
-            'rateVAT' => 'high',
-            'homeCurrency' => [
-                'unitPrice' => 198,
-            ],
-            'stockItem' => [
-                'stockItem' => [
-                    'ids' => 'STM',
-                ],
-                'insertAttachStock' => 0,
-                'applyUserSettingsFilterOnTheStore' => false,
-            ],
-        ]);
+        $home1 = new Pohoda\Type\Dtos\CurrencyItemDto();
+        $home1->unitPrice = 200;
+
+        $item1 = new Pohoda\Order\ItemDto();
+        $item1->text = 'NAME 1';
+        $item1->quantity = 1;
+        $item1->delivered = 0;
+        $item1->rateVAT = 'high';
+        $item1->homeCurrency = $home1;
+
+        $home2 = new Pohoda\Type\Dtos\CurrencyItemDto();
+        $home2->unitPrice = 198;
+
+        $stock = new Pohoda\Type\Dtos\StockItemDto();
+        $stock->stockItem = [
+            'ids' => 'STM',
+        ];
+        $stock->insertAttachStock = false;
+        $stock->applyUserSettingsFilterOnTheStore = false;
+
+        $item2 = new Pohoda\Order\ItemDto();
+        $item2->quantity = 1;
+        $item2->payVAT = true;
+        $item2->rateVAT = 'high';
+        $item2->homeCurrency = $home2;
+        $item2->stockItem = $stock;
+
+        $this->addItem($item1);
+        $this->addItem($item2);
 
         $this->getXML()->asXML()->shouldReturn('<ord:order version="2.0"><ord:orderHeader>' . $this->defaultHeader() . '</ord:orderHeader><ord:orderDetail><ord:orderItem><ord:text>NAME 1</ord:text><ord:quantity>1</ord:quantity><ord:delivered>0</ord:delivered><ord:rateVAT>high</ord:rateVAT><ord:homeCurrency><typ:unitPrice>200</typ:unitPrice></ord:homeCurrency></ord:orderItem><ord:orderItem><ord:quantity>1</ord:quantity><ord:payVAT>true</ord:payVAT><ord:rateVAT>high</ord:rateVAT><ord:homeCurrency><typ:unitPrice>198</typ:unitPrice></ord:homeCurrency><ord:stockItem><typ:stockItem insertAttachStock="false" applyUserSettingsFilterOnTheStore="false"><typ:ids>STM</typ:ids></typ:stockItem></ord:stockItem></ord:orderItem></ord:orderDetail></ord:order>');
     }
@@ -96,15 +102,18 @@ class OrderSpec extends ObjectBehavior
     public function it_can_set_summary(): void
     {
         $this->constructSelf();
-        $this->addSummary([
-            'roundingDocument' => 'math2one',
-            'foreignCurrency' => [
-                'currency' => 'EUR',
-                'rate' => '20.232',
-                'amount' => 1,
-                'priceSum' => 580,
-            ],
-        ]);
+
+        $foreign = new Pohoda\Type\Dtos\CurrencyForeignDto();
+        $foreign->currency = 'EUR';
+        $foreign->rate = '20.232';
+        $foreign->amount = 1;
+        $foreign->priceSum = 580;
+
+        $summary = new Pohoda\Order\SummaryDto();
+        $summary->roundingDocument = 'math2one';
+        $summary->foreignCurrency = $foreign;
+
+        $this->addSummary($summary);
 
         $this->getXML()->asXML()->shouldReturn('<ord:order version="2.0"><ord:orderHeader>' . $this->defaultHeader() . '</ord:orderHeader><ord:orderSummary><ord:roundingDocument>math2one</ord:roundingDocument><ord:foreignCurrency><typ:currency><typ:ids>EUR</typ:ids></typ:currency><typ:rate>20.232</typ:rate><typ:amount>1</typ:amount><typ:priceSum>580</typ:priceSum></ord:foreignCurrency></ord:orderSummary></ord:order>');
     }

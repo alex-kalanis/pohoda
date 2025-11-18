@@ -62,7 +62,7 @@ class OfferTest extends CommonTestClass
 
         $item2 = new Pohoda\Offer\ItemDto();
         $item2->quantity = 1;
-        $item2->payVAT = 1;
+        $item2->payVAT = true;
         $item2->rateVAT = 'high';
         $item2->homeCurrency = $home2;
         $item2->stockItem = $stock2;

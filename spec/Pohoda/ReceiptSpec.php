@@ -1,20 +1,14 @@
 <?php
 
-/**
- * This file is part of riesenia/pohoda package.
- *
- * Licensed under the MIT License
- * (c) RIESENIA.com
- */
-
 declare(strict_types=1);
 
-namespace spec\Riesenia\Pohoda;
+namespace spec\kalanis\Pohoda;
 
 require_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'DiTrait.php';
 
+use kalanis\Pohoda;
 use PhpSpec\ObjectBehavior;
-use spec\Riesenia\DiTrait;
+use spec\kalanis\DiTrait;
 
 class ReceiptSpec extends ObjectBehavior
 {
@@ -22,25 +16,30 @@ class ReceiptSpec extends ObjectBehavior
 
     public function let(): void
     {
+        $partner = new Pohoda\Type\Dtos\AddressDto();
+        $partner->id = 20;
+
+        $header = new Pohoda\Receipt\HeaderDto();
+        $header->date = new \DateTimeImmutable('2015-01-10');
+        $header->dateOfReceipt = '';
+        $header->text = 'Prijemka';
+        $header->activity = [
+            'id' => 1,
+        ];
+        $header->intNote = 'Note';
+        $header->partnerIdentity = $partner;
+
+        $dto = new Pohoda\Receipt\ReceiptDto();
+        $dto->header = $header;
+
         $this->beConstructedWith($this->getBasicDi());
-        $this->setData([
-            'date' => new \DateTimeImmutable('2015-01-10'),
-            'dateOfReceipt' => '',
-            'text' => 'Prijemka',
-            'partnerIdentity' => [
-                'id' => 20,
-            ],
-            'activity' => [
-                'id' => 1,
-            ],
-            'intNote' => 'Note',
-        ]);
+        $this->setData($dto);
     }
 
     public function it_is_initializable_and_extends_agenda(): void
     {
-        $this->shouldHaveType('Riesenia\Pohoda\Receipt');
-        $this->shouldHaveType('Riesenia\Pohoda\AbstractAgenda');
+        $this->shouldHaveType('kalanis\Pohoda\Receipt');
+        $this->shouldHaveType('kalanis\Pohoda\AbstractAgenda');
     }
 
     public function it_creates_correct_xml(): void
@@ -50,25 +49,28 @@ class ReceiptSpec extends ObjectBehavior
 
     public function it_can_add_items(): void
     {
-        $this->addItem([
-            'quantity' => 2,
-            'stockItem' => [
-                'stockItem' => [
-                    'ids' => 'model',
-                    'store' => 'X',
-                ],
-            ],
-        ]);
+        $stock1 = new Pohoda\Type\Dtos\StockItemDto();
+        $stock1->stockItem = [
+            'ids' => 'model',
+            'store' => 'X',
+        ];
 
-        $this->addItem([
-            'quantity' => 1,
-            'stockItem' => [
-                'stockItem' => [
-                    'ids' => 'STM',
-                ],
-            ],
-            'note' => 'STM',
-        ]);
+        $item1 = new Pohoda\Receipt\ItemDto();
+        $item1->quantity = 2;
+        $item1->stockItem = $stock1;
+
+        $stock2 = new Pohoda\Type\Dtos\StockItemDto();
+        $stock2->stockItem = [
+            'ids' => 'STM',
+        ];
+
+        $item2 = new Pohoda\Receipt\ItemDto();
+        $item2->quantity = 1;
+        $item2->note = 'STM';
+        $item2->stockItem = $stock2;
+
+        $this->addItem($item1);
+        $this->addItem($item2);
 
         $this->getXML()->asXML()->shouldReturn('<pri:prijemka version="2.0"><pri:prijemkaHeader>' . $this->defaultHeader() . '</pri:prijemkaHeader><pri:prijemkaDetail><pri:prijemkaItem><pri:quantity>2</pri:quantity><pri:stockItem><typ:stockItem><typ:ids>model</typ:ids><typ:store>X</typ:store></typ:stockItem></pri:stockItem></pri:prijemkaItem><pri:prijemkaItem><pri:quantity>1</pri:quantity><pri:stockItem><typ:stockItem><typ:ids>STM</typ:ids></typ:stockItem></pri:stockItem><pri:note>STM</pri:note></pri:prijemkaItem></pri:prijemkaDetail></pri:prijemka>');
     }

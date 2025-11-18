@@ -1,18 +1,11 @@
 <?php
 
-/**
- * This file is part of riesenia/pohoda package.
- *
- * Licensed under the MIT License
- * (c) RIESENIA.com
- */
-
 declare(strict_types=1);
 
-namespace spec\Riesenia\Pohoda\ValueTransformer;
+namespace spec\kalanis\Pohoda\ValueTransformer;
 
 use PhpSpec\ObjectBehavior;
-use Riesenia\Pohoda\ValueTransformer\CyrillicTransliterationTransformer;
+use kalanis\Pohoda\ValueTransformer\CyrillicTransliterationTransformer;
 
 class CyrillicTransliterationTransformerSpec extends ObjectBehavior
 {

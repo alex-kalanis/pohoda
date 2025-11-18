@@ -1,20 +1,14 @@
 <?php
 
-/**
- * This file is part of riesenia/pohoda package.
- *
- * Licensed under the MIT License
- * (c) RIESENIA.com
- */
-
 declare(strict_types=1);
 
-namespace spec\Riesenia\Pohoda;
+namespace spec\kalanis\Pohoda;
 
 require_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'DiTrait.php';
 
+use kalanis\Pohoda;
 use PhpSpec\ObjectBehavior;
-use spec\Riesenia\DiTrait;
+use spec\kalanis\DiTrait;
 
 class AddressBookSpec extends ObjectBehavior
 {
@@ -22,24 +16,30 @@ class AddressBookSpec extends ObjectBehavior
 
     public function constructSelf(): void
     {
+        $addrType = new Pohoda\Type\Dtos\AddressTypeDto();
+        $addrType->name = 'NAME';
+        $addrType->ico = '123';
+
+        $addr = new Pohoda\Type\Dtos\AddressDto();
+        $addr->address = $addrType;
+
+        $header = new Pohoda\AddressBook\HeaderDto();
+        $header->phone = '123';
+        $header->centre = ['id' => 1];
+        $header->identity = $addr;
+
+        $dto = new Pohoda\AddressBook\AddressBookDto();
+        $dto->header = $header;
+
         $this->beConstructedWith($this->getBasicDi());
-        $this->setData([
-            'identity' => [
-                'address' => [
-                    'name' => 'NAME',
-                    'ico' => '123',
-                ],
-            ],
-            'phone' => '123',
-            'centre' => ['id' => 1],
-        ]);
+        $this->setData($dto);
     }
 
     public function it_is_initializable_and_extends_agenda(): void
     {
         $this->constructSelf();
-        $this->shouldHaveType('Riesenia\Pohoda\AddressBook');
-        $this->shouldHaveType('Riesenia\Pohoda\AbstractAgenda');
+        $this->shouldHaveType('kalanis\Pohoda\AddressBook');
+        $this->shouldHaveType('kalanis\Pohoda\AbstractAgenda');
     }
 
     public function it_creates_correct_xml(): void
@@ -82,17 +82,23 @@ class AddressBookSpec extends ObjectBehavior
 
     public function it_leaves_special_characters_intact_by_default(): void
     {
+        $addrType = new Pohoda\Type\Dtos\AddressTypeDto();
+        $addrType->name = 'Călărași ñüé¿s';
+        $addrType->city = 'Dâmbovița';
+
+        $addr = new Pohoda\Type\Dtos\AddressDto();
+        $addr->address = $addrType;
+
+        $header = new Pohoda\AddressBook\HeaderDto();
+        $header->phone = '123';
+        $header->centre = ['id' => 1];
+        $header->identity = $addr;
+
+        $dto = new Pohoda\AddressBook\AddressBookDto();
+        $dto->header = $header;
+
         $this->beConstructedWith($this->getBasicDi());
-        $this->setData([
-            'identity' => [
-                'address' => [
-                    'name' => 'Călărași ñüé¿s',
-                    'city' => 'Dâmbovița',
-                ],
-            ],
-            'phone' => '123',
-            'centre' => ['id' => 1],
-        ]);
+        $this->setData($dto);
 
         $this->getXML()->asXML()->shouldReturn('<adb:addressbook version="2.0"><adb:addressbookHeader><adb:identity><typ:address><typ:name>Călărași ñüé¿s</typ:name><typ:city>Dâmbovița</typ:city></typ:address></adb:identity><adb:phone>123</adb:phone><adb:centre><typ:id>1</typ:id></adb:centre></adb:addressbookHeader></adb:addressbook>');
     }

@@ -1,22 +1,14 @@
 <?php
 
-/**
- * This file is part of riesenia/pohoda package.
- *
- * Licensed under the MIT License
- * (c) RIESENIA.com
- */
-
 declare(strict_types=1);
 
-namespace spec\Riesenia\Pohoda;
+namespace spec\kalanis\Pohoda;
 
 require_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'DiTrait.php';
 
+use kalanis\Pohoda;
 use PhpSpec\ObjectBehavior;
-use Riesenia\Pohoda\Common\NamespacesPaths;
-use Riesenia\Pohoda\ValueTransformer;
-use spec\Riesenia\DiTrait;
+use spec\kalanis\DiTrait;
 
 class CashSlipSpec extends ObjectBehavior
 {
@@ -24,24 +16,30 @@ class CashSlipSpec extends ObjectBehavior
 
     public function let()
     {
+        $address = new Pohoda\Type\Dtos\AddressTypeDto();
+        $address->name = 'NAME';
+        $address->ico = '123';
+
+        $partner = new Pohoda\Type\Dtos\AddressDto();
+        $partner->address = $address;
+
+        $header = new Pohoda\CashSlip\HeaderDto();
+        $header->date = '2015-01-10';
+        $header->text = 'Prod';
+        $header->intNote = 'Note';
+        $header->partnerIdentity = $partner;
+
+        $dto = new Pohoda\CashSlip\CashSlipDto();
+        $dto->header = $header;
+
         $this->beConstructedWith($this->getBasicDi());
-        $this->setData([
-            'date' => '2015-01-10',
-            'text' => 'Prod',
-            'partnerIdentity' => [
-                'address' => [
-                    'name' => 'NAME',
-                    'ico' => '123',
-                ],
-            ],
-            'intNote' => 'Note',
-        ]);
+        $this->setData($dto);
     }
 
     public function it_is_initializable_and_extends_agenda(): void
     {
-        $this->shouldHaveType('Riesenia\Pohoda\CashSlip');
-        $this->shouldHaveType('Riesenia\Pohoda\AbstractAgenda');
+        $this->shouldHaveType('kalanis\Pohoda\CashSlip');
+        $this->shouldHaveType('kalanis\Pohoda\AbstractAgenda');
     }
 
     public function it_creates_correct_xml(): void
@@ -51,50 +49,56 @@ class CashSlipSpec extends ObjectBehavior
 
     public function it_can_add_items(): void
     {
-        $this->addItem([
-            'text' => 'NAME 1',
-            'quantity' => 1,
-            'rateVAT' => 'high',
-            'homeCurrency' => [
-                'unitPrice' => 200,
-            ],
-        ]);
+        $home1 = new Pohoda\Type\Dtos\CurrencyItemDto();
+        $home1->unitPrice = 200;
 
-        $this->addItem([
-            'quantity' => 1,
-            'payVAT' => 1,
-            'rateVAT' => 'high',
-            'homeCurrency' => [
-                'unitPrice' => 198,
-            ],
-            'stockItem' => [
-                'stockItem' => [
-                    'ids' => 'STM',
-                ],
-            ],
-        ]);
+        $item1 = new Pohoda\CashSlip\ItemDto();
+        $item1->text = 'NAME 1';
+        $item1->quantity = 1;
+        $item1->rateVAT = 'high';
+        $item1->homeCurrency = $home1;
+
+        $home2 = new Pohoda\Type\Dtos\CurrencyItemDto();
+        $home2->unitPrice = 198;
+
+        $stock = new Pohoda\Type\Dtos\StockItemDto();
+        $stock->stockItem = [
+            'ids' => 'STM',
+        ];
+
+        $item2 = new Pohoda\CashSlip\ItemDto();
+        $item2->quantity = 1;
+        $item2->payVAT = true;
+        $item2->rateVAT = 'high';
+        $item2->homeCurrency = $home2;
+        $item2->stockItem = $stock;
+
+        $this->addItem($item1);
+        $this->addItem($item2);
 
         $this->getXML()->asXML()->shouldReturn('<pro:prodejka version="2.0"><pro:prodejkaHeader>' . $this->defaultHeader() . '</pro:prodejkaHeader><pro:prodejkaDetail><pro:prodejkaItem><pro:text>NAME 1</pro:text><pro:quantity>1</pro:quantity><pro:rateVAT>high</pro:rateVAT><pro:homeCurrency><typ:unitPrice>200</typ:unitPrice></pro:homeCurrency></pro:prodejkaItem><pro:prodejkaItem><pro:quantity>1</pro:quantity><pro:payVAT>true</pro:payVAT><pro:rateVAT>high</pro:rateVAT><pro:homeCurrency><typ:unitPrice>198</typ:unitPrice></pro:homeCurrency><pro:stockItem><typ:stockItem><typ:ids>STM</typ:ids></typ:stockItem></pro:stockItem></pro:prodejkaItem></pro:prodejkaDetail></pro:prodejka>');
     }
 
     public function it_can_set_summary(): void
     {
-        $this->addSummary([
-            'roundingDocument' => 'math2one',
-            'homeCurrency' => [
-                'priceNone' => '0.0000',
-                'priceLow' => '0.0000',
-                'priceLowVAT' => '0.0000',
-                'priceLowVatRate' => '12',
-                'priceHigh' => '156.0000',
-                'priceHighVAT' => '31.2000',
-                'price3' => '0.0000',
-                'price3VAT' => '0.0000',
-                'round' => [
-                    'priceRound' => '0.0000',
-                ],
-            ],
-        ]);
+        $home = new Pohoda\Type\Dtos\CurrencyHomeDto();
+        $home->priceNone = '0.0000';
+        $home->priceLow = '0.0000';
+        $home->priceLowVAT = '0.0000';
+        $home->priceLowVatRate = '12';
+        $home->priceHigh = '156.0000';
+        $home->priceHighVAT = '31.2000';
+        $home->price3 = '0.0000';
+        $home->price3VAT = '0.0000';
+        $home->round = [
+            'priceRound' => '0.0000',
+        ];
+
+        $summary = new Pohoda\CashSlip\SummaryDto();
+        $summary->roundingDocument = 'math2one';
+        $summary->homeCurrency = $home;
+
+        $this->addSummary($summary);
 
         $this->getXML()->asXML()->shouldReturn('<pro:prodejka version="2.0"><pro:prodejkaHeader>' . $this->defaultHeader() . '</pro:prodejkaHeader><pro:prodejkaSummary><pro:roundingDocument>math2one</pro:roundingDocument><pro:homeCurrency><typ:priceNone>0</typ:priceNone><typ:price3>0</typ:price3><typ:price3VAT>0</typ:price3VAT><typ:priceLow>0</typ:priceLow><typ:priceLowVAT rate="12">0</typ:priceLowVAT><typ:priceHigh>156</typ:priceHigh><typ:priceHighVAT>31.2</typ:priceHighVAT><typ:round><typ:priceRound>0.0000</typ:priceRound></typ:round></pro:homeCurrency></pro:prodejkaSummary></pro:prodejka>');
     }

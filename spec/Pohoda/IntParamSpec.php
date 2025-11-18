@@ -1,20 +1,14 @@
 <?php
 
-/**
- * This file is part of riesenia/pohoda package.
- *
- * Licensed under the MIT License
- * (c) RIESENIA.com
- */
-
 declare(strict_types=1);
 
-namespace spec\Riesenia\Pohoda;
+namespace spec\kalanis\Pohoda;
 
 require_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'DiTrait.php';
 
+use kalanis\Pohoda;
 use PhpSpec\ObjectBehavior;
-use spec\Riesenia\DiTrait;
+use spec\kalanis\DiTrait;
 
 class IntParamSpec extends ObjectBehavior
 {
@@ -22,18 +16,22 @@ class IntParamSpec extends ObjectBehavior
 
     public function let(): void
     {
+        $paramsSett = new Pohoda\IntParam\SettingsDto();
+        $paramsSett->length = 40;
+
+        $dto = new Pohoda\IntParam\IntParamDto();
+        $dto->name = 'NAME';
+        $dto->parameterType = 'textValue';
+        $dto->parameterSettings = $paramsSett;
+
         $this->beConstructedWith($this->getBasicDi());
-        $this->setData([
-            'name' => 'NAME',
-            'parameterType' => 'textValue',
-            'parameterSettings' => ['length' => 40],
-        ]);
+        $this->setData($dto);
     }
 
     public function it_is_initializable_and_extends_agenda(): void
     {
-        $this->shouldHaveType('Riesenia\Pohoda\IntParam');
-        $this->shouldHaveType('Riesenia\Pohoda\AbstractAgenda');
+        $this->shouldHaveType('kalanis\Pohoda\IntParam');
+        $this->shouldHaveType('kalanis\Pohoda\AbstractAgenda');
     }
 
     public function it_creates_correct_xml(): void

@@ -1,17 +1,10 @@
 <?php
 
-/**
- * This file is part of riesenia/pohoda package.
- *
- * Licensed under the MIT License
- * (c) RIESENIA.com
- */
-
 declare(strict_types=1);
 
-namespace spec\Riesenia;
+namespace spec\kalanis;
 
-use Riesenia\Pohoda;
+use kalanis\Pohoda;
 
 class Capitalize implements Pohoda\ValueTransformer\ValueTransformerInterface
 {

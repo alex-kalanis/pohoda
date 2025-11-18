@@ -1,21 +1,15 @@
 <?php
 
-/**
- * This file is part of riesenia/pohoda package.
- *
- * Licensed under the MIT License
- * (c) RIESENIA.com
- */
-
 declare(strict_types=1);
 
-namespace spec\Riesenia\Pohoda;
+namespace spec\kalanis\Pohoda;
 
 require_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'DiTrait.php';
 
+use kalanis\Pohoda;
 use PhpSpec\ObjectBehavior;
-use Riesenia\Pohoda\Category;
-use spec\Riesenia\DiTrait;
+use kalanis\Pohoda\Category;
+use spec\kalanis\DiTrait;
 
 class CategorySpec extends ObjectBehavior
 {
@@ -23,18 +17,19 @@ class CategorySpec extends ObjectBehavior
 
     public function let(): void
     {
+        $dto = new Pohoda\Category\CategoryDto();
+        $dto->name = 'Main';
+        $dto->sequence = 1;
+        $dto->displayed = true;
+
         $this->beConstructedWith($this->getBasicDi());
-        $this->setData([
-            'name' => 'Main',
-            'sequence' => 1,
-            'displayed' => true,
-        ]);
+        $this->setData($dto);
     }
 
     public function it_is_initializable_and_extends_agenda(): void
     {
-        $this->shouldHaveType('Riesenia\Pohoda\Category');
-        $this->shouldHaveType('Riesenia\Pohoda\AbstractAgenda');
+        $this->shouldHaveType('kalanis\Pohoda\Category');
+        $this->shouldHaveType('kalanis\Pohoda\AbstractAgenda');
     }
 
     public function it_creates_correct_xml(): void
@@ -44,28 +39,28 @@ class CategorySpec extends ObjectBehavior
 
     public function it_can_add_subcategories(): void
     {
+        $subDto = new Pohoda\Category\CategoryDto();
+        $subDto->name = 'Sub';
+        $subDto->sequence = 1;
+        $subDto->displayed = true;
         $sub = new Category($this->getBasicDi());
-        $sub->setData([
-            'name' => 'Sub',
-            'sequence' => 1,
-            'displayed' => true,
-        ]);
+        $sub->setData($subDto);
 
+        $subSubDto = new Pohoda\Category\CategoryDto();
+        $subSubDto->name = 'SubSub';
+        $subSubDto->sequence = 1;
+        $subSubDto->displayed = false;
         $subsub = new Category($this->getBasicDi());
-        $subsub->setData([
-            'name' => 'SubSub',
-            'sequence' => 1,
-            'displayed' => false,
-        ]);
+        $subsub->setData($subSubDto);
 
         $sub->addSubcategory($subsub);
 
+        $sub2Dto = new Pohoda\Category\CategoryDto();
+        $sub2Dto->name = 'Sub2';
+        $sub2Dto->sequence = '2';
+        $sub2Dto->displayed = true;
         $sub2 = new Category($this->getBasicDi());
-        $sub2->setData([
-            'name' => 'Sub2',
-            'sequence' => '2',
-            'displayed' => true,
-        ]);
+        $sub2->setData($sub2Dto);
 
         $this->addSubcategory($sub);
         $this->addSubcategory($sub2);
