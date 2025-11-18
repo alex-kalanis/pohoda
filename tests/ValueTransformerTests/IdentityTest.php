@@ -3,7 +3,7 @@
 namespace tests\ValueTransformerTests;
 
 use tests\CommonTestClass;
-use Riesenia\Pohoda\ValueTransformer\IdentityTransformer;
+use kalanis\Pohoda\ValueTransformer\IdentityTransformer;
 
 class IdentityTest extends CommonTestClass
 {

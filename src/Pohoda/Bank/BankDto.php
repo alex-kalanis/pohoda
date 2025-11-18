@@ -1,8 +1,8 @@
 <?php
 
-namespace Riesenia\Pohoda\Bank;
+namespace kalanis\Pohoda\Bank;
 
-use Riesenia\Pohoda\Document;
+use kalanis\Pohoda\Document;
 
 class BankDto extends Document\AbstractDocumentDto
 {

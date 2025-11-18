@@ -1,11 +1,11 @@
 <?php
 
-namespace Riesenia\Pohoda\DI;
+namespace kalanis\Pohoda\DI;
 
 use DomainException;
 use ReflectionClass;
 use ReflectionException;
-use Riesenia\Pohoda\Document;
+use kalanis\Pohoda\Document;
 
 final class DocumentPartReflectFactory implements DocumentPartFactoryInterface
 {

@@ -3,7 +3,7 @@
 namespace tests\ValueTransformerTests;
 
 use tests\CommonTestClass;
-use Riesenia\Pohoda\ValueTransformer;
+use kalanis\Pohoda\ValueTransformer;
 
 class ListingTest extends CommonTestClass
 {

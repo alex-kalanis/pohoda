@@ -1,9 +1,9 @@
 <?php
 
-namespace Riesenia\Pohoda\Voucher;
+namespace kalanis\Pohoda\Voucher;
 
-use Riesenia\Pohoda\Common\Dtos\AbstractSummaryDto;
-use Riesenia\Pohoda\Type;
+use kalanis\Pohoda\Common\Dtos\AbstractSummaryDto;
+use kalanis\Pohoda\Type;
 
 class SummaryDto extends AbstractSummaryDto
 {

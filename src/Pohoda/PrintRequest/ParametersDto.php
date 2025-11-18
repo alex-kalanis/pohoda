@@ -1,10 +1,10 @@
 <?php
 
-namespace Riesenia\Pohoda\PrintRequest;
+namespace kalanis\Pohoda\PrintRequest;
 
 use AllowDynamicProperties;
-use Riesenia\Pohoda\Common\Attributes;
-use Riesenia\Pohoda\Common\Dtos\AbstractDto;
+use kalanis\Pohoda\Common\Attributes;
+use kalanis\Pohoda\Common\Dtos\AbstractDto;
 
 #[AllowDynamicProperties]
 class ParametersDto extends AbstractDto

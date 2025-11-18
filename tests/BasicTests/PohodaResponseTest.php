@@ -2,8 +2,8 @@
 
 namespace tests\BasicTests;
 
-use Riesenia\Pohoda;
-use Riesenia\PohodaResponse;
+use kalanis\Pohoda;
+use kalanis\PohodaResponse;
 use tests\CommonTestClass;
 
 class PohodaResponseTest extends CommonTestClass

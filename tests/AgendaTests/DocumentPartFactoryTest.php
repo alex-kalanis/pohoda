@@ -3,7 +3,7 @@
 namespace tests\AgendaTests;
 
 use DomainException;
-use Riesenia\Pohoda;
+use kalanis\Pohoda;
 use tests\CommonTestClass;
 
 class DocumentPartFactoryTest extends CommonTestClass
@@ -11,7 +11,7 @@ class DocumentPartFactoryTest extends CommonTestClass
     public function testSuccess(): void
     {
         $lib = new Pohoda\DI\DocumentPartReflectFactory($this->getBasicDi());
-        $this->assertInstanceOf(Pohoda\Document\AbstractPart::class, $lib->getPart('Riesenia\Pohoda\Bank', 'Summary'));
+        $this->assertInstanceOf(Pohoda\Document\AbstractPart::class, $lib->getPart('kalanis\Pohoda\Bank', 'Summary'));
     }
 
     public function testNonExistingEntity(): void
@@ -28,7 +28,7 @@ class DocumentPartFactoryTest extends CommonTestClass
         $lib = new Pohoda\DI\DocumentPartReflectFactory($this->getBasicDi());
         $this->expectExceptionMessage('Entity cannot be initialized: ');
         $this->expectException(DomainException::class);
-        $lib->getPart('Riesenia\Pohoda\Document', 'AbstractHeader');
+        $lib->getPart('kalanis\Pohoda\Document', 'AbstractHeader');
     }
 
     public function testBadConstructEntity(): void

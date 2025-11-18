@@ -1,9 +1,9 @@
 <?php
 
-namespace Riesenia\Pohoda\Common\Dtos;
+namespace kalanis\Pohoda\Common\Dtos;
 
-use Riesenia\Pohoda\Common;
-use Riesenia\Pohoda\Type;
+use kalanis\Pohoda\Common;
+use kalanis\Pohoda\Type;
 
 /**
  * Basic DTO for headers

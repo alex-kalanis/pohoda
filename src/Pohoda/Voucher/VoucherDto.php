@@ -1,8 +1,8 @@
 <?php
 
-namespace Riesenia\Pohoda\Voucher;
+namespace kalanis\Pohoda\Voucher;
 
-use Riesenia\Pohoda\Document;
+use kalanis\Pohoda\Document;
 
 class VoucherDto extends Document\AbstractDocumentDto
 {

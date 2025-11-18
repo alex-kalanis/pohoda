@@ -5,7 +5,7 @@ namespace tests\BasicTests;
 use tests\CommonTestClass;
 use LogicException;
 use OutOfRangeException;
-use Riesenia\Pohoda\Common\NamespacesPaths;
+use kalanis\Pohoda\Common\NamespacesPaths;
 
 class NamespaceTraitTest extends CommonTestClass
 {

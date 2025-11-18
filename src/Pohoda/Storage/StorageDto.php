@@ -1,10 +1,10 @@
 <?php
 
-namespace Riesenia\Pohoda\Storage;
+namespace kalanis\Pohoda\Storage;
 
-use Riesenia\Pohoda\Common\Attributes;
-use Riesenia\Pohoda\Common\Dtos\AbstractItemDto;
-use Riesenia\Pohoda\Storage;
+use kalanis\Pohoda\Common\Attributes;
+use kalanis\Pohoda\Common\Dtos\AbstractItemDto;
+use kalanis\Pohoda\Storage;
 
 class StorageDto extends AbstractItemDto
 {

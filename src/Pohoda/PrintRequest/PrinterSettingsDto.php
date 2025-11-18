@@ -1,8 +1,8 @@
 <?php
 
-namespace Riesenia\Pohoda\PrintRequest;
+namespace kalanis\Pohoda\PrintRequest;
 
-use Riesenia\Pohoda\Common\Dtos;
+use kalanis\Pohoda\Common\Dtos;
 
 class PrinterSettingsDto extends Dtos\AbstractDto
 {

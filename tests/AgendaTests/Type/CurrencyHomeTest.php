@@ -3,8 +3,8 @@
 namespace tests\AgendaTests\Type;
 
 use tests\CommonTestClass;
-use Riesenia\Pohoda;
-use Riesenia\Pohoda\Type\CurrencyHome;
+use kalanis\Pohoda;
+use kalanis\Pohoda\Type\CurrencyHome;
 
 class CurrencyHomeTest extends CommonTestClass
 {

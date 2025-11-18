@@ -1,6 +1,6 @@
 <?php
 
-namespace Riesenia\Pohoda\Common\Dtos;
+namespace kalanis\Pohoda\Common\Dtos;
 
 use ReflectionAttribute;
 use ReflectionClass;
@@ -8,7 +8,7 @@ use ReflectionException;
 use ReflectionNamedType;
 use ReflectionProperty;
 use ReflectionUnionType;
-use Riesenia\Pohoda\Common\Attributes;
+use kalanis\Pohoda\Common\Attributes;
 
 class Processing
 {

@@ -1,18 +1,11 @@
 <?php
 
-/**
- * This file is part of riesenia/pohoda package.
- *
- * Licensed under the MIT License
- * (c) RIESENIA.com
- */
-
 declare(strict_types=1);
 
-namespace Riesenia\Pohoda\Receipt;
+namespace kalanis\Pohoda\Receipt;
 
-use Riesenia\Pohoda\Common\Dtos;
-use Riesenia\Pohoda\Document\AbstractSummary;
+use kalanis\Pohoda\Common\Dtos;
+use kalanis\Pohoda\Document\AbstractSummary;
 
 class Summary extends AbstractSummary
 {

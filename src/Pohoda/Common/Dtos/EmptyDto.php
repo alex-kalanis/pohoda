@@ -1,6 +1,6 @@
 <?php
 
-namespace Riesenia\Pohoda\Common\Dtos;
+namespace kalanis\Pohoda\Common\Dtos;
 
 /**
  * Empty DTO when there is nothing more data need

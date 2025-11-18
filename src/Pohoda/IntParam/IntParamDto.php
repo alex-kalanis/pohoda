@@ -1,9 +1,9 @@
 <?php
 
-namespace Riesenia\Pohoda\IntParam;
+namespace kalanis\Pohoda\IntParam;
 
-use Riesenia\Pohoda\Common\Attributes;
-use Riesenia\Pohoda\Common\Dtos;
+use kalanis\Pohoda\Common\Attributes;
+use kalanis\Pohoda\Common\Dtos;
 
 class IntParamDto extends Dtos\AbstractDto
 {

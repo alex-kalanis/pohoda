@@ -2,7 +2,7 @@
 
 namespace tests\DiTests;
 
-use Riesenia\Pohoda;
+use kalanis\Pohoda;
 use tests\CommonTestClass;
 
 class DocumentPartDITest extends CommonTestClass
@@ -10,7 +10,7 @@ class DocumentPartDITest extends CommonTestClass
     public function testOk(): void
     {
         $lib = $this->getLib();
-        $this->assertInstanceOf(Pohoda\AbstractAgenda::class, $lib->getPart('Riesenia\Pohoda', 'XDocument'));
+        $this->assertInstanceOf(Pohoda\AbstractAgenda::class, $lib->getPart('kalanis\Pohoda', 'XDocument'));
     }
 
     public function testNotDefined(): void
@@ -24,14 +24,14 @@ class DocumentPartDITest extends CommonTestClass
     {
         $lib = $this->getLib(true);
         $this->expectException(\DomainException::class);
-        $lib->getPart('Riesenia\Pohoda', 'XDocument');
+        $lib->getPart('kalanis\Pohoda', 'XDocument');
     }
 
     public function testNotAgenda(): void
     {
         $lib = $this->getLib();
         $this->expectException(\DomainException::class);
-        $lib->getPart('Riesenia\Pohoda', 'XClass');
+        $lib->getPart('kalanis\Pohoda', 'XClass');
     }
 
     protected function getLib(bool $killGet = false): Pohoda\DI\DocumentPartDIFactory

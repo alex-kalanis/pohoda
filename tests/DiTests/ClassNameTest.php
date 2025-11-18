@@ -2,7 +2,7 @@
 
 namespace DiTests;
 
-use Riesenia\Pohoda;
+use kalanis\Pohoda;
 use tests\CommonTestClass;
 use tests\DiTests\XClassName;
 
@@ -25,7 +25,7 @@ class ClassNameTest extends CommonTestClass
 
     public function testClassNameWithRelativePath(): void
     {
-        $this->assertEquals('Riesenia\Pohoda\Different\Path', $this->getLib()->getClassName('Different\Path'));
+        $this->assertEquals('kalanis\Pohoda\Different\Path', $this->getLib()->getClassName('Different\Path'));
     }
 
     protected function getLib(): XClassName

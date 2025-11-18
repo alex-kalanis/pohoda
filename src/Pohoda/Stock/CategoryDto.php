@@ -1,9 +1,9 @@
 <?php
 
-namespace Riesenia\Pohoda\Stock;
+namespace kalanis\Pohoda\Stock;
 
-use Riesenia\Pohoda\Common\Attributes;
-use Riesenia\Pohoda\Common\Dtos\AbstractDto;
+use kalanis\Pohoda\Common\Attributes;
+use kalanis\Pohoda\Common\Dtos\AbstractDto;
 
 class CategoryDto extends AbstractDto
 {

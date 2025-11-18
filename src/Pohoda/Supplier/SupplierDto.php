@@ -1,8 +1,8 @@
 <?php
 
-namespace Riesenia\Pohoda\Supplier;
+namespace kalanis\Pohoda\Supplier;
 
-use Riesenia\Pohoda\Common\Dtos\AbstractDto;
+use kalanis\Pohoda\Common\Dtos\AbstractDto;
 
 class SupplierDto extends AbstractDto
 {

@@ -1,8 +1,8 @@
 <?php
 
-namespace Riesenia\Pohoda\Common\OptionsResolver\Normalizers;
+namespace kalanis\Pohoda\Common\OptionsResolver\Normalizers;
 
-use Riesenia\Pohoda\Common\Dtos\AbstractDto;
+use kalanis\Pohoda\Common\Dtos\AbstractDto;
 
 /**
  * Normalization of content

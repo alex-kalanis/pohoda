@@ -29,7 +29,7 @@ composer.phar require alex-kalanis/pohoda
 Examples of importing each type - more in *spec* folder.
 
 ```php
-use Riesenia\Pohoda;
+use kalanis\Pohoda;
 
 $pohoda = new Pohoda('ICO');
 
@@ -109,7 +109,7 @@ $pohoda->close();
 The creation of request to export goods is realized by creating *ListRequest*.
 
 ```php
-use Riesenia\Pohoda;
+use kalanis\Pohoda;
 
 $pohoda = new Pohoda('ICO');
 
@@ -149,7 +149,7 @@ while ($stock = $pohoda->next()) {
 When you delete stock you need to create an agenda with empty data and set them *delete* actionType.
 
 ```php
-use Riesenia\Pohoda;
+use kalanis\Pohoda;
 
 $pohoda = new Pohoda('ICO');
 
@@ -172,7 +172,7 @@ $pohoda->close();
 With interface *ValueTransformer* you can implement the transformation, which changes all the values. Example for change all values to uppercase:
 
 ```php
-use Riesenia\Pohoda;
+use kalanis\Pohoda;
 
 class Capitalizer implements \Riesenia\Pohoda\ValueTransformer\ValueTransformerInterface
 {

@@ -1,9 +1,9 @@
 <?php
 
-namespace Riesenia\Pohoda\UserList;
+namespace kalanis\Pohoda\UserList;
 
-use Riesenia\Pohoda\Common\Attributes;
-use Riesenia\Pohoda\Common\Dtos\AbstractItemDto;
+use kalanis\Pohoda\Common\Attributes;
+use kalanis\Pohoda\Common\Dtos\AbstractItemDto;
 
 class UserListDto extends AbstractItemDto
 {

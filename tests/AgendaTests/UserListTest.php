@@ -3,7 +3,7 @@
 namespace tests\AgendaTests;
 
 use tests\CommonTestClass;
-use Riesenia\Pohoda;
+use kalanis\Pohoda;
 
 class UserListTest extends CommonTestClass
 {

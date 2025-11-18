@@ -1,17 +1,10 @@
 <?php
 
-/**
- * This file is part of riesenia/pohoda package.
- *
- * Licensed under the MIT License
- * (c) RIESENIA.com
- */
-
 declare(strict_types=1);
 
-namespace Riesenia\Pohoda;
+namespace kalanis\Pohoda;
 
-use Riesenia\Pohoda\Common\OptionsResolver;
+use kalanis\Pohoda\Common\OptionsResolver;
 
 class IndividualPrice extends AbstractAgenda
 {

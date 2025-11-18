@@ -1,8 +1,8 @@
 <?php
 
-namespace Riesenia\Pohoda\DI;
+namespace kalanis\Pohoda\DI;
 
-use Riesenia\Pohoda\PrintRequest;
+use kalanis\Pohoda\PrintRequest;
 
 interface ParameterFactoryInterface
 {

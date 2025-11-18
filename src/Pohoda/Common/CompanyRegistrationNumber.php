@@ -1,6 +1,6 @@
 <?php
 
-namespace Riesenia\Pohoda\Common;
+namespace kalanis\Pohoda\Common;
 
 final class CompanyRegistrationNumber implements CompanyRegistrationNumberInterface
 {

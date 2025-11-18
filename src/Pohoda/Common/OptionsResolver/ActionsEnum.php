@@ -1,6 +1,6 @@
 <?php
 
-namespace Riesenia\Pohoda\Common\OptionsResolver;
+namespace kalanis\Pohoda\Common\OptionsResolver;
 
 /**
  * Which methods are available to use for resolvers

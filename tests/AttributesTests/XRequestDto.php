@@ -2,8 +2,8 @@
 
 namespace tests\AttributesTests;
 
-use Riesenia\Pohoda\Common\Attributes;
-use Riesenia\Pohoda\Common\Dtos\AbstractDto;
+use kalanis\Pohoda\Common\Attributes;
+use kalanis\Pohoda\Common\Dtos\AbstractDto;
 
 /**
  * This DTO is only for check request/response types

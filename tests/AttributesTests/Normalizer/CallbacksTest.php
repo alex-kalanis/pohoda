@@ -2,7 +2,7 @@
 
 namespace tests\AttributesTests\Normalizer;
 
-use Riesenia\Pohoda\AbstractAgenda;
+use kalanis\Pohoda\AbstractAgenda;
 
 class CallbacksTest extends AbstractNormalizerTestClass
 {

@@ -1,6 +1,8 @@
 <?php
 
-define('AUTHOR_NAME', 'Riesenia');
+define('AUTHOR_NAME', 'kalanis');
+define('PROJECT_NAME', '');
+define('TESTS_NAME', 'tests');
 
 $composter = realpath(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php');
 if ($composter) {

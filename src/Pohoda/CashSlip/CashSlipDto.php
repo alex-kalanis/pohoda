@@ -1,8 +1,8 @@
 <?php
 
-namespace Riesenia\Pohoda\CashSlip;
+namespace kalanis\Pohoda\CashSlip;
 
-use Riesenia\Pohoda\Document;
+use kalanis\Pohoda\Document;
 
 class CashSlipDto extends Document\AbstractDocumentDto
 {

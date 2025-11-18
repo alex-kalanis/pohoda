@@ -1,9 +1,9 @@
 <?php
 
-namespace Riesenia\Pohoda\IntDoc;
+namespace kalanis\Pohoda\IntDoc;
 
-use Riesenia\Pohoda\Document;
-use Riesenia\Pohoda\Type;
+use kalanis\Pohoda\Document;
+use kalanis\Pohoda\Type;
 
 class IntDocDto extends Document\AbstractDocumentDto
 {

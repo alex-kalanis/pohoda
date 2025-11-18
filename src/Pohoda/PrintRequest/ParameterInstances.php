@@ -1,6 +1,6 @@
 <?php
 
-namespace Riesenia\Pohoda\PrintRequest;
+namespace kalanis\Pohoda\PrintRequest;
 
 class ParameterInstances
 {

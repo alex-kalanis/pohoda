@@ -1,19 +1,12 @@
 <?php
 
-/**
- * This file is part of riesenia/pohoda package.
- *
- * Licensed under the MIT License
- * (c) RIESENIA.com
- */
-
 declare(strict_types=1);
 
-namespace Riesenia\Pohoda\DI;
+namespace kalanis\Pohoda\DI;
 
-use Riesenia\Pohoda\Common;
-use Riesenia\Pohoda\PrintRequest\ParameterInstances;
-use Riesenia\Pohoda\ValueTransformer;
+use kalanis\Pohoda\Common;
+use kalanis\Pohoda\PrintRequest\ParameterInstances;
+use kalanis\Pohoda\ValueTransformer;
 use Psr\Container\ContainerInterface;
 
 class DependenciesFactory

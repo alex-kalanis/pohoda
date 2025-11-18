@@ -1,10 +1,10 @@
 <?php
 
-namespace Riesenia\Pohoda\Stock;
+namespace kalanis\Pohoda\Stock;
 
-use Riesenia\Pohoda\Common\Attributes;
-use Riesenia\Pohoda\Common\Dtos;
-use Riesenia\Pohoda\Type;
+use kalanis\Pohoda\Common\Attributes;
+use kalanis\Pohoda\Common\Dtos;
+use kalanis\Pohoda\Type;
 
 class HeaderDto extends Dtos\AbstractHeaderDto
 {

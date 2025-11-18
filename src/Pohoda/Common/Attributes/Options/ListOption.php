@@ -1,9 +1,9 @@
 <?php
 
-namespace Riesenia\Pohoda\Common\Attributes\Options;
+namespace kalanis\Pohoda\Common\Attributes\Options;
 
 use Attribute;
-use Riesenia\Pohoda\Common\OptionsResolver;
+use kalanis\Pohoda\Common\OptionsResolver;
 
 /**
  * Property will be formatted as string and selected just from predefined list

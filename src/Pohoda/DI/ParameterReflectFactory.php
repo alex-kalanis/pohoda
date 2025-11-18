@@ -1,11 +1,11 @@
 <?php
 
-namespace Riesenia\Pohoda\DI;
+namespace kalanis\Pohoda\DI;
 
 use DomainException;
 use ReflectionClass;
 use ReflectionException;
-use Riesenia\Pohoda\PrintRequest;
+use kalanis\Pohoda\PrintRequest;
 
 final class ParameterReflectFactory implements ParameterFactoryInterface
 {

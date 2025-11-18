@@ -2,7 +2,7 @@
 
 namespace tests\AgendaTests\Type;
 
-use Riesenia\Pohoda;
+use kalanis\Pohoda;
 use tests\CommonTestClass;
 use DomainException;
 

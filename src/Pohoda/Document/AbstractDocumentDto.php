@@ -1,9 +1,9 @@
 <?php
 
-namespace Riesenia\Pohoda\Document;
+namespace kalanis\Pohoda\Document;
 
-use Riesenia\Pohoda\Common;
-use Riesenia\Pohoda\Document;
+use kalanis\Pohoda\Common;
+use kalanis\Pohoda\Document;
 
 /**
  * Basic DTO for documents

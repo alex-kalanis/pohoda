@@ -1,11 +1,11 @@
 <?php
 
-namespace Riesenia\Pohoda\DI;
+namespace kalanis\Pohoda\DI;
 
 use DomainException;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
-use Riesenia\Pohoda\PrintRequest;
+use kalanis\Pohoda\PrintRequest;
 
 final class ParameterDIFactory implements ParameterFactoryInterface
 {

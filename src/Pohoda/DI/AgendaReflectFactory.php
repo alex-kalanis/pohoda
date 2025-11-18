@@ -1,11 +1,11 @@
 <?php
 
-namespace Riesenia\Pohoda\DI;
+namespace kalanis\Pohoda\DI;
 
 use DomainException;
 use ReflectionClass;
 use ReflectionException;
-use Riesenia\Pohoda\AbstractAgenda;
+use kalanis\Pohoda\AbstractAgenda;
 
 final class AgendaReflectFactory implements AgendaFactoryInterface
 {

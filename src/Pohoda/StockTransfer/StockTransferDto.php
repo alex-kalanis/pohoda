@@ -1,8 +1,8 @@
 <?php
 
-namespace Riesenia\Pohoda\StockTransfer;
+namespace kalanis\Pohoda\StockTransfer;
 
-use Riesenia\Pohoda\Common\Dtos\AbstractItemDto;
+use kalanis\Pohoda\Common\Dtos\AbstractItemDto;
 
 class StockTransferDto extends AbstractItemDto
 {

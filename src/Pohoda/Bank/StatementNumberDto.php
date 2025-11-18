@@ -1,9 +1,9 @@
 <?php
 
-namespace Riesenia\Pohoda\Bank;
+namespace kalanis\Pohoda\Bank;
 
-use Riesenia\Pohoda\Common\Attributes;
-use Riesenia\Pohoda\Common\Dtos;
+use kalanis\Pohoda\Common\Attributes;
+use kalanis\Pohoda\Common\Dtos;
 
 class StatementNumberDto extends Dtos\AbstractDto
 {

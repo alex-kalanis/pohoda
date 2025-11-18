@@ -2,7 +2,7 @@
 
 namespace tests\AgendaTests\Type;
 
-use Riesenia\Pohoda\PrintRequest;
+use kalanis\Pohoda\PrintRequest;
 
 class XParamInstances extends PrintRequest\ParameterInstances
 {

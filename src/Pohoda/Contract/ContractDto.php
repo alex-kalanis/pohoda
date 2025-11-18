@@ -1,8 +1,8 @@
 <?php
 
-namespace Riesenia\Pohoda\Contract;
+namespace kalanis\Pohoda\Contract;
 
-use Riesenia\Pohoda\Common\Dtos;
+use kalanis\Pohoda\Common\Dtos;
 
 class ContractDto extends Dtos\AbstractDto
 {

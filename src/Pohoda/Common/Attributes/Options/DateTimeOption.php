@@ -1,9 +1,9 @@
 <?php
 
-namespace Riesenia\Pohoda\Common\Attributes\Options;
+namespace kalanis\Pohoda\Common\Attributes\Options;
 
 use Attribute;
-use Riesenia\Pohoda\Common\OptionsResolver\Normalizers\DateTimes;
+use kalanis\Pohoda\Common\OptionsResolver\Normalizers\DateTimes;
 
 /**
  * Property will be formatted as date and time

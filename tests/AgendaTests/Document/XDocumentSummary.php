@@ -2,8 +2,8 @@
 
 namespace tests\AgendaTests\Document;
 
-use Riesenia\Pohoda\Common\Dtos;
-use Riesenia\Pohoda\Document\AbstractSummary;
+use kalanis\Pohoda\Common\Dtos;
+use kalanis\Pohoda\Document\AbstractSummary;
 
 class XDocumentSummary extends AbstractSummary
 {

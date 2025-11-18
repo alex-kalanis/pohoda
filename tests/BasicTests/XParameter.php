@@ -2,8 +2,8 @@
 
 namespace tests\BasicTests;
 
-use Riesenia\Pohoda\Common;
-use Riesenia\Pohoda\DI\DependenciesFactory;
+use kalanis\Pohoda\Common;
+use kalanis\Pohoda\DI\DependenciesFactory;
 
 class XParameter
 {

@@ -3,7 +3,7 @@
 namespace tests\AgendaTests\Type;
 
 use tests\CommonTestClass;
-use Riesenia\Pohoda\Type;
+use kalanis\Pohoda\Type;
 
 class AddressTest extends CommonTestClass
 {

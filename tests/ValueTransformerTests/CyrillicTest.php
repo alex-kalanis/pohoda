@@ -3,7 +3,7 @@
 namespace tests\ValueTransformerTests;
 
 use tests\CommonTestClass;
-use Riesenia\Pohoda\ValueTransformer\CyrillicTransliterationTransformer;
+use kalanis\Pohoda\ValueTransformer\CyrillicTransliterationTransformer;
 
 class CyrillicTest extends CommonTestClass
 {

@@ -1,9 +1,9 @@
 <?php
 
-namespace Riesenia\Pohoda\Voucher;
+namespace kalanis\Pohoda\Voucher;
 
-use Riesenia\Pohoda\Common\Dtos;
-use Riesenia\Pohoda\Document\AbstractHeader;
+use kalanis\Pohoda\Common\Dtos;
+use kalanis\Pohoda\Document\AbstractHeader;
 
 class Header extends AbstractHeader
 {

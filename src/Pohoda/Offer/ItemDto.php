@@ -1,10 +1,10 @@
 <?php
 
-namespace Riesenia\Pohoda\Offer;
+namespace kalanis\Pohoda\Offer;
 
-use Riesenia\Pohoda\Common\Attributes;
-use Riesenia\Pohoda\Common\Dtos\AbstractItemDto;
-use Riesenia\Pohoda\Type;
+use kalanis\Pohoda\Common\Attributes;
+use kalanis\Pohoda\Common\Dtos\AbstractItemDto;
+use kalanis\Pohoda\Type;
 
 class ItemDto extends AbstractItemDto
 {

@@ -1,10 +1,10 @@
 <?php
 
-namespace Riesenia\Pohoda\ListRequest;
+namespace kalanis\Pohoda\ListRequest;
 
 use AllowDynamicProperties;
-use Riesenia\Pohoda\Common\Attributes;
-use Riesenia\Pohoda\Common\Dtos\AbstractDto;
+use kalanis\Pohoda\Common\Attributes;
+use kalanis\Pohoda\Common\Dtos\AbstractDto;
 use Symfony\Component\OptionsResolver\Options;
 
 #[AllowDynamicProperties]
@@ -12,11 +12,11 @@ class ListRequestDto extends AbstractDto
 {
     #[Attributes\Options\ListRequestTypeOption, Attributes\Options\RequiredOption]
     public ?string $type = null;
-    #[Attributes\Options\DefaultOption(['\Riesenia\Pohoda\ListRequest\ListRequestDto', 'normalizeNamespace'])]
+    #[Attributes\Options\DefaultOption(['\kalanis\Pohoda\ListRequest\ListRequestDto', 'normalizeNamespace'])]
     public ?string $namespace = null;
-    #[Attributes\Options\DefaultOption(['\Riesenia\Pohoda\ListRequest\ListRequestDto', 'normalizeOrderType']), Attributes\Options\ListOption([null, 'receivedOrder', 'issuedOrder'])]
+    #[Attributes\Options\DefaultOption(['\kalanis\Pohoda\ListRequest\ListRequestDto', 'normalizeOrderType']), Attributes\Options\ListOption([null, 'receivedOrder', 'issuedOrder'])]
     public ?string $orderType = null;
-    #[Attributes\Options\DefaultOption(['\Riesenia\Pohoda\ListRequest\ListRequestDto', 'normalizeInvoiceType']), Attributes\Options\ListOption([null, 'issuedInvoice', 'issuedCreditNotice', 'issuedDebitNote', 'issuedAdvanceInvoice', 'receivable', 'issuedProformaInvoice', 'penalty', 'issuedCorrectiveTax', 'receivedInvoice', 'receivedCreditNotice', 'receivedDebitNote', 'receivedAdvanceInvoice', 'commitment', 'receivedProformaInvoice', 'receivedCorrectiveTax'])]
+    #[Attributes\Options\DefaultOption(['\kalanis\Pohoda\ListRequest\ListRequestDto', 'normalizeInvoiceType']), Attributes\Options\ListOption([null, 'issuedInvoice', 'issuedCreditNotice', 'issuedDebitNote', 'issuedAdvanceInvoice', 'receivable', 'issuedProformaInvoice', 'penalty', 'issuedCorrectiveTax', 'receivedInvoice', 'receivedCreditNotice', 'receivedDebitNote', 'receivedAdvanceInvoice', 'commitment', 'receivedProformaInvoice', 'receivedCorrectiveTax'])]
     public ?string $invoiceType = null;
     #[Attributes\JustAttribute]
     public Limit|LimitDto|null $limit = null;

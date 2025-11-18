@@ -1,9 +1,9 @@
 <?php
 
-namespace Riesenia\Pohoda\IssueSlip;
+namespace kalanis\Pohoda\IssueSlip;
 
-use Riesenia\Pohoda\Document;
-use Riesenia\Pohoda\Type;
+use kalanis\Pohoda\Document;
+use kalanis\Pohoda\Type;
 
 class IssueSlipDto extends Document\AbstractDocumentDto
 {

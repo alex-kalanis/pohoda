@@ -3,7 +3,7 @@
 namespace tests;
 
 use PHPUnit\Framework\TestCase;
-use Riesenia\Pohoda;
+use kalanis\Pohoda;
 
 /**
  * Class CommonTestClass

@@ -2,8 +2,8 @@
 
 namespace tests\AttributesTests\Normalizer;
 
-use Riesenia\Pohoda\AbstractAgenda;
-use Riesenia\Pohoda\Common;
+use kalanis\Pohoda\AbstractAgenda;
+use kalanis\Pohoda\Common;
 use SimpleXMLElement;
 use tests\AttributesTests\XSimpleDto;
 

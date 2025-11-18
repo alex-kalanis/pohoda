@@ -4,7 +4,7 @@ namespace tests\AgendaTests\Type;
 
 use tests\CommonTestClass;
 use LogicException;
-use Riesenia\Pohoda\Type;
+use kalanis\Pohoda\Type;
 
 class ActionTypeTest extends CommonTestClass
 {

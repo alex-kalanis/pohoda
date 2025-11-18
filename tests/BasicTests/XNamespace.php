@@ -2,7 +2,7 @@
 
 namespace tests\BasicTests;
 
-use Riesenia\Pohoda\Common\SetNamespaceTrait;
+use kalanis\Pohoda\Common\SetNamespaceTrait;
 
 class XNamespace
 {

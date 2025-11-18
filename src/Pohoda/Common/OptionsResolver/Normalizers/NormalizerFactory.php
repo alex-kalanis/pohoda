@@ -1,10 +1,10 @@
 <?php
 
-namespace Riesenia\Pohoda\Common\OptionsResolver\Normalizers;
+namespace kalanis\Pohoda\Common\OptionsResolver\Normalizers;
 
 use Closure;
 use DomainException;
-use Riesenia\Pohoda\Common;
+use kalanis\Pohoda\Common;
 
 class NormalizerFactory
 {

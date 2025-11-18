@@ -67,7 +67,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Riesenia\\": "src/"
+            "kalanis\\": "src/"
         }
     },
     "autoload-dev": {

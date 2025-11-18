@@ -1,6 +1,6 @@
 <?php
 
-namespace Riesenia\Pohoda\DI;
+namespace kalanis\Pohoda\DI;
 
 trait ClassNameTrait
 {

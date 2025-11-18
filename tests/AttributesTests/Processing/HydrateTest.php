@@ -2,7 +2,7 @@
 
 namespace tests\AttributesTests\Processing;
 
-use Riesenia\Pohoda\Common\Dtos\Processing;
+use kalanis\Pohoda\Common\Dtos\Processing;
 use tests\AttributesTests\XSimpleDto;
 use tests\CommonTestClass;
 

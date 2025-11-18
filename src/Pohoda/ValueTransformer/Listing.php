@@ -1,6 +1,6 @@
 <?php
 
-namespace Riesenia\Pohoda\ValueTransformer;
+namespace kalanis\Pohoda\ValueTransformer;
 
 final class Listing
 {

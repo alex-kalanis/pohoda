@@ -1,10 +1,10 @@
 <?php
 
-namespace Riesenia\Pohoda\Contract;
+namespace kalanis\Pohoda\Contract;
 
-use Riesenia\Pohoda\Common\Attributes;
-use Riesenia\Pohoda\Common\Dtos\AbstractHeaderDto;
-use Riesenia\Pohoda\Type;
+use kalanis\Pohoda\Common\Attributes;
+use kalanis\Pohoda\Common\Dtos\AbstractHeaderDto;
+use kalanis\Pohoda\Type;
 
 class DescDto extends AbstractHeaderDto
 {

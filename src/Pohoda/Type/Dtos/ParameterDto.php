@@ -1,21 +1,21 @@
 <?php
 
-namespace Riesenia\Pohoda\Type\Dtos;
+namespace kalanis\Pohoda\Type\Dtos;
 
-use Riesenia\Pohoda\Common\Attributes;
-use Riesenia\Pohoda\Common\Dtos\AbstractDto;
-use Riesenia\Pohoda\Common\OptionsResolver;
+use kalanis\Pohoda\Common\Attributes;
+use kalanis\Pohoda\Common\Dtos\AbstractDto;
+use kalanis\Pohoda\Common\OptionsResolver;
 
 /**
  * Basic DTO for parameters
  */
 class ParameterDto extends AbstractDto
 {
-    #[Attributes\Options\CallbackOption(['\Riesenia\Pohoda\Type\Dtos\ParameterDto', 'normalizeName']), Attributes\Options\RequiredOption]
+    #[Attributes\Options\CallbackOption(['\kalanis\Pohoda\Type\Dtos\ParameterDto', 'normalizeName']), Attributes\Options\RequiredOption]
     public ?string $name = null;
     #[Attributes\Options\ListOption(['text', 'memo', 'currency', 'boolean', 'number', 'datetime', 'integer', 'list']), Attributes\Options\RequiredOption]
     public ?string $type = null;
-    #[Attributes\Options\CallbackOption(['\Riesenia\Pohoda\Type\Dtos\ParameterDto', 'normalizeList'])]
+    #[Attributes\Options\CallbackOption(['\kalanis\Pohoda\Type\Dtos\ParameterDto', 'normalizeList'])]
     public mixed $value = null;
     public mixed $list = null;
 

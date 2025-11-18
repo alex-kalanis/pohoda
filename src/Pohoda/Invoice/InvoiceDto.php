@@ -1,9 +1,9 @@
 <?php
 
-namespace Riesenia\Pohoda\Invoice;
+namespace kalanis\Pohoda\Invoice;
 
-use Riesenia\Pohoda\Document;
-use Riesenia\Pohoda\Type;
+use kalanis\Pohoda\Document;
+use kalanis\Pohoda\Type;
 
 class InvoiceDto extends Document\AbstractDocumentDto
 {

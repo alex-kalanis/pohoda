@@ -2,7 +2,7 @@
 
 namespace tests\BasicTests;
 
-use Riesenia\Pohoda;
+use kalanis\Pohoda;
 
 class XCapitalize implements Pohoda\ValueTransformer\ValueTransformerInterface
 {

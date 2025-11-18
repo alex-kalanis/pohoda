@@ -1,9 +1,9 @@
 <?php
 
-namespace Riesenia\Pohoda\Common\Attributes\Options;
+namespace kalanis\Pohoda\Common\Attributes\Options;
 
 use Attribute;
-use Riesenia\Pohoda\Common\OptionsResolver\Normalizers\Strings;
+use kalanis\Pohoda\Common\OptionsResolver\Normalizers\Strings;
 
 /**
  * Property will be formatted as string with correct limitations

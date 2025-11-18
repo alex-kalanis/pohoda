@@ -2,9 +2,9 @@
 
 namespace tests\AttributesTests;
 
-use Riesenia\Pohoda\Common\Attributes;
-use Riesenia\Pohoda\Common\Dtos\AbstractDto;
-use Riesenia\Pohoda\Type;
+use kalanis\Pohoda\Common\Attributes;
+use kalanis\Pohoda\Common\Dtos\AbstractDto;
+use kalanis\Pohoda\Type;
 
 /**
  * This DTO contains most of the available attributes and options

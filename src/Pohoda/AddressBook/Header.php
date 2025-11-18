@@ -1,19 +1,12 @@
 <?php
 
-/**
- * This file is part of riesenia/pohoda package.
- *
- * Licensed under the MIT License
- * (c) RIESENIA.com
- */
-
 declare(strict_types=1);
 
-namespace Riesenia\Pohoda\AddressBook;
+namespace kalanis\Pohoda\AddressBook;
 
-use Riesenia\Pohoda\AbstractAgenda;
-use Riesenia\Pohoda\Common;
-use Riesenia\Pohoda\Type\Address;
+use kalanis\Pohoda\AbstractAgenda;
+use kalanis\Pohoda\Common;
+use kalanis\Pohoda\Type\Address;
 
 /**
  * @property HeaderDto $data

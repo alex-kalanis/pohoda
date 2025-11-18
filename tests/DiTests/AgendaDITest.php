@@ -2,7 +2,7 @@
 
 namespace tests\DiTests;
 
-use Riesenia\Pohoda;
+use kalanis\Pohoda;
 use tests\CommonTestClass;
 
 class AgendaDITest extends CommonTestClass

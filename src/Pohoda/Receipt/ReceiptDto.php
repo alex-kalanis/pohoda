@@ -1,8 +1,8 @@
 <?php
 
-namespace Riesenia\Pohoda\Receipt;
+namespace kalanis\Pohoda\Receipt;
 
-use Riesenia\Pohoda\Document;
+use kalanis\Pohoda\Document;
 
 class ReceiptDto extends Document\AbstractDocumentDto
 {

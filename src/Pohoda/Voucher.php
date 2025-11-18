@@ -1,6 +1,6 @@
 <?php
 
-namespace Riesenia\Pohoda;
+namespace kalanis\Pohoda;
 
 /**
  * @property Voucher\VoucherDto $data

@@ -1,18 +1,11 @@
 <?php
 
-/**
- * This file is part of riesenia/pohoda package.
- *
- * Licensed under the MIT License
- * (c) RIESENIA.com
- */
-
 declare(strict_types=1);
 
-namespace Riesenia\Pohoda\Invoice;
+namespace kalanis\Pohoda\Invoice;
 
-use Riesenia\Pohoda\Common;
-use Riesenia\Pohoda\Document\AbstractHeader;
+use kalanis\Pohoda\Common;
+use kalanis\Pohoda\Document\AbstractHeader;
 
 class Header extends AbstractHeader
 {

@@ -2,8 +2,8 @@
 
 namespace tests\AgendaTests\Document;
 
-use Riesenia\Pohoda\Common\Dtos\AbstractHeaderDto;
-use Riesenia\Pohoda\Type;
+use kalanis\Pohoda\Common\Dtos\AbstractHeaderDto;
+use kalanis\Pohoda\Type;
 
 class XDocumentHeaderDto extends AbstractHeaderDto
 {

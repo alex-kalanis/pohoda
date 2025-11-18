@@ -1,9 +1,9 @@
 <?php
 
-namespace Riesenia\Pohoda\AddressBook;
+namespace kalanis\Pohoda\AddressBook;
 
-use Riesenia\Pohoda\Common\Dtos;
-use Riesenia\Pohoda\Type;
+use kalanis\Pohoda\Common\Dtos;
+use kalanis\Pohoda\Type;
 
 class AddressBookDto extends Dtos\AbstractDto
 {

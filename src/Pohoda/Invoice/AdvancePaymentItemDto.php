@@ -1,10 +1,10 @@
 <?php
 
-namespace Riesenia\Pohoda\Invoice;
+namespace kalanis\Pohoda\Invoice;
 
-use Riesenia\Pohoda\Common\Attributes;
-use Riesenia\Pohoda\Common\Dtos\AbstractDto;
-use Riesenia\Pohoda\Type;
+use kalanis\Pohoda\Common\Attributes;
+use kalanis\Pohoda\Common\Dtos\AbstractDto;
+use kalanis\Pohoda\Type;
 
 class AdvancePaymentItemDto extends AbstractDto
 {

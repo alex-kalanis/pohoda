@@ -2,8 +2,8 @@
 
 namespace tests\AgendaTests\Document;
 
-use Riesenia\Pohoda\Document\AbstractItem;
-use Riesenia\Pohoda\Common\Dtos;
+use kalanis\Pohoda\Document\AbstractItem;
+use kalanis\Pohoda\Common\Dtos;
 
 class XDocumentItem extends AbstractItem
 {

@@ -2,7 +2,7 @@
 
 namespace tests\AttributesTests\Normalizer;
 
-use Riesenia\Pohoda\Common;
+use kalanis\Pohoda\Common;
 use Symfony\Component\OptionsResolver;
 
 class BasicTest extends AbstractNormalizerTestClass

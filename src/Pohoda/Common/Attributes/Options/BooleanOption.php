@@ -1,9 +1,9 @@
 <?php
 
-namespace Riesenia\Pohoda\Common\Attributes\Options;
+namespace kalanis\Pohoda\Common\Attributes\Options;
 
 use Attribute;
-use Riesenia\Pohoda\Common\OptionsResolver\Normalizers\Booleans;
+use kalanis\Pohoda\Common\OptionsResolver\Normalizers\Booleans;
 
 /**
  * Property will be formatted into boolean values

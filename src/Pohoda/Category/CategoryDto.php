@@ -1,10 +1,10 @@
 <?php
 
-namespace Riesenia\Pohoda\Category;
+namespace kalanis\Pohoda\Category;
 
-use Riesenia\Pohoda\Category;
-use Riesenia\Pohoda\Common\Attributes;
-use Riesenia\Pohoda\Common\Dtos;
+use kalanis\Pohoda\Category;
+use kalanis\Pohoda\Common\Attributes;
+use kalanis\Pohoda\Common\Dtos;
 
 class CategoryDto extends Dtos\AbstractDto
 {

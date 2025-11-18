@@ -3,9 +3,9 @@
 namespace tests\AgendaTests\Type;
 
 use tests\CommonTestClass;
-use Riesenia\Pohoda;
-use Riesenia\Pohoda\Type;
-use Riesenia\Pohoda\ValueTransformer;
+use kalanis\Pohoda;
+use kalanis\Pohoda\Type;
+use kalanis\Pohoda\ValueTransformer;
 
 class ParameterTest extends CommonTestClass
 {

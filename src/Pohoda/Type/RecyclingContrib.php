@@ -1,18 +1,11 @@
 <?php
 
-/**
- * This file is part of riesenia/pohoda package.
- *
- * Licensed under the MIT License
- * (c) RIESENIA.com
- */
-
 declare(strict_types=1);
 
-namespace Riesenia\Pohoda\Type;
+namespace kalanis\Pohoda\Type;
 
-use Riesenia\Pohoda\AbstractAgenda;
-use Riesenia\Pohoda\Common;
+use kalanis\Pohoda\AbstractAgenda;
+use kalanis\Pohoda\Common;
 
 class RecyclingContrib extends AbstractAgenda
 {

@@ -2,7 +2,7 @@
 
 namespace tests\DiTests;
 
-use Riesenia\Pohoda\DI\ClassNameTrait;
+use kalanis\Pohoda\DI\ClassNameTrait;
 
 class XClassName
 {

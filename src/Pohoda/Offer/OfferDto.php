@@ -1,8 +1,8 @@
 <?php
 
-namespace Riesenia\Pohoda\Offer;
+namespace kalanis\Pohoda\Offer;
 
-use Riesenia\Pohoda\Document;
+use kalanis\Pohoda\Document;
 
 class OfferDto extends Document\AbstractDocumentDto
 {

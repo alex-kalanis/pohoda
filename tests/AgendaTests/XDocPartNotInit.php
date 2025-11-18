@@ -2,7 +2,7 @@
 
 namespace tests\AgendaTests;
 
-use Riesenia\Pohoda;
+use kalanis\Pohoda;
 
 class XDocPartNotInit extends Pohoda\Document\AbstractPart
 {

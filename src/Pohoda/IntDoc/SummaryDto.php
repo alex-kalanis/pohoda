@@ -1,10 +1,10 @@
 <?php
 
-namespace Riesenia\Pohoda\IntDoc;
+namespace kalanis\Pohoda\IntDoc;
 
-use Riesenia\Pohoda\Common\Attributes;
-use Riesenia\Pohoda\Common\Dtos\AbstractSummaryDto;
-use Riesenia\Pohoda\Type;
+use kalanis\Pohoda\Common\Attributes;
+use kalanis\Pohoda\Common\Dtos\AbstractSummaryDto;
+use kalanis\Pohoda\Type;
 
 class SummaryDto extends AbstractSummaryDto
 {

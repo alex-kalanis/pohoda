@@ -2,8 +2,8 @@
 
 namespace tests\BasicTests;
 
-use Riesenia\Pohoda\Common\Dtos\AbstractDto;
-use Riesenia\Pohoda\Type;
+use kalanis\Pohoda\Common\Dtos\AbstractDto;
+use kalanis\Pohoda\Type;
 
 class XParameterDto extends AbstractDto
 {

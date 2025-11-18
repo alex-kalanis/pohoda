@@ -1,6 +1,6 @@
 <?php
 
-namespace Riesenia\Pohoda\Common\OptionsResolver\Normalizers;
+namespace kalanis\Pohoda\Common\OptionsResolver\Normalizers;
 
 final class Numbers extends AbstractNormalizer
 {

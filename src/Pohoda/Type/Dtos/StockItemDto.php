@@ -1,10 +1,10 @@
 <?php
 
-namespace Riesenia\Pohoda\Type\Dtos;
+namespace kalanis\Pohoda\Type\Dtos;
 
-use Riesenia\Pohoda\AbstractAgenda;
-use Riesenia\Pohoda\Common\Attributes;
-use Riesenia\Pohoda\Common\Dtos\AbstractDto;
+use kalanis\Pohoda\AbstractAgenda;
+use kalanis\Pohoda\Common\Attributes;
+use kalanis\Pohoda\Common\Dtos\AbstractDto;
 
 class StockItemDto extends AbstractDto
 {

@@ -1,9 +1,9 @@
 <?php
 
-namespace Riesenia\Pohoda\Common\Attributes\Options;
+namespace kalanis\Pohoda\Common\Attributes\Options;
 
 use Attribute;
-use Riesenia\Pohoda\Common\OptionsResolver\Normalizers\Integers;
+use kalanis\Pohoda\Common\OptionsResolver\Normalizers\Integers;
 
 /**
  * Property will be formatted as integer number

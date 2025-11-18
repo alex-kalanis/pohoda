@@ -1,8 +1,8 @@
 <?php
 
-namespace Riesenia\Pohoda\Common\Attributes\Options;
+namespace kalanis\Pohoda\Common\Attributes\Options;
 
-use Riesenia\Pohoda\Common\OptionsResolver\ActionsEnum;
+use kalanis\Pohoda\Common\OptionsResolver\ActionsEnum;
 
 /**
  * These children will set rules for normalization

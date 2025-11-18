@@ -3,7 +3,7 @@
 namespace tests\ValueTransformerTests;
 
 use tests\CommonTestClass;
-use Riesenia\Pohoda\ValueTransformer\EncodingTransformer;
+use kalanis\Pohoda\ValueTransformer\EncodingTransformer;
 
 class EncodingTest extends CommonTestClass
 {

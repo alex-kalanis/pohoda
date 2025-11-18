@@ -1,6 +1,6 @@
 <?php
 
-namespace Riesenia\Pohoda\Common\Attributes;
+namespace kalanis\Pohoda\Common\Attributes;
 
 use Attribute;
 

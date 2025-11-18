@@ -1,9 +1,9 @@
 <?php
 
-namespace Riesenia\Pohoda\ListRequest;
+namespace kalanis\Pohoda\ListRequest;
 
-use Riesenia\Pohoda\Common\Attributes;
-use Riesenia\Pohoda\Common\Dtos\AbstractDto;
+use kalanis\Pohoda\Common\Attributes;
+use kalanis\Pohoda\Common\Dtos\AbstractDto;
 
 class RestrictionDataDto extends AbstractDto
 {

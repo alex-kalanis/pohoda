@@ -2,7 +2,7 @@
 
 // intentionally another namespace here - I need to mock few classes for testing
 
-namespace Riesenia\Pohoda;
+namespace kalanis\Pohoda;
 
 class XAgendaNotInit extends AbstractAgenda
 {
@@ -34,7 +34,7 @@ class XAgendaNotInstance
 namespace tests\AgendaTests;
 
 use DomainException;
-use Riesenia\Pohoda;
+use kalanis\Pohoda;
 use tests\CommonTestClass;
 
 class AgendaFactoryTest extends CommonTestClass

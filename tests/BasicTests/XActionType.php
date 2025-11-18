@@ -2,9 +2,9 @@
 
 namespace tests\BasicTests;
 
-use Riesenia\Pohoda\Common;
-use Riesenia\Pohoda\DI\DependenciesFactory;
-use Riesenia\Pohoda\Type;
+use kalanis\Pohoda\Common;
+use kalanis\Pohoda\DI\DependenciesFactory;
+use kalanis\Pohoda\Type;
 
 class XActionType
 {

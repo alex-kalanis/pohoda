@@ -1,9 +1,9 @@
 <?php
 
-namespace Riesenia\Pohoda\DI;
+namespace kalanis\Pohoda\DI;
 
 use DomainException;
-use Riesenia\Pohoda\Document;
+use kalanis\Pohoda\Document;
 
 /**
  * Get DocumentPart class

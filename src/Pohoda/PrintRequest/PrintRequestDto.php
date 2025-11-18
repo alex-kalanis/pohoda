@@ -1,9 +1,9 @@
 <?php
 
-namespace Riesenia\Pohoda\PrintRequest;
+namespace kalanis\Pohoda\PrintRequest;
 
-use Riesenia\Pohoda\Common\Attributes;
-use Riesenia\Pohoda\Common\Dtos;
+use kalanis\Pohoda\Common\Attributes;
+use kalanis\Pohoda\Common\Dtos;
 
 class PrintRequestDto extends Dtos\AbstractDto
 {

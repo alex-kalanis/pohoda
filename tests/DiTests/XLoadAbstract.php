@@ -1,6 +1,6 @@
 <?php
 
-namespace Riesenia\Pohoda;
+namespace kalanis\Pohoda;
 
 class XDocument extends Document\AbstractPart
 {

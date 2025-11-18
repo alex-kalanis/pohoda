@@ -1,4 +1,4 @@
 suites:
     rshop_suite:
-        namespace: Riesenia
-        psr4_prefix: Riesenia
+        namespace: kalanis
+        psr4_prefix: kalanis

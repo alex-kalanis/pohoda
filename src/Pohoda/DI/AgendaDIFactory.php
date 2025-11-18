@@ -1,11 +1,11 @@
 <?php
 
-namespace Riesenia\Pohoda\DI;
+namespace kalanis\Pohoda\DI;
 
 use DomainException;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
-use Riesenia\Pohoda\AbstractAgenda;
+use kalanis\Pohoda\AbstractAgenda;
 
 final class AgendaDIFactory implements AgendaFactoryInterface
 {

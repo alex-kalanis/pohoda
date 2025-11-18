@@ -1,9 +1,9 @@
 <?php
 
-namespace Riesenia\Pohoda\Order;
+namespace kalanis\Pohoda\Order;
 
-use Riesenia\Pohoda\Document;
-use Riesenia\Pohoda\Type;
+use kalanis\Pohoda\Document;
+use kalanis\Pohoda\Type;
 
 class OrderDto extends Document\AbstractDocumentDto
 {

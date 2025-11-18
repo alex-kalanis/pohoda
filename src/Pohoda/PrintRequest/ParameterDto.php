@@ -1,16 +1,16 @@
 <?php
 
-namespace Riesenia\Pohoda\PrintRequest;
+namespace kalanis\Pohoda\PrintRequest;
 
-use Riesenia\Pohoda\Common\Attributes;
-use Riesenia\Pohoda\Common\Dtos\AbstractDto;
-use Riesenia\Pohoda\Common\OptionsResolver;
+use kalanis\Pohoda\Common\Attributes;
+use kalanis\Pohoda\Common\Dtos\AbstractDto;
+use kalanis\Pohoda\Common\OptionsResolver;
 
 class ParameterDto extends AbstractDto
 {
     #[Attributes\OnlyInternal, Attributes\JustAttribute]
     public ?string $type = null;
-    #[Attributes\Options\CallbackOption(['\Riesenia\Pohoda\PrintRequest\ParameterDto', 'normalizeValue'])]
+    #[Attributes\Options\CallbackOption(['\kalanis\Pohoda\PrintRequest\ParameterDto', 'normalizeValue'])]
     public mixed $value = null;
 
     public static function init(mixed $value = null, ?string $type = null): self

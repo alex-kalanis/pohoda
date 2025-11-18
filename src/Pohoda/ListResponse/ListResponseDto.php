@@ -1,13 +1,13 @@
 <?php
 
-namespace Riesenia\Pohoda\ListResponse;
+namespace kalanis\Pohoda\ListResponse;
 
 use AllowDynamicProperties;
-use Riesenia\Pohoda\Common\Attributes;
-use Riesenia\Pohoda\Common\Dtos\AbstractDto;
-use Riesenia\Pohoda\ListRequest;
-use Riesenia\Pohoda\Order;
-use Riesenia\Pohoda\Stock;
+use kalanis\Pohoda\Common\Attributes;
+use kalanis\Pohoda\Common\Dtos\AbstractDto;
+use kalanis\Pohoda\ListRequest;
+use kalanis\Pohoda\Order;
+use kalanis\Pohoda\Stock;
 use Symfony\Component\OptionsResolver\Options;
 
 #[AllowDynamicProperties]
@@ -16,11 +16,11 @@ class ListResponseDto extends AbstractDto
     #[Attributes\Options\ListRequestTypeOption, Attributes\Options\RequiredOption]
     public ?string $type = null;
     public ?string $state = null;
-    #[Attributes\Options\DefaultOption(['\Riesenia\Pohoda\ListResponse\ListResponseDto', 'normalizeNamespace'])]
+    #[Attributes\Options\DefaultOption(['\kalanis\Pohoda\ListResponse\ListResponseDto', 'normalizeNamespace'])]
     public ?string $namespace = null;
-    #[Attributes\Options\DefaultOption(['\Riesenia\Pohoda\ListResponse\ListResponseDto', 'normalizeOrderType']), Attributes\Options\ListOption([null, 'receivedOrder', 'issuedOrder'])]
+    #[Attributes\Options\DefaultOption(['\kalanis\Pohoda\ListResponse\ListResponseDto', 'normalizeOrderType']), Attributes\Options\ListOption([null, 'receivedOrder', 'issuedOrder'])]
     public ?string $orderType = null;
-    #[Attributes\Options\DefaultOption(['\Riesenia\Pohoda\ListResponse\ListResponseDto', 'normalizeInvoiceType']), Attributes\Options\ListOption([null, 'issuedInvoice', 'issuedCreditNotice', 'issuedDebitNote', 'issuedAdvanceInvoice', 'receivable', 'issuedProformaInvoice', 'penalty', 'issuedCorrectiveTax', 'receivedInvoice', 'receivedCreditNotice', 'receivedDebitNote', 'receivedAdvanceInvoice', 'commitment', 'receivedProformaInvoice', 'receivedCorrectiveTax'])]
+    #[Attributes\Options\DefaultOption(['\kalanis\Pohoda\ListResponse\ListResponseDto', 'normalizeInvoiceType']), Attributes\Options\ListOption([null, 'issuedInvoice', 'issuedCreditNotice', 'issuedDebitNote', 'issuedAdvanceInvoice', 'receivable', 'issuedProformaInvoice', 'penalty', 'issuedCorrectiveTax', 'receivedInvoice', 'receivedCreditNotice', 'receivedDebitNote', 'receivedAdvanceInvoice', 'commitment', 'receivedProformaInvoice', 'receivedCorrectiveTax'])]
     public ?string $invoiceType = null;
     #[Attributes\JustAttribute]
     public ListRequest\Limit|ListRequest\LimitDto|null $limit = null;

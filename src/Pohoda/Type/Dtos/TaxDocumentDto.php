@@ -1,9 +1,9 @@
 <?php
 
-namespace Riesenia\Pohoda\Type\Dtos;
+namespace kalanis\Pohoda\Type\Dtos;
 
-use Riesenia\Pohoda\Common\Dtos\AbstractDto;
-use Riesenia\Pohoda\Type;
+use kalanis\Pohoda\Common\Dtos\AbstractDto;
+use kalanis\Pohoda\Type;
 
 class TaxDocumentDto extends AbstractDto
 {
