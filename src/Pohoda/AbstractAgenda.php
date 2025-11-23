@@ -22,9 +22,6 @@ abstract class AbstractAgenda
 
     protected Common\Dtos\AbstractDto $data;
 
-    /** @var array<string, Common\ElementAttributes> */
-    protected array $elementsAttributesMapper = [];
-
     /**
      * Construct agenda using provided data.
      *
@@ -139,7 +136,7 @@ abstract class AbstractAgenda
     protected function addElements(SimpleXMLElement $xml, array $elements, ?string $namespace = null): void
     {
         $refElements = Common\Dtos\Processing::getRefAttributes($this->data, $this->useOneDirectionalVariables);
-        //$elementsAttributesMapper = Common\Dtos\Processing::getAttributesReferencingElements($this->data);
+        $elementsAttributesMapper = Common\Dtos\Processing::getAttributesExtendingElements($this->data, $this->useOneDirectionalVariables);
         foreach ($elements as $element) {
             $nodeKey = $this->getNodeKey($element);
 
@@ -160,8 +157,8 @@ abstract class AbstractAgenda
             }
 
             // element attribute
-            if (isset($this->elementsAttributesMapper[$nodeKey])) {
-                $attrs = $this->elementsAttributesMapper[$nodeKey];
+            if (isset($elementsAttributesMapper[$nodeKey])) {
+                $attrs = $elementsAttributesMapper[$nodeKey];
 
                 // get element
                 $attrElement = $namespace ? $xml->children($namespace, true)->{$attrs->attrElement} : $xml->{$attrs->attrElement};

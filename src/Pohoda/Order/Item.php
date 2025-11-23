@@ -5,22 +5,10 @@ declare(strict_types=1);
 namespace kalanis\Pohoda\Order;
 
 use kalanis\Pohoda\Common;
-use kalanis\Pohoda\DI\DependenciesFactory;
 use kalanis\Pohoda\Document\AbstractItem;
 
 class Item extends AbstractItem
 {
-    public function __construct(
-        DependenciesFactory $dependenciesFactory,
-    ) {
-        // init attributes
-        $this->elementsAttributesMapper = [
-            'rateVatValue' => new Common\ElementAttributes('rateVAT', 'value'),
-        ];
-
-        parent::__construct($dependenciesFactory);
-    }
-
     /**
      * {@inheritdoc}
      */

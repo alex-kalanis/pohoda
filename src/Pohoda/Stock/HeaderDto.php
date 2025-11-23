@@ -24,9 +24,11 @@ class HeaderDto extends Dtos\AbstractHeaderDto
     public bool|string|null $isBatch = null;
     #[Attributes\Options\ListOption(['none', 'third', 'low', 'high'])]
     public ?string $purchasingRateVAT = null;
+    #[Attributes\AttributeExtend('purchasingRateVAT', 'value')]
     public ?string $purchasingRatePayVAT = null;
     #[Attributes\Options\ListOption(['none', 'third', 'low', 'high'])]
     public ?string $sellingRateVAT = null;
+    #[Attributes\AttributeExtend('sellingRateVAT', 'value')]
     public ?string $sellingRatePayVAT = null;
     #[Attributes\Options\StringOption(90)]
     public ?string $name = null;
@@ -50,11 +52,11 @@ class HeaderDto extends Dtos\AbstractHeaderDto
     public array|string|null $typePrice = null;
     #[Attributes\Options\FloatOption]
     public float|string|null $purchasingPrice = null;
-    #[Attributes\Options\BooleanOption]
+    #[Attributes\Options\BooleanOption, Attributes\AttributeExtend('purchasingPrice', 'payVAT')]
     public bool|string|null $purchasingPricePayVAT = null;
     #[Attributes\Options\FloatOption]
     public float|string|null $sellingPrice = null;
-    #[Attributes\Options\BooleanOption]
+    #[Attributes\Options\BooleanOption, Attributes\AttributeExtend('sellingPrice', 'payVAT')]
     public bool|string|null $sellingPricePayVAT = null;
     #[Attributes\Options\FloatOption]
     public float|string|null $limitMin = null;

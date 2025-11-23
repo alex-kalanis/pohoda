@@ -6,7 +6,6 @@ namespace kalanis\Pohoda\Stock;
 
 use kalanis\Pohoda\AbstractAgenda;
 use kalanis\Pohoda\Common;
-use kalanis\Pohoda\DI\DependenciesFactory;
 
 /**
  * @property HeaderDto $data
@@ -16,23 +15,6 @@ class Header extends AbstractAgenda
     use Common\AddParameterTrait;
 
     protected int $imagesCounter = 0;
-
-    /**
-     * {@inheritdoc}
-     */
-    public function __construct(
-        DependenciesFactory $dependenciesFactory,
-    ) {
-        // init attributes
-        $this->elementsAttributesMapper = [
-            'purchasingPricePayVAT' => new Common\ElementAttributes('purchasingPrice', 'payVAT'),
-            'sellingPricePayVAT' => new Common\ElementAttributes('sellingPrice', 'payVAT'),
-            'purchasingRatePayVAT' => new Common\ElementAttributes('purchasingRateVAT', 'value'),
-            'sellingRatePayVAT' => new Common\ElementAttributes('sellingRateVAT', 'value'),
-        ];
-
-        parent::__construct($dependenciesFactory);
-    }
 
     /**
      * {@inheritdoc}

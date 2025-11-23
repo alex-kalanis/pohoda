@@ -19,7 +19,7 @@ class CurrencyHomeDto extends AbstractDto
     public float|string|null $priceLow = null;
     #[Attributes\Options\FloatOption]
     public float|string|null $priceLowVAT = null;
-    #[Attributes\Options\FloatOption]
+    #[Attributes\Options\FloatOption, Attributes\AttributeExtend('priceLowVAT', 'rate')]
     public float|string|null $priceLowVatRate = null;
     #[Attributes\Options\FloatOption]
     public float|string|null $priceLowSum = null;
@@ -27,7 +27,7 @@ class CurrencyHomeDto extends AbstractDto
     public float|string|null $priceHigh = null;
     #[Attributes\Options\FloatOption]
     public float|string|null $priceHighVAT = null;
-    #[Attributes\Options\FloatOption]
+    #[Attributes\Options\FloatOption, Attributes\AttributeExtend('priceHighVAT', 'rate')]
     public float|string|null $priceHighVatRate = null;
     #[Attributes\Options\FloatOption]
     public float|string|null $priceHighSum = null;

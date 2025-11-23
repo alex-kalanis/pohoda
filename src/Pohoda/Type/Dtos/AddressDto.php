@@ -13,7 +13,7 @@ class AddressDto extends AbstractDto
     #[Attributes\RefElement]
     public ?string $extId = null;
     public AddressTypeDto|Type\AddressType|null $address = null;
-    #[Attributes\Options\BooleanOption]
+    #[Attributes\Options\BooleanOption, Attributes\AttributeExtend('address', 'linkToAddress')]
     public bool|string|null $addressLinkToAddress = null;
     public ShipToAddressDto|Type\ShipToAddressType|null $shipToAddress = null;
 }

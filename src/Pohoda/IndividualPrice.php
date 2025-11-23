@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace kalanis\Pohoda;
 
-use kalanis\Pohoda\Common\OptionsResolver;
-
 class IndividualPrice extends AbstractAgenda
 {
     public function getImportRoot(): string

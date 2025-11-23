@@ -6,7 +6,6 @@ namespace kalanis\Pohoda\Type;
 
 use kalanis\Pohoda\AbstractAgenda;
 use kalanis\Pohoda\Common;
-use kalanis\Pohoda\DI\DependenciesFactory;
 
 /**
  * @property Dtos\AddressDto $data
@@ -14,20 +13,6 @@ use kalanis\Pohoda\DI\DependenciesFactory;
 class Address extends AbstractAgenda
 {
     use Common\SetNamespaceTrait;
-
-    /**
-     * {@inheritdoc}
-     */
-    public function __construct(
-        DependenciesFactory $dependenciesFactory,
-    ) {
-        // init attributes
-        $this->elementsAttributesMapper = [
-            'addressLinkToAddress' => new Common\ElementAttributes('address', 'linkToAddress'),
-        ];
-
-        parent::__construct($dependenciesFactory);
-    }
 
     /**
      * {@inheritdoc}

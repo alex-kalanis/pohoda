@@ -22,7 +22,7 @@ class ItemDto extends AbstractItemDto
     public bool|string|null $payVAT = null;
     #[Attributes\Options\ListOption(['none', 'high', 'low', 'third', 'historyHigh', 'historyLow', 'historyThird'])]
     public ?string $rateVAT = null;
-    #[Attributes\Options\FloatOption]
+    #[Attributes\Options\FloatOption, Attributes\AttributeExtend('rateVAT', 'value')]
     public float|string|null $rateVatValue = null;
     #[Attributes\Options\FloatOption]
     public float|string|null $percentVAT = null;

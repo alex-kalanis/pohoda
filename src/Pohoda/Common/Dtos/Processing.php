@@ -238,18 +238,6 @@ class Processing
     }
 
     /**
-     * Check if the property is used as extending attribute
-     *
-     * @param ReflectionProperty $property
-     *
-     * @return bool
-     */
-    protected static function isExtendAttribute(ReflectionProperty $property): bool
-    {
-        return !empty($property->getAttributes(Attributes\AttributeExtend::class));
-    }
-
-    /**
      * Use different attribute as target instead of the one now processed
      *
      * @param ReflectionProperty $property
