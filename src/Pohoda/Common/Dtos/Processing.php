@@ -87,6 +87,36 @@ class Processing
     }
 
     /**
+     * Get all attributes from DTOs which are just attributes to different elements in target XML
+     *
+     * @param AbstractDto $class
+     * @param bool $responseDirection
+     *
+     * @return array<string, Attributes\AttributeExtend>
+     */
+    public static function getAttributesExtendingElements(AbstractDto $class, bool $responseDirection): array
+    {
+        $reflection = new ReflectionClass($class);
+        $allProperties = $reflection->getProperties();
+        $ref = [];
+        foreach ($allProperties as $property) {
+            if (static::hasInternalAttribute($property)) {
+                continue;
+            }
+            if (static::isJustAttribute($property)) {
+                continue;
+            }
+            if (static::hasDirectionAttribute($property) && !$responseDirection) {
+                continue;
+            }
+            if ($extend = static::getExtendingAttribute($property)) {
+                $ref[$property->getName()] = $extend;
+            }
+        }
+        return $ref;
+    }
+
+    /**
      * Get all properties of DTO
      *
      * @param AbstractDto $class
@@ -208,6 +238,18 @@ class Processing
     }
 
     /**
+     * Check if the property is used as extending attribute
+     *
+     * @param ReflectionProperty $property
+     *
+     * @return bool
+     */
+    protected static function isExtendAttribute(ReflectionProperty $property): bool
+    {
+        return !empty($property->getAttributes(Attributes\AttributeExtend::class));
+    }
+
+    /**
      * Use different attribute as target instead of the one now processed
      *
      * @param ReflectionProperty $property
@@ -230,6 +272,25 @@ class Processing
         if (!$anyDefined) {
             yield $property->getName();
         }
+    }
+
+    /**
+     * Use different attribute as target in XML instead that one used
+     *
+     * @param ReflectionProperty $property
+     *
+     * @return null|Attributes\AttributeExtend
+     */
+    protected static function getExtendingAttribute(ReflectionProperty $property): ?Attributes\AttributeExtend
+    {
+        $attrs = $property->getAttributes(Attributes\AttributeExtend::class);
+        foreach ($attrs as $attr) {
+            $instance = $attr->newInstance();
+            if (\is_a($instance, Attributes\AttributeExtend::class)) {
+                return $instance;
+            }
+        }
+        return null;
     }
 
     /**

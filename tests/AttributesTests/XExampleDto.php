@@ -39,6 +39,10 @@ class XExampleDto extends AbstractDto
     #[Attributes\JustAttribute]
     public float|string|null $justAttribute = null;
 
+    // attributes to existing elements
+    #[Attributes\AttributeExtend('longString', 'avail', 'other')]
+    public ?string $attr1 = null;
+
     // combined ones - response direction
     #[Attributes\Options\IntegerOption, Attributes\ResponseDirection]
     public int|string|null $responseInteger = null;

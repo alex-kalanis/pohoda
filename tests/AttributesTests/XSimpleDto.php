@@ -35,6 +35,10 @@ class XSimpleDto extends AbstractDto
     #[Attributes\RefElement]
     public ?string $referenceAsString = null;
 
+    // attributes to existing elements
+    #[Attributes\AttributeExtend('longString', 'avail', 'fnk')]
+    public ?string $attr1 = null;
+
     // required ones
     #[Attributes\Options\IntegerOption, Attributes\Options\RequiredOption]
     public int|string|null $requiredInteger = null;
