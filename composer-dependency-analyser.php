@@ -13,7 +13,7 @@ return $config
     // ignore errors on specific packages and paths
     // classes are defined in files for tests
     ->ignoreUnknownClasses([
-        'AllowDynamicProperties',
+        //'AllowDynamicProperties',
         'kalanis\Pohoda\XAgenda',
         'kalanis\Pohoda\XClass',
         'kalanis\Pohoda\XDocument',

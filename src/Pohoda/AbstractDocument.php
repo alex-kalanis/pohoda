@@ -23,7 +23,10 @@ abstract class AbstractDocument extends AbstractAgenda
         $part = $this->getDocumentPart('Item');
         $part->setDirectionalVariable($this->useOneDirectionalVariables);
         $part->setData($data);
-        if (is_a($part, Document\AbstractItem::class)) {
+        if (
+            is_a($part, Document\AbstractItem::class)
+            && is_object($this->data) && property_exists($this->data, 'details')
+        ) {
             $this->data->details[] = $part;
         }
 
@@ -42,7 +45,10 @@ abstract class AbstractDocument extends AbstractAgenda
         $summary = $this->getDocumentPart('Summary');
         $summary->setDirectionalVariable($this->useOneDirectionalVariables);
         $summary->setData($data);
-        if (is_a($summary, Document\AbstractSummary::class)) {
+        if (
+            is_a($summary, Document\AbstractSummary::class)
+            && is_object($this->data) && property_exists($this->data, 'summary')
+        ) {
             $this->data->summary = $summary;
         }
 

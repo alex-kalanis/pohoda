@@ -7,9 +7,7 @@ namespace kalanis\Pohoda\Common;
 use kalanis\Pohoda\AbstractAgenda;
 
 /**
- * @property object{
- *     header: AbstractAgenda
- * } $data
+ * @property Dtos\AbstractDto $data
  */
 trait AddParameterToHeaderTrait
 {
@@ -25,9 +23,10 @@ trait AddParameterToHeaderTrait
      */
     public function addParameter(string $name, string $type, mixed $value, mixed $list = null): AbstractAgenda
     {
-        $object = $this->data->header;
-        /** @var self $object */
-        $object->addParameter($name, $type, $value, $list);
+        $object = $this->data->header ?? null;
+        if ($object && is_object($object) && method_exists($object, 'addParameter')) {
+            $object->addParameter($name, $type, $value, $list);
+        }
         return $this;
     }
 }
