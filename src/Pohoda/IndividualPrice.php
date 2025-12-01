@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace kalanis\Pohoda;
 
+use kalanis\PohodaException;
+
 class IndividualPrice extends AbstractAgenda
 {
     public function getImportRoot(): string
@@ -16,7 +18,7 @@ class IndividualPrice extends AbstractAgenda
      */
     public function getXML(): \SimpleXMLElement
     {
-        throw new \DomainException('Individual prices import is currently not supported.');
+        throw new PohodaException('Individual prices import is currently not supported.');
     }
 
     /**

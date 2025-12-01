@@ -62,9 +62,10 @@ abstract class AbstractDocument extends AbstractAgenda
     {
         // pass to header
         if (!empty($data->header)) {
-            $data->header = $this->getDocumentPart('Header', $this->resolveOptions)
+            $header = $this->getDocumentPart('Header', $this->resolveOptions)
                 ->setDirectionalVariable($this->useOneDirectionalVariables)
                 ->setData($data->header);
+            $data->header = $header;
         }
         return parent::setData($data);
     }
@@ -94,8 +95,8 @@ abstract class AbstractDocument extends AbstractAgenda
      * Document part factory.
      * This code is the loader for things like "Header", "Summary", "Item"
      *
-     * @param string              $partName
-     * @param bool                $resolveOptions
+     * @param string $partName
+     * @param bool   $resolveOptions
      *
      * @return Document\AbstractPart
      */

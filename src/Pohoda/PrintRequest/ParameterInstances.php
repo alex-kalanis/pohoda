@@ -2,6 +2,8 @@
 
 namespace kalanis\Pohoda\PrintRequest;
 
+use kalanis\PohodaException;
+
 class ParameterInstances
 {
     /** @var array<string, class-string<Parameter>> */
@@ -41,7 +43,7 @@ class ParameterInstances
     public function getByKey(string $key): string
     {
         if (!isset($this->instances[$key])) {
-            throw new \DomainException(sprintf('The key *%s* is not known.', $key));
+            throw new PohodaException(sprintf('The key *%s* is not known.', $key));
         }
         return $this->instances[$key];
     }

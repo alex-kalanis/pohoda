@@ -237,7 +237,7 @@ class Pohoda
 
         $class = $this->dependenciesFactory->getAgendaFactory()->getAgenda($name);
         $class->setResolveOptions(false);
-        $this->elementName = $class->getImportRoot() ?? throw new \DomainException('Not allowed entity: ' . $name);
+        $this->elementName = $class->getImportRoot() ?? throw new PohodaException('Not allowed entity: ' . $name);
         $this->importRecursive = $class->canImportRecursive();
 
         return true;
@@ -293,7 +293,7 @@ class Pohoda
         // load<Agenda> method
         if (\preg_match('/load([A-Z][a-zA-Z0-9]*)/', $method, $matches)) {
             if (!isset($arguments[0])) {
-                throw new \DomainException('Filename not set.');
+                throw new PohodaException('Filename not set.');
             }
 
             return \call_user_func([$this, 'load'], $matches[1], $arguments[0]);

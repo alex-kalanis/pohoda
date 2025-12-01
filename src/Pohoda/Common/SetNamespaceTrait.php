@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace kalanis\Pohoda\Common;
 
+use kalanis\PohodaException;
+
 trait SetNamespaceTrait
 {
     protected ?string $namespace = null;
@@ -40,11 +42,11 @@ trait SetNamespaceTrait
     public function getXML(): \SimpleXMLElement
     {
         if (is_null($this->namespace)) {
-            throw new \LogicException('Namespace not set.');
+            throw new PohodaException('Namespace not set.');
         }
 
         if (is_null($this->nodeName)) {
-            throw new \LogicException('Node name not set.');
+            throw new PohodaException('Node name not set.');
         }
 
         $xml = $this->createXML()->addChild($this->namespace . ':' . $this->nodeName, '', $this->namespace($this->namespace));

@@ -7,6 +7,7 @@ namespace kalanis\Pohoda\DI;
 use kalanis\Pohoda\Common;
 use kalanis\Pohoda\PrintRequest\ParameterInstances;
 use kalanis\Pohoda\ValueTransformer;
+use kalanis\PohodaException;
 use Psr\Container\ContainerInterface;
 
 class DependenciesFactory
@@ -22,7 +23,7 @@ class DependenciesFactory
     public function getAgendaFactory(): AgendaFactoryInterface
     {
         if (empty($this->container) && (empty($this->namespacesPaths) || empty($this->sanitizeEncoding) || empty($this->normalizerFactory))) {
-            throw new \LogicException('You must have at least one full set of dependencies to get Agenda factory');
+            throw new PohodaException('You must have at least one full set of dependencies to get Agenda factory');
         }
         return $this->container
             ? new AgendaDIFactory($this->container)
@@ -33,7 +34,7 @@ class DependenciesFactory
     public function getDocumentPartFactory(): DocumentPartFactoryInterface
     {
         if (empty($this->container) && (empty($this->namespacesPaths) || empty($this->sanitizeEncoding) || empty($this->normalizerFactory))) {
-            throw new \LogicException('You must have at least one full set of dependencies to get Agenda factory');
+            throw new PohodaException('You must have at least one full set of dependencies to get Agenda factory');
         }
         return $this->container
             ? new DocumentPartDIFactory($this->container)
@@ -44,7 +45,7 @@ class DependenciesFactory
     public function getParametersFactory(): ParameterFactoryInterface
     {
         if (empty($this->container) && (empty($this->namespacesPaths) || empty($this->sanitizeEncoding) || empty($this->normalizerFactory))) {
-            throw new \LogicException('You must have at least one full set of dependencies to get Parameter factory');
+            throw new PohodaException('You must have at least one full set of dependencies to get Parameter factory');
         }
         return $this->container
             ? new ParameterDIFactory($this->container)
@@ -60,7 +61,7 @@ class DependenciesFactory
 
         $instance = $this->getInstances(Common\NamespacesPaths::class);
         if (!$instance instanceof Common\NamespacesPaths) {
-            throw new \LogicException('Container does not return NamespacesPaths class!');
+            throw new PohodaException('Container does not return NamespacesPaths class!');
         }
 
         return $this->namespacesPaths = $instance;
@@ -74,7 +75,7 @@ class DependenciesFactory
 
         $instance = $this->getInstances(ValueTransformer\SanitizeEncoding::class);
         if (!$instance instanceof ValueTransformer\SanitizeEncoding) {
-            throw new \LogicException('Container does not return SanitizeEncoding class!');
+            throw new PohodaException('Container does not return SanitizeEncoding class!');
         }
 
         return $this->sanitizeEncoding = $instance;
@@ -88,7 +89,7 @@ class DependenciesFactory
 
         $instance = $this->getInstances(Common\OptionsResolver\Normalizers\NormalizerFactory::class);
         if (!$instance instanceof Common\OptionsResolver\Normalizers\NormalizerFactory) {
-            throw new \LogicException('Container does not return NormalizerFactory class!');
+            throw new PohodaException('Container does not return NormalizerFactory class!');
         }
 
         return $this->normalizerFactory = $instance;
@@ -102,7 +103,7 @@ class DependenciesFactory
 
         $instance = $this->getInstances(ParameterInstances::class);
         if (!$instance instanceof ParameterInstances) {
-            throw new \LogicException('Container does not return ParameterInstances class!');
+            throw new PohodaException('Container does not return ParameterInstances class!');
         }
 
         return $this->parameterInstances = $instance;
@@ -111,16 +112,16 @@ class DependenciesFactory
     protected function getInstances(string $className): object
     {
         if (empty($this->container)) {
-            throw new \LogicException('No DI available, you must set the ' . $className . ' class first!');
+            throw new PohodaException('No DI available, you must set the ' . $className . ' class first!');
         }
 
         if (!$this->container->has($className)) {
-            throw new \LogicException('Container does not have ' . $className . ' class!');
+            throw new PohodaException('Container does not have ' . $className . ' class!');
         }
 
         $instance = $this->container->get($className);
         if (!is_object($instance)) {
-            throw new \LogicException('Container does not return ' . $className . ' class!');
+            throw new PohodaException('Container does not return ' . $className . ' class!');
         }
 
         return $instance;

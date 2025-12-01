@@ -2,10 +2,10 @@
 
 namespace kalanis\Pohoda\DI;
 
-use DomainException;
+use kalanis\Pohoda\Document;
+use kalanis\PohodaException;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
-use kalanis\Pohoda\Document;
 
 final class DocumentPartDIFactory implements DocumentPartFactoryInterface
 {
@@ -20,19 +20,19 @@ final class DocumentPartDIFactory implements DocumentPartFactoryInterface
     {
         $className = $parentClass . '\\' . $name;
         if (!$this->container->has($className)) {
-            throw new DomainException('Entity does not exists: ' . $name);
+            throw new PohodaException('Entity does not exists: ' . $name);
         }
 
         try {
             $instance = $this->container->get($className);
         } catch (ContainerExceptionInterface $ex) {
-            throw new DomainException('Entity cannot be initialized: ' . $name, 0, $ex);
+            throw new PohodaException('Entity cannot be initialized: ' . $name, 0, $ex);
         }
 
         if ($instance instanceof Document\AbstractPart) {
             return $instance;
         }
 
-        throw new DomainException('Entity is not an instance of AbstractPart: ' . $name);
+        throw new PohodaException('Entity is not an instance of AbstractPart: ' . $name);
     }
 }

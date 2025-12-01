@@ -2,10 +2,10 @@
 
 namespace kalanis\Pohoda\DI;
 
-use DomainException;
+use kalanis\Pohoda\AbstractAgenda;
+use kalanis\PohodaException;
 use ReflectionClass;
 use ReflectionException;
-use kalanis\Pohoda\AbstractAgenda;
 
 final class AgendaReflectFactory implements AgendaFactoryInterface
 {
@@ -25,11 +25,11 @@ final class AgendaReflectFactory implements AgendaFactoryInterface
         try {
             $reflection = new ReflectionClass($className);
         } catch (ReflectionException) {
-            throw new DomainException('Agenda class does not exists: ' . $name);
+            throw new PohodaException('Agenda class does not exists: ' . $name);
         }
 
         if (!$reflection->isInstantiable()) {
-            throw new DomainException('Agenda class cannot be initialized: ' . $name);
+            throw new PohodaException('Agenda class cannot be initialized: ' . $name);
         }
 
         try {
@@ -38,12 +38,12 @@ final class AgendaReflectFactory implements AgendaFactoryInterface
             );
             // @codeCoverageIgnoreStart
         } catch (ReflectionException) {
-            throw new DomainException('Agenda class initialization failed: ' . $name);
+            throw new PohodaException('Agenda class initialization failed: ' . $name);
         }
         // @codeCoverageIgnoreEnd
 
         if (!is_a($instance, AbstractAgenda::class)) {
-            throw new DomainException('Agenda class is not an instance of AbstractAgenda: ' . $name);
+            throw new PohodaException('Agenda class is not an instance of AbstractAgenda: ' . $name);
         }
 
         return $instance;

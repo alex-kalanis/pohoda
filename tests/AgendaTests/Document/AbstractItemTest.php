@@ -2,8 +2,8 @@
 
 namespace tests\AgendaTests\Document;
 
+use kalanis\PohodaException;
 use tests\CommonTestClass;
-use LogicException;
 use kalanis\Pohoda\Type;
 
 class AbstractItemTest extends CommonTestClass
@@ -11,7 +11,7 @@ class AbstractItemTest extends CommonTestClass
     public function testNoNamespace(): void
     {
         $lib = new XDocumentItem($this->getBasicDi());
-        $this->expectException(LogicException::class);
+        $this->expectException(PohodaException::class);
         $lib->getXML();
     }
 
@@ -19,7 +19,7 @@ class AbstractItemTest extends CommonTestClass
     {
         $lib = new XDocumentItem($this->getBasicDi());
         $lib->setNamespace('bar');
-        $this->expectException(LogicException::class);
+        $this->expectException(PohodaException::class);
         $lib->getXML();
     }
 

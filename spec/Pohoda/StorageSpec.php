@@ -7,6 +7,7 @@ namespace spec\kalanis\Pohoda;
 require_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'DiTrait.php';
 
 use PhpSpec\ObjectBehavior;
+use kalanis\Pohoda;
 use kalanis\Pohoda\Storage;
 use spec\kalanis\DiTrait;
 
@@ -25,8 +26,8 @@ class StorageSpec extends ObjectBehavior
 
     public function it_is_initializable_and_extends_agenda(): void
     {
-        $this->shouldHaveType('kalanis\Pohoda\Storage');
-        $this->shouldHaveType('kalanis\Pohoda\AbstractAgenda');
+        $this->shouldHaveType(Pohoda\Storage::class);
+        $this->shouldHaveType(Pohoda\AbstractAgenda::class);
     }
 
     public function it_creates_correct_xml(): void

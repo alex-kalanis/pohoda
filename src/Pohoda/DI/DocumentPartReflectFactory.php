@@ -2,10 +2,10 @@
 
 namespace kalanis\Pohoda\DI;
 
-use DomainException;
+use kalanis\Pohoda\Document;
+use kalanis\PohodaException;
 use ReflectionClass;
 use ReflectionException;
-use kalanis\Pohoda\Document;
 
 final class DocumentPartReflectFactory implements DocumentPartFactoryInterface
 {
@@ -23,11 +23,11 @@ final class DocumentPartReflectFactory implements DocumentPartFactoryInterface
         try {
             $reflection = new ReflectionClass($className);
         } catch (ReflectionException) {
-            throw new DomainException('Entity does not exists: ' . $name);
+            throw new PohodaException('Entity does not exists: ' . $name);
         }
 
         if (!$reflection->isInstantiable()) {
-            throw new DomainException('Entity cannot be initialized: ' . $name);
+            throw new PohodaException('Entity cannot be initialized: ' . $name);
         }
 
         try {
@@ -36,12 +36,12 @@ final class DocumentPartReflectFactory implements DocumentPartFactoryInterface
             );
             // @codeCoverageIgnoreStart
         } catch (ReflectionException) {
-            throw new DomainException('Entity initialization failed: ' . $name);
+            throw new PohodaException('Entity initialization failed: ' . $name);
         }
         // @codeCoverageIgnoreEnd
 
         if (!is_a($instance, Document\AbstractPart::class)) {
-            throw new DomainException('Entity is not an instance of AbstractPart: ' . $name);
+            throw new PohodaException('Entity is not an instance of AbstractPart: ' . $name);
         }
 
         return $instance;

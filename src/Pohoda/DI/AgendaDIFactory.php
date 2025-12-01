@@ -2,10 +2,10 @@
 
 namespace kalanis\Pohoda\DI;
 
-use DomainException;
+use kalanis\Pohoda\AbstractAgenda;
+use kalanis\PohodaException;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
-use kalanis\Pohoda\AbstractAgenda;
 
 final class AgendaDIFactory implements AgendaFactoryInterface
 {
@@ -22,19 +22,19 @@ final class AgendaDIFactory implements AgendaFactoryInterface
     {
         $className = $this->getClassName($name);
         if (!$this->container->has($className)) {
-            throw new DomainException('Agenda class does not exists: ' . $name);
+            throw new PohodaException('Agenda class does not exists: ' . $name);
         }
 
         try {
             $instance = $this->container->get($className);
         } catch (ContainerExceptionInterface $ex) {
-            throw new DomainException('Agenda class initialization failed: ' . $name, 0, $ex);
+            throw new PohodaException('Agenda class initialization failed: ' . $name, 0, $ex);
         }
 
         if ($instance instanceof AbstractAgenda) {
             return $instance;
         }
 
-        throw new DomainException('Agenda class is not an instance of AbstractAgenda: ' . $name);
+        throw new PohodaException('Agenda class is not an instance of AbstractAgenda: ' . $name);
     }
 }

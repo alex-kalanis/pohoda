@@ -26,8 +26,8 @@ class ContractSpec extends ObjectBehavior
 
     public function it_is_initializable_and_extends_agenda(): void
     {
-        $this->shouldHaveType('kalanis\Pohoda\Contract');
-        $this->shouldHaveType('kalanis\Pohoda\AbstractAgenda');
+        $this->shouldHaveType(Pohoda\Contract::class);
+        $this->shouldHaveType(Pohoda\AbstractAgenda::class);
     }
 
     public function it_creates_correct_xml(): void

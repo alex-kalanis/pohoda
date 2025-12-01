@@ -3,6 +3,7 @@
 namespace tests\DiTests;
 
 use kalanis\Pohoda;
+use kalanis\PohodaException;
 use tests\CommonTestClass;
 
 class DocumentPartDITest extends CommonTestClass
@@ -16,21 +17,21 @@ class DocumentPartDITest extends CommonTestClass
     public function testNotDefined(): void
     {
         $lib = $this->getLib();
-        $this->expectException(\DomainException::class);
+        $this->expectException(PohodaException::class);
         $lib->getPart('ignore', 'thisDoesNotExists');
     }
 
     public function testInitFailed(): void
     {
         $lib = $this->getLib(true);
-        $this->expectException(\DomainException::class);
+        $this->expectException(PohodaException::class);
         $lib->getPart('kalanis\Pohoda', 'XDocument');
     }
 
     public function testNotAgenda(): void
     {
         $lib = $this->getLib();
-        $this->expectException(\DomainException::class);
+        $this->expectException(PohodaException::class);
         $lib->getPart('kalanis\Pohoda', 'XClass');
     }
 

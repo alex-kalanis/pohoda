@@ -6,6 +6,7 @@ namespace kalanis\Pohoda\Order;
 
 use kalanis\Pohoda\Common\Dtos;
 use kalanis\Pohoda\Document\AbstractSummary;
+use kalanis\PohodaException;
 
 class Summary extends AbstractSummary
 {
@@ -15,11 +16,11 @@ class Summary extends AbstractSummary
     public function getXML(): \SimpleXMLElement
     {
         if (is_null($this->namespace)) {
-            throw new \LogicException('Namespace not set.');
+            throw new PohodaException('Namespace not set.');
         }
 
         if (is_null($this->nodePrefix)) {
-            throw new \LogicException('Node name prefix not set.');
+            throw new PohodaException('Node name prefix not set.');
         }
 
         $xml = $this->createXML()->addChild($this->namespace . ':' . $this->nodePrefix . 'Summary', '', $this->namespace($this->namespace));

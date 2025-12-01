@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace kalanis\Pohoda;
 
-use InvalidArgumentException;
+use kalanis\PohodaException;
 use ReflectionException;
 use SimpleXMLElement;
 
@@ -324,7 +324,7 @@ abstract class AbstractAgenda
 
         if (!$dom->ownerDocument) {
             // @codeCoverageIgnoreStart
-            throw new InvalidArgumentException('Invalid XML.');
+            throw new PohodaException('Invalid XML.');
         }
         // @codeCoverageIgnoreEnd
 

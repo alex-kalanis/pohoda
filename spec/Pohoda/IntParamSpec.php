@@ -30,8 +30,8 @@ class IntParamSpec extends ObjectBehavior
 
     public function it_is_initializable_and_extends_agenda(): void
     {
-        $this->shouldHaveType('kalanis\Pohoda\IntParam');
-        $this->shouldHaveType('kalanis\Pohoda\AbstractAgenda');
+        $this->shouldHaveType(Pohoda\IntParam::class);
+        $this->shouldHaveType(Pohoda\AbstractAgenda::class);
     }
 
     public function it_creates_correct_xml(): void

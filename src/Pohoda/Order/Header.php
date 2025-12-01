@@ -6,6 +6,7 @@ namespace kalanis\Pohoda\Order;
 
 use kalanis\Pohoda\Common\Dtos;
 use kalanis\Pohoda\Document\AbstractHeader;
+use kalanis\PohodaException;
 
 class Header extends AbstractHeader
 {
@@ -15,11 +16,11 @@ class Header extends AbstractHeader
     public function getXML(): \SimpleXMLElement
     {
         if (is_null($this->namespace)) {
-            throw new \LogicException('Namespace not set.');
+            throw new PohodaException('Namespace not set.');
         }
 
         if (is_null($this->nodePrefix)) {
-            throw new \LogicException('Node name prefix not set.');
+            throw new PohodaException('Node name prefix not set.');
         }
 
         $xml = $this->createXML()->addChild($this->namespace . ':' . $this->nodePrefix . 'Header', '', $this->namespace($this->namespace));

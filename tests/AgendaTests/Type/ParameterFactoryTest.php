@@ -3,8 +3,8 @@
 namespace tests\AgendaTests\Type;
 
 use kalanis\Pohoda;
+use kalanis\PohodaException;
 use tests\CommonTestClass;
-use DomainException;
 
 class ParameterFactoryTest extends CommonTestClass
 {
@@ -17,7 +17,7 @@ class ParameterFactoryTest extends CommonTestClass
     public function testNotSet(): void
     {
         $lib = $this->getBasicDi();
-        $this->expectException(DomainException::class);
+        $this->expectException(PohodaException::class);
         $lib->getParametersFactory()->getByClassName($lib->getParameterInstances()->getByKey('this does not exists'));
     }
 
@@ -30,7 +30,7 @@ class ParameterFactoryTest extends CommonTestClass
             null,
             new XParamInstances(),
         );
-        $this->expectException(DomainException::class);
+        $this->expectException(PohodaException::class);
         $lib->getParametersFactory()->getByClassName($lib->getParameterInstances()->getByKey('just_standard'));
     }
 
@@ -43,7 +43,7 @@ class ParameterFactoryTest extends CommonTestClass
             null,
             new XParamInstances(),
         );
-        $this->expectException(DomainException::class);
+        $this->expectException(PohodaException::class);
         $lib->getParametersFactory()->getByClassName($lib->getParameterInstances()->getByKey('not_instance'));
     }
 }

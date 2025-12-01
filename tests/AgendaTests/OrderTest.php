@@ -2,6 +2,7 @@
 
 namespace tests\AgendaTests;
 
+use kalanis\PohodaException;
 use tests\CommonTestClass;
 use kalanis\Pohoda;
 
@@ -106,7 +107,7 @@ class OrderTest extends CommonTestClass
     public function testHeaderKillNamespace(): void
     {
         $lib = new Pohoda\Order\Header($this->getBasicDi());
-        $this->expectException(\LogicException::class);
+        $this->expectException(PohodaException::class);
         $lib->getXML();
     }
 
@@ -114,14 +115,14 @@ class OrderTest extends CommonTestClass
     {
         $lib = new Pohoda\Order\Header($this->getBasicDi());
         $lib->setNamespace('test');
-        $this->expectException(\LogicException::class);
+        $this->expectException(PohodaException::class);
         $lib->getXML();
     }
 
     public function testItemKillNamespace(): void
     {
         $lib = new Pohoda\Order\Item($this->getBasicDi());
-        $this->expectException(\LogicException::class);
+        $this->expectException(PohodaException::class);
         $lib->getXML();
     }
 
@@ -129,14 +130,14 @@ class OrderTest extends CommonTestClass
     {
         $lib = new Pohoda\Order\Item($this->getBasicDi());
         $lib->setNamespace('test');
-        $this->expectException(\LogicException::class);
+        $this->expectException(PohodaException::class);
         $lib->getXML();
     }
 
     public function testSummaryKillNamespace(): void
     {
         $lib = new Pohoda\Order\Summary($this->getBasicDi());
-        $this->expectException(\LogicException::class);
+        $this->expectException(PohodaException::class);
         $lib->getXML();
     }
 
@@ -144,7 +145,7 @@ class OrderTest extends CommonTestClass
     {
         $lib = new Pohoda\Order\Summary($this->getBasicDi());
         $lib->setNamespace('test');
-        $this->expectException(\LogicException::class);
+        $this->expectException(PohodaException::class);
         $lib->getXML();
     }
 

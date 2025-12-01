@@ -25,12 +25,12 @@ class PohodaSpec extends ObjectBehavior
 
     public function it_is_initializable(): void
     {
-        $this->shouldHaveType('kalanis\Pohoda');
+        $this->shouldHaveType(Pohoda::class);
     }
 
     public function it_throws_exception_on_wrong_agenda_name(): void
     {
-        $this->shouldThrow('DomainException')->during('create', [Argument::any()]);
+        $this->shouldThrow(\kalanis\PohodaException::class)->during('create', [Argument::any()]);
     }
 
     public function it_creates_existing_objects(): void
@@ -43,7 +43,7 @@ class PohodaSpec extends ObjectBehavior
         $stockDto = new Pohoda\Stock\StockDto();
         $stockDto->header = $stockHeaderDto;
 
-        $this->create('Stock', $stockDto)->shouldBeAnInstanceOf('kalanis\Pohoda\Stock');
+        $this->create('Stock', $stockDto)->shouldBeAnInstanceOf(Pohoda\Stock::class);
     }
 
     public function it_can_write_file(): void

@@ -2,8 +2,8 @@
 
 namespace tests\AgendaTests;
 
-use DomainException;
 use kalanis\Pohoda;
+use kalanis\PohodaException;
 use tests\CommonTestClass;
 
 class DocumentPartFactoryTest extends CommonTestClass
@@ -19,7 +19,7 @@ class DocumentPartFactoryTest extends CommonTestClass
         // this thing is ignored by phpstan, but called here
         $lib = new Pohoda\DI\DocumentPartReflectFactory($this->getBasicDi());
         $this->expectExceptionMessage('Entity does not exists: ');
-        $this->expectException(DomainException::class);
+        $this->expectException(PohodaException::class);
         $lib->getPart('this_class_does_not_exists', 'anywhere');
     }
 
@@ -27,7 +27,7 @@ class DocumentPartFactoryTest extends CommonTestClass
     {
         $lib = new Pohoda\DI\DocumentPartReflectFactory($this->getBasicDi());
         $this->expectExceptionMessage('Entity cannot be initialized: ');
-        $this->expectException(DomainException::class);
+        $this->expectException(PohodaException::class);
         $lib->getPart('kalanis\Pohoda\Document', 'AbstractHeader');
     }
 
@@ -35,7 +35,7 @@ class DocumentPartFactoryTest extends CommonTestClass
     {
         $lib = new Pohoda\DI\DocumentPartReflectFactory($this->getBasicDi());
         $this->expectExceptionMessage('Entity cannot be initialized: XDocPartNotInit');
-        $this->expectException(DomainException::class);
+        $this->expectException(PohodaException::class);
         $lib->getPart(__NAMESPACE__, 'XDocPartNotInit');
     }
 
@@ -43,7 +43,7 @@ class DocumentPartFactoryTest extends CommonTestClass
     {
         $lib = new Pohoda\DI\DocumentPartReflectFactory($this->getBasicDi());
         $this->expectExceptionMessage('Entity is not an instance of AbstractPart: ');
-        $this->expectException(DomainException::class);
+        $this->expectException(PohodaException::class);
         $lib->getPart(__NAMESPACE__, 'XDocPartNotInstance');
     }
 }

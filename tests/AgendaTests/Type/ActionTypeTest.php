@@ -2,8 +2,8 @@
 
 namespace tests\AgendaTests\Type;
 
+use kalanis\PohodaException;
 use tests\CommonTestClass;
-use LogicException;
 use kalanis\Pohoda\Type;
 
 class ActionTypeTest extends CommonTestClass
@@ -14,7 +14,7 @@ class ActionTypeTest extends CommonTestClass
         $dto->type = 'add';
 
         $lib = new Type\ActionType($this->getBasicDi());
-        $this->expectException(LogicException::class);
+        $this->expectException(PohodaException::class);
         $lib->setData($dto)->getXML();
     }
 

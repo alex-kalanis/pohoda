@@ -5,6 +5,7 @@ namespace kalanis\Pohoda\Common\OptionsResolver\Normalizers;
 use Closure;
 use DomainException;
 use kalanis\Pohoda\Common;
+use kalanis\PohodaException;
 
 class NormalizerFactory
 {
@@ -104,7 +105,7 @@ class NormalizerFactory
      * Create normalizer.
      *
      * @param string   $type
-     * @throws DomainException
+     * @throws PohodaException
      * @return AbstractNormalizer
      * @see vendor/symfony/options-resolver/OptionsResolver.php:1128
      */
@@ -119,7 +120,7 @@ class NormalizerFactory
             'datetime' => new DateTimes(),
             'time' => new Times(),
             'list_request_type' => new ListRequestType(),
-            default => throw new DomainException('Not a valid normalizer type: ' . $type),
+            default => throw new PohodaException('Not a valid normalizer type: ' . $type),
         };
     }
 }

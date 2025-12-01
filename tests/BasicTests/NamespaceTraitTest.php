@@ -2,8 +2,8 @@
 
 namespace tests\BasicTests;
 
+use kalanis\PohodaException;
 use tests\CommonTestClass;
-use LogicException;
 use OutOfRangeException;
 use kalanis\Pohoda\Common\NamespacesPaths;
 
@@ -21,7 +21,7 @@ class NamespaceTraitTest extends CommonTestClass
     {
         $lib = new XNamespace();
         $lib->setNodeName('bar');
-        $this->expectException(LogicException::class);
+        $this->expectException(PohodaException::class);
         $lib->getXML();
     }
 
@@ -29,14 +29,14 @@ class NamespaceTraitTest extends CommonTestClass
     {
         $lib = new XNamespace();
         $lib->setNamespace('foo');
-        $this->expectException(LogicException::class);
+        $this->expectException(PohodaException::class);
         $lib->getXML();
     }
 
     public function testNonExistentName(): void
     {
         $lib = new NamespacesPaths();
-        $this->expectException(OutOfRangeException::class);
+        $this->expectException(PohodaException::class);
         $lib->namespace('this does not exists');
     }
 }

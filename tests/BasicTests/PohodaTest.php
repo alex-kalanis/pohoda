@@ -3,6 +3,7 @@
 namespace tests\BasicTests;
 
 use kalanis\Pohoda;
+use kalanis\PohodaException;
 use tests\CommonTestClass;
 
 class PohodaTest extends CommonTestClass
@@ -26,7 +27,7 @@ class PohodaTest extends CommonTestClass
     public function testThrowsExceptionOnWrongAgendaName(): void
     {
         $lib = $this->getLib();
-        $this->expectException(\DomainException::class);
+        $this->expectException(PohodaException::class);
         $lib->create('*');
     }
 
@@ -63,7 +64,7 @@ class PohodaTest extends CommonTestClass
     public function testFailedDynamicLoad(): void
     {
         $lib = $this->getLib();
-        $this->expectException(\DomainException::class);
+        $this->expectException(PohodaException::class);
         $lib->loadVoucher(); // intentionally empty
     }
 

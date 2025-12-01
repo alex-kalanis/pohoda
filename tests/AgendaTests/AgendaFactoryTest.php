@@ -33,8 +33,8 @@ class XAgendaNotInstance
 
 namespace tests\AgendaTests;
 
-use DomainException;
 use kalanis\Pohoda;
+use kalanis\PohodaException;
 use tests\CommonTestClass;
 
 class AgendaFactoryTest extends CommonTestClass
@@ -52,7 +52,7 @@ class AgendaFactoryTest extends CommonTestClass
         // this thing is ignored by phpstan, but called here
         $lib = new Pohoda\DI\AgendaReflectFactory($this->getBasicDi());
         $this->expectExceptionMessage('Agenda class does not exists: ');
-        $this->expectException(DomainException::class);
+        $this->expectException(PohodaException::class);
         $lib->getAgenda('this_class_does_not_exists');
     }
 
@@ -60,7 +60,7 @@ class AgendaFactoryTest extends CommonTestClass
     {
         $lib = new Pohoda\DI\AgendaReflectFactory($this->getBasicDi());
         $this->expectExceptionMessage('Agenda class cannot be initialized: ');
-        $this->expectException(DomainException::class);
+        $this->expectException(PohodaException::class);
         $lib->getAgenda('AbstractDocument');
     }
 
@@ -68,7 +68,7 @@ class AgendaFactoryTest extends CommonTestClass
     {
         $lib = new Pohoda\DI\AgendaReflectFactory($this->getBasicDi());
         $this->expectExceptionMessage('Agenda class cannot be initialized: XAgendaNotInit');
-        $this->expectException(DomainException::class);
+        $this->expectException(PohodaException::class);
         $lib->getAgenda('XAgendaNotInit');
     }
 
@@ -76,7 +76,7 @@ class AgendaFactoryTest extends CommonTestClass
     {
         $lib = new Pohoda\DI\AgendaReflectFactory($this->getBasicDi());
         $this->expectExceptionMessage('Agenda class is not an instance of AbstractAgenda: ');
-        $this->expectException(DomainException::class);
+        $this->expectException(PohodaException::class);
         $lib->getAgenda('XAgendaNotInstance');
     }
 }

@@ -2,6 +2,7 @@
 
 namespace tests\AgendaTests;
 
+use kalanis\PohodaException;
 use tests\CommonTestClass;
 use kalanis\Pohoda;
 
@@ -19,7 +20,7 @@ class IndividualPriceTest extends CommonTestClass
     public function testCreateCorrectXml(): void
     {
         $lib = $this->getLib();
-        $this->expectException(\DomainException::class);
+        $this->expectException(PohodaException::class);
         $lib->getXML();
     }
 

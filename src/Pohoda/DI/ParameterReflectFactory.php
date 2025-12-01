@@ -2,10 +2,10 @@
 
 namespace kalanis\Pohoda\DI;
 
-use DomainException;
+use kalanis\Pohoda\PrintRequest;
+use kalanis\PohodaException;
 use ReflectionClass;
 use ReflectionException;
-use kalanis\Pohoda\PrintRequest;
 
 final class ParameterReflectFactory implements ParameterFactoryInterface
 {
@@ -24,10 +24,10 @@ final class ParameterReflectFactory implements ParameterFactoryInterface
                 $this->dependenciesFactory,
             );
         } catch (ReflectionException $e) {
-            throw new DomainException($e->getMessage(), $e->getCode(), $e);
+            throw new PohodaException($e->getMessage(), $e->getCode(), $e);
         }
         if (!is_a($class, PrintRequest\Parameter::class)) {
-            throw new DomainException(sprintf('The class *%s* is not subclass of Parameter', get_class($class)));
+            throw new PohodaException(sprintf('The class *%s* is not subclass of Parameter', get_class($class)));
         }
         return $class;
     }

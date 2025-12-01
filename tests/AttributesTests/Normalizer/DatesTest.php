@@ -2,6 +2,8 @@
 
 namespace tests\AttributesTests\Normalizer;
 
+use kalanis\PohodaException;
+
 class DatesTest extends AbstractNormalizerTestClass
 {
     public function testValues1(): void
@@ -32,7 +34,7 @@ class DatesTest extends AbstractNormalizerTestClass
 
     public function testValuesFail(): void
     {
-        $this->expectException(\DomainException::class);
+        $this->expectException(PohodaException::class);
         $this->getResolver(true, false)
             ->resolve([
                 'requiredInteger' => 369258,

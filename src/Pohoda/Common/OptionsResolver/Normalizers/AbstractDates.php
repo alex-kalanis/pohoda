@@ -2,6 +2,8 @@
 
 namespace kalanis\Pohoda\Common\OptionsResolver\Normalizers;
 
+use kalanis\PohodaException;
+
 /**
  * Abstract class for normalization of dates
  *
@@ -30,7 +32,7 @@ abstract class AbstractDates extends AbstractNormalizer
         $time = \strtotime(\strval($value));
 
         if (!$time) {
-            throw new \DomainException('Not a valid date: ' . $value);
+            throw new PohodaException('Not a valid date: ' . $value);
         }
 
         return \date($this->getFormat(), $time);

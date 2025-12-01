@@ -2,6 +2,8 @@
 
 namespace kalanis\Pohoda\Common;
 
+use kalanis\PohodaException;
+
 class NamespacesPaths
 {
     /** @var array<string,string> */
@@ -87,7 +89,7 @@ class NamespacesPaths
     public function namespace(string $short): string
     {
         if (!isset(self::$namespaces[$short])) {
-            throw new \OutOfRangeException('Invalid namespace.');
+            throw new PohodaException('Invalid namespace.');
         }
 
         return self::$namespaces[$short];

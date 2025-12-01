@@ -6,6 +6,7 @@ namespace kalanis\Pohoda\Type;
 
 use kalanis\Pohoda\AbstractAgenda;
 use kalanis\Pohoda\Common;
+use kalanis\PohodaException;
 
 /**
  * @property Dtos\ActionTypeDto $data
@@ -20,7 +21,7 @@ class ActionType extends AbstractAgenda
     public function getXML(): \SimpleXMLElement
     {
         if (is_null($this->namespace)) {
-            throw new \LogicException('Namespace not set.');
+            throw new PohodaException('Namespace not set.');
         }
 
         $xml = $this->createXML()->addChild($this->namespace . ':actionType', '', $this->namespace($this->namespace));

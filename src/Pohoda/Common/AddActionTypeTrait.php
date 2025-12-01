@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace kalanis\Pohoda\Common;
 
 use kalanis\Pohoda\Type;
+use kalanis\PohodaException;
 
 /**
  * @property object{
@@ -20,12 +21,14 @@ trait AddActionTypeTrait
      * @param array<string, string|int|float|bool|array<string, string|int|float|bool>>  $filter
      * @param string|null $agenda
      *
+     * @throw PohodaException
+     *
      * @return self
      */
     public function addActionType(string $type, array $filter = [], ?string $agenda = null): self
     {
         if (!empty($this->data->actionType)) {
-            throw new \LogicException('Duplicate action type.');
+            throw new PohodaException('Duplicate action type.');
         }
 
         $actionTypeDto = new Type\Dtos\ActionTypeDto();

@@ -6,6 +6,7 @@ namespace kalanis\Pohoda\Document;
 
 use kalanis\Pohoda\Common;
 use kalanis\Pohoda\Type;
+use kalanis\PohodaException;
 
 /**
  * @property Common\Dtos\AbstractSummaryDto $data
@@ -46,11 +47,11 @@ abstract class AbstractSummary extends AbstractPart
     public function getXML(): \SimpleXMLElement
     {
         if (is_null($this->namespace)) {
-            throw new \LogicException('Namespace not set.');
+            throw new PohodaException('Namespace not set.');
         }
 
         if (is_null($this->nodePrefix)) {
-            throw new \LogicException('Node name prefix not set.');
+            throw new PohodaException('Node name prefix not set.');
         }
 
         $xml = $this->createXML()->addChild($this->namespace . ':' . $this->nodePrefix . 'Summary', '', $this->namespace($this->namespace));

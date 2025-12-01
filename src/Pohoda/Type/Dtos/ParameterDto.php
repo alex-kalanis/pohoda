@@ -5,6 +5,7 @@ namespace kalanis\Pohoda\Type\Dtos;
 use kalanis\Pohoda\Common\Attributes;
 use kalanis\Pohoda\Common\Dtos\AbstractDto;
 use kalanis\Pohoda\Common\OptionsResolver;
+use kalanis\PohodaException;
 
 /**
  * Basic DTO for parameters
@@ -47,7 +48,7 @@ class ParameterDto extends AbstractDto
         try {
             $normalizerClass = OptionsResolver\Normalizers\NormalizerFactory::createNormalizer(\strval($normalizer));
             return \call_user_func($normalizerClass->normalize(...), [], $value);
-        } catch (\DomainException) {
+        } catch (PohodaException) {
             return \is_array($value) ? $value : \strval($value);
         }
     }
