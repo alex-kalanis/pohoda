@@ -30,6 +30,9 @@ class NormalizerFactory
                         case Common\OptionsResolver\ActionsEnum::ALLOWED_VALUES:
                             static::fillAllowedValues($resolver, $option, $propertyName);
                             break;
+                        case Common\OptionsResolver\ActionsEnum::ALLOWED_ENUMS:
+                            static::fillAllowedEnums($resolver, $option, $propertyName);
+                            break;
                             // @codeCoverageIgnoreStart
                             // okay, I do not know what might happen when I will want to use check by types
                         case Common\OptionsResolver\ActionsEnum::ALLOWED_TYPES:
@@ -49,6 +52,8 @@ class NormalizerFactory
     ): void {
         if (\is_callable($option->value)) {
             $resolver->setDefault($propertyName, Closure::fromCallable($option->value));
+        } elseif (is_object($option->value) && is_a($option->value, Common\Enums\EnhancedEnumInterface::class)) {
+            $resolver->setDefault($propertyName, $option->value->currentValue());
         } else {
             $resolver->setDefault($propertyName, $option->value);
         }
@@ -85,7 +90,27 @@ class NormalizerFactory
         Common\Attributes\Options\AbstractOption $option,
         string $propertyName,
     ): void {
-        $resolver->setAllowedValues($propertyName, $option->value);
+        $values = is_array($option->value) ? static::updateNulls($option->value) : $option->value;
+        $resolver->setAllowedValues($propertyName, $values);
+    }
+
+    protected static function fillAllowedEnums(
+        Common\OptionsResolver $resolver,
+        Common\Attributes\Options\AbstractOption $option,
+        string $propertyName,
+    ): void {
+        $enum = $option->value;
+        /** @var Common\Enums\EnhancedEnumInterface $enum */
+        $resolver->setAllowedValues($propertyName, static::updateNulls($enum::values()));
+    }
+
+    /**
+     * @param array<string|int|float|bool> $values
+     * @return array<string|int|float|bool|null>
+     */
+    protected static function updateNulls(array $values): array
+    {
+        return array_map(fn($v) => Common\EmptyInterface::EMPTY_VALUE === $v ? null : $v, $values);
     }
 
     // @codeCoverageIgnoreStart

@@ -9,6 +9,7 @@ use ReflectionNamedType;
 use ReflectionProperty;
 use ReflectionUnionType;
 use kalanis\Pohoda\Common\Attributes;
+use kalanis\Pohoda\Common\Enums;
 
 class Processing
 {
@@ -24,6 +25,20 @@ class Processing
         return array_filter(
             $data,
             fn($in) => !(is_null($in) || (is_array($in) && empty($in))),
+        );
+    }
+
+    /**
+     * Remap enums to their values, do not pass them
+     *
+     * @param array<string, mixed> $data
+     * @return array<string, mixed>
+     */
+    public static function remapEnumData(array $data): array
+    {
+        return array_map(
+            fn($in) => is_object($in) && is_a($in, Enums\EnhancedEnumInterface::class) ? $in->currentValue() : $in,
+            $data,
         );
     }
 

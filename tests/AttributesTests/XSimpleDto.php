@@ -5,6 +5,7 @@ namespace tests\AttributesTests;
 use AllowDynamicProperties;
 use kalanis\Pohoda\Common\Attributes;
 use kalanis\Pohoda\Common\Dtos\AbstractDto;
+use kalanis\Pohoda\Common\Enums;
 use kalanis\Pohoda\Type;
 
 /**
@@ -32,6 +33,8 @@ class XSimpleDto extends AbstractDto
     public ?string $listOfOptions = null;
     #[Attributes\Options\ListOption(['none', 'high', 'low', 'third']), Attributes\Options\DefaultOption('low')]
     public ?string $listOfOptionsWithDefault = null;
+    #[Attributes\Options\EnumOption(Enums\RateVatEnum::class), Attributes\Options\DefaultOption(Enums\RateVatEnum::Third)]
+    public ?string $listOfEnumsWithDefault = null;
     #[Attributes\RefElement]
     public ?string $referenceAsString = null;
 

@@ -30,7 +30,7 @@ class CashSlipTest extends CommonTestClass
         $item1 = new Pohoda\CashSlip\ItemDto();
         $item1->text = 'NAME 1';
         $item1->quantity = 1;
-        $item1->rateVAT = 'high';
+        $item1->rateVAT = Pohoda\Common\Enums\RateVatEnum::High;
         $item1->homeCurrency = $home1;
 
         $lib->addItem($item1);
@@ -46,7 +46,7 @@ class CashSlipTest extends CommonTestClass
         $item2 = new Pohoda\CashSlip\ItemDto();
         $item2->quantity = 1;
         $item2->payVAT = true;
-        $item2->rateVAT = 'high';
+        $item2->rateVAT = Pohoda\Common\Enums\RateVatEnum::High;
         $item2->homeCurrency = $home2;
         $item2->stockItem = $stock;
 

@@ -15,5 +15,6 @@ enum ActionsEnum: string
     //case DEPRECATED = 'setDeprecated'; // just shot the property class
     case NORMALIZER = 'setNormalizer';
     case ALLOWED_VALUES = 'setAllowedValues';
+    case ALLOWED_ENUMS = 'setAllowedEnums';
     case ALLOWED_TYPES = 'setAllowedTypes';
 }

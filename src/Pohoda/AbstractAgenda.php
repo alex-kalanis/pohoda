@@ -70,6 +70,7 @@ abstract class AbstractAgenda
         // resolve options
         if ($this->resolveOptions) {
             $filteredData = Common\Dtos\Processing::filterUnusableData((array) $data);
+            $filteredData = Common\Dtos\Processing::remapEnumData($filteredData);
             $resolvedData = $this->resolveOptions($filteredData);
             $this->data = Common\Dtos\Processing::hydrate($data, $resolvedData, $this->useOneDirectionalVariables);
         } else {
