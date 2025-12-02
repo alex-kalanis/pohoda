@@ -15,14 +15,13 @@ class DependenciesFactory
     public function __construct(
         protected ?Common\NamespacesPaths $namespacesPaths = null,
         protected ?ValueTransformer\SanitizeEncoding $sanitizeEncoding = null,
-        protected ?Common\OptionsResolver\Normalizers\NormalizerFactory $normalizerFactory = null,
         protected readonly ?ContainerInterface $container = null,
         protected ?ParameterInstances $parameterInstances = null,
     ) {}
 
     public function getAgendaFactory(): AgendaFactoryInterface
     {
-        if (empty($this->container) && (empty($this->namespacesPaths) || empty($this->sanitizeEncoding) || empty($this->normalizerFactory))) {
+        if (empty($this->container) && (empty($this->namespacesPaths) || empty($this->sanitizeEncoding))) {
             throw new PohodaException('You must have at least one full set of dependencies to get Agenda factory');
         }
         return $this->container
@@ -33,7 +32,7 @@ class DependenciesFactory
 
     public function getDocumentPartFactory(): DocumentPartFactoryInterface
     {
-        if (empty($this->container) && (empty($this->namespacesPaths) || empty($this->sanitizeEncoding) || empty($this->normalizerFactory))) {
+        if (empty($this->container) && (empty($this->namespacesPaths) || empty($this->sanitizeEncoding))) {
             throw new PohodaException('You must have at least one full set of dependencies to get Agenda factory');
         }
         return $this->container
@@ -44,7 +43,7 @@ class DependenciesFactory
 
     public function getParametersFactory(): ParameterFactoryInterface
     {
-        if (empty($this->container) && (empty($this->namespacesPaths) || empty($this->sanitizeEncoding) || empty($this->normalizerFactory))) {
+        if (empty($this->container) && (empty($this->namespacesPaths) || empty($this->sanitizeEncoding))) {
             throw new PohodaException('You must have at least one full set of dependencies to get Parameter factory');
         }
         return $this->container
@@ -79,20 +78,6 @@ class DependenciesFactory
         }
 
         return $this->sanitizeEncoding = $instance;
-    }
-
-    public function getNormalizerFactory(): Common\OptionsResolver\Normalizers\NormalizerFactory
-    {
-        if (!empty($this->normalizerFactory)) {
-            return $this->normalizerFactory;
-        }
-
-        $instance = $this->getInstances(Common\OptionsResolver\Normalizers\NormalizerFactory::class);
-        if (!$instance instanceof Common\OptionsResolver\Normalizers\NormalizerFactory) {
-            throw new PohodaException('Container does not return NormalizerFactory class!');
-        }
-
-        return $this->normalizerFactory = $instance;
     }
 
     public function getParameterInstances(): ParameterInstances

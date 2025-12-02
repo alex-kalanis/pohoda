@@ -26,7 +26,6 @@ class ParameterFactoryTest extends CommonTestClass
         $lib = new Pohoda\DI\DependenciesFactory(
             new Pohoda\Common\NamespacesPaths(),
             new Pohoda\ValueTransformer\SanitizeEncoding(new Pohoda\ValueTransformer\Listing()),
-            new Pohoda\Common\OptionsResolver\Normalizers\NormalizerFactory(),
             null,
             new XParamInstances(),
         );
@@ -39,7 +38,6 @@ class ParameterFactoryTest extends CommonTestClass
         $lib = new Pohoda\DI\DependenciesFactory(
             new Pohoda\Common\NamespacesPaths(),
             new Pohoda\ValueTransformer\SanitizeEncoding(new Pohoda\ValueTransformer\Listing()),
-            new Pohoda\Common\OptionsResolver\Normalizers\NormalizerFactory(),
             null,
             new XParamInstances(),
         );

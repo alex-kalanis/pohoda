@@ -81,7 +81,6 @@ class Pohoda
         ?Pohoda\DI\DependenciesFactory $dependenciesFactory = null,
         ?Pohoda\ValueTransformer\SanitizeEncoding $sanitizeEncoding = new Pohoda\ValueTransformer\SanitizeEncoding(new Pohoda\ValueTransformer\Listing()),
         ?Pohoda\Common\NamespacesPaths $namespacesPaths = new Pohoda\Common\NamespacesPaths(),
-        ?Pohoda\Common\OptionsResolver\Normalizers\NormalizerFactory $normalizerFactory = new Pohoda\Common\OptionsResolver\Normalizers\NormalizerFactory(),
         ?ContainerInterface $container = null,
     ) {
         $this->companyRegistrationNumber = is_object($companyRegistrationNumber)
@@ -89,7 +88,7 @@ class Pohoda
             : Pohoda\Common\CompanyRegistrationNumber::init($companyRegistrationNumber);
         $this->dependenciesFactory = is_object($dependenciesFactory)
             ? $dependenciesFactory
-            : new Pohoda\DI\DependenciesFactory($namespacesPaths, $sanitizeEncoding, $normalizerFactory, $container);
+            : new Pohoda\DI\DependenciesFactory($namespacesPaths, $sanitizeEncoding, $container);
     }
 
     /**

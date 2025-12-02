@@ -13,7 +13,6 @@ trait DiTrait
         return new Pohoda\DI\DependenciesFactory(
             new Pohoda\Common\NamespacesPaths(),
             $sanitize ?? new Pohoda\ValueTransformer\SanitizeEncoding(new Pohoda\ValueTransformer\Listing()),
-            new Pohoda\Common\OptionsResolver\Normalizers\NormalizerFactory(),
             null,
             new Pohoda\PrintRequest\ParameterInstances(),
         );

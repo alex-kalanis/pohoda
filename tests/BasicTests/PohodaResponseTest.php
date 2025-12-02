@@ -115,7 +115,6 @@ class PohodaResponseTest extends CommonTestClass
         $di = new Pohoda\DI\DependenciesFactory(
             new Pohoda\Common\NamespacesPaths(),
             $sanitization,
-            new Pohoda\Common\OptionsResolver\Normalizers\NormalizerFactory(),
             null,
             new Pohoda\PrintRequest\ParameterInstances(),
         );
