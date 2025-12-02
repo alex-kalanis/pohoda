@@ -2,8 +2,8 @@
 
 namespace kalanis\Pohoda\DI;
 
-use DomainException;
 use kalanis\Pohoda\AbstractAgenda;
+use kalanis\PohodaException;
 
 /**
  * Get Agenda class
@@ -12,7 +12,7 @@ interface AgendaFactoryInterface
 {
     /**
      * @param string $name
-     * @throws DomainException
+     * @throws PohodaException
      * @return AbstractAgenda
      */
     public function getAgenda(string $name): AbstractAgenda;

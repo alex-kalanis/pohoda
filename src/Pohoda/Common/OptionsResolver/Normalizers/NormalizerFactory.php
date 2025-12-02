@@ -3,7 +3,6 @@
 namespace kalanis\Pohoda\Common\OptionsResolver\Normalizers;
 
 use Closure;
-use DomainException;
 use kalanis\Pohoda\Common;
 use kalanis\PohodaException;
 
