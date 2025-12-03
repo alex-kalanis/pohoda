@@ -41,7 +41,7 @@ class OrderTest extends CommonTestClass
         $item1->text = 'NAME 1';
         $item1->quantity = 1;
         $item1->delivered = 0;
-        $item1->rateVAT = 'high';
+        $item1->rateVAT = Pohoda\Common\Enums\RateVatHistoryEnum::High;
         $item1->homeCurrency = $home1;
 
         $lib = $this->getLib();
@@ -60,7 +60,7 @@ class OrderTest extends CommonTestClass
         $item2 = new Pohoda\Order\ItemDto();
         $item2->quantity = 1;
         $item2->payVAT = true;
-        $item2->rateVAT = 'high';
+        $item2->rateVAT = Pohoda\Common\Enums\RateVatHistoryEnum::High;
         $item2->homeCurrency = $home2;
         $item2->stockItem = $stock;
 
@@ -158,7 +158,7 @@ class OrderTest extends CommonTestClass
         $foreign->priceSum = 580;
 
         $summary = new Pohoda\Order\SummaryDto();
-        $summary->roundingDocument = 'math2one';
+        $summary->roundingDocument = Pohoda\Common\Enums\RoundingDocumentEnum::Math2one;
         $summary->foreignCurrency = $foreign;
 
         $lib = $this->getLib();
@@ -182,10 +182,10 @@ class OrderTest extends CommonTestClass
     public function testSetParams(): void
     {
         $lib = $this->getLib();
-        $lib->addParameter('IsOn', 'boolean', 'true');
-        $lib->addParameter('VPrNum', 'number', 10.43);
-        $lib->addParameter('RefVPrCountry', 'list', 'SK', 'Country');
-        $lib->addParameter('CustomList', 'list', ['id' => 5], ['id' => 6]);
+        $lib->addParameter('IsOn', Pohoda\Type\Enums\ParameterTypeEnum::Boolean, 'true');
+        $lib->addParameter('VPrNum', Pohoda\Type\Enums\ParameterTypeEnum::Number, 10.43);
+        $lib->addParameter('RefVPrCountry', Pohoda\Type\Enums\ParameterTypeEnum::List, 'SK', 'Country');
+        $lib->addParameter('CustomList', Pohoda\Type\Enums\ParameterTypeEnum::List, ['id' => 5], ['id' => 6]);
 
         $this->assertEquals('<ord:order version="2.0"><ord:orderHeader>' . $this->defaultHeader() . '<ord:parameters><typ:parameter><typ:name>VPrIsOn</typ:name><typ:booleanValue>true</typ:booleanValue></typ:parameter><typ:parameter><typ:name>VPrNum</typ:name><typ:numberValue>10.43</typ:numberValue></typ:parameter><typ:parameter><typ:name>RefVPrCountry</typ:name><typ:listValueRef><typ:ids>SK</typ:ids></typ:listValueRef><typ:list><typ:ids>Country</typ:ids></typ:list></typ:parameter><typ:parameter><typ:name>RefVPrCustomList</typ:name><typ:listValueRef><typ:id>5</typ:id></typ:listValueRef><typ:list><typ:id>6</typ:id></typ:list></typ:parameter></ord:parameters></ord:orderHeader></ord:order>', $lib->getXML()->asXML());
     }

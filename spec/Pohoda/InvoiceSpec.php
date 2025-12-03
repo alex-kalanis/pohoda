@@ -58,7 +58,7 @@ class InvoiceSpec extends ObjectBehavior
         $item1 = new Pohoda\Invoice\ItemDto();
         $item1->text = 'NAME 1';
         $item1->quantity = 1;
-        $item1->rateVAT = 'high';
+        $item1->rateVAT = Pohoda\Common\Enums\RateVatHistoryEnum::High;
         $item1->homeCurrency = $home1;
 
         $home2 = new Pohoda\Type\Dtos\CurrencyItemDto();
@@ -72,7 +72,7 @@ class InvoiceSpec extends ObjectBehavior
         $item2 = new Pohoda\Invoice\ItemDto();
         $item2->quantity = 1;
         $item2->payVAT = true;
-        $item2->rateVAT = 'high';
+        $item2->rateVAT = Pohoda\Common\Enums\RateVatHistoryEnum::High;
         $item2->homeCurrency = $home2;
         $item2->stockItem = $stock;
 
@@ -96,7 +96,7 @@ class InvoiceSpec extends ObjectBehavior
         ];
         $advPayment->quantity = 1;
         $advPayment->payVAT = false;
-        $advPayment->rateVAT = 'none';
+        $advPayment->rateVAT = Pohoda\Common\Enums\RateVatEnum::None;
         $advPayment->homeCurrency = $home;
 
         $this->addAdvancePaymentItem($advPayment);
@@ -134,7 +134,7 @@ class InvoiceSpec extends ObjectBehavior
     public function it_can_link_to_order(): void
     {
         $link = new Pohoda\Type\Dtos\LinkDto();
-        $link->sourceAgenda = 'receivedOrder';
+        $link->sourceAgenda = Pohoda\Type\Enums\LinkSourceAgendaEnum::ReceivedOrder;
         $link->sourceDocument = [
             'number' => '142100003',
         ];

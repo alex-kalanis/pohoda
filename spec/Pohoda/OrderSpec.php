@@ -73,7 +73,7 @@ class OrderSpec extends ObjectBehavior
         $item1->text = 'NAME 1';
         $item1->quantity = 1;
         $item1->delivered = 0;
-        $item1->rateVAT = 'high';
+        $item1->rateVAT = Pohoda\Common\Enums\RateVatHistoryEnum::High;
         $item1->homeCurrency = $home1;
 
         $home2 = new Pohoda\Type\Dtos\CurrencyItemDto();
@@ -89,7 +89,7 @@ class OrderSpec extends ObjectBehavior
         $item2 = new Pohoda\Order\ItemDto();
         $item2->quantity = 1;
         $item2->payVAT = true;
-        $item2->rateVAT = 'high';
+        $item2->rateVAT = Pohoda\Common\Enums\RateVatHistoryEnum::High;
         $item2->homeCurrency = $home2;
         $item2->stockItem = $stock;
 
@@ -110,7 +110,7 @@ class OrderSpec extends ObjectBehavior
         $foreign->priceSum = 580;
 
         $summary = new Pohoda\Order\SummaryDto();
-        $summary->roundingDocument = 'math2one';
+        $summary->roundingDocument = Pohoda\Common\Enums\RoundingDocumentEnum::Math2one;
         $summary->foreignCurrency = $foreign;
 
         $this->addSummary($summary);

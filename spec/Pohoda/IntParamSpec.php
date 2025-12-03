@@ -21,7 +21,7 @@ class IntParamSpec extends ObjectBehavior
 
         $dto = new Pohoda\IntParam\IntParamDto();
         $dto->name = 'NAME';
-        $dto->parameterType = 'textValue';
+        $dto->parameterType = Pohoda\Common\Enums\ParamTypeEnum::TextValue;
         $dto->parameterSettings = $paramsSett;
 
         $this->beConstructedWith($this->getBasicDi());

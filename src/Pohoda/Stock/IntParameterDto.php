@@ -4,6 +4,7 @@ namespace kalanis\Pohoda\Stock;
 
 use kalanis\Pohoda\Common\Attributes;
 use kalanis\Pohoda\Common\Dtos;
+use kalanis\Pohoda\Common\Enums;
 
 class IntParameterDto extends Dtos\AbstractDto
 {
@@ -11,8 +12,8 @@ class IntParameterDto extends Dtos\AbstractDto
     public int|string|null $intParameterID = null;
     public ?string $intParameterName = null;
     public ?string $intParameterOrder = null;
-    #[Attributes\Options\ListOption(['textValue', 'currencyValue', 'booleanValue', 'numberValue', 'integerValue', 'datetimeValue', 'unit', 'listValue']), Attributes\Options\RequiredOption]
-    public ?string $intParameterType = null;
+    #[Attributes\Options\EnumOption(Enums\ParamTypeEnum::class), Attributes\Options\RequiredOption]
+    public Enums\ParamTypeEnum|string|null $intParameterType = null;
     #[Attributes\Options\RequiredOption]
     public ?string $value = null;
 }

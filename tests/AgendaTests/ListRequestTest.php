@@ -57,7 +57,7 @@ class ListRequestTest extends CommonTestClass
     {
         $dto = new Pohoda\ListRequest\ListRequestDto();
         $dto->type = 'Invoice';
-        $dto->invoiceType = 'issuedAdvanceInvoice';
+        $dto->invoiceType = Pohoda\Common\Enums\InvoiceTypeEnum::IssuedAdvanceInvoice;
 
         $lib = new Pohoda\ListRequest($this->getBasicDi());
         $lib->setData($dto);

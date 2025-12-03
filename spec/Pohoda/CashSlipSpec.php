@@ -95,7 +95,7 @@ class CashSlipSpec extends ObjectBehavior
         ];
 
         $summary = new Pohoda\CashSlip\SummaryDto();
-        $summary->roundingDocument = 'math2one';
+        $summary->roundingDocument = Pohoda\Common\Enums\RoundingDocumentEnum::Math2one;
         $summary->homeCurrency = $home;
 
         $this->addSummary($summary);

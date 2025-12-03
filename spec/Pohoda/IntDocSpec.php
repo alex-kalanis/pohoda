@@ -58,7 +58,7 @@ class IntDocSpec extends ObjectBehavior
         $item1 = new Pohoda\IssueSlip\ItemDto();
         $item1->text = 'NAME 1';
         $item1->quantity = 1;
-        $item1->rateVAT = 'high';
+        $item1->rateVAT = Pohoda\Common\Enums\RateVatHistoryEnum::High;
         $item1->homeCurrency = $home1;
 
         $this->addItem($item1);
@@ -75,7 +75,7 @@ class IntDocSpec extends ObjectBehavior
         $foreign->priceSum = 580;
 
         $summary = new Pohoda\IntDoc\SummaryDto();
-        $summary->roundingDocument = 'math2one';
+        $summary->roundingDocument = Pohoda\Common\Enums\RoundingDocumentEnum::Math2one;
         $summary->foreignCurrency = $foreign;
 
         $this->addSummary($summary);

@@ -6,6 +6,7 @@ namespace kalanis\Pohoda\Type;
 
 use kalanis\Pohoda\AbstractAgenda;
 use kalanis\Pohoda\Common;
+use kalanis\Pohoda\Type;
 
 /**
  * @property Dtos\ParameterDto $data
@@ -22,18 +23,18 @@ class Parameter extends AbstractAgenda
         $child = $this->data->name ?? null;
         $xml->addChild('typ:name', is_null($child) ? null : \strval($child));
 
-        if ('list' == $this->data->type) {
+        if (Type\Enums\ParameterTypeEnum::List->value == $this->data->type) {
             $this->addRefElement($xml, 'typ:listValueRef', $this->data->value);
 
             if (!empty($this->data->list)) {
                 $this->addRefElement($xml, 'typ:list', $this->data->list);
             }
 
-        } elseif ('boolean' == $this->data->type) {
-            $xml->addChild('typ:' . $this->data->type . 'Value', $this->data->value ? 'true' : 'false');
+        } elseif (Type\Enums\ParameterTypeEnum::Boolean->value == $this->data->type) {
+            $xml->addChild('typ:' . \strval($this->data->type) . 'Value', $this->data->value ? 'true' : 'false');
 
         } else {
-            $xml->addChild('typ:' . $this->data->type . 'Value', \htmlspecialchars(\strval($this->data->value)));
+            $xml->addChild('typ:' . \strval($this->data->type) . 'Value', \htmlspecialchars(\strval($this->data->value)));
         }
 
         return $xml;

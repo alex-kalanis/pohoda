@@ -25,9 +25,11 @@ class ActionTypeTraitTest extends CommonTestClass
     public function testRepeat(): void
     {
         $lib = new XActionType();
+        $this->assertFalse(isset($lib->data->actionType));
         $lib->addActionType('add');
         $this->assertTrue(isset($lib->data->actionType));
         $this->expectException(PohodaException::class);
+        $this->expectExceptionMessage('Duplicate action type.');
         $lib->addActionType('delete');
     }
 }

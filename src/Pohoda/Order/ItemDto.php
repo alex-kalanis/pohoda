@@ -4,6 +4,7 @@ namespace kalanis\Pohoda\Order;
 
 use kalanis\Pohoda\Common\Attributes;
 use kalanis\Pohoda\Common\Dtos\AbstractItemDto;
+use kalanis\Pohoda\Common\Enums;
 use kalanis\Pohoda\Type;
 
 class ItemDto extends AbstractItemDto
@@ -20,8 +21,8 @@ class ItemDto extends AbstractItemDto
     public float|string|null $coefficient = null;
     #[Attributes\Options\BooleanOption]
     public bool|string|null $payVAT = null;
-    #[Attributes\Options\ListOption(['none', 'high', 'low', 'third', 'historyHigh', 'historyLow', 'historyThird'])]
-    public ?string $rateVAT = null;
+    #[Attributes\Options\EnumOption(Enums\RateVatHistoryEnum::class)]
+    public Enums\EnhancedEnumInterface|string|null $rateVAT = null;
     #[Attributes\Options\FloatOption, Attributes\AttributeExtend('rateVAT', 'value')]
     public float|string|null $rateVatValue = null;
     #[Attributes\Options\FloatOption]

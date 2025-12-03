@@ -4,6 +4,7 @@ namespace kalanis\Pohoda\Receipt;
 
 use kalanis\Pohoda\Common\Attributes;
 use kalanis\Pohoda\Common\Dtos\AbstractItemDto;
+use kalanis\Pohoda\Common\Enums;
 use kalanis\Pohoda\Type;
 
 class ItemDto extends AbstractItemDto
@@ -16,8 +17,8 @@ class ItemDto extends AbstractItemDto
     public float|string|null $coefficient = null;
     #[Attributes\Options\BooleanOption]
     public bool|string|null $payVAT = null;
-    #[Attributes\Options\ListOption(['none', 'third', 'low', 'high'])]
-    public ?string $rateVAT = null;
+    #[Attributes\Options\EnumOption(Enums\RateVatEnum::class)]
+    public Enums\EnhancedEnumInterface|string|null $rateVAT = null;
     #[Attributes\Options\FloatOption]
     public float|string|null $discountPercentage = null;
     public Type\Dtos\CurrencyItemDto|Type\CurrencyItem|null $homeCurrency = null;

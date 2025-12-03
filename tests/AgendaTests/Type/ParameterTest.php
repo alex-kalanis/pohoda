@@ -22,7 +22,7 @@ class ParameterTest extends CommonTestClass
     {
         $dto = new Type\Dtos\ParameterDto();
         $dto->name = 'VPr_testing';
-        $dto->type = 'text';
+        $dto->type = Type\Enums\ParameterTypeEnum::Text;
         $dto->value = 'foo_bar_baz';
 
         $this->assertEquals(
@@ -35,7 +35,7 @@ class ParameterTest extends CommonTestClass
     {
         $dto = new Type\Dtos\ParameterDto();
         $dto->name = 'testing';
-        $dto->type = 'list';
+        $dto->type = Type\Enums\ParameterTypeEnum::List;
         $dto->value = '456';
         $dto->list = [
             'statementNumber',
@@ -76,7 +76,7 @@ class ParameterTest extends CommonTestClass
     {
         $dto = new Type\Dtos\ParameterDto();
         $dto->name = 'bar';
-        $dto->type = 'datetime';
+        $dto->type = Type\Enums\ParameterTypeEnum::DateTime;
         $dto->value = '2024-05-25';
 
         $lib = $this->getLib()->setData($dto);

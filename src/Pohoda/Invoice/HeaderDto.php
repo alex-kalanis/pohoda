@@ -10,8 +10,8 @@ class HeaderDto extends AbstractHeaderDto
 {
     #[Attributes\RefElement]
     public ?string $extId = null;
-    #[Attributes\Options\ListOption(['issuedInvoice', 'issuedCreditNotice', 'issuedDebitNote', 'issuedAdvanceInvoice', 'receivable', 'issuedProformaInvoice', 'penalty', 'issuedCorrectiveTax', 'receivedInvoice', 'receivedCreditNotice', 'receivedDebitNote', 'receivedAdvanceInvoice', 'commitment', 'receivedProformaInvoice', 'receivedCorrectiveTax']), Attributes\Options\DefaultOption('issuedInvoice')]
-    public ?string $invoiceType = null;
+    #[Attributes\Options\EnumOption(InvoiceTypeEnum::class), Attributes\Options\DefaultOption(InvoiceTypeEnum::IssuedInvoice)]
+    public InvoiceTypeEnum|string|null $invoiceType = null;
     #[Attributes\RefElement]
     public ?string $number = null;
     #[Attributes\Options\StringOption(20)]

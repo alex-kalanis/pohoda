@@ -117,7 +117,7 @@ class StockSpec extends ObjectBehavior
     {
         $intl = new Pohoda\Stock\IntParameterDto();
         $intl->intParameterID = 1;
-        $intl->intParameterType = 'numberValue';
+        $intl->intParameterType = Pohoda\Common\Enums\ParamTypeEnum::NumberValue;
         $intl->value = 'VALUE1';
 
         $this->addIntParameter($intl);

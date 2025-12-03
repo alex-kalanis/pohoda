@@ -56,7 +56,7 @@ class IssueSlipSpec extends ObjectBehavior
         $item1 = new Pohoda\IssueSlip\ItemDto();
         $item1->text = 'NAME 1';
         $item1->quantity = 1;
-        $item1->rateVAT = 'high';
+        $item1->rateVAT = Pohoda\Common\Enums\RateVatHistoryEnum::High;
         $item1->homeCurrency = $home1;
 
         $home2 = new Pohoda\Type\Dtos\CurrencyItemDto();
@@ -89,7 +89,7 @@ class IssueSlipSpec extends ObjectBehavior
         $foreign->priceSum = 580;
 
         $summary = new Pohoda\IssueSlip\SummaryDto();
-        $summary->roundingDocument = 'math2one';
+        $summary->roundingDocument = Pohoda\Common\Enums\RoundingDocumentEnum::Math2one;
         $summary->foreignCurrency = $foreign;
 
         $this->addSummary($summary);
@@ -110,7 +110,7 @@ class IssueSlipSpec extends ObjectBehavior
     public function it_can_link_to_order(): void
     {
         $link = new Pohoda\Type\Dtos\LinkDto();
-        $link->sourceAgenda = 'receivedOrder';
+        $link->sourceAgenda = Pohoda\Type\Enums\LinkSourceAgendaEnum::ReceivedOrder;
         $link->sourceDocument = [
             'number' => '142100003',
         ];

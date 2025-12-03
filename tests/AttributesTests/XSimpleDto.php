@@ -34,7 +34,7 @@ class XSimpleDto extends AbstractDto
     #[Attributes\Options\ListOption(['none', 'high', 'low', 'third']), Attributes\Options\DefaultOption('low')]
     public ?string $listOfOptionsWithDefault = null;
     #[Attributes\Options\EnumOption(Enums\RateVatEnum::class), Attributes\Options\DefaultOption(Enums\RateVatEnum::Third)]
-    public ?string $listOfEnumsWithDefault = null;
+    public Enums\RateVatEnum|string|null $listOfEnumsWithDefault = null;
     #[Attributes\RefElement]
     public ?string $referenceAsString = null;
 

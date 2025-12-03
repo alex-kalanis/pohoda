@@ -25,10 +25,14 @@ class ActionType extends AbstractAgenda
         }
 
         $xml = $this->createXML()->addChild($this->namespace . ':actionType', '', $this->namespace($this->namespace));
-        $action = $xml->addChild($this->namespace . ':' . ('add/update' == $this->data->type ? 'add' : $this->data->type));
+        $action = $xml->addChild($this->namespace . ':' . (
+            Enums\ActionTypeEnum::AddUpdate->value == $this->data->type
+                ? Enums\ActionTypeEnum::Add->value
+                : \strval($this->data->type)
+        ));
 
-        if ('add/update' == $this->data->type) {
-            $action->addAttribute('update', 'true');
+        if (Enums\ActionTypeEnum::AddUpdate->value == $this->data->type) {
+            $action->addAttribute(Enums\ActionTypeEnum::Update->value, 'true');
         }
 
         if (!empty($this->data->filter)) {

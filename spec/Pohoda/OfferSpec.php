@@ -58,7 +58,7 @@ class OfferSpec extends ObjectBehavior
         $item1 = new Pohoda\Offer\ItemDto();
         $item1->text = 'NAME 1';
         $item1->quantity = 1;
-        $item1->rateVAT = 'high';
+        $item1->rateVAT = Pohoda\Common\Enums\RateVatHistoryEnum::High;
         $item1->homeCurrency = $home1;
 
         $home2 = new Pohoda\Type\Dtos\CurrencyItemDto();
@@ -91,7 +91,7 @@ class OfferSpec extends ObjectBehavior
         $foreign->priceSum = 580;
 
         $summary = new Pohoda\Offer\SummaryDto();
-        $summary->roundingDocument = 'math2one';
+        $summary->roundingDocument = Pohoda\Common\Enums\RoundingDocumentEnum::Math2one;
         $summary->foreignCurrency = $foreign;
 
         $this->addSummary($summary);

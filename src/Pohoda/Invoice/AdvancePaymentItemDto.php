@@ -4,6 +4,7 @@ namespace kalanis\Pohoda\Invoice;
 
 use kalanis\Pohoda\Common\Attributes;
 use kalanis\Pohoda\Common\Dtos\AbstractDto;
+use kalanis\Pohoda\Common\Enums;
 use kalanis\Pohoda\Type;
 
 class AdvancePaymentItemDto extends AbstractDto
@@ -15,8 +16,8 @@ class AdvancePaymentItemDto extends AbstractDto
     public float|string|null $quantity = null;
     #[Attributes\Options\BooleanOption]
     public bool|string|null $payVAT = null;
-    #[Attributes\Options\ListOption(['none', 'third', 'low', 'high'])]
-    public ?string $rateVAT = null;
+    #[Attributes\Options\EnumOption(Enums\RateVatEnum::class)]
+    public Enums\EnhancedEnumInterface|string|null $rateVAT = null;
     #[Attributes\Options\FloatOption]
     public float|string|null $discountPercentage = null;
     public Type\Dtos\CurrencyItemDto|Type\CurrencyItem|null $homeCurrency = null;

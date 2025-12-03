@@ -5,6 +5,7 @@ namespace kalanis\Pohoda\ListResponse;
 use AllowDynamicProperties;
 use kalanis\Pohoda\Common\Attributes;
 use kalanis\Pohoda\Common\Dtos\AbstractDto;
+use kalanis\Pohoda\Common\Enums;
 use kalanis\Pohoda\ListRequest;
 use kalanis\Pohoda\Order;
 use kalanis\Pohoda\Stock;
@@ -18,10 +19,10 @@ class ListResponseDto extends AbstractDto
     public ?string $state = null;
     #[Attributes\Options\DefaultOption(['\kalanis\Pohoda\ListResponse\ListResponseDto', 'normalizeNamespace'])]
     public ?string $namespace = null;
-    #[Attributes\Options\DefaultOption(['\kalanis\Pohoda\ListResponse\ListResponseDto', 'normalizeOrderType']), Attributes\Options\ListOption([null, 'receivedOrder', 'issuedOrder'])]
-    public ?string $orderType = null;
-    #[Attributes\Options\DefaultOption(['\kalanis\Pohoda\ListResponse\ListResponseDto', 'normalizeInvoiceType']), Attributes\Options\ListOption([null, 'issuedInvoice', 'issuedCreditNotice', 'issuedDebitNote', 'issuedAdvanceInvoice', 'receivable', 'issuedProformaInvoice', 'penalty', 'issuedCorrectiveTax', 'receivedInvoice', 'receivedCreditNotice', 'receivedDebitNote', 'receivedAdvanceInvoice', 'commitment', 'receivedProformaInvoice', 'receivedCorrectiveTax'])]
-    public ?string $invoiceType = null;
+    #[Attributes\Options\DefaultOption(['\kalanis\Pohoda\ListResponse\ListResponseDto', 'normalizeOrderType']), Attributes\Options\EnumOption(Enums\OrderTypeEnum::class)]
+    public Enums\OrderTypeEnum|string|null $orderType = null;
+    #[Attributes\Options\DefaultOption(['\kalanis\Pohoda\ListResponse\ListResponseDto', 'normalizeInvoiceType']), Attributes\Options\EnumOption(Enums\InvoiceTypeEnum::class)]
+    public Enums\InvoiceTypeEnum|string|null $invoiceType = null;
     #[Attributes\JustAttribute]
     public ListRequest\Limit|ListRequest\LimitDto|null $limit = null;
     #[Attributes\JustAttribute]

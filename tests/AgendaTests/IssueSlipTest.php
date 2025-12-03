@@ -28,7 +28,7 @@ class IssueSlipTest extends CommonTestClass
         $item1 = new Pohoda\IssueSlip\ItemDto();
         $item1->text = 'NAME 1';
         $item1->quantity = 1;
-        $item1->rateVAT = 'high';
+        $item1->rateVAT = Pohoda\Common\Enums\RateVatHistoryEnum::High;
         $item1->homeCurrency = $home1;
 
         $lib = $this->getLib();
@@ -63,7 +63,7 @@ class IssueSlipTest extends CommonTestClass
         $foreign->priceSum = 580;
 
         $summary = new Pohoda\IssueSlip\SummaryDto();
-        $summary->roundingDocument = 'math2one';
+        $summary->roundingDocument = Pohoda\Common\Enums\RoundingDocumentEnum::Math2one;
         $summary->foreignCurrency = $foreign;
 
         $lib = $this->getLib();
@@ -75,10 +75,10 @@ class IssueSlipTest extends CommonTestClass
     public function testSetParams(): void
     {
         $lib = $this->getLib();
-        $lib->addParameter('IsOn', 'boolean', 'true');
-        $lib->addParameter('VPrNum', 'number', 10.43);
-        $lib->addParameter('RefVPrCountry', 'list', 'SK', 'Country');
-        $lib->addParameter('CustomList', 'list', ['id' => 5], ['id' => 6]);
+        $lib->addParameter('IsOn', Pohoda\Type\Enums\ParameterTypeEnum::Boolean, 'true');
+        $lib->addParameter('VPrNum', Pohoda\Type\Enums\ParameterTypeEnum::Number, 10.43);
+        $lib->addParameter('RefVPrCountry', Pohoda\Type\Enums\ParameterTypeEnum::List, 'SK', 'Country');
+        $lib->addParameter('CustomList', Pohoda\Type\Enums\ParameterTypeEnum::List, ['id' => 5], ['id' => 6]);
 
         $this->assertEquals('<vyd:vydejka version="2.0"><vyd:vydejkaHeader>' . $this->defaultHeader() . '<vyd:parameters><typ:parameter><typ:name>VPrIsOn</typ:name><typ:booleanValue>true</typ:booleanValue></typ:parameter><typ:parameter><typ:name>VPrNum</typ:name><typ:numberValue>10.43</typ:numberValue></typ:parameter><typ:parameter><typ:name>RefVPrCountry</typ:name><typ:listValueRef><typ:ids>SK</typ:ids></typ:listValueRef><typ:list><typ:ids>Country</typ:ids></typ:list></typ:parameter><typ:parameter><typ:name>RefVPrCustomList</typ:name><typ:listValueRef><typ:id>5</typ:id></typ:listValueRef><typ:list><typ:id>6</typ:id></typ:list></typ:parameter></vyd:parameters></vyd:vydejkaHeader></vyd:vydejka>', $lib->getXML()->asXML());
     }
@@ -86,7 +86,7 @@ class IssueSlipTest extends CommonTestClass
     public function testLinkOrder(): void
     {
         $link = new Pohoda\Type\Dtos\LinkDto();
-        $link->sourceAgenda = 'receivedOrder';
+        $link->sourceAgenda = Pohoda\Type\Enums\LinkSourceAgendaEnum::ReceivedOrder;
         $link->sourceDocument = [
             'number' => '142100003',
         ];

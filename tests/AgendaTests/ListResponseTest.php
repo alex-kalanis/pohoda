@@ -56,8 +56,8 @@ class ListResponseTest extends CommonTestClass
         $orderHeader->isExecuted = 'false';
 
         $orderSummary = new Pohoda\Order\SummaryDto();
-        $orderSummary->roundingDocument = 'none';
-        $orderSummary->roundingVAT = 'none';
+        $orderSummary->roundingDocument = Pohoda\Common\Enums\RoundingDocumentEnum::None;
+        $orderSummary->roundingVAT = Pohoda\Common\Enums\RoundingVatEnum::None;
 
         $orderDto = new Pohoda\Order\OrderDto();
         $orderDto->header = $orderHeader;
@@ -238,13 +238,13 @@ class ListResponseTest extends CommonTestClass
     {
         $stockHeader = new Pohoda\Stock\HeaderDto();
         $stockHeader->id = 1999;
-        $stockHeader->stockType = 'card';
+        $stockHeader->stockType = Pohoda\Stock\StockTypeEnum::Card;
         $stockHeader->code = '123456';
         $stockHeader->isSales = false;
         $stockHeader->isInternet = false;
-        $stockHeader->purchasingRateVAT = 'none';
+        $stockHeader->purchasingRateVAT = Pohoda\Common\Enums\RateVatEnum::None;
         $stockHeader->purchasingRatePayVAT = 0;
-        $stockHeader->sellingRateVAT = 'none';
+        $stockHeader->sellingRateVAT = Pohoda\Common\Enums\RateVatEnum::None;
         $stockHeader->sellingRatePayVAT = 0;
         $stockHeader->name = 'Dummy object';
         $stockHeader->unit = 'ks';

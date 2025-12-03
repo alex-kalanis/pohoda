@@ -5,6 +5,7 @@ namespace kalanis\Pohoda\Type\Dtos;
 use kalanis\Pohoda\Common\Attributes;
 use kalanis\Pohoda\Common\Dtos\AbstractDto;
 use kalanis\Pohoda\Common\OptionsResolver;
+use kalanis\Pohoda\Type\Enums;
 use kalanis\PohodaException;
 
 /**
@@ -14,8 +15,8 @@ class ParameterDto extends AbstractDto
 {
     #[Attributes\Options\CallbackOption(['\kalanis\Pohoda\Type\Dtos\ParameterDto', 'normalizeName']), Attributes\Options\RequiredOption]
     public ?string $name = null;
-    #[Attributes\Options\ListOption(['text', 'memo', 'currency', 'boolean', 'number', 'datetime', 'integer', 'list']), Attributes\Options\RequiredOption]
-    public ?string $type = null;
+    #[Attributes\Options\EnumOption(Enums\ParameterTypeEnum::class), Attributes\Options\RequiredOption]
+    public Enums\ParameterTypeEnum|string|null $type = null;
     #[Attributes\Options\CallbackOption(['\kalanis\Pohoda\Type\Dtos\ParameterDto', 'normalizeList'])]
     public mixed $value = null;
     public mixed $list = null;

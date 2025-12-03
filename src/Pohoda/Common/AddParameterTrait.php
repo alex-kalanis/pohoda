@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace kalanis\Pohoda\Common;
 
-use kalanis\Pohoda\Common;
 use kalanis\Pohoda\Type;
 
 /**
@@ -18,12 +17,12 @@ trait AddParameterTrait
      * Set user-defined parameter.
      *
      * @param string     $name  (can be set without preceding VPr / RefVPr)
-     * @param string     $type
+     * @param Type\Enums\ParameterTypeEnum|string $type
      * @param mixed      $value
      * @param mixed|null $list
      * @return self
      */
-    public function addParameter(string $name, string $type, mixed $value, mixed $list = null): self
+    public function addParameter(string $name, Type\Enums\ParameterTypeEnum|string $type, mixed $value, mixed $list = null): self
     {
         $parameter = new Type\Parameter(
             $this->dependenciesFactory,

@@ -8,8 +8,8 @@ use kalanis\Pohoda\Type;
 
 class HeaderDto extends AbstractHeaderDto
 {
-    #[Attributes\Options\ListOption(['saleVoucher', 'deposit', 'withdrawal']), Attributes\Options\DefaultOption('saleVoucher')]
-    public ?string $prodejkaType = null;
+    #[Attributes\Options\EnumOption(ProdejkaTypeEnum::class), Attributes\Options\DefaultOption(ProdejkaTypeEnum::SaleVoucher)]
+    public ProdejkaTypeEnum|string|null $prodejkaType = null;
     #[Attributes\RefElement]
     public ?string $number = null;
     #[Attributes\Options\DateOption]

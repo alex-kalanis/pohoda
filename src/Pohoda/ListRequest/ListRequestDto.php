@@ -5,6 +5,7 @@ namespace kalanis\Pohoda\ListRequest;
 use AllowDynamicProperties;
 use kalanis\Pohoda\Common\Attributes;
 use kalanis\Pohoda\Common\Dtos\AbstractDto;
+use kalanis\Pohoda\Common\Enums;
 use Symfony\Component\OptionsResolver\Options;
 
 #[AllowDynamicProperties]
@@ -14,10 +15,10 @@ class ListRequestDto extends AbstractDto
     public ?string $type = null;
     #[Attributes\Options\DefaultOption(['\kalanis\Pohoda\ListRequest\ListRequestDto', 'normalizeNamespace'])]
     public ?string $namespace = null;
-    #[Attributes\Options\DefaultOption(['\kalanis\Pohoda\ListRequest\ListRequestDto', 'normalizeOrderType']), Attributes\Options\ListOption([null, 'receivedOrder', 'issuedOrder'])]
-    public ?string $orderType = null;
-    #[Attributes\Options\DefaultOption(['\kalanis\Pohoda\ListRequest\ListRequestDto', 'normalizeInvoiceType']), Attributes\Options\ListOption([null, 'issuedInvoice', 'issuedCreditNotice', 'issuedDebitNote', 'issuedAdvanceInvoice', 'receivable', 'issuedProformaInvoice', 'penalty', 'issuedCorrectiveTax', 'receivedInvoice', 'receivedCreditNotice', 'receivedDebitNote', 'receivedAdvanceInvoice', 'commitment', 'receivedProformaInvoice', 'receivedCorrectiveTax'])]
-    public ?string $invoiceType = null;
+    #[Attributes\Options\DefaultOption(['\kalanis\Pohoda\ListRequest\ListRequestDto', 'normalizeOrderType']), Attributes\Options\EnumOption(Enums\OrderTypeEnum::class)]
+    public Enums\OrderTypeEnum|string|null $orderType = null;
+    #[Attributes\Options\DefaultOption(['\kalanis\Pohoda\ListRequest\ListRequestDto', 'normalizeInvoiceType']), Attributes\Options\EnumOption(Enums\InvoiceTypeEnum::class)]
+    public Enums\InvoiceTypeEnum|string|null $invoiceType = null;
     #[Attributes\JustAttribute]
     public Limit|LimitDto|null $limit = null;
     #[Attributes\JustAttribute]

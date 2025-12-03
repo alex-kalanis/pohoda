@@ -4,13 +4,14 @@ namespace kalanis\Pohoda\Stock;
 
 use kalanis\Pohoda\Common\Attributes;
 use kalanis\Pohoda\Common\Dtos;
+use kalanis\Pohoda\Common\Enums;
 use kalanis\Pohoda\Type;
 
 class HeaderDto extends Dtos\AbstractHeaderDto
 {
     // basic data
-    #[Attributes\Options\ListOption(['card', 'text', 'service', 'package', 'set', 'product']), Attributes\Options\DefaultOption('card')]
-    public ?string $stockType = null;
+    #[Attributes\Options\EnumOption(StockTypeEnum::class), Attributes\Options\DefaultOption(StockTypeEnum::Card)]
+    public StockTypeEnum|string|null $stockType = null;
     public ?string $code = null;
     public ?string $EAN = null;
     public ?string $PLU = null;
@@ -22,12 +23,12 @@ class HeaderDto extends Dtos\AbstractHeaderDto
     public bool|string|null $isInternet = null;
     #[Attributes\Options\BooleanOption]
     public bool|string|null $isBatch = null;
-    #[Attributes\Options\ListOption(['none', 'third', 'low', 'high'])]
-    public ?string $purchasingRateVAT = null;
+    #[Attributes\Options\EnumOption(Enums\RateVatEnum::class)]
+    public Enums\EnhancedEnumInterface|string|null $purchasingRateVAT = null;
     #[Attributes\AttributeExtend('purchasingRateVAT', 'value')]
     public ?string $purchasingRatePayVAT = null;
-    #[Attributes\Options\ListOption(['none', 'third', 'low', 'high'])]
-    public ?string $sellingRateVAT = null;
+    #[Attributes\Options\EnumOption(Enums\RateVatEnum::class)]
+    public Enums\EnhancedEnumInterface|string|null $sellingRateVAT = null;
     #[Attributes\AttributeExtend('sellingRateVAT', 'value')]
     public ?string $sellingRatePayVAT = null;
     #[Attributes\Options\StringOption(90)]
@@ -77,8 +78,8 @@ class HeaderDto extends Dtos\AbstractHeaderDto
     public ?string $shortName = null;
     #[Attributes\RefElement]
     public ?string $typeRP = null;
-    #[Attributes\Options\ListOption(['none', 'hour', 'day', 'month', 'year', 'life'])]
-    public ?string $guaranteeType = null;
+    #[Attributes\Options\EnumOption(Enums\GuaranteeTypeEnum::class)]
+    public Enums\GuaranteeTypeEnum|string|null $guaranteeType = null;
     #[Attributes\Options\IntegerOption]
     public int|string|null $guarantee = null;
     #[Attributes\Options\StringOption(90)]

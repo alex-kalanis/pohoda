@@ -17,7 +17,7 @@ class IntParam extends AbstractAgenda
         // process settings
         if (isset($data->parameterSettings)) {
             // prepare empty parameter list for list
-            if (!empty($data->parameterType) && ('listValue' == $data->parameterType)) {
+            if (!empty($data->parameterType) && (Common\Enums\ParamTypeEnum::ListValue->value == $data->parameterType)) {
                 if (!isset($data->parameterSettings->parameterList)) {
                     $data->parameterSettings->parameterList = [];
                 }

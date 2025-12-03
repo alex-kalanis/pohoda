@@ -43,7 +43,7 @@ class IntParamTest extends CommonTestClass
 
         $dto = new Pohoda\IntParam\IntParamDto();
         $dto->name = 'NAME';
-        $dto->parameterType = 'textValue';
+        $dto->parameterType = Pohoda\Common\Enums\ParamTypeEnum::TextValue;
         $dto->parameterSettings = $paramsSett;
 
         $lib = new Pohoda\IntParam($this->getBasicDi());

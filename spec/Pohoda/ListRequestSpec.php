@@ -51,7 +51,7 @@ class ListRequestSpec extends ObjectBehavior
     {
         $dto = new Pohoda\ListRequest\ListRequestDto();
         $dto->type = 'Invoice';
-        $dto->invoiceType = 'issuedAdvanceInvoice';
+        $dto->invoiceType = Pohoda\Common\Enums\InvoiceTypeEnum::IssuedAdvanceInvoice;
 
         $this->beConstructedWith($this->getBasicDi());
         $this->setData($dto);

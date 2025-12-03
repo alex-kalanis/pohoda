@@ -21,9 +21,10 @@ trait AddActionTypeTrait
      * @param array<string, string|int|float|bool|array<string, string|int|float|bool>>  $filter
      * @param string|null $agenda
      *
-     * @throw PohodaException
+     * @throws PohodaException
+     * @throws \ReflectionException
      *
-     * @return self
+     * @return $this
      */
     public function addActionType(string $type, array $filter = [], ?string $agenda = null): self
     {
