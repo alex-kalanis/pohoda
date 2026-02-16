@@ -10,7 +10,7 @@
 
 Library for manipulation with data, which came as XML from Pohoda mServer.
 
-Pohoda is an accounting software for Czech Republic, Slovakia and probably few other countries.
+Pohoda is an accounting software for the Czech Republic, Slovakia and probably few other countries.
 
 #### What is different:
 
@@ -44,17 +44,17 @@ $partnerIdentityAddress->zip => $billing_zip;
 $partnerIdentityAddress->email => $email;
 $partnerIdentityAddress->phone => $phone;
 
-$partnerIdentityAddress = new Pohoda\Type\Dtos\ShipToAddressDto();
-$partnerIdentityAddress->name = $shipping_name;
-$partnerIdentityAddress->street => $shipping_street;
-$partnerIdentityAddress->city => $shipping_city;
-$partnerIdentityAddress->zip => $shipping_zip;
-$partnerIdentityAddress->email => $email;
-$partnerIdentityAddress->phone => $phone;
+$partnerShipAddress = new Pohoda\Type\Dtos\ShipToAddressDto();
+$partnerShipAddress->name = $shipping_name;
+$partnerShipAddress->street => $shipping_street;
+$partnerShipAddress->city => $shipping_city;
+$partnerShipAddress->zip => $shipping_zip;
+$partnerShipAddress->email => $email;
+$partnerShipAddress->phone => $phone;
 
 $partnerIdentity = new Pohoda\Type\Dtos\AddressDto();
 $partnerIdentity->address = $partnerIdentityAddress;
-$partnerIdentity->shipToAddress = $partnerIdentityAddress;
+$partnerIdentity->shipToAddress = $partnerShipAddress;
 
 $orderHeaderDto = new Pohoda\Order\HeaderDto();
 $orderHeaderDto->numberOrder = $order_number;
