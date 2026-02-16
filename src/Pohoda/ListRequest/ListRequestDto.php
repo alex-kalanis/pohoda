@@ -60,7 +60,7 @@ class ListRequestDto extends AbstractDto
     public static function normalizeOrderType(Options $options): ?string
     {
         if ('Order' == $options['type']) {
-            return 'receivedOrder';
+            return Enums\OrderTypeEnum::ReceivedOrder->value;
         }
 
         return null;
@@ -69,7 +69,7 @@ class ListRequestDto extends AbstractDto
     public static function normalizeInvoiceType(Options $options): ?string
     {
         if ('Invoice' == $options['type']) {
-            return 'issuedInvoice';
+            return Enums\InvoiceTypeEnum::IssuedInvoice->value;
         }
 
         return null;
