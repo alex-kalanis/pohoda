@@ -37,6 +37,8 @@ class XSimpleDto extends AbstractDto
     public Enums\RateVatEnum|string|null $listOfEnumsWithDefault = null;
     #[Attributes\RefElement]
     public ?string $referenceAsString = null;
+    #[Attributes\RefElement]
+    public array|string|null $referenceAsArray = null;
 
     // attributes to existing elements
     #[Attributes\AttributeExtend('longString', 'avail', 'fnk')]
